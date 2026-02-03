@@ -196,7 +196,7 @@ def load_gru_data_and_model():
     best_auroc = -1
     for ckpt_path in checkpoints:
         try:
-            ckpt = torch.load(ckpt_path, map_location='cpu')
+            ckpt = torch.load(ckpt_path, map_location='cpu', weights_only=False)
             if ckpt.get('val_auroc', 0) > best_auroc:
                 best_auroc = ckpt['val_auroc']
                 best_ckpt = ckpt

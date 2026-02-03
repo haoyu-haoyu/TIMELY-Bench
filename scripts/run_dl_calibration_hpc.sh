@@ -15,6 +15,7 @@ mkdir -p logs
 
 source /scratch/users/k25113331/venvs/timer/bin/activate
 export PYTHONPATH=/scratch/users/k25113331/TIMELY-Bench_Final/code
+export PYTHONUNBUFFERED=1
 
 echo "========================================"
 echo "TIMELY-Bench DL Calibration Evaluation"
@@ -24,12 +25,12 @@ echo "Python: $(python --version)"
 echo "========================================"
 
 # Run DL calibration evaluation
-python code/evaluation/run_dl_calibration_hpc.py
+python -u code/evaluation/run_dl_calibration_hpc.py
 
 # Run statistical tests (CPU only)
 echo ""
 echo "Running statistical tests..."
-python code/evaluation/add_statistical_tests.py
+python -u code/evaluation/add_statistical_tests.py
 
 echo ""
 echo "========================================"
