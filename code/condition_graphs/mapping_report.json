@@ -1,0 +1,81 @@
+{
+  "timestamp": "2026-01-28T14:10:42",
+  "available_features": [
+    "albumin",
+    "bicarbonate",
+    "bun",
+    "chloride",
+    "creatinine",
+    "dbp",
+    "gcs",
+    "glucose",
+    "heart_rate",
+    "hematocrit",
+    "hemoglobin",
+    "lactate",
+    "mbp",
+    "ph",
+    "platelet",
+    "potassium",
+    "resp_rate",
+    "sbp",
+    "sodium",
+    "spo2",
+    "temperature",
+    "urineoutput",
+    "wbc"
+  ],
+  "graphs": {
+    "aki_kdigo_graph.json": {
+      "structured_features": [
+        "bicarbonate",
+        "bun",
+        "creatinine",
+        "potassium",
+        "urineoutput"
+      ],
+      "mapped_features": {
+        "bicarbonate": "bicarbonate",
+        "bun": "bun",
+        "creatinine": "creatinine",
+        "potassium": "potassium",
+        "urineoutput": "urineoutput"
+      },
+      "missing_features": []
+    },
+    "sepsis_sirs_graph.json": {
+      "structured_features": [
+        "bilirubin_total",
+        "heart_rate",
+        "lactate",
+        "mbp",
+        "platelet",
+        "resp_rate",
+        "sbp",
+        "spo2",
+        "temperature",
+        "wbc"
+      ],
+      "mapped_features": {
+        "heart_rate": "heart_rate",
+        "lactate": "lactate",
+        "mbp": "mbp",
+        "platelet": "platelet",
+        "resp_rate": "resp_rate",
+        "sbp": "sbp",
+        "spo2": "spo2",
+        "temperature": "temperature",
+        "wbc": "wbc"
+      },
+      "missing_features": [
+        "bilirubin_total"
+      ]
+    }
+  },
+  "missing_fields": [
+    "bilirubin_total"
+  ],
+  "mapping_notes": {
+    "bilirubin_total": "not in episode schema (optional, requires lab extension)"
+  }
+}

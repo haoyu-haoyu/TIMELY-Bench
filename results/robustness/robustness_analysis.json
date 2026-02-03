@@ -1,0 +1,521 @@
+{
+  "generated_at": "2026-02-03T02:43:04.354748",
+  "windows": [
+    "6h",
+    "12h",
+    "24h"
+  ],
+  "cohorts": [
+    "all",
+    "sepsis",
+    "aki"
+  ],
+  "robustness_metrics": {
+    "XGBoost_mortality_all": {
+      "auroc_mean": 0.835693521384555,
+      "auroc_std": 0.023448807219205253,
+      "auroc_cv": 0.028059098962925893,
+      "auroc_range": 0.05740296925605326,
+      "auroc_min": 0.8075678319030662,
+      "auroc_max": 0.8649708011591195,
+      "auprc_mean": 0.46891066575849455,
+      "auprc_std": 0.04921054086956119,
+      "auprc_cv": 0.1049465163901952,
+      "performance_drop_6h_24h": -0.05740296925605326
+    },
+    "XGBoost_mortality_sepsis": {
+      "auroc_mean": 0.7968389177004754,
+      "auroc_std": 0.022879110231345073,
+      "auroc_cv": 0.02871234037786433,
+      "auroc_range": 0.05590760231432235,
+      "auroc_min": 0.7677647701187722,
+      "auroc_max": 0.8236723724330945,
+      "auprc_mean": 0.4908339305702106,
+      "auprc_std": 0.04573427381693507,
+      "auprc_cv": 0.09317667538551123,
+      "performance_drop_6h_24h": -0.05590760231432235
+    },
+    "XGBoost_mortality_aki": {
+      "auroc_mean": 0.8094826973083089,
+      "auroc_std": 0.02745203817647505,
+      "auroc_cv": 0.033913063574747854,
+      "auroc_range": 0.06723935892141741,
+      "auroc_min": 0.7756479573730303,
+      "auroc_max": 0.8428873162944477,
+      "auprc_mean": 0.44421307611232924,
+      "auprc_std": 0.054099092862931145,
+      "auprc_cv": 0.12178635833144852,
+      "performance_drop_6h_24h": -0.06723935892141741
+    },
+    "XGBoost_prolonged_los_all": {
+      "auroc_mean": 0.7272427449355803,
+      "auroc_std": 0.032917591556529194,
+      "auroc_cv": 0.04526355441255733,
+      "auroc_range": 0.08060574189212089,
+      "auroc_min": 0.6875259184499835,
+      "auroc_max": 0.7681316603421043,
+      "auprc_mean": 0.70926954690787,
+      "auprc_std": 0.03900405154080753,
+      "auprc_cv": 0.054991859880139375,
+      "performance_drop_6h_24h": -0.08060574189212089
+    },
+    "XGBoost_prolonged_los_sepsis": {
+      "auroc_mean": 0.7316565861028365,
+      "auroc_std": 0.03825626156076838,
+      "auroc_cv": 0.052287182658383606,
+      "auroc_range": 0.09333122966742657,
+      "auroc_min": 0.6874153416410208,
+      "auroc_max": 0.7807465713084474,
+      "auprc_mean": 0.7880574503566141,
+      "auprc_std": 0.0337721764853013,
+      "auprc_cv": 0.042854967578846714,
+      "performance_drop_6h_24h": -0.09333122966742657
+    },
+    "XGBoost_prolonged_los_aki": {
+      "auroc_mean": 0.7119592830266459,
+      "auroc_std": 0.03551586899221304,
+      "auroc_cv": 0.049884691216089974,
+      "auroc_range": 0.08693942016658252,
+      "auroc_min": 0.6693932193865071,
+      "auroc_max": 0.7563326395530896,
+      "auprc_mean": 0.7508290122422788,
+      "auprc_std": 0.034370379910779895,
+      "auprc_cv": 0.045776574093928594,
+      "performance_drop_6h_24h": -0.08693942016658252
+    },
+    "LogisticRegression_mortality_all": {
+      "auroc_mean": 0.8091805826921576,
+      "auroc_std": 0.02356805104683832,
+      "auroc_cv": 0.029125823766589915,
+      "auroc_range": 0.05770441895636658,
+      "auroc_min": 0.7808215106007121,
+      "auroc_max": 0.8385259295570787,
+      "auprc_mean": 0.42671125933481074,
+      "auprc_std": 0.04622918328084785,
+      "auprc_cv": 0.1083383254355963,
+      "performance_drop_6h_24h": -0.05770441895636658
+    },
+    "LogisticRegression_mortality_sepsis": {
+      "auroc_mean": 0.781921286349895,
+      "auroc_std": 0.02046337725681132,
+      "auroc_cv": 0.02617063586072313,
+      "auroc_range": 0.04970697582507466,
+      "auroc_min": 0.755203318910945,
+      "auroc_max": 0.8049102947360197,
+      "auprc_mean": 0.47322311508614057,
+      "auprc_std": 0.03827375490925759,
+      "auprc_cv": 0.08087887867077381,
+      "performance_drop_6h_24h": -0.04970697582507466
+    },
+    "LogisticRegression_mortality_aki": {
+      "auroc_mean": 0.7849454623731661,
+      "auroc_std": 0.025769077895521974,
+      "auroc_cv": 0.032829131615861554,
+      "auroc_range": 0.062975131848521,
+      "auroc_min": 0.7546963438025933,
+      "auroc_max": 0.8176714756511143,
+      "auprc_mean": 0.4105625167041527,
+      "auprc_std": 0.04694402098228072,
+      "auprc_cv": 0.11434073757909106,
+      "performance_drop_6h_24h": -0.062975131848521
+    },
+    "LogisticRegression_prolonged_los_all": {
+      "auroc_mean": 0.7000648902826351,
+      "auroc_std": 0.03149684050892448,
+      "auroc_cv": 0.044991315728186786,
+      "auroc_range": 0.07714264027238693,
+      "auroc_min": 0.6611620554317279,
+      "auroc_max": 0.7383046957041148,
+      "auprc_mean": 0.679550088612619,
+      "auprc_std": 0.03718620426838497,
+      "auprc_cv": 0.05472180033749235,
+      "performance_drop_6h_24h": -0.07714264027238693
+    },
+    "LogisticRegression_prolonged_los_sepsis": {
+      "auroc_mean": 0.703238614580616,
+      "auroc_std": 0.03531397115611648,
+      "auroc_cv": 0.050216200339306384,
+      "auroc_range": 0.0863962141185266,
+      "auroc_min": 0.6612704647996034,
+      "auroc_max": 0.74766667891813,
+      "auprc_mean": 0.7625651826850112,
+      "auprc_std": 0.03328652717434266,
+      "auprc_cv": 0.043650730363980116,
+      "performance_drop_6h_24h": -0.0863962141185266
+    },
+    "LogisticRegression_prolonged_los_aki": {
+      "auroc_mean": 0.6806013245167498,
+      "auroc_std": 0.030833022590224444,
+      "auroc_cv": 0.045302619139210375,
+      "auroc_range": 0.07526437865921776,
+      "auroc_min": 0.6447794067445238,
+      "auroc_max": 0.7200437854037416,
+      "auprc_mean": 0.7233494329467849,
+      "auprc_std": 0.03199012991810348,
+      "auprc_cv": 0.044225001722586435,
+      "performance_drop_6h_24h": -0.07526437865921776
+    }
+  },
+  "raw_results": [
+    {
+      "window": "6h",
+      "task": "mortality",
+      "cohort": "all",
+      "model": "XGBoost",
+      "auroc": 0.8075678319030662,
+      "auprc": 0.4166697200595227,
+      "n_samples": 74829,
+      "n_test": 15036
+    },
+    {
+      "window": "6h",
+      "task": "mortality",
+      "cohort": "all",
+      "model": "LogisticRegression",
+      "auroc": 0.7808215106007121,
+      "auprc": 0.3745295901245767,
+      "n_samples": 74829,
+      "n_test": 15036
+    },
+    {
+      "window": "6h",
+      "task": "mortality",
+      "cohort": "sepsis",
+      "model": "XGBoost",
+      "auroc": 0.7677647701187722,
+      "auprc": 0.43914251297458107,
+      "n_samples": 34152,
+      "n_test": 6831
+    },
+    {
+      "window": "6h",
+      "task": "mortality",
+      "cohort": "sepsis",
+      "model": "LogisticRegression",
+      "auroc": 0.755203318910945,
+      "auprc": 0.4298903120306132,
+      "n_samples": 34152,
+      "n_test": 6831
+    },
+    {
+      "window": "6h",
+      "task": "mortality",
+      "cohort": "aki",
+      "model": "XGBoost",
+      "auroc": 0.7756479573730303,
+      "auprc": 0.38380083614781657,
+      "n_samples": 57263,
+      "n_test": 11581
+    },
+    {
+      "window": "6h",
+      "task": "mortality",
+      "cohort": "aki",
+      "model": "LogisticRegression",
+      "auroc": 0.7546963438025933,
+      "auprc": 0.36064416042043257,
+      "n_samples": 57263,
+      "n_test": 11581
+    },
+    {
+      "window": "6h",
+      "task": "prolonged_los",
+      "cohort": "all",
+      "model": "XGBoost",
+      "auroc": 0.6875259184499835,
+      "auprc": 0.661719850519003,
+      "n_samples": 74829,
+      "n_test": 15036
+    },
+    {
+      "window": "6h",
+      "task": "prolonged_los",
+      "cohort": "all",
+      "model": "LogisticRegression",
+      "auroc": 0.6611620554317279,
+      "auprc": 0.6334870585867562,
+      "n_samples": 74829,
+      "n_test": 15036
+    },
+    {
+      "window": "6h",
+      "task": "prolonged_los",
+      "cohort": "sepsis",
+      "model": "XGBoost",
+      "auroc": 0.6874153416410208,
+      "auprc": 0.7513902158588708,
+      "n_samples": 34152,
+      "n_test": 6831
+    },
+    {
+      "window": "6h",
+      "task": "prolonged_los",
+      "cohort": "sepsis",
+      "model": "LogisticRegression",
+      "auroc": 0.6612704647996034,
+      "auprc": 0.7244804010146788,
+      "n_samples": 34152,
+      "n_test": 6831
+    },
+    {
+      "window": "6h",
+      "task": "prolonged_los",
+      "cohort": "aki",
+      "model": "XGBoost",
+      "auroc": 0.6693932193865071,
+      "auprc": 0.7097419597955943,
+      "n_samples": 57263,
+      "n_test": 11581
+    },
+    {
+      "window": "6h",
+      "task": "prolonged_los",
+      "cohort": "aki",
+      "model": "LogisticRegression",
+      "auroc": 0.6447794067445238,
+      "auprc": 0.6869514993609153,
+      "n_samples": 57263,
+      "n_test": 11581
+    },
+    {
+      "window": "12h",
+      "task": "mortality",
+      "cohort": "all",
+      "model": "XGBoost",
+      "auroc": 0.8345419310914792,
+      "auprc": 0.45521055732932597,
+      "n_samples": 74829,
+      "n_test": 15036
+    },
+    {
+      "window": "12h",
+      "task": "mortality",
+      "cohort": "all",
+      "model": "LogisticRegression",
+      "auroc": 0.8081943079186822,
+      "auprc": 0.41869181500458885,
+      "n_samples": 74829,
+      "n_test": 15036
+    },
+    {
+      "window": "12h",
+      "task": "mortality",
+      "cohort": "sepsis",
+      "model": "XGBoost",
+      "auroc": 0.7990796105495597,
+      "auprc": 0.48301313208616925,
+      "n_samples": 34152,
+      "n_test": 6831
+    },
+    {
+      "window": "12h",
+      "task": "mortality",
+      "cohort": "sepsis",
+      "model": "LogisticRegression",
+      "auroc": 0.7856502454027201,
+      "auprc": 0.4667999881950427,
+      "n_samples": 34152,
+      "n_test": 6831
+    },
+    {
+      "window": "12h",
+      "task": "mortality",
+      "cohort": "aki",
+      "model": "XGBoost",
+      "auroc": 0.8099128182574489,
+      "auprc": 0.43376407686292323,
+      "n_samples": 57263,
+      "n_test": 11581
+    },
+    {
+      "window": "12h",
+      "task": "mortality",
+      "cohort": "aki",
+      "model": "LogisticRegression",
+      "auroc": 0.7824685676657908,
+      "auprc": 0.39761747425745714,
+      "n_samples": 57263,
+      "n_test": 11581
+    },
+    {
+      "window": "12h",
+      "task": "prolonged_los",
+      "cohort": "all",
+      "model": "XGBoost",
+      "auroc": 0.726070656014653,
+      "auprc": 0.7088319223890125,
+      "n_samples": 74829,
+      "n_test": 15036
+    },
+    {
+      "window": "12h",
+      "task": "prolonged_los",
+      "cohort": "all",
+      "model": "LogisticRegression",
+      "auroc": 0.7007279197120625,
+      "auprc": 0.6806073316134355,
+      "n_samples": 74829,
+      "n_test": 15036
+    },
+    {
+      "window": "12h",
+      "task": "prolonged_los",
+      "cohort": "sepsis",
+      "model": "XGBoost",
+      "auroc": 0.7268078453590412,
+      "auprc": 0.7798868171435858,
+      "n_samples": 34152,
+      "n_test": 6831
+    },
+    {
+      "window": "12h",
+      "task": "prolonged_los",
+      "cohort": "sepsis",
+      "model": "LogisticRegression",
+      "auroc": 0.7007787000241145,
+      "auprc": 0.7576461171613765,
+      "n_samples": 34152,
+      "n_test": 6831
+    },
+    {
+      "window": "12h",
+      "task": "prolonged_los",
+      "cohort": "aki",
+      "model": "XGBoost",
+      "auroc": 0.710151990140341,
+      "auprc": 0.7488808708140319,
+      "n_samples": 57263,
+      "n_test": 11581
+    },
+    {
+      "window": "12h",
+      "task": "prolonged_los",
+      "cohort": "aki",
+      "model": "LogisticRegression",
+      "auroc": 0.6769807814019841,
+      "auprc": 0.7182794195026169,
+      "n_samples": 57263,
+      "n_test": 11581
+    },
+    {
+      "window": "24h",
+      "task": "mortality",
+      "cohort": "all",
+      "model": "XGBoost",
+      "auroc": 0.8649708011591195,
+      "auprc": 0.534851719886635,
+      "n_samples": 74829,
+      "n_test": 15036
+    },
+    {
+      "window": "24h",
+      "task": "mortality",
+      "cohort": "all",
+      "model": "LogisticRegression",
+      "auroc": 0.8385259295570787,
+      "auprc": 0.48691237287526656,
+      "n_samples": 74829,
+      "n_test": 15036
+    },
+    {
+      "window": "24h",
+      "task": "mortality",
+      "cohort": "sepsis",
+      "model": "XGBoost",
+      "auroc": 0.8236723724330945,
+      "auprc": 0.5503461466498815,
+      "n_samples": 34152,
+      "n_test": 6831
+    },
+    {
+      "window": "24h",
+      "task": "mortality",
+      "cohort": "sepsis",
+      "model": "LogisticRegression",
+      "auroc": 0.8049102947360197,
+      "auprc": 0.5229790450327659,
+      "n_samples": 34152,
+      "n_test": 6831
+    },
+    {
+      "window": "24h",
+      "task": "mortality",
+      "cohort": "aki",
+      "model": "XGBoost",
+      "auroc": 0.8428873162944477,
+      "auprc": 0.5150743153262478,
+      "n_samples": 57263,
+      "n_test": 11581
+    },
+    {
+      "window": "24h",
+      "task": "mortality",
+      "cohort": "aki",
+      "model": "LogisticRegression",
+      "auroc": 0.8176714756511143,
+      "auprc": 0.4734259154345687,
+      "n_samples": 57263,
+      "n_test": 11581
+    },
+    {
+      "window": "24h",
+      "task": "prolonged_los",
+      "cohort": "all",
+      "model": "XGBoost",
+      "auroc": 0.7681316603421043,
+      "auprc": 0.7572568678155949,
+      "n_samples": 74829,
+      "n_test": 15036
+    },
+    {
+      "window": "24h",
+      "task": "prolonged_los",
+      "cohort": "all",
+      "model": "LogisticRegression",
+      "auroc": 0.7383046957041148,
+      "auprc": 0.7245558756376655,
+      "n_samples": 74829,
+      "n_test": 15036
+    },
+    {
+      "window": "24h",
+      "task": "prolonged_los",
+      "cohort": "sepsis",
+      "model": "XGBoost",
+      "auroc": 0.7807465713084474,
+      "auprc": 0.8328953180673859,
+      "n_samples": 34152,
+      "n_test": 6831
+    },
+    {
+      "window": "24h",
+      "task": "prolonged_los",
+      "cohort": "sepsis",
+      "model": "LogisticRegression",
+      "auroc": 0.74766667891813,
+      "auprc": 0.8055690298789782,
+      "n_samples": 34152,
+      "n_test": 6831
+    },
+    {
+      "window": "24h",
+      "task": "prolonged_los",
+      "cohort": "aki",
+      "model": "XGBoost",
+      "auroc": 0.7563326395530896,
+      "auprc": 0.7938642061172106,
+      "n_samples": 57263,
+      "n_test": 11581
+    },
+    {
+      "window": "24h",
+      "task": "prolonged_los",
+      "cohort": "aki",
+      "model": "LogisticRegression",
+      "auroc": 0.7200437854037416,
+      "auprc": 0.7648173799768224,
+      "n_samples": 57263,
+      "n_test": 11581
+    }
+  ]
+}

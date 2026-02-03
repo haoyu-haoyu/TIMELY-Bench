@@ -1,0 +1,501 @@
+{
+  "graph_name": "heart_failure_graph.json",
+  "version": "v1",
+  "condition": "Heart Failure",
+  "description": "ESC Guidelines criteria for Acute Heart Failure; PMID: 27206819 (Ponikowski et al., Eur Heart J 2016)",
+  "nodes": [
+    {
+      "id": "condition_hf",
+      "type": "condition",
+      "label": "Heart Failure",
+      "source": "ESC Guidelines (Ponikowski et al., 2016)"
+    },
+    {
+      "id": "struct_bnp_elevated",
+      "type": "structured_indicator",
+      "label": "BNP > 100 pg/mL or NT-proBNP > 300 pg/mL",
+      "feature": "bnp",
+      "threshold": 100,
+      "direction": "above",
+      "unit": "pg/mL",
+      "severity": "moderate",
+      "source": "ESC Guidelines (Ponikowski et al., 2016)"
+    },
+    {
+      "id": "pattern_elevated_bnp",
+      "type": "pattern_event",
+      "label": "elevated_bnp",
+      "severity": "moderate",
+      "source": "ESC Guidelines (Ponikowski et al., 2016)"
+    },
+    {
+      "id": "text_elevated_bnp",
+      "type": "text_evidence",
+      "label": "text evidence for elevated BNP",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_heart_rate_tachycardia",
+      "type": "structured_indicator",
+      "label": "Tachycardia: HR > 100 bpm",
+      "feature": "heart_rate",
+      "threshold": 100,
+      "direction": "above",
+      "unit": "bpm",
+      "severity": "moderate",
+      "source": "ESC Guidelines (Ponikowski et al., 2016)"
+    },
+    {
+      "id": "pattern_hf_tachycardia",
+      "type": "pattern_event",
+      "label": "heart_failure_tachycardia",
+      "severity": "moderate",
+      "source": "ESC Guidelines (Ponikowski et al., 2016)"
+    },
+    {
+      "id": "text_hf_tachycardia",
+      "type": "text_evidence",
+      "label": "text evidence for HF-related tachycardia",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_sbp_hypotension",
+      "type": "structured_indicator",
+      "label": "Hypotension: SBP < 90 mmHg",
+      "feature": "sbp",
+      "threshold": 90,
+      "direction": "below",
+      "unit": "mmHg",
+      "severity": "severe",
+      "source": "ESC Guidelines (Ponikowski et al., 2016)"
+    },
+    {
+      "id": "pattern_cardiogenic_hypotension",
+      "type": "pattern_event",
+      "label": "cardiogenic_hypotension",
+      "severity": "severe",
+      "source": "ESC Guidelines (Ponikowski et al., 2016)"
+    },
+    {
+      "id": "text_hypotension",
+      "type": "text_evidence",
+      "label": "text evidence for hypotension",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_sbp_hypertensive_hf",
+      "type": "structured_indicator",
+      "label": "Hypertensive HF: SBP > 160 mmHg",
+      "feature": "sbp",
+      "threshold": 160,
+      "direction": "above",
+      "unit": "mmHg",
+      "severity": "moderate",
+      "source": "ESC Guidelines (Ponikowski et al., 2016)"
+    },
+    {
+      "id": "pattern_hypertensive_hf",
+      "type": "pattern_event",
+      "label": "hypertensive_heart_failure",
+      "severity": "moderate",
+      "source": "ESC Guidelines (Ponikowski et al., 2016)"
+    },
+    {
+      "id": "text_hypertensive_hf",
+      "type": "text_evidence",
+      "label": "text evidence for hypertensive HF",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_spo2_hypoxia",
+      "type": "structured_indicator",
+      "label": "Hypoxia: SpO2 < 92%",
+      "feature": "spo2",
+      "threshold": 92,
+      "direction": "below",
+      "unit": "%",
+      "severity": "moderate",
+      "source": "ESC Guidelines (Ponikowski et al., 2016)"
+    },
+    {
+      "id": "pattern_hf_hypoxia",
+      "type": "pattern_event",
+      "label": "heart_failure_hypoxia",
+      "severity": "moderate",
+      "source": "ESC Guidelines (Ponikowski et al., 2016)"
+    },
+    {
+      "id": "text_hf_hypoxia",
+      "type": "text_evidence",
+      "label": "text evidence for HF-related hypoxia",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_creatinine_elevated",
+      "type": "structured_indicator",
+      "label": "Elevated Creatinine: > 1.5 mg/dL (cardiorenal syndrome)",
+      "feature": "creatinine",
+      "threshold": 1.5,
+      "direction": "above",
+      "unit": "mg/dL",
+      "severity": "moderate",
+      "source": "ESC Guidelines (Ponikowski et al., 2016)"
+    },
+    {
+      "id": "pattern_cardiorenal",
+      "type": "pattern_event",
+      "label": "cardiorenal_syndrome",
+      "severity": "moderate",
+      "source": "ESC Guidelines (Ponikowski et al., 2016)"
+    },
+    {
+      "id": "text_cardiorenal",
+      "type": "text_evidence",
+      "label": "text evidence for cardiorenal syndrome",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_lactate_elevated",
+      "type": "structured_indicator",
+      "label": "Elevated Lactate: > 2 mmol/L (tissue hypoperfusion)",
+      "feature": "lactate",
+      "threshold": 2,
+      "direction": "above",
+      "unit": "mmol/L",
+      "severity": "severe",
+      "source": "ESC Guidelines (Ponikowski et al., 2016)"
+    },
+    {
+      "id": "pattern_hypoperfusion",
+      "type": "pattern_event",
+      "label": "tissue_hypoperfusion",
+      "severity": "severe",
+      "source": "ESC Guidelines (Ponikowski et al., 2016)"
+    },
+    {
+      "id": "text_hypoperfusion",
+      "type": "text_evidence",
+      "label": "text evidence for tissue hypoperfusion",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_troponin_elevated",
+      "type": "structured_indicator",
+      "label": "Elevated Troponin (myocardial injury)",
+      "feature": "troponin",
+      "threshold": 0.04,
+      "direction": "above",
+      "unit": "ng/mL",
+      "severity": "moderate",
+      "source": "ESC Guidelines (Ponikowski et al., 2016)"
+    },
+    {
+      "id": "pattern_myocardial_injury",
+      "type": "pattern_event",
+      "label": "myocardial_injury",
+      "severity": "moderate",
+      "source": "ESC Guidelines (Ponikowski et al., 2016)"
+    },
+    {
+      "id": "text_myocardial_injury",
+      "type": "text_evidence",
+      "label": "text evidence for myocardial injury",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_urine_output_low",
+      "type": "structured_indicator",
+      "label": "Oliguria: Urine output < 0.5 mL/kg/h",
+      "feature": "urine_output",
+      "threshold": 0.5,
+      "direction": "below",
+      "unit": "mL/kg/h",
+      "severity": "moderate",
+      "source": "ESC Guidelines (Ponikowski et al., 2016)"
+    },
+    {
+      "id": "pattern_oliguria",
+      "type": "pattern_event",
+      "label": "oliguria",
+      "severity": "moderate",
+      "source": "ESC Guidelines (Ponikowski et al., 2016)"
+    },
+    {
+      "id": "text_oliguria",
+      "type": "text_evidence",
+      "label": "text evidence for oliguria",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_pulmonary_edema",
+      "type": "structured_indicator",
+      "label": "Pulmonary Edema (imaging/clinical)",
+      "feature": "pulmonary_edema",
+      "threshold": 1,
+      "direction": "equals",
+      "unit": "binary",
+      "severity": "severe",
+      "source": "ESC Guidelines (Ponikowski et al., 2016)"
+    },
+    {
+      "id": "pattern_pulmonary_edema",
+      "type": "pattern_event",
+      "label": "pulmonary_edema",
+      "severity": "severe",
+      "source": "ESC Guidelines (Ponikowski et al., 2016)"
+    },
+    {
+      "id": "text_pulmonary_edema",
+      "type": "text_evidence",
+      "label": "text evidence for pulmonary edema",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_resp_rate_dyspnea",
+      "type": "structured_indicator",
+      "label": "Tachypnea/Dyspnea: RR > 25/min",
+      "feature": "resp_rate",
+      "threshold": 25,
+      "direction": "above",
+      "unit": "breaths/min",
+      "severity": "moderate",
+      "source": "ESC Guidelines (Ponikowski et al., 2016)"
+    },
+    {
+      "id": "pattern_dyspnea",
+      "type": "pattern_event",
+      "label": "dyspnea",
+      "severity": "moderate",
+      "source": "ESC Guidelines (Ponikowski et al., 2016)"
+    },
+    {
+      "id": "text_dyspnea",
+      "type": "text_evidence",
+      "label": "text evidence for dyspnea",
+      "source": "temporal_textual_alignment"
+    }
+  ],
+  "edges": [
+    {
+      "source": "struct_bnp_elevated",
+      "target": "pattern_elevated_bnp",
+      "relation": "triggers",
+      "description": "Elevated BNP triggers pattern"
+    },
+    {
+      "source": "text_elevated_bnp",
+      "target": "pattern_elevated_bnp",
+      "relation": "supports",
+      "description": "Text evidence supports elevated BNP"
+    },
+    {
+      "source": "struct_heart_rate_tachycardia",
+      "target": "pattern_hf_tachycardia",
+      "relation": "triggers",
+      "description": "Tachycardia triggers HF tachycardia pattern"
+    },
+    {
+      "source": "text_hf_tachycardia",
+      "target": "pattern_hf_tachycardia",
+      "relation": "supports",
+      "description": "Text evidence supports HF tachycardia"
+    },
+    {
+      "source": "struct_sbp_hypotension",
+      "target": "pattern_cardiogenic_hypotension",
+      "relation": "triggers",
+      "description": "Hypotension triggers cardiogenic hypotension pattern"
+    },
+    {
+      "source": "text_hypotension",
+      "target": "pattern_cardiogenic_hypotension",
+      "relation": "supports",
+      "description": "Text evidence supports hypotension"
+    },
+    {
+      "source": "struct_sbp_hypertensive_hf",
+      "target": "pattern_hypertensive_hf",
+      "relation": "triggers",
+      "description": "High SBP triggers hypertensive HF pattern"
+    },
+    {
+      "source": "text_hypertensive_hf",
+      "target": "pattern_hypertensive_hf",
+      "relation": "supports",
+      "description": "Text evidence supports hypertensive HF"
+    },
+    {
+      "source": "struct_spo2_hypoxia",
+      "target": "pattern_hf_hypoxia",
+      "relation": "triggers",
+      "description": "Low SpO2 triggers HF hypoxia pattern"
+    },
+    {
+      "source": "text_hf_hypoxia",
+      "target": "pattern_hf_hypoxia",
+      "relation": "supports",
+      "description": "Text evidence supports HF hypoxia"
+    },
+    {
+      "source": "struct_creatinine_elevated",
+      "target": "pattern_cardiorenal",
+      "relation": "triggers",
+      "description": "Elevated creatinine triggers cardiorenal syndrome"
+    },
+    {
+      "source": "text_cardiorenal",
+      "target": "pattern_cardiorenal",
+      "relation": "supports",
+      "description": "Text evidence supports cardiorenal syndrome"
+    },
+    {
+      "source": "struct_lactate_elevated",
+      "target": "pattern_hypoperfusion",
+      "relation": "triggers",
+      "description": "Elevated lactate triggers hypoperfusion pattern"
+    },
+    {
+      "source": "text_hypoperfusion",
+      "target": "pattern_hypoperfusion",
+      "relation": "supports",
+      "description": "Text evidence supports hypoperfusion"
+    },
+    {
+      "source": "struct_troponin_elevated",
+      "target": "pattern_myocardial_injury",
+      "relation": "triggers",
+      "description": "Elevated troponin triggers myocardial injury"
+    },
+    {
+      "source": "text_myocardial_injury",
+      "target": "pattern_myocardial_injury",
+      "relation": "supports",
+      "description": "Text evidence supports myocardial injury"
+    },
+    {
+      "source": "struct_urine_output_low",
+      "target": "pattern_oliguria",
+      "relation": "triggers",
+      "description": "Low urine output triggers oliguria pattern"
+    },
+    {
+      "source": "text_oliguria",
+      "target": "pattern_oliguria",
+      "relation": "supports",
+      "description": "Text evidence supports oliguria"
+    },
+    {
+      "source": "struct_pulmonary_edema",
+      "target": "pattern_pulmonary_edema",
+      "relation": "triggers",
+      "description": "Pulmonary edema finding triggers pattern"
+    },
+    {
+      "source": "text_pulmonary_edema",
+      "target": "pattern_pulmonary_edema",
+      "relation": "supports",
+      "description": "Text evidence supports pulmonary edema"
+    },
+    {
+      "source": "struct_resp_rate_dyspnea",
+      "target": "pattern_dyspnea",
+      "relation": "triggers",
+      "description": "High respiratory rate triggers dyspnea pattern"
+    },
+    {
+      "source": "text_dyspnea",
+      "target": "pattern_dyspnea",
+      "relation": "supports",
+      "description": "Text evidence supports dyspnea"
+    },
+    {
+      "source": "pattern_elevated_bnp",
+      "target": "condition_hf",
+      "relation": "aggregates",
+      "description": "Elevated BNP is key diagnostic marker for HF"
+    },
+    {
+      "source": "pattern_pulmonary_edema",
+      "target": "condition_hf",
+      "relation": "aggregates",
+      "description": "Pulmonary edema indicates acute HF"
+    },
+    {
+      "source": "pattern_cardiogenic_hypotension",
+      "target": "condition_hf",
+      "relation": "aggregates",
+      "description": "Cardiogenic hypotension indicates severe HF"
+    },
+    {
+      "source": "pattern_hypertensive_hf",
+      "target": "condition_hf",
+      "relation": "aggregates",
+      "description": "Hypertensive HF is a clinical phenotype"
+    },
+    {
+      "source": "pattern_hf_tachycardia",
+      "target": "condition_hf",
+      "relation": "aggregates",
+      "description": "Compensatory tachycardia in HF"
+    },
+    {
+      "source": "pattern_hf_hypoxia",
+      "target": "condition_hf",
+      "relation": "aggregates",
+      "description": "Hypoxia from pulmonary congestion"
+    },
+    {
+      "source": "pattern_cardiorenal",
+      "target": "condition_hf",
+      "relation": "aggregates",
+      "description": "Cardiorenal syndrome complicates HF"
+    },
+    {
+      "source": "pattern_hypoperfusion",
+      "target": "condition_hf",
+      "relation": "aggregates",
+      "description": "Tissue hypoperfusion indicates low-output HF"
+    },
+    {
+      "source": "pattern_dyspnea",
+      "target": "condition_hf",
+      "relation": "aggregates",
+      "description": "Dyspnea is cardinal symptom of HF"
+    },
+    {
+      "source": "pattern_oliguria",
+      "target": "condition_hf",
+      "relation": "aggregates",
+      "description": "Oliguria indicates poor cardiac output"
+    }
+  ],
+  "diagnostic_criteria": {
+    "source": "ESC Guidelines for Acute and Chronic Heart Failure (2016)",
+    "pmid": "27206819",
+    "clinical_presentation": [
+      "Symptoms: Dyspnea, orthopnea, paroxysmal nocturnal dyspnea, fatigue, ankle swelling",
+      "Signs: Elevated JVP, hepatojugular reflux, pulmonary rales, peripheral edema",
+      "Objective evidence: Elevated natriuretic peptides, structural/functional abnormality"
+    ],
+    "classification": {
+      "HFrEF": "LVEF < 40% (Heart Failure with reduced Ejection Fraction)",
+      "HFmrEF": "LVEF 40-49% (Heart Failure with mid-range EF)",
+      "HFpEF": "LVEF ≥ 50% (Heart Failure with preserved EF)"
+    },
+    "acute_phenotypes": {
+      "wet_warm": "Congestion without hypoperfusion",
+      "wet_cold": "Congestion with hypoperfusion",
+      "dry_warm": "No congestion, no hypoperfusion",
+      "dry_cold": "No congestion but hypoperfusion"
+    }
+  },
+  "metadata": {
+    "created_at": "2026-02-03",
+    "creator": "TIMELY-Bench",
+    "n_nodes": 34,
+    "n_edges": 32,
+    "references": [
+      "Ponikowski P, et al. 2016 ESC Guidelines for the diagnosis and treatment of acute and chronic heart failure. Eur Heart J. 2016;37(27):2129-2200. doi:10.1093/eurheartj/ehw128"
+    ]
+  }
+}

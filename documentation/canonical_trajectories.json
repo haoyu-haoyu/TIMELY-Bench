@@ -1,0 +1,593 @@
+{
+  "schema": "TIMELY-Bench-CanonicalTrajectories/1.0",
+  "generated_at": "2026-02-03T02:46:19.403956",
+  "description": "Canonical clinical trajectories for temporal pattern analysis",
+  "trajectories": {
+    "sepsis_recovery": {
+      "condition": "Sepsis",
+      "trajectory_type": "recovery",
+      "phases": [
+        {
+          "name": "acute_phase",
+          "duration_hours": [
+            0,
+            6
+          ],
+          "expected_direction": "worsening",
+          "key_features": [
+            "temperature",
+            "heart_rate",
+            "lactate",
+            "sbp"
+          ],
+          "expected_values": {
+            "temperature": [
+              38.0,
+              40.0
+            ],
+            "heart_rate": [
+              100,
+              140
+            ],
+            "lactate": [
+              2.0,
+              6.0
+            ],
+            "sbp": [
+              70,
+              100
+            ]
+          },
+          "description": "Initial septic shock phase with hypotension and elevated lactate"
+        },
+        {
+          "name": "resuscitation_phase",
+          "duration_hours": [
+            6,
+            24
+          ],
+          "expected_direction": "improving",
+          "key_features": [
+            "lactate",
+            "sbp",
+            "urine_output"
+          ],
+          "expected_values": {
+            "lactate": [
+              1.5,
+              4.0
+            ],
+            "sbp": [
+              90,
+              120
+            ],
+            "urine_output": [
+              0.5,
+              1.5
+            ]
+          },
+          "description": "Response to fluid resuscitation and vasopressors"
+        },
+        {
+          "name": "recovery_phase",
+          "duration_hours": [
+            24,
+            72
+          ],
+          "expected_direction": "improving",
+          "key_features": [
+            "temperature",
+            "wbc",
+            "creatinine"
+          ],
+          "expected_values": {
+            "temperature": [
+              36.5,
+              38.0
+            ],
+            "wbc": [
+              8,
+              15
+            ],
+            "creatinine": [
+              0.7,
+              1.5
+            ]
+          },
+          "description": "Gradual normalization of inflammatory markers"
+        }
+      ],
+      "probability": 0.65,
+      "clinical_significance": "Represents successful sepsis management with early source control",
+      "reference": "Surviving Sepsis Campaign Guidelines 2021; PMID: 34599691",
+      "expected_outcome": "survival",
+      "features_monitored": [
+        "temperature",
+        "heart_rate",
+        "sbp",
+        "lactate",
+        "wbc",
+        "creatinine",
+        "urine_output"
+      ]
+    },
+    "sepsis_worsening": {
+      "condition": "Sepsis",
+      "trajectory_type": "worsening",
+      "phases": [
+        {
+          "name": "initial_sepsis",
+          "duration_hours": [
+            0,
+            6
+          ],
+          "expected_direction": "worsening",
+          "key_features": [
+            "temperature",
+            "heart_rate",
+            "lactate"
+          ],
+          "expected_values": {
+            "temperature": [
+              38.5,
+              40.5
+            ],
+            "heart_rate": [
+              110,
+              150
+            ],
+            "lactate": [
+              2.5,
+              6.0
+            ]
+          },
+          "description": "Onset of sepsis with systemic inflammatory response"
+        },
+        {
+          "name": "refractory_shock",
+          "duration_hours": [
+            6,
+            24
+          ],
+          "expected_direction": "worsening",
+          "key_features": [
+            "sbp",
+            "lactate",
+            "vasopressor_dose"
+          ],
+          "expected_values": {
+            "sbp": [
+              60,
+              85
+            ],
+            "lactate": [
+              4.0,
+              10.0
+            ],
+            "creatinine": [
+              2.0,
+              4.0
+            ]
+          },
+          "description": "Progressive shock despite resuscitation"
+        },
+        {
+          "name": "multi_organ_failure",
+          "duration_hours": [
+            24,
+            72
+          ],
+          "expected_direction": "worsening",
+          "key_features": [
+            "creatinine",
+            "bilirubin",
+            "platelet"
+          ],
+          "expected_values": {
+            "creatinine": [
+              3.0,
+              6.0
+            ],
+            "bilirubin": [
+              2.0,
+              8.0
+            ],
+            "platelet": [
+              50,
+              100
+            ]
+          },
+          "description": "Development of MODS (Multiple Organ Dysfunction Syndrome)"
+        }
+      ],
+      "probability": 0.25,
+      "clinical_significance": "Indicates treatment failure, need for escalation",
+      "reference": "PMID: 27099011; Rhodes et al., Intensive Care Med 2017",
+      "expected_outcome": "mortality",
+      "features_monitored": [
+        "temperature",
+        "heart_rate",
+        "sbp",
+        "lactate",
+        "creatinine",
+        "bilirubin",
+        "platelet"
+      ]
+    },
+    "aki_recovery": {
+      "condition": "AKI",
+      "trajectory_type": "recovery",
+      "phases": [
+        {
+          "name": "injury_phase",
+          "duration_hours": [
+            0,
+            24
+          ],
+          "expected_direction": "worsening",
+          "key_features": [
+            "creatinine",
+            "urine_output"
+          ],
+          "expected_values": {
+            "creatinine": [
+              1.5,
+              3.0
+            ],
+            "urine_output": [
+              0.3,
+              0.5
+            ]
+          },
+          "description": "Initial kidney injury with rising creatinine"
+        },
+        {
+          "name": "plateau_phase",
+          "duration_hours": [
+            24,
+            72
+          ],
+          "expected_direction": "stable",
+          "key_features": [
+            "creatinine",
+            "bun"
+          ],
+          "expected_values": {
+            "creatinine": [
+              2.0,
+              3.5
+            ],
+            "bun": [
+              40,
+              80
+            ]
+          },
+          "description": "Peak creatinine, stabilization"
+        },
+        {
+          "name": "recovery_phase",
+          "duration_hours": [
+            72,
+            168
+          ],
+          "expected_direction": "improving",
+          "key_features": [
+            "creatinine",
+            "urine_output"
+          ],
+          "expected_values": {
+            "creatinine": [
+              1.0,
+              2.0
+            ],
+            "urine_output": [
+              0.8,
+              2.0
+            ]
+          },
+          "description": "Gradual recovery of kidney function"
+        }
+      ],
+      "probability": 0.6,
+      "clinical_significance": "Transient AKI with complete or partial recovery",
+      "reference": "KDIGO AKI Guidelines 2012; PMID: 22890468",
+      "expected_outcome": "survival",
+      "features_monitored": [
+        "creatinine",
+        "bun",
+        "urine_output",
+        "potassium"
+      ]
+    },
+    "aki_progression": {
+      "condition": "AKI",
+      "trajectory_type": "worsening",
+      "phases": [
+        {
+          "name": "stage1",
+          "duration_hours": [
+            0,
+            24
+          ],
+          "expected_direction": "worsening",
+          "key_features": [
+            "creatinine"
+          ],
+          "expected_values": {
+            "creatinine": [
+              1.5,
+              2.0
+            ]
+          },
+          "description": "KDIGO Stage 1: 1.5-1.9x baseline"
+        },
+        {
+          "name": "stage2",
+          "duration_hours": [
+            24,
+            48
+          ],
+          "expected_direction": "worsening",
+          "key_features": [
+            "creatinine",
+            "urine_output"
+          ],
+          "expected_values": {
+            "creatinine": [
+              2.0,
+              3.0
+            ],
+            "urine_output": [
+              0.3,
+              0.5
+            ]
+          },
+          "description": "KDIGO Stage 2: 2.0-2.9x baseline"
+        },
+        {
+          "name": "stage3",
+          "duration_hours": [
+            48,
+            96
+          ],
+          "expected_direction": "worsening",
+          "key_features": [
+            "creatinine",
+            "potassium"
+          ],
+          "expected_values": {
+            "creatinine": [
+              3.5,
+              8.0
+            ],
+            "potassium": [
+              5.5,
+              7.0
+            ]
+          },
+          "description": "KDIGO Stage 3: \u22653x baseline or \u22654.0 mg/dL, may require RRT"
+        }
+      ],
+      "probability": 0.3,
+      "clinical_significance": "Progressive AKI requiring close monitoring, possible RRT",
+      "reference": "KDIGO AKI Guidelines 2012; PMID: 22890468",
+      "expected_outcome": "prolonged_stay",
+      "features_monitored": [
+        "creatinine",
+        "bun",
+        "potassium",
+        "bicarbonate",
+        "urine_output"
+      ]
+    },
+    "ards_recovery": {
+      "condition": "ARDS",
+      "trajectory_type": "recovery",
+      "phases": [
+        {
+          "name": "exudative_phase",
+          "duration_hours": [
+            0,
+            72
+          ],
+          "expected_direction": "worsening",
+          "key_features": [
+            "pao2_fio2_ratio",
+            "peep",
+            "fio2"
+          ],
+          "expected_values": {
+            "pao2_fio2_ratio": [
+              100,
+              200
+            ],
+            "peep": [
+              8,
+              15
+            ],
+            "fio2": [
+              0.5,
+              0.8
+            ]
+          },
+          "description": "Acute lung injury with bilateral infiltrates"
+        },
+        {
+          "name": "proliferative_phase",
+          "duration_hours": [
+            72,
+            168
+          ],
+          "expected_direction": "stable",
+          "key_features": [
+            "pao2_fio2_ratio",
+            "compliance"
+          ],
+          "expected_values": {
+            "pao2_fio2_ratio": [
+              150,
+              250
+            ],
+            "peep": [
+              5,
+              10
+            ]
+          },
+          "description": "Gradual improvement in oxygenation"
+        },
+        {
+          "name": "resolution_phase",
+          "duration_hours": [
+            168,
+            336
+          ],
+          "expected_direction": "improving",
+          "key_features": [
+            "pao2_fio2_ratio",
+            "spo2"
+          ],
+          "expected_values": {
+            "pao2_fio2_ratio": [
+              250,
+              400
+            ],
+            "spo2": [
+              94,
+              100
+            ]
+          },
+          "description": "Lung healing and weaning from ventilation"
+        }
+      ],
+      "probability": 0.55,
+      "clinical_significance": "Typical ARDS recovery with appropriate supportive care",
+      "reference": "Berlin Definition; PMID: 22797452",
+      "expected_outcome": "survival",
+      "features_monitored": [
+        "pao2_fio2_ratio",
+        "spo2",
+        "peep",
+        "fio2",
+        "resp_rate"
+      ]
+    },
+    "hf_compensation": {
+      "condition": "Heart Failure",
+      "trajectory_type": "recovery",
+      "phases": [
+        {
+          "name": "acute_decompensation",
+          "duration_hours": [
+            0,
+            24
+          ],
+          "expected_direction": "worsening",
+          "key_features": [
+            "bnp",
+            "sbp",
+            "spo2"
+          ],
+          "expected_values": {
+            "bnp": [
+              500,
+              2000
+            ],
+            "sbp": [
+              90,
+              140
+            ],
+            "spo2": [
+              85,
+              92
+            ]
+          },
+          "description": "Acute pulmonary congestion and symptom exacerbation"
+        },
+        {
+          "name": "diuresis_phase",
+          "duration_hours": [
+            24,
+            72
+          ],
+          "expected_direction": "improving",
+          "key_features": [
+            "urine_output",
+            "weight",
+            "bnp"
+          ],
+          "expected_values": {
+            "urine_output": [
+              1.5,
+              4.0
+            ],
+            "bnp": [
+              200,
+              800
+            ]
+          },
+          "description": "Response to diuretics with fluid removal"
+        },
+        {
+          "name": "optimization_phase",
+          "duration_hours": [
+            72,
+            168
+          ],
+          "expected_direction": "improving",
+          "key_features": [
+            "bnp",
+            "creatinine",
+            "sbp"
+          ],
+          "expected_values": {
+            "bnp": [
+              100,
+              400
+            ],
+            "creatinine": [
+              0.8,
+              1.5
+            ],
+            "sbp": [
+              100,
+              130
+            ]
+          },
+          "description": "Neurohormonal optimization and stabilization"
+        }
+      ],
+      "probability": 0.7,
+      "clinical_significance": "Successful management of acute decompensated heart failure",
+      "reference": "ESC Guidelines 2016; PMID: 27206819",
+      "expected_outcome": "survival",
+      "features_monitored": [
+        "bnp",
+        "sbp",
+        "heart_rate",
+        "spo2",
+        "creatinine",
+        "urine_output"
+      ]
+    }
+  },
+  "trajectory_types": [
+    "recovery",
+    "worsening",
+    "stable",
+    "oscillating",
+    "biphasic"
+  ],
+  "severity_levels": [
+    "normal",
+    "mild",
+    "moderate",
+    "severe",
+    "critical"
+  ],
+  "references": [
+    "Surviving Sepsis Campaign Guidelines 2021 (PMID: 34599691)",
+    "KDIGO AKI Guidelines 2012 (PMID: 22890468)",
+    "Berlin Definition of ARDS 2012 (PMID: 22797452)",
+    "ESC Heart Failure Guidelines 2016 (PMID: 27206819)"
+  ]
+}

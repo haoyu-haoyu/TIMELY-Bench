@@ -6,6 +6,19 @@ episodes/
 *.json
 !documentation/*.json
 !code/**/*.json
+!results/**/*.json
+!results/**/*.csv
+
+# Model weights (too large for GitHub)
+*.pt
+*.pth
+*.npy
+*.npz
+*.h5
+*.onnx
+
+# Compressed archives
+episodes_enhanced.tar.gz
 
 # Python
 __pycache__/
@@ -24,10 +37,6 @@ venv/
 .idea/
 .vscode/
 *.swp
-
-# Large dataset files
-dataset/timely_bench_samples.jsonl
-dataset/timely_bench_episodes.jsonl
 
 # Large dataset files
 dataset/timely_bench_samples.jsonl

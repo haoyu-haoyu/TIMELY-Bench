@@ -1,0 +1,72 @@
+{
+  "title": "ConditionGraph",
+  "type": "object",
+  "required": ["graph_name", "version", "condition", "nodes", "edges", "sources", "metadata"],
+  "properties": {
+    "graph_name": { "type": "string" },
+    "version": { "type": "string" },
+    "condition": { "type": "string" },
+    "description": { "type": "string" },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "label"],
+        "properties": {
+          "id": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": ["structured_indicator", "pattern_event", "text_evidence", "condition"]
+          },
+          "label": { "type": "string" },
+          "feature": { "type": "string" },
+          "threshold": { "type": ["number", "string"] },
+          "direction": { "type": "string" },
+          "unit": { "type": "string" },
+          "severity": { "type": "string" },
+          "source": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source", "target", "relation"],
+        "properties": {
+          "source": { "type": "string" },
+          "target": { "type": "string" },
+          "relation": {
+            "type": "string",
+            "enum": ["triggers", "supports", "contradicts", "temporal_precedes", "aggregates"]
+          },
+          "evidence": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string" },
+          "reference": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["generated_by", "generated_at"],
+      "properties": {
+        "generated_by": { "type": "string" },
+        "generated_at": { "type": "string" }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,410 @@
+{
+  "graph_name": "aki_kdigo_graph.json",
+  "version": "v1",
+  "condition": "AKI",
+  "description": "Creatinine and urine output criteria; PMID: 25018915",
+  "nodes": [
+    {
+      "id": "condition_aki",
+      "type": "condition",
+      "label": "AKI",
+      "source": "KDIGO AKI Guidelines (Kidney International Supplements 2012)"
+    },
+    {
+      "id": "struct_creatinine_creatinine_elevated",
+      "type": "structured_indicator",
+      "label": "creatinine Elevated creatinine: > 1.2 mg/dL (upper normal limit)",
+      "feature": "creatinine",
+      "threshold": 1.2,
+      "direction": "above",
+      "unit": "mg/dL",
+      "severity": "mild",
+      "source": "KDIGO AKI Guidelines 2012"
+    },
+    {
+      "id": "pattern_creatinine_elevated",
+      "type": "pattern_event",
+      "label": "creatinine_elevated",
+      "severity": "mild",
+      "source": "KDIGO AKI Guidelines 2012"
+    },
+    {
+      "id": "text_creatinine_elevated",
+      "type": "text_evidence",
+      "label": "text evidence for creatinine_elevated",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_creatinine_creatinine_severe",
+      "type": "structured_indicator",
+      "label": "creatinine Severe creatinine elevation: >= 4.0 mg/dL (Stage 3 AKI)",
+      "feature": "creatinine",
+      "threshold": 4.0,
+      "direction": "above",
+      "unit": "mg/dL",
+      "severity": "severe",
+      "source": "KDIGO Stage 3 (\u22654.0 mg/dL or initiation of RRT)"
+    },
+    {
+      "id": "pattern_creatinine_severe",
+      "type": "pattern_event",
+      "label": "creatinine_severe",
+      "severity": "severe",
+      "source": "KDIGO Stage 3 (\u22654.0 mg/dL or initiation of RRT)"
+    },
+    {
+      "id": "text_creatinine_severe",
+      "type": "text_evidence",
+      "label": "text evidence for creatinine_severe",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_creatinine_creatinine_rise_acute",
+      "type": "structured_indicator",
+      "label": "creatinine Acute creatinine rise: increase >= 0.3 mg/dL within 24h (aligned to 0-24h window)",
+      "feature": "creatinine",
+      "threshold": 0.3,
+      "direction": "",
+      "unit": "mg/dL",
+      "severity": "moderate",
+      "source": "KDIGO Stage 1 (window adapted to 24h for strict 0-24h benchmark)"
+    },
+    {
+      "id": "pattern_creatinine_rise_acute",
+      "type": "pattern_event",
+      "label": "creatinine_rise_acute",
+      "severity": "moderate",
+      "source": "KDIGO Stage 1 (window adapted to 24h for strict 0-24h benchmark)"
+    },
+    {
+      "id": "text_creatinine_rise_acute",
+      "type": "text_evidence",
+      "label": "text evidence for creatinine_rise_acute",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_bun_bun_elevated",
+      "type": "structured_indicator",
+      "label": "bun Elevated BUN: > 20 mg/dL (upper normal limit: 7-20 mg/dL)",
+      "feature": "bun",
+      "threshold": 20,
+      "direction": "above",
+      "unit": "mg/dL",
+      "severity": "mild",
+      "source": "Lab reference range (Mayo Clinic)"
+    },
+    {
+      "id": "pattern_bun_elevated",
+      "type": "pattern_event",
+      "label": "bun_elevated",
+      "severity": "mild",
+      "source": "Lab reference range (Mayo Clinic)"
+    },
+    {
+      "id": "text_bun_elevated",
+      "type": "text_evidence",
+      "label": "text evidence for bun_elevated",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_bun_bun_severe",
+      "type": "structured_indicator",
+      "label": "bun Severe BUN elevation: > 40 mg/dL (>2x upper normal)",
+      "feature": "bun",
+      "threshold": 40,
+      "direction": "above",
+      "unit": "mg/dL",
+      "severity": "severe",
+      "source": "Clinical marker of severe renal dysfunction"
+    },
+    {
+      "id": "pattern_bun_severe",
+      "type": "pattern_event",
+      "label": "bun_severe",
+      "severity": "severe",
+      "source": "Clinical marker of severe renal dysfunction"
+    },
+    {
+      "id": "text_bun_severe",
+      "type": "text_evidence",
+      "label": "text evidence for bun_severe",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_urineoutput_oliguria",
+      "type": "structured_indicator",
+      "label": "urineoutput Oliguria: urine output < 500 mL/day (KDIGO: <0.5mL/kg/h for 6h)",
+      "feature": "urineoutput",
+      "threshold": 500,
+      "direction": "below",
+      "unit": "mL/day",
+      "severity": "moderate",
+      "source": "KDIGO AKI Stage 1 urine output criterion"
+    },
+    {
+      "id": "pattern_oliguria",
+      "type": "pattern_event",
+      "label": "oliguria",
+      "severity": "moderate",
+      "source": "KDIGO AKI Stage 1 urine output criterion"
+    },
+    {
+      "id": "text_oliguria",
+      "type": "text_evidence",
+      "label": "text evidence for oliguria",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_potassium_hyperkalemia",
+      "type": "structured_indicator",
+      "label": "potassium Hyperkalemia: K+ > 5.5 mEq/L",
+      "feature": "potassium",
+      "threshold": 5.5,
+      "direction": "above",
+      "unit": "mEq/L",
+      "severity": "severe",
+      "source": "AKI complication; critical value"
+    },
+    {
+      "id": "pattern_hyperkalemia",
+      "type": "pattern_event",
+      "label": "hyperkalemia",
+      "severity": "severe",
+      "source": "AKI complication; critical value"
+    },
+    {
+      "id": "text_hyperkalemia",
+      "type": "text_evidence",
+      "label": "text evidence for hyperkalemia",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_bicarbonate_metabolic_acidosis",
+      "type": "structured_indicator",
+      "label": "bicarbonate Metabolic acidosis: bicarbonate < 22 mEq/L",
+      "feature": "bicarbonate",
+      "threshold": 22,
+      "direction": "below",
+      "unit": "mEq/L",
+      "severity": "moderate",
+      "source": "AKI complication; normal range 22-28 mEq/L"
+    },
+    {
+      "id": "pattern_metabolic_acidosis",
+      "type": "pattern_event",
+      "label": "metabolic_acidosis",
+      "severity": "moderate",
+      "source": "AKI complication; normal range 22-28 mEq/L"
+    },
+    {
+      "id": "text_metabolic_acidosis",
+      "type": "text_evidence",
+      "label": "text evidence for metabolic_acidosis",
+      "source": "temporal_textual_alignment"
+    }
+  ],
+  "edges": [
+    {
+      "source": "struct_creatinine_creatinine_elevated",
+      "target": "pattern_creatinine_elevated",
+      "relation": "triggers",
+      "evidence": "creatinine threshold/criterion"
+    },
+    {
+      "source": "text_creatinine_elevated",
+      "target": "pattern_creatinine_elevated",
+      "relation": "supports",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "text_creatinine_elevated",
+      "target": "pattern_creatinine_elevated",
+      "relation": "contradicts",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "pattern_creatinine_elevated",
+      "target": "condition_aki",
+      "relation": "aggregates",
+      "evidence": "KDIGO AKI Guidelines (Kidney International Supplements 2012)"
+    },
+    {
+      "source": "struct_creatinine_creatinine_severe",
+      "target": "pattern_creatinine_severe",
+      "relation": "triggers",
+      "evidence": "creatinine threshold/criterion"
+    },
+    {
+      "source": "text_creatinine_severe",
+      "target": "pattern_creatinine_severe",
+      "relation": "supports",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "text_creatinine_severe",
+      "target": "pattern_creatinine_severe",
+      "relation": "contradicts",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "pattern_creatinine_severe",
+      "target": "condition_aki",
+      "relation": "aggregates",
+      "evidence": "KDIGO AKI Guidelines (Kidney International Supplements 2012)"
+    },
+    {
+      "source": "struct_creatinine_creatinine_rise_acute",
+      "target": "pattern_creatinine_rise_acute",
+      "relation": "triggers",
+      "evidence": "creatinine threshold/criterion"
+    },
+    {
+      "source": "text_creatinine_rise_acute",
+      "target": "pattern_creatinine_rise_acute",
+      "relation": "supports",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "text_creatinine_rise_acute",
+      "target": "pattern_creatinine_rise_acute",
+      "relation": "contradicts",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "pattern_creatinine_rise_acute",
+      "target": "condition_aki",
+      "relation": "aggregates",
+      "evidence": "KDIGO AKI Guidelines (Kidney International Supplements 2012)"
+    },
+    {
+      "source": "struct_bun_bun_elevated",
+      "target": "pattern_bun_elevated",
+      "relation": "triggers",
+      "evidence": "bun threshold/criterion"
+    },
+    {
+      "source": "text_bun_elevated",
+      "target": "pattern_bun_elevated",
+      "relation": "supports",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "text_bun_elevated",
+      "target": "pattern_bun_elevated",
+      "relation": "contradicts",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "pattern_bun_elevated",
+      "target": "condition_aki",
+      "relation": "aggregates",
+      "evidence": "KDIGO AKI Guidelines (Kidney International Supplements 2012)"
+    },
+    {
+      "source": "struct_bun_bun_severe",
+      "target": "pattern_bun_severe",
+      "relation": "triggers",
+      "evidence": "bun threshold/criterion"
+    },
+    {
+      "source": "text_bun_severe",
+      "target": "pattern_bun_severe",
+      "relation": "supports",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "text_bun_severe",
+      "target": "pattern_bun_severe",
+      "relation": "contradicts",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "pattern_bun_severe",
+      "target": "condition_aki",
+      "relation": "aggregates",
+      "evidence": "KDIGO AKI Guidelines (Kidney International Supplements 2012)"
+    },
+    {
+      "source": "struct_urineoutput_oliguria",
+      "target": "pattern_oliguria",
+      "relation": "triggers",
+      "evidence": "urineoutput threshold/criterion"
+    },
+    {
+      "source": "text_oliguria",
+      "target": "pattern_oliguria",
+      "relation": "supports",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "text_oliguria",
+      "target": "pattern_oliguria",
+      "relation": "contradicts",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "pattern_oliguria",
+      "target": "condition_aki",
+      "relation": "aggregates",
+      "evidence": "KDIGO AKI Guidelines (Kidney International Supplements 2012)"
+    },
+    {
+      "source": "struct_potassium_hyperkalemia",
+      "target": "pattern_hyperkalemia",
+      "relation": "triggers",
+      "evidence": "potassium threshold/criterion"
+    },
+    {
+      "source": "text_hyperkalemia",
+      "target": "pattern_hyperkalemia",
+      "relation": "supports",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "text_hyperkalemia",
+      "target": "pattern_hyperkalemia",
+      "relation": "contradicts",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "pattern_hyperkalemia",
+      "target": "condition_aki",
+      "relation": "aggregates",
+      "evidence": "KDIGO AKI Guidelines (Kidney International Supplements 2012)"
+    },
+    {
+      "source": "struct_bicarbonate_metabolic_acidosis",
+      "target": "pattern_metabolic_acidosis",
+      "relation": "triggers",
+      "evidence": "bicarbonate threshold/criterion"
+    },
+    {
+      "source": "text_metabolic_acidosis",
+      "target": "pattern_metabolic_acidosis",
+      "relation": "supports",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "text_metabolic_acidosis",
+      "target": "pattern_metabolic_acidosis",
+      "relation": "contradicts",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "pattern_metabolic_acidosis",
+      "target": "condition_aki",
+      "relation": "aggregates",
+      "evidence": "KDIGO AKI Guidelines (Kidney International Supplements 2012)"
+    }
+  ],
+  "sources": [
+    {
+      "name": "KDIGO AKI Guidelines (Kidney International Supplements 2012)",
+      "reference": "Creatinine and urine output criteria; PMID: 25018915"
+    }
+  ],
+  "metadata": {
+    "generated_by": "build_condition_graphs.py",
+    "generated_at": "2026-01-26T21:15:53"
+  }
+}

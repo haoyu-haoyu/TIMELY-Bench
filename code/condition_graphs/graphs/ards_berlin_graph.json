@@ -1,0 +1,372 @@
+{
+  "graph_name": "ards_berlin_graph.json",
+  "version": "v1",
+  "condition": "ARDS",
+  "description": "Berlin Definition criteria for ARDS; PMID: 22797452 (Ranieri et al., JAMA 2012)",
+  "nodes": [
+    {
+      "id": "condition_ards",
+      "type": "condition",
+      "label": "ARDS (Acute Respiratory Distress Syndrome)",
+      "source": "Berlin Definition (Ranieri et al., JAMA 2012)"
+    },
+    {
+      "id": "struct_pf_ratio_mild",
+      "type": "structured_indicator",
+      "label": "Mild ARDS: 200 < PaO2/FiO2 ≤ 300 mmHg",
+      "feature": "pao2_fio2_ratio",
+      "threshold_lower": 200,
+      "threshold_upper": 300,
+      "direction": "between",
+      "unit": "mmHg",
+      "severity": "mild",
+      "source": "Berlin Definition (Ranieri et al., JAMA 2012)"
+    },
+    {
+      "id": "pattern_mild_ards",
+      "type": "pattern_event",
+      "label": "mild_ards",
+      "severity": "mild",
+      "source": "Berlin Definition (Ranieri et al., JAMA 2012)"
+    },
+    {
+      "id": "text_mild_ards",
+      "type": "text_evidence",
+      "label": "text evidence for mild ARDS",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_pf_ratio_moderate",
+      "type": "structured_indicator",
+      "label": "Moderate ARDS: 100 < PaO2/FiO2 ≤ 200 mmHg",
+      "feature": "pao2_fio2_ratio",
+      "threshold_lower": 100,
+      "threshold_upper": 200,
+      "direction": "between",
+      "unit": "mmHg",
+      "severity": "moderate",
+      "source": "Berlin Definition (Ranieri et al., JAMA 2012)"
+    },
+    {
+      "id": "pattern_moderate_ards",
+      "type": "pattern_event",
+      "label": "moderate_ards",
+      "severity": "moderate",
+      "source": "Berlin Definition (Ranieri et al., JAMA 2012)"
+    },
+    {
+      "id": "text_moderate_ards",
+      "type": "text_evidence",
+      "label": "text evidence for moderate ARDS",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_pf_ratio_severe",
+      "type": "structured_indicator",
+      "label": "Severe ARDS: PaO2/FiO2 ≤ 100 mmHg",
+      "feature": "pao2_fio2_ratio",
+      "threshold": 100,
+      "direction": "below",
+      "unit": "mmHg",
+      "severity": "severe",
+      "source": "Berlin Definition (Ranieri et al., JAMA 2012)"
+    },
+    {
+      "id": "pattern_severe_ards",
+      "type": "pattern_event",
+      "label": "severe_ards",
+      "severity": "severe",
+      "source": "Berlin Definition (Ranieri et al., JAMA 2012)"
+    },
+    {
+      "id": "text_severe_ards",
+      "type": "text_evidence",
+      "label": "text evidence for severe ARDS",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_peep",
+      "type": "structured_indicator",
+      "label": "PEEP ≥ 5 cmH2O",
+      "feature": "peep",
+      "threshold": 5,
+      "direction": "above",
+      "unit": "cmH2O",
+      "severity": "moderate",
+      "source": "Berlin Definition (Ranieri et al., JAMA 2012)"
+    },
+    {
+      "id": "pattern_peep_requirement",
+      "type": "pattern_event",
+      "label": "peep_requirement",
+      "severity": "moderate",
+      "source": "Berlin Definition (Ranieri et al., JAMA 2012)"
+    },
+    {
+      "id": "text_peep",
+      "type": "text_evidence",
+      "label": "text evidence for PEEP requirement",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_spo2_hypoxemia",
+      "type": "structured_indicator",
+      "label": "Hypoxemia: SpO2 < 90%",
+      "feature": "spo2",
+      "threshold": 90,
+      "direction": "below",
+      "unit": "%",
+      "severity": "moderate",
+      "source": "Berlin Definition (Ranieri et al., JAMA 2012)"
+    },
+    {
+      "id": "pattern_hypoxemia",
+      "type": "pattern_event",
+      "label": "hypoxemia",
+      "severity": "moderate",
+      "source": "Berlin Definition (Ranieri et al., JAMA 2012)"
+    },
+    {
+      "id": "text_hypoxemia",
+      "type": "text_evidence",
+      "label": "text evidence for hypoxemia",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_fio2_elevated",
+      "type": "structured_indicator",
+      "label": "Elevated FiO2: FiO2 > 0.5",
+      "feature": "fio2",
+      "threshold": 0.5,
+      "direction": "above",
+      "unit": "fraction",
+      "severity": "moderate",
+      "source": "Berlin Definition (Ranieri et al., JAMA 2012)"
+    },
+    {
+      "id": "pattern_high_fio2",
+      "type": "pattern_event",
+      "label": "high_fio2_requirement",
+      "severity": "moderate",
+      "source": "Berlin Definition (Ranieri et al., JAMA 2012)"
+    },
+    {
+      "id": "text_high_fio2",
+      "type": "text_evidence",
+      "label": "text evidence for high FiO2",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_bilateral_infiltrates",
+      "type": "structured_indicator",
+      "label": "Bilateral Infiltrates (imaging)",
+      "feature": "chest_xray_bilateral",
+      "threshold": 1,
+      "direction": "equals",
+      "unit": "binary",
+      "severity": "moderate",
+      "source": "Berlin Definition (Ranieri et al., JAMA 2012)"
+    },
+    {
+      "id": "pattern_bilateral_infiltrates",
+      "type": "pattern_event",
+      "label": "bilateral_infiltrates",
+      "severity": "moderate",
+      "source": "Berlin Definition (Ranieri et al., JAMA 2012)"
+    },
+    {
+      "id": "text_bilateral_infiltrates",
+      "type": "text_evidence",
+      "label": "text evidence for bilateral infiltrates",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_onset_acute",
+      "type": "structured_indicator",
+      "label": "Acute Onset: within 1 week of known clinical insult",
+      "feature": "onset_acute",
+      "threshold": 168,
+      "direction": "within_hours",
+      "unit": "hours",
+      "severity": "moderate",
+      "source": "Berlin Definition (Ranieri et al., JAMA 2012)"
+    },
+    {
+      "id": "pattern_acute_onset",
+      "type": "pattern_event",
+      "label": "acute_onset",
+      "severity": "moderate",
+      "source": "Berlin Definition (Ranieri et al., JAMA 2012)"
+    },
+    {
+      "id": "text_acute_onset",
+      "type": "text_evidence",
+      "label": "text evidence for acute onset",
+      "source": "temporal_textual_alignment"
+    }
+  ],
+  "edges": [
+    {
+      "source": "struct_pf_ratio_mild",
+      "target": "pattern_mild_ards",
+      "relation": "triggers",
+      "description": "Mild P/F ratio triggers mild ARDS pattern"
+    },
+    {
+      "source": "text_mild_ards",
+      "target": "pattern_mild_ards",
+      "relation": "supports",
+      "description": "Text evidence supports mild ARDS"
+    },
+    {
+      "source": "struct_pf_ratio_moderate",
+      "target": "pattern_moderate_ards",
+      "relation": "triggers",
+      "description": "Moderate P/F ratio triggers moderate ARDS pattern"
+    },
+    {
+      "source": "text_moderate_ards",
+      "target": "pattern_moderate_ards",
+      "relation": "supports",
+      "description": "Text evidence supports moderate ARDS"
+    },
+    {
+      "source": "struct_pf_ratio_severe",
+      "target": "pattern_severe_ards",
+      "relation": "triggers",
+      "description": "Severe P/F ratio triggers severe ARDS pattern"
+    },
+    {
+      "source": "text_severe_ards",
+      "target": "pattern_severe_ards",
+      "relation": "supports",
+      "description": "Text evidence supports severe ARDS"
+    },
+    {
+      "source": "struct_peep",
+      "target": "pattern_peep_requirement",
+      "relation": "triggers",
+      "description": "PEEP ≥5 triggers PEEP requirement pattern"
+    },
+    {
+      "source": "text_peep",
+      "target": "pattern_peep_requirement",
+      "relation": "supports",
+      "description": "Text evidence supports PEEP requirement"
+    },
+    {
+      "source": "struct_spo2_hypoxemia",
+      "target": "pattern_hypoxemia",
+      "relation": "triggers",
+      "description": "Low SpO2 triggers hypoxemia pattern"
+    },
+    {
+      "source": "text_hypoxemia",
+      "target": "pattern_hypoxemia",
+      "relation": "supports",
+      "description": "Text evidence supports hypoxemia"
+    },
+    {
+      "source": "struct_fio2_elevated",
+      "target": "pattern_high_fio2",
+      "relation": "triggers",
+      "description": "High FiO2 triggers pattern"
+    },
+    {
+      "source": "text_high_fio2",
+      "target": "pattern_high_fio2",
+      "relation": "supports",
+      "description": "Text evidence supports high FiO2"
+    },
+    {
+      "source": "struct_bilateral_infiltrates",
+      "target": "pattern_bilateral_infiltrates",
+      "relation": "triggers",
+      "description": "Imaging finding triggers bilateral infiltrates pattern"
+    },
+    {
+      "source": "text_bilateral_infiltrates",
+      "target": "pattern_bilateral_infiltrates",
+      "relation": "supports",
+      "description": "Text evidence supports bilateral infiltrates"
+    },
+    {
+      "source": "struct_onset_acute",
+      "target": "pattern_acute_onset",
+      "relation": "triggers",
+      "description": "Acute onset triggers pattern"
+    },
+    {
+      "source": "text_acute_onset",
+      "target": "pattern_acute_onset",
+      "relation": "supports",
+      "description": "Text evidence supports acute onset"
+    },
+    {
+      "source": "pattern_mild_ards",
+      "target": "condition_ards",
+      "relation": "aggregates",
+      "description": "Mild ARDS contributes to diagnosis"
+    },
+    {
+      "source": "pattern_moderate_ards",
+      "target": "condition_ards",
+      "relation": "aggregates",
+      "description": "Moderate ARDS contributes to diagnosis"
+    },
+    {
+      "source": "pattern_severe_ards",
+      "target": "condition_ards",
+      "relation": "aggregates",
+      "description": "Severe ARDS contributes to diagnosis"
+    },
+    {
+      "source": "pattern_peep_requirement",
+      "target": "condition_ards",
+      "relation": "aggregates",
+      "description": "PEEP requirement contributes to ARDS diagnosis"
+    },
+    {
+      "source": "pattern_bilateral_infiltrates",
+      "target": "condition_ards",
+      "relation": "aggregates",
+      "description": "Bilateral infiltrates contribute to ARDS diagnosis"
+    },
+    {
+      "source": "pattern_acute_onset",
+      "target": "condition_ards",
+      "relation": "aggregates",
+      "description": "Acute onset contributes to ARDS diagnosis"
+    },
+    {
+      "source": "pattern_hypoxemia",
+      "target": "condition_ards",
+      "relation": "aggregates",
+      "description": "Hypoxemia supports ARDS diagnosis"
+    }
+  ],
+  "diagnostic_criteria": {
+    "source": "Berlin Definition (JAMA 2012)",
+    "pmid": "22797452",
+    "required_criteria": [
+      "Timing: Within 1 week of known clinical insult or worsening respiratory symptoms",
+      "Chest imaging: Bilateral opacities not fully explained by effusions, lobar/lung collapse, or nodules",
+      "Origin of edema: Respiratory failure not fully explained by cardiac failure or fluid overload",
+      "Oxygenation: PaO2/FiO2 ≤ 300 mmHg with PEEP ≥ 5 cmH2O"
+    ],
+    "severity_classification": {
+      "mild": "200 < PaO2/FiO2 ≤ 300 mmHg with PEEP or CPAP ≥ 5 cmH2O",
+      "moderate": "100 < PaO2/FiO2 ≤ 200 mmHg with PEEP ≥ 5 cmH2O",
+      "severe": "PaO2/FiO2 ≤ 100 mmHg with PEEP ≥ 5 cmH2O"
+    }
+  },
+  "metadata": {
+    "created_at": "2026-02-03",
+    "creator": "TIMELY-Bench",
+    "n_nodes": 25,
+    "n_edges": 23,
+    "references": [
+      "Ranieri VM, et al. Acute respiratory distress syndrome: the Berlin Definition. JAMA. 2012;307(23):2526-2533. doi:10.1001/jama.2012.5669"
+    ]
+  }
+}
