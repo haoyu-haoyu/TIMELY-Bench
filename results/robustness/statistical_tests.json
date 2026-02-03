@@ -1,19 +1,26 @@
 {
-  "generated_at": "2026-02-03T13:45:41.859776",
+  "generated_at": "2026-02-03T20:33:26.340749",
   "description": "Statistical tests for cross-window robustness analysis",
+  "n_models": 4,
+  "models": [
+    "XGBoost",
+    "LogisticRegression",
+    "ClinicalGRU",
+    "EarlyFusion_XGBoost"
+  ],
   "methodology": {
-    "friedman": "Non-parametric test for repeated measures across 3+ conditions. Tests if window choice significantly affects performance.",
-    "wilcoxon": "Pairwise non-parametric test between two conditions. Tests if specific window pairs differ significantly.",
-    "effect_size": "Cohens d effect size for practical significance. negligible (<0.2), small (0.2-0.5), medium (0.5-0.8), large (>0.8)"
+    "friedman": "Non-parametric test for repeated measures across 3+ conditions.",
+    "wilcoxon": "Pairwise non-parametric test between two conditions.",
+    "effect_size": "Cohen's d effect size. negligible (<0.2), small (0.2-0.5), medium (0.5-0.8), large (>0.8)"
   },
   "tests_by_task_metric": {
     "mortality_auroc": {
       "friedman_test": {
         "test": "Friedman",
         "metric": "auroc",
-        "statistic": 12.0,
-        "p_value": 0.002479,
-        "n_subjects": 6,
+        "statistic": 16.0,
+        "p_value": 0.000335,
+        "n_subjects": 8,
         "n_windows": 3,
         "significant_at_005": true,
         "significant_at_001": true,
@@ -24,53 +31,53 @@
           "comparison": "6h vs 12h",
           "metric": "auroc",
           "statistic": 0.0,
-          "p_value": 0.03125,
-          "n_pairs": 6,
-          "mean_diff": 0.0297,
-          "median_diff": 0.0291,
+          "p_value": 0.007812,
+          "n_pairs": 8,
+          "mean_diff": 0.0284,
+          "median_diff": 0.0279,
           "direction": "improvement",
           "significant_at_005": true,
-          "significant_at_001": false
+          "significant_at_001": true
         },
         {
           "comparison": "12h vs 24h",
           "metric": "auroc",
           "statistic": 0.0,
-          "p_value": 0.03125,
-          "n_pairs": 6,
-          "mean_diff": 0.0288,
+          "p_value": 0.007812,
+          "n_pairs": 8,
+          "mean_diff": 0.0296,
           "median_diff": 0.0304,
           "direction": "improvement",
           "significant_at_005": true,
-          "significant_at_001": false
+          "significant_at_001": true
         },
         {
           "comparison": "6h vs 24h",
           "metric": "auroc",
           "statistic": 0.0,
-          "p_value": 0.03125,
-          "n_pairs": 6,
-          "mean_diff": 0.0585,
-          "median_diff": 0.0576,
+          "p_value": 0.007812,
+          "n_pairs": 8,
+          "mean_diff": 0.058,
+          "median_diff": 0.0573,
           "direction": "improvement",
           "significant_at_005": true,
-          "significant_at_001": false
+          "significant_at_001": true
         }
       ],
       "effect_sizes": {
         "6h_to_12h": {
-          "mean_change": 0.0297,
-          "cohens_d": 1.6802,
+          "mean_change": 0.0284,
+          "cohens_d": 1.1837,
           "effect_magnitude": "large"
         },
         "12h_to_24h": {
-          "mean_change": 0.0288,
-          "cohens_d": 1.565,
+          "mean_change": 0.0296,
+          "cohens_d": 1.2056,
           "effect_magnitude": "large"
         },
         "6h_to_24h": {
-          "mean_change": 0.0585,
-          "cohens_d": 3.1276,
+          "mean_change": 0.058,
+          "cohens_d": 1.6506,
           "effect_magnitude": "large"
         }
       }
@@ -79,9 +86,9 @@
       "friedman_test": {
         "test": "Friedman",
         "metric": "auprc",
-        "statistic": 12.0,
-        "p_value": 0.002479,
-        "n_subjects": 6,
+        "statistic": 16.0,
+        "p_value": 0.000335,
+        "n_subjects": 8,
         "n_windows": 3,
         "significant_at_005": true,
         "significant_at_001": true,
@@ -92,53 +99,53 @@
           "comparison": "6h vs 12h",
           "metric": "auprc",
           "statistic": 0.0,
-          "p_value": 0.03125,
-          "n_pairs": 6,
-          "mean_diff": 0.0417,
-          "median_diff": 0.0412,
+          "p_value": 0.007812,
+          "n_pairs": 8,
+          "mean_diff": 0.0426,
+          "median_diff": 0.0427,
           "direction": "improvement",
           "significant_at_005": true,
-          "significant_at_001": false
+          "significant_at_001": true
         },
         {
           "comparison": "12h vs 24h",
           "metric": "auprc",
           "statistic": 0.0,
-          "p_value": 0.03125,
-          "n_pairs": 6,
-          "mean_diff": 0.0714,
-          "median_diff": 0.072,
+          "p_value": 0.007812,
+          "n_pairs": 8,
+          "mean_diff": 0.0732,
+          "median_diff": 0.0738,
           "direction": "improvement",
           "significant_at_005": true,
-          "significant_at_001": false
+          "significant_at_001": true
         },
         {
           "comparison": "6h vs 24h",
           "metric": "auprc",
           "statistic": 0.0,
-          "p_value": 0.03125,
-          "n_pairs": 6,
-          "mean_diff": 0.1132,
-          "median_diff": 0.1126,
+          "p_value": 0.007812,
+          "n_pairs": 8,
+          "mean_diff": 0.1158,
+          "median_diff": 0.1155,
           "direction": "improvement",
           "significant_at_005": true,
-          "significant_at_001": false
+          "significant_at_001": true
         }
       ],
       "effect_sizes": {
         "6h_to_12h": {
-          "mean_change": 0.0417,
-          "cohens_d": 1.4308,
+          "mean_change": 0.0426,
+          "cohens_d": 1.1728,
           "effect_magnitude": "large"
         },
         "12h_to_24h": {
-          "mean_change": 0.0714,
-          "cohens_d": 2.5697,
+          "mean_change": 0.0732,
+          "cohens_d": 1.5916,
           "effect_magnitude": "large"
         },
         "6h_to_24h": {
-          "mean_change": 0.1132,
-          "cohens_d": 4.0477,
+          "mean_change": 0.1158,
+          "cohens_d": 1.8054,
           "effect_magnitude": "large"
         }
       }
@@ -147,9 +154,9 @@
       "friedman_test": {
         "test": "Friedman",
         "metric": "auroc",
-        "statistic": 12.0,
-        "p_value": 0.002479,
-        "n_subjects": 6,
+        "statistic": 16.0,
+        "p_value": 0.000335,
+        "n_subjects": 8,
         "n_windows": 3,
         "significant_at_005": true,
         "significant_at_001": true,
@@ -160,53 +167,53 @@
           "comparison": "6h vs 12h",
           "metric": "auroc",
           "statistic": 0.0,
-          "p_value": 0.03125,
-          "n_pairs": 6,
-          "mean_diff": 0.0383,
+          "p_value": 0.007812,
+          "n_pairs": 8,
+          "mean_diff": 0.0373,
           "median_diff": 0.0395,
           "direction": "improvement",
           "significant_at_005": true,
-          "significant_at_001": false
+          "significant_at_001": true
         },
         {
           "comparison": "12h vs 24h",
           "metric": "auroc",
           "statistic": 0.0,
-          "p_value": 0.03125,
-          "n_pairs": 6,
-          "mean_diff": 0.045,
-          "median_diff": 0.0446,
+          "p_value": 0.007812,
+          "n_pairs": 8,
+          "mean_diff": 0.0443,
+          "median_diff": 0.0427,
           "direction": "improvement",
           "significant_at_005": true,
-          "significant_at_001": false
+          "significant_at_001": true
         },
         {
           "comparison": "6h vs 24h",
           "metric": "auroc",
           "statistic": 0.0,
-          "p_value": 0.03125,
-          "n_pairs": 6,
-          "mean_diff": 0.0833,
-          "median_diff": 0.0835,
+          "p_value": 0.007812,
+          "n_pairs": 8,
+          "mean_diff": 0.0816,
+          "median_diff": 0.0822,
           "direction": "improvement",
           "significant_at_005": true,
-          "significant_at_001": false
+          "significant_at_001": true
         }
       ],
       "effect_sizes": {
         "6h_to_12h": {
-          "mean_change": 0.0383,
-          "cohens_d": 2.3716,
+          "mean_change": 0.0373,
+          "cohens_d": 1.2132,
           "effect_magnitude": "large"
         },
         "12h_to_24h": {
-          "mean_change": 0.045,
-          "cohens_d": 2.4384,
+          "mean_change": 0.0443,
+          "cohens_d": 1.3042,
           "effect_magnitude": "large"
         },
         "6h_to_24h": {
-          "mean_change": 0.0833,
-          "cohens_d": 4.7286,
+          "mean_change": 0.0816,
+          "cohens_d": 1.7076,
           "effect_magnitude": "large"
         }
       }
@@ -215,9 +222,9 @@
       "friedman_test": {
         "test": "Friedman",
         "metric": "auprc",
-        "statistic": 12.0,
-        "p_value": 0.002479,
-        "n_subjects": 6,
+        "statistic": 16.0,
+        "p_value": 0.000335,
+        "n_subjects": 8,
         "n_windows": 3,
         "significant_at_005": true,
         "significant_at_001": true,
@@ -228,54 +235,54 @@
           "comparison": "6h vs 12h",
           "metric": "auprc",
           "statistic": 0.0,
-          "p_value": 0.03125,
-          "n_pairs": 6,
-          "mean_diff": 0.0377,
+          "p_value": 0.007812,
+          "n_pairs": 8,
+          "mean_diff": 0.0371,
           "median_diff": 0.0362,
           "direction": "improvement",
           "significant_at_005": true,
-          "significant_at_001": false
+          "significant_at_001": true
         },
         {
           "comparison": "12h vs 24h",
           "metric": "auprc",
           "statistic": 0.0,
-          "p_value": 0.03125,
-          "n_pairs": 6,
-          "mean_diff": 0.0475,
-          "median_diff": 0.0472,
+          "p_value": 0.007812,
+          "n_pairs": 8,
+          "mean_diff": 0.0515,
+          "median_diff": 0.0482,
           "direction": "improvement",
           "significant_at_005": true,
-          "significant_at_001": false
+          "significant_at_001": true
         },
         {
           "comparison": "6h vs 24h",
           "metric": "auprc",
           "statistic": 0.0,
-          "p_value": 0.03125,
-          "n_pairs": 6,
-          "mean_diff": 0.0852,
+          "p_value": 0.007812,
+          "n_pairs": 8,
+          "mean_diff": 0.0887,
           "median_diff": 0.0828,
           "direction": "improvement",
           "significant_at_005": true,
-          "significant_at_001": false
+          "significant_at_001": true
         }
       ],
       "effect_sizes": {
         "6h_to_12h": {
-          "mean_change": 0.0377,
-          "cohens_d": 1.039,
-          "effect_magnitude": "large"
+          "mean_change": 0.0371,
+          "cohens_d": 0.2207,
+          "effect_magnitude": "small"
         },
         "12h_to_24h": {
-          "mean_change": 0.0475,
-          "cohens_d": 1.3865,
-          "effect_magnitude": "large"
+          "mean_change": 0.0515,
+          "cohens_d": 0.3095,
+          "effect_magnitude": "small"
         },
         "6h_to_24h": {
-          "mean_change": 0.0852,
-          "cohens_d": 2.2847,
-          "effect_magnitude": "large"
+          "mean_change": 0.0887,
+          "cohens_d": 0.5217,
+          "effect_magnitude": "medium"
         }
       }
     }
