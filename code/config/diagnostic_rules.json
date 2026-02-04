@@ -83,6 +83,9 @@
         "description": "AKI KDIGO 分期",
         "reference": "PMID: 25018915",
         "baseline": "min_first_24h",
+        "medcat_concepts": [
+            "has_aki"
+        ],
         "stages": {
             "1": {
                 "creatinine_delta": 0.3,
@@ -122,6 +125,9 @@
             "bilateral infiltrates",
             "pulmonary edema",
             "respiratory failure"
+        ],
+        "medcat_concepts": [
+            "has_ards"
         ],
         "requires_both": true
     }

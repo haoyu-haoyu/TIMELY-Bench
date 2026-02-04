@@ -1,0 +1,34 @@
+{
+  "audit_timestamp": "2026-01-28T14:08:37.795036+00:00",
+  "source_files": [
+    "/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/results/llm_annotations/annotations_deepseek_20260127_151413_part0001.jsonl"
+  ],
+  "audited_files": [
+    {
+      "path": "/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/results/llm_annotations/annotations_deepseek_20260127_151413_part0001_audited.jsonl",
+      "sha256": "486b14173cc42846413bf9cfeba908fee6eb8ef0bf694fe1f3410ba947937174",
+      "rows": 900
+    }
+  ],
+  "fields_added": [
+    "raw_response_excerpt",
+    "parse_error"
+  ],
+  "fields_removed": [
+    "raw_response"
+  ],
+  "notes": [
+    "raw_response_excerpt is truncated to 500 chars from content_preview",
+    "parse_error derived from raw_response.parse_status: json->false, other->true",
+    "Full raw_response removed from audited output to reduce file size"
+  ],
+  "stats": {
+    "total_records": 900,
+    "has_raw_response": 900,
+    "parse_error_false": 900,
+    "parse_error_true": 0,
+    "parse_error_null": 0,
+    "excerpt_present": 900,
+    "excerpt_null": 0
+  }
+}

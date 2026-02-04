@@ -1,0 +1,30 @@
+{
+  "n_samples": 26,
+  "note_type_counts": {
+    "nursing": 12,
+    "radiology": 12,
+    "lab_comment": 2
+  },
+  "time_delta_bucket_counts": {
+    "-6h~0h": 14,
+    "-12h~-6h": 12,
+    "<=-12h": 0
+  },
+  "pattern_counts": {
+    "hypotension": 5,
+    "severe_tachycardia": 4,
+    "oliguria": 4,
+    "bun_elevated": 4,
+    "anemia": 3,
+    "tachypnea": 2,
+    "altered_consciousness": 1,
+    "creatinine_elevated": 1,
+    "tachycardia": 1,
+    "bun_severe": 1
+  },
+  "text_length_summary": {
+    "min": 12,
+    "max": 500,
+    "mean": 227.8846153846154
+  }
+}

@@ -21,6 +21,7 @@ BATCH_SIZE = 100
 # 简化版：使用 spacy NER 作为替代方案
 # 因为完整的 MedCAT UMLS 模型需要单独下载 (~1-5GB)
 USE_SPACY_NER = True
+NEGATION_TERMS = ['no', 'without', 'denies', 'denied', 'negative for', 'rule out']
 
 
 def load_spacy_model():
@@ -47,11 +48,14 @@ def extract_medical_entities_spacy(text, nlp):
     entities = []
     
     for ent in doc.ents:
+        window = text[max(0, ent.start_char - 50):ent.start_char].lower()
+        negated = any(term in window for term in NEGATION_TERMS)
         entities.append({
             'text': ent.text,
             'label': ent.label_,
             'start': ent.start_char,
-            'end': ent.end_char
+            'end': ent.end_char,
+            'negated': negated
         })
     
     return entities
@@ -91,6 +95,8 @@ def aggregate_entities(all_entities):
     entity_texts = []
     
     for ent in all_entities:
+        if ent.get('negated'):
+            continue
         label_counts[ent['label']] += 1
         entity_texts.append(ent['text'].lower())
     

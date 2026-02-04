@@ -1,0 +1,66 @@
+{
+  "generated_at": "2026-02-01T19:19:28.902361+00:00",
+  "method": "multi-offset 1MB SHA256 + metadata",
+  "anchors": {
+    "alignment": {
+      "path": "data/processed/temporal_alignment/temporal_textual_alignment.csv",
+      "size_bytes": 1161082122,
+      "mtime_iso": "2026-01-23T16:44:00.215168+00:00",
+      "inode": 9895663149403,
+      "wc_l": "6974407",
+      "multi_offset_hashes": {
+        "0pct": {
+          "offset": 0,
+          "sha256_1mb": "cd07af4bb450c1731d023481e39605608cdb99627f367027f731f1de035617f2"
+        },
+        "25pct": {
+          "offset": 290270530,
+          "sha256_1mb": "979e4d24a127d9bcd4374bbf22de9b039494d46a9bfe25eb028799ca4d736156"
+        },
+        "50pct": {
+          "offset": 580541061,
+          "sha256_1mb": "a60527225e5dfefdd3d21337f176e4b414e17683c9f704afec8e2dd6d7bf9cb3"
+        },
+        "75pct": {
+          "offset": 870811591,
+          "sha256_1mb": "70a8553aafdc7b4dc0d581c39997ebafbd1d57308067ddd419e56f139a21ec1f"
+        },
+        "near_end": {
+          "offset": 1160033546,
+          "sha256_1mb": "81e5b3829c5f39044dc9722fac1e48bd8a1928dc5b25412290387780ad1244eb"
+        }
+      },
+      "sha256_first_mb": "cd07af4bb450c1731d023481e39605608cdb99627f367027f731f1de035617f2",
+      "note": "File too large (1.08 GB) for full hash; using multi-offset fingerprint"
+    },
+    "timeline": {
+      "path": "data/processed/disease_timelines/disease_timelines_full.json",
+      "size_bytes": 29015661,
+      "mtime_iso": "2026-01-08T17:15:41+00:00",
+      "inode": 9895663149377,
+      "multi_offset_hashes": {
+        "0pct": {
+          "offset": 0,
+          "sha256_1mb": "27bc7607e2a5d421573af9db05aa8302512f171b410664d2e933d5619d5fad80"
+        },
+        "25pct": {
+          "offset": 7253915,
+          "sha256_1mb": "e4b9e1cf9f6f8baf4294edd40dc78d91a0687496f4e8ac1f5613615d68bdcdfa"
+        },
+        "50pct": {
+          "offset": 14507830,
+          "sha256_1mb": "00016ef2e963c9f569c8303c75ca924c2326971c9cc76d16fa42a9d8c2c5977b"
+        },
+        "75pct": {
+          "offset": 21761745,
+          "sha256_1mb": "f816f17e084dc9e307d6cc512282ab854660efe0442431e5b36102eeceeb576c"
+        },
+        "near_end": {
+          "offset": 27967085,
+          "sha256_1mb": "044a61c60d418927e913d2163719338ce60e4fc69307be80eb135b49fec0125c"
+        }
+      },
+      "sha256_full": "edca3848aabff6caa035f9c8e0c86969307e41f7e444f2bf0c582e5a10ca55a5"
+    }
+  }
+}

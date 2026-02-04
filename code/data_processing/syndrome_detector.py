@@ -4,6 +4,7 @@
 """
 
 import json
+import re
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -12,12 +13,13 @@ from typing import Dict, List, Optional
 class SyndromeDetector:
     """综合征检测器"""
     
-    def __init__(self, rules_path: str = None, medcat_df: pd.DataFrame = None):
+    def __init__(self, rules_path: str = None, medcat_df: pd.DataFrame = None, use_condition_labels: bool = False):
         if rules_path and Path(rules_path).exists():
             self.rules = json.load(open(rules_path))
         else:
             self.rules = self._get_default_rules()
         self.medcat_df = medcat_df
+        self.use_condition_labels = use_condition_labels
     
     def _get_default_rules(self) -> Dict:
         """默认诊断规则"""
@@ -30,11 +32,30 @@ class SyndromeDetector:
                 ],
                 "medcat_concepts": ["has_sepsis", "has_pneumonia", "has_infection", "has_antibiotic"]
             },
+            "aki_kdigo": {
+                "medcat_concepts": ["has_aki"]
+            },
             "ards_simplified": {
-                "text_keywords": ["ards", "acute respiratory distress", "bilateral infiltrates", 
-                                  "pulmonary edema", "respiratory failure"]
+                "text_keywords": [
+                    "ards",
+                    "acute respiratory distress",
+                    "bilateral infiltrates",
+                    "pulmonary edema",
+                    "respiratory failure"
+                ],
+                "medcat_concepts": ["has_ards"]
             }
         }
+
+    def _get_medcat_evidence(self, stay_id: Optional[int], concepts: List[str]) -> List[str]:
+        """从 MedCAT 特征中提取证据"""
+        if self.medcat_df is None or not stay_id or not concepts:
+            return []
+        row = self.medcat_df[self.medcat_df['stay_id'] == stay_id]
+        if len(row) == 0:
+            return []
+        row = row.iloc[0]
+        return [concept for concept in concepts if row.get(concept, 0) > 0]
     
     def detect_sirs(self, vitals: List[dict], hour: int) -> Dict:
         """检测 SIRS (≥2 条同时满足)"""
@@ -67,6 +88,12 @@ class SyndromeDetector:
             'confidence': min(len(criteria_met) / 4, 1.0)
         }
     
+    def _keyword_negated(self, text: str, keyword: str) -> bool:
+        """Simple negation check within a short window before keyword."""
+        kw = re.escape(keyword.lower()).replace(r'\ ', r'\s+')
+        pattern = r'(no|without|denies|denied|negative for|rule out)\s+(?:\w+\s+){0,3}' + kw
+        return re.search(pattern, text) is not None
+
     def detect_infection_from_text(self, 
                                     pattern_annotations: List[dict],
                                     stay_id: int = None) -> Dict:
@@ -76,12 +103,15 @@ class SyndromeDetector:
         text_evidence = []
         
         for ann in pattern_annotations:
+            category = str(ann.get('annotation_category', '')).upper()
+            if category != 'SUPPORTIVE':
+                continue
             aligned_text = str(ann.get('aligned_text', '')).lower()
             annotation_reasoning = str(ann.get('annotation_reasoning', '')).lower()
             combined_text = aligned_text + ' ' + annotation_reasoning
             
             for kw in infection_keywords:
-                if kw.lower() in combined_text:
+                if kw.lower() in combined_text and not self._keyword_negated(combined_text, kw):
                     text_evidence.append({
                         'keyword': kw,
                         'source': 'aligned_text',
@@ -91,15 +121,8 @@ class SyndromeDetector:
                     break
         
         # 从 MedCAT 概念检测
-        medcat_evidence = []
-        if self.medcat_df is not None and stay_id:
-            row = self.medcat_df[self.medcat_df['stay_id'] == stay_id]
-            if len(row) > 0:
-                row = row.iloc[0]
-                medcat_concepts = self.rules.get('infection_evidence', {}).get('medcat_concepts', [])
-                for concept in medcat_concepts:
-                    if row.get(concept, 0) > 0:
-                        medcat_evidence.append(concept)
+        medcat_concepts = self.rules.get('infection_evidence', {}).get('medcat_concepts', [])
+        medcat_evidence = self._get_medcat_evidence(stay_id, medcat_concepts)
         
         has_evidence = len(text_evidence) > 0 or len(medcat_evidence) > 0
         
@@ -116,12 +139,12 @@ class SyndromeDetector:
         vitals = episode.get('timeseries', {}).get('vitals', [])
         annotations = episode.get('reasoning', {}).get('pattern_annotations', [])
         stay_id = episode.get('stay_id')
-        conditions = episode.get('conditions', [])
+        conditions = episode.get('conditions', []) if self.use_condition_labels else []
         
         # 检测 SIRS (放宽：任意1条SIRS也算部分满足)
         sirs_results = []
         partial_sirs = False
-        for hour in range(0, 48, 2):
+        for hour in range(0, 24, 2):
             sirs = self.detect_sirs(vitals, hour)
             if sirs['detected']:
                 sirs_results.append(sirs)
@@ -136,7 +159,7 @@ class SyndromeDetector:
         infection = self.detect_infection_from_text(annotations, stay_id)
         
         # 额外检查：conditions 中是否已有 sepsis
-        has_sepsis_condition = 'sepsis' in conditions
+        has_sepsis_condition = self.use_condition_labels and ('sepsis' in conditions)
         
         # 综合判断 (放宽：SIRS + 感染 或 已有sepsis诊断 + 部分SIRS)
         sepsis_detected = (has_sirs and infection['detected']) or \
@@ -164,10 +187,11 @@ class SyndromeDetector:
     def detect_aki(self, episode: dict) -> Dict:
         """检测 AKI KDIGO 分期 (优化版：增加 conditions 检查)"""
         labs = episode.get('timeseries', {}).get('labs', [])
-        conditions = episode.get('conditions', [])
+        conditions = episode.get('conditions', []) if self.use_condition_labels else []
+        stay_id = episode.get('stay_id')
         
         # 检查 conditions 中是否已有 AKI
-        has_aki_condition = 'aki' in conditions
+        has_aki_condition = self.use_condition_labels and ('aki' in conditions)
         
         # 获取肌酐值
         creatinine_values = []
@@ -176,12 +200,18 @@ class SyndromeDetector:
             if cr is not None:
                 creatinine_values.append((l.get('hour', 0), cr))
         
+        medcat_concepts = self.rules.get('aki_kdigo', {}).get('medcat_concepts', [])
+        medcat_evidence = self._get_medcat_evidence(stay_id, medcat_concepts)
+        has_medcat = len(medcat_evidence) > 0
+
         # 如果有 AKI condition 但缺少肌酐数据，仍然标记为检测到
         if len(creatinine_values) < 2:
+            detected = has_aki_condition or has_medcat
             return {
-                'detected': has_aki_condition,  # 使用 condition 作为备选
-                'stage': 1 if has_aki_condition else 0,
+                'detected': detected,
+                'stage': 1 if detected else 0,
                 'condition_based': has_aki_condition,
+                'medcat_evidence': medcat_evidence,
                 'reason': 'insufficient_creatinine_data'
             }
         
@@ -224,7 +254,7 @@ class SyndromeDetector:
                         detection_hour = hour
         
         # 如果检测到任何上升趋势，结合 condition 判断
-        detected = max_stage > 0 or (has_aki_condition and max_ratio >= 1.2)
+        detected = max_stage > 0 or (has_aki_condition and max_ratio >= 1.2) or has_medcat
         
         return {
             'detected': detected,
@@ -234,13 +264,18 @@ class SyndromeDetector:
             'max_delta': round(max_delta, 2),
             'detection_hour': detection_hour,
             'condition_based': has_aki_condition,
-            'confidence': min(max_stage / 3, 1.0) if max_stage > 0 else (0.5 if has_aki_condition else 0)
+            'medcat_evidence': medcat_evidence,
+            'confidence': min(
+                (max_stage / 3 if max_stage > 0 else (0.5 if has_aki_condition else 0)) + (0.2 if has_medcat else 0),
+                1.0
+            )
         }
     
     def detect_ards(self, episode: dict) -> Dict:
         """检测 ARDS (简化标准)"""
         vitals = episode.get('timeseries', {}).get('vitals', [])
         annotations = episode.get('reasoning', {}).get('pattern_annotations', [])
+        stay_id = episode.get('stay_id')
         
         # 低氧血症
         hypoxemia_hours = []
@@ -269,9 +304,13 @@ class SyndromeDetector:
                     break
         
         has_text_evidence = len(text_evidence) > 0
+
+        medcat_concepts = self.rules.get('ards_simplified', {}).get('medcat_concepts', [])
+        medcat_evidence = self._get_medcat_evidence(stay_id, medcat_concepts)
+        has_medcat = len(medcat_evidence) > 0
         
-        # 组合判断
-        detected = has_hypoxemia and (has_resp_failure or has_text_evidence)
+        # 组合判断: 必须有低氧血症，再结合呼吸衰竭/文本/MedCAT证据
+        detected = has_hypoxemia and (has_resp_failure or has_text_evidence or has_medcat)
         
         return {
             'detected': detected,
@@ -284,9 +323,14 @@ class SyndromeDetector:
                 'n_hours': len(resp_failure_hours)
             },
             'text_evidence': text_evidence[:3],
-            'confidence': (0.4 if has_hypoxemia else 0) + 
-                         (0.3 if has_resp_failure else 0) + 
-                         (0.3 if has_text_evidence else 0)
+            'medcat_evidence': medcat_evidence,
+            'confidence': min(
+                (0.4 if has_hypoxemia else 0) +
+                (0.3 if has_resp_failure else 0) +
+                (0.2 if has_text_evidence else 0) +
+                (0.3 if has_medcat else 0),
+                1.0
+            )
         }
     
     def detect_all(self, episode: dict) -> Dict:

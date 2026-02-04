@@ -1,0 +1,18 @@
+{
+  "check_name": "TEXT_PIPELINE_AUDIT",
+  "timestamp": "2026-01-28T15:23:01.742347",
+  "episodes_checked": 500,
+  "violations": {
+    "future_notes": [],
+    "discharge_summary_in_text": []
+  },
+  "text_statistics": {
+    "total_notes": 46233
+  },
+  "summary": {
+    "future_notes_found": 0,
+    "discharge_summaries_found": 0,
+    "total_notes_checked": 46233,
+    "pass": true
+  }
+}

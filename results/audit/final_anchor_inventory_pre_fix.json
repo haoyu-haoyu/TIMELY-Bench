@@ -1,0 +1,172 @@
+{
+  "audit_timestamp": "2026-02-01T17:34:15.783425+00:00",
+  "audit_version": "final_delivery_v1_fixed",
+  "files": [
+    {
+      "canonical_path": "final_release/manifest.json",
+      "exists": true,
+      "sha256": "3ee07989467cc113b181a567e7cd79724252dd5210a08c4c603ac1f24495451f",
+      "size_bytes": 22681,
+      "mtime": "2026-02-01T14:22:51.360605"
+    },
+    {
+      "canonical_path": "final_release/PROVENANCE.json",
+      "exists": true,
+      "sha256": "9de4b05d0ca63a2e104456eed3c3cbd7747c8e3c9edf1537ba6bea0223a5304f",
+      "size_bytes": 7374,
+      "mtime": "2026-02-01T14:22:52.637922"
+    },
+    {
+      "canonical_path": "final_release/RELEASE_AUDIT_REPORT.md",
+      "exists": true,
+      "sha256": "9a5926cdfa7008d591c37e814a679a6da3e4b4c365c851c37336ed0d14db1c0a",
+      "size_bytes": 6014,
+      "mtime": "2026-01-30T19:24:45.935408"
+    },
+    {
+      "canonical_path": "final_release/MASTER_DELIVERY_AUDIT.md",
+      "exists": true,
+      "sha256": "6880d43d1fdb268adc683d6b392ecf21a4c4569f0cb32a12e5273895e4943ff3",
+      "size_bytes": 10909,
+      "mtime": "2026-02-01T14:22:02.205361"
+    },
+    {
+      "canonical_path": "final_release/ALIGNMENT_PROTOCOL_CARD.md",
+      "exists": true,
+      "sha256": "0e6c67e53826e665461fe0a5bede01a6ad9b11d46b772e30d1a500c9f5391c6e",
+      "size_bytes": 2966,
+      "mtime": "2026-01-28T14:31:40.527686"
+    },
+    {
+      "canonical_path": "final_release/results_summary.csv",
+      "exists": true,
+      "sha256": "9fffa4e35ccb472232ffcc60f6206abd4ee904a0f03b96b92c024e92bba532d5",
+      "size_bytes": 10287,
+      "mtime": "2026-01-26T13:02:06"
+    },
+    {
+      "canonical_path": "final_release/results_summary.md",
+      "exists": true,
+      "sha256": "8149a2cacd588f20539ec57ca1063b6d6928d9a2f9895d0d5a5412222b853889",
+      "size_bytes": 7543,
+      "mtime": "2026-01-26T13:02:06"
+    },
+    {
+      "canonical_path": "results/standardized/results_summary.csv",
+      "exists": true,
+      "sha256": "9fffa4e35ccb472232ffcc60f6206abd4ee904a0f03b96b92c024e92bba532d5",
+      "size_bytes": 10287,
+      "mtime": "2026-01-26T11:15:03"
+    },
+    {
+      "canonical_path": "results/standardized/results_summary.md",
+      "exists": true,
+      "sha256": "8149a2cacd588f20539ec57ca1063b6d6928d9a2f9895d0d5a5412222b853889",
+      "size_bytes": 7543,
+      "mtime": "2026-01-26T11:15:03"
+    },
+    {
+      "canonical_path": "results/standardized/permutation_structured_mortality.json",
+      "exists": true,
+      "sha256": "66ea076051584202385353637c4cde89e0f91e0be2fd34fa8658dd0b322c72db",
+      "size_bytes": 2736,
+      "mtime": "2026-01-25T22:25:14"
+    },
+    {
+      "canonical_path": "results/standardized/late_fusion_sanity_xgb.json",
+      "exists": true,
+      "sha256": "4ea4acca350eaf3166154b204f923f44663abfc112598241e22e7eb277d6d75c",
+      "size_bytes": 2983,
+      "mtime": "2026-01-26T11:15:01"
+    },
+    {
+      "canonical_path": "data/processed/temporal_textual_alignment.csv",
+      "exists": true,
+      "actual_path": "data/processed/temporal_alignment/temporal_textual_alignment.csv",
+      "size_bytes": 49971206040,
+      "note": "Path mapping applied - see canonical_anchor_path_mappings.json"
+    },
+    {
+      "canonical_path": "data/processed/disease_timelines_full.json",
+      "exists": true,
+      "actual_path": "data/processed/disease_timelines/disease_timelines_full.json",
+      "size_bytes": 29015661,
+      "sha256": "edca3848aabff6caa035f9c8e0c86969307e41f7e444f2bf0c582e5a10ca55a5",
+      "mtime": "2026-01-08T17:15:41.092966+00:00"
+    },
+    {
+      "canonical_path": "final_release/llm_annotations/llm_annotation_set.csv",
+      "exists": true,
+      "sha256": "0ad0ccdf5af05070b8a5582d1788b6894153fbf959fa3ab4d09a7cd20a029828",
+      "size_bytes": 7811,
+      "mtime": "2026-01-28T14:31:40.547815"
+    },
+    {
+      "canonical_path": "final_release/llm_annotations/ANNOTATION_METADATA.json",
+      "exists": true,
+      "sha256": "bbf093d2a19155a25139183b4c6a53101e10fd7552198ca19178e82a895fdfe6",
+      "size_bytes": 1570,
+      "mtime": "2026-01-28T14:31:40.550545"
+    },
+    {
+      "canonical_path": "final_release/llm_annotations/ANNOTATION_METADATA_deepseek.json",
+      "exists": true,
+      "sha256": "e49b2a05e710c73011edae397bd67587dc9ba587009eab8eb60569f60b04ae0a",
+      "size_bytes": 2435,
+      "mtime": "2026-01-28T14:31:40.551388"
+    },
+    {
+      "canonical_path": "final_release/llm_annotations/evidence_validity_deepseek_v2.json",
+      "exists": true,
+      "sha256": "d3d72357a947c7fc913a9258b6202a96f3e5f70a4c2058870fb3bd03d94a4e3a",
+      "size_bytes": 9534,
+      "mtime": "2026-01-28T14:31:40.553480"
+    },
+    {
+      "canonical_path": "final_release/evidence/nursing_duplicates_summary.json",
+      "exists": true,
+      "sha256": "512c3257c15cceeb955b80335564ec16fbee3cdf7109150915f4d3bbf9456a8e",
+      "size_bytes": 19114,
+      "mtime": "2026-01-30T20:59:19.790505"
+    },
+    {
+      "canonical_path": "final_release/evidence/discharge_audit_report.json",
+      "exists": true,
+      "sha256": "f5448cd3d62b6e728e078d9ffdd1a77052e951985005bbf2ce9ab77d0b83dee0",
+      "size_bytes": 711,
+      "mtime": "2026-01-30T20:59:19.783276"
+    },
+    {
+      "canonical_path": "final_release/evidence/episodes_integrity_report.md",
+      "exists": true,
+      "sha256": "d6676c38d97b09e4cd288a951f35fc3acf3be1187597f0fcd176dce2de2674f1",
+      "size_bytes": 5169,
+      "mtime": "2026-01-29T07:47:41.579048"
+    },
+    {
+      "canonical_path": "final_release/cres/cres_dataset_manifest.json",
+      "exists": true,
+      "sha256": "bc7f7c1deed9e83a838867071bb94d895747dc833bc059cca4294c2e80d3bf25",
+      "size_bytes": 2055,
+      "mtime": "2026-01-28T14:31:40.546395"
+    },
+    {
+      "canonical_path": "final_release/cres/cres_eval_summary.json",
+      "exists": true,
+      "sha256": "3a863e6fc484be19b83bb7aecbd12d00d7aff578eda3552cc187af6973280990",
+      "size_bytes": 194,
+      "mtime": "2026-01-28T14:31:40.545143"
+    }
+  ],
+  "episode_files": {
+    "directory": "episodes/episodes_enhanced",
+    "total_files": 74829,
+    "sample_filenames": [
+      "TIMELY_v2_30000153.json",
+      "TIMELY_v2_30000213.json",
+      "TIMELY_v2_30000484.json",
+      "TIMELY_v2_30000646.json",
+      "TIMELY_v2_30000831.json"
+    ]
+  }
+}

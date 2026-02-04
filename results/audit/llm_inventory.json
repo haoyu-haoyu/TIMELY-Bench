@@ -1,0 +1,382 @@
+{
+  "generated_at": "2026-02-01T19:19:28.902361+00:00",
+  "canonical_run_id": "20260127_151413",
+  "files": [
+    {
+      "path": "results/llm_annotations/ANNOTATION_AUDIT_PATCH.json",
+      "size_bytes": 1170,
+      "mtime_iso": "2026-01-28T14:08:37.794479+00:00",
+      "sha256": "b5fef4bfd6cf0c72dfa802f60cc4d80d50e5cee4cbfc151d2dc79b7d99e74e9b",
+      "is_canonical": false
+    },
+    {
+      "path": "results/llm_annotations/ANNOTATION_INPUT_CANONICAL.json",
+      "size_bytes": 935,
+      "mtime_iso": "2026-01-28T22:43:35.370795+00:00",
+      "sha256": "b0e0198a60fc79d26d3c3ac61d08d150a8f16565601b0648c2c0fca716d0b3e8",
+      "is_canonical": true
+    },
+    {
+      "path": "results/llm_annotations/ANNOTATION_METADATA.json",
+      "size_bytes": 1465,
+      "mtime_iso": "2026-01-27T14:19:23.349083+00:00",
+      "sha256": "e38ab09c5e1a3a9a8650e80e0ce4fe9e99e4b83d977520a370b3cc6481be28b4",
+      "is_canonical": false
+    },
+    {
+      "path": "results/llm_annotations/ANNOTATION_METADATA_deepseek.json",
+      "size_bytes": 2360,
+      "mtime_iso": "2026-01-27T15:19:28.009161+00:00",
+      "sha256": "70d23589524e8ff2f7fdca72bba260b0168b911a1383e3f25acd5c6b79520be2",
+      "is_canonical": false
+    },
+    {
+      "path": "results/llm_annotations/ANNOTATION_METADATA_deepseek_20260127_151413.json",
+      "size_bytes": 2360,
+      "mtime_iso": "2026-01-27T15:19:28.009161+00:00",
+      "sha256": "70d23589524e8ff2f7fdca72bba260b0168b911a1383e3f25acd5c6b79520be2",
+      "is_canonical": true
+    },
+    {
+      "path": "results/llm_annotations/annotations_20260126_213249.jsonl",
+      "size_bytes": 29938,
+      "mtime_iso": "2026-01-26T21:32:49+00:00",
+      "n_lines": 360,
+      "sha256": "040dfb376e86b537587226b8bce9dc10932c5fc46042352b55f0aa4246e93432",
+      "is_canonical": false
+    },
+    {
+      "path": "results/llm_annotations/annotations_deepseek_20260127_151413_part0001.jsonl",
+      "size_bytes": 802390,
+      "mtime_iso": "2026-01-27T15:19:27.998162+00:00",
+      "n_lines": 900,
+      "sha256": "2c06f4564f8ee96b0a1dd14ff7363ffa688b45d17e52612cd7e300ff185acbb1",
+      "is_canonical": true
+    },
+    {
+      "path": "results/llm_annotations/annotations_deepseek_20260127_151413_part0001_audited.jsonl",
+      "size_bytes": 580819,
+      "mtime_iso": "2026-01-28T14:08:37.792479+00:00",
+      "n_lines": 900,
+      "sha256": "486b14173cc42846413bf9cfeba908fee6eb8ef0bf694fe1f3410ba947937174",
+      "is_canonical": true
+    },
+    {
+      "path": "results/llm_annotations/annotations_rule_based_20260126_224419.jsonl",
+      "size_bytes": 31278,
+      "mtime_iso": "2026-01-26T22:44:46+00:00",
+      "n_lines": 90,
+      "sha256": "54290e5eef68de50d063982759821067e51522dd61fcd468f97cb8de50f51b25",
+      "is_canonical": false
+    },
+    {
+      "path": "results/llm_annotations/annotations_rule_based_20260126_224722.jsonl",
+      "size_bytes": 29038,
+      "mtime_iso": "2026-01-26T22:47:26+00:00",
+      "n_lines": 83,
+      "sha256": "a99ec3a98c059179bf922d15eb7f50655a158de5d3c8c0c7f655d980e53bb6bf",
+      "is_canonical": false
+    },
+    {
+      "path": "results/llm_annotations/annotations_rule_based_20260126_225009.jsonl",
+      "size_bytes": 29038,
+      "mtime_iso": "2026-01-26T22:50:10+00:00",
+      "n_lines": 83,
+      "sha256": "a99ec3a98c059179bf922d15eb7f50655a158de5d3c8c0c7f655d980e53bb6bf",
+      "is_canonical": false
+    },
+    {
+      "path": "results/llm_annotations/annotations_rule_based_20260126_225213.jsonl",
+      "size_bytes": 5855,
+      "mtime_iso": "2026-01-26T22:52:13+00:00",
+      "n_lines": 16,
+      "sha256": "58057484d35864f8caf98ca4d59cc8b4c44757d6529f1cd9c42e7c7be7578b13",
+      "is_canonical": false
+    },
+    {
+      "path": "results/llm_annotations/annotations_rule_based_20260127_151413.jsonl",
+      "size_bytes": 9406,
+      "mtime_iso": "2026-01-26T22:54:20+00:00",
+      "n_lines": 26,
+      "sha256": "be717315e3faaf82aeacfed7165af404045844de1678fedb8617b036519ced73",
+      "is_canonical": false
+    },
+    {
+      "path": "results/llm_annotations/annotations_rule_based_20260127_151413.jsonl",
+      "size_bytes": 316543,
+      "mtime_iso": "2026-01-27T14:19:22.352063+00:00",
+      "n_lines": 900,
+      "sha256": "fc75473b0daa8fbd1a15d410fc1ab6f13f15357c6ae17efaea5284c5e4a93ea8",
+      "is_canonical": false
+    },
+    {
+      "path": "results/llm_annotations/deepseek_coverage_summary.json",
+      "size_bytes": 1628,
+      "mtime_iso": "2026-01-28T14:08:36.481498+00:00",
+      "sha256": "16a4fb9575117defee344e1f4f4a94ad8d360f2feab938ece5d46ae0038ab3e8",
+      "is_canonical": false
+    },
+    {
+      "path": "results/llm_annotations/deepseek_evidence_diagnosis.json",
+      "size_bytes": 1561,
+      "mtime_iso": "2026-01-27T15:08:41.133179+00:00",
+      "sha256": "9d181f953f3629e58b72931e166146ad1308053ac6138c19ac1dcf538a74ef33",
+      "is_canonical": false
+    },
+    {
+      "path": "results/llm_annotations/evidence_validity_deepseek.json",
+      "size_bytes": 11134,
+      "mtime_iso": "2026-01-28T14:08:23.191684+00:00",
+      "sha256": "a8954175788c7c0eb1c663832f9f907ac3ffba594d718e21ec3c2c243f5cc886",
+      "is_canonical": false
+    },
+    {
+      "path": "results/llm_annotations/evidence_validity_deepseek_v2_20260127_151413.json",
+      "size_bytes": 359215,
+      "mtime_iso": "2026-01-28T22:43:35.402795+00:00",
+      "sha256": "fd427c1a5e297cf3aebcc507835f228fd198269c5e892a95c72e8cd707f6ad18",
+      "is_canonical": true
+    },
+    {
+      "path": "results/llm_annotations/failed_requests.jsonl",
+      "size_bytes": 0,
+      "mtime_iso": "2026-01-26T23:39:13+00:00",
+      "n_lines": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "is_canonical": false
+    },
+    {
+      "path": "results/llm_annotations/llm_annotation_meta.json",
+      "size_bytes": 2173,
+      "mtime_iso": "2026-01-27T14:19:23.344083+00:00",
+      "sha256": "eba56d9bcef972d26fe40fb46eb72645a45fe7f812e07c56cb1ff872b82dd13f",
+      "is_canonical": false
+    },
+    {
+      "path": "results/llm_annotations/llm_annotation_prompts.jsonl",
+      "size_bytes": 490474,
+      "mtime_iso": "2026-01-27T14:19:22.337063+00:00",
+      "n_lines": 900,
+      "sha256": "3d11310f649ea3294b5942a363829ebf42e2dc989da8d8734541b85974a6e256",
+      "is_canonical": false
+    },
+    {
+      "path": "results/llm_annotations/llm_annotation_set.csv",
+      "size_bytes": 229311,
+      "mtime_iso": "2026-01-27T14:19:22.331063+00:00",
+      "sha256": "bd9bee6934c391db73896d269c277f54007f027dc5b53013628e065448021b86",
+      "is_canonical": false
+    },
+    {
+      "path": "results/llm_annotations/llm_annotation_set_dedup.csv",
+      "size_bytes": 163415,
+      "mtime_iso": "2026-01-30T19:13:04.913469+00:00",
+      "sha256": "e516f6b43200e8a0d4f6f1844944d760417624036181a31d52884810c0101a75",
+      "is_canonical": false
+    },
+    {
+      "path": "results/llm_annotations/llm_annotation_summary.json",
+      "size_bytes": 556,
+      "mtime_iso": "2026-01-26T22:57:43+00:00",
+      "sha256": "83d35130d21cc5a024c277b8fd53c13723cc11652377b4895d5c6ea106e67ec4",
+      "is_canonical": false
+    },
+    {
+      "path": "results/llm_annotations/summary_strata.json",
+      "size_bytes": 817,
+      "mtime_iso": "2026-01-28T14:10:42.827730+00:00",
+      "sha256": "656cad98d0df10701a11971cd2ea9a086dbea4797eb14e7cdf503f84b96d58e6",
+      "is_canonical": false
+    },
+    {
+      "path": "results/llm_annotations/summary_strata_deepseek.json",
+      "size_bytes": 881,
+      "mtime_iso": "2026-01-28T14:10:43.470721+00:00",
+      "sha256": "fd28b05e8830e28fa2d7989d448116ed43f1c6255c8feb044845c9df52eedcbf",
+      "is_canonical": false
+    },
+    {
+      "path": "results/llm_annotations/summary_strata_deepseek_20260127_151413.json",
+      "size_bytes": 1997,
+      "mtime_iso": "2026-01-28T22:43:35.406795+00:00",
+      "sha256": "b164102ff64a77ff4c69f90eb6d520a48437079c05c130383500b6eabbf3e970",
+      "is_canonical": true
+    },
+    {
+      "path": "final_release/llm_annotations/ANNOTATION_AUDIT_PATCH.json",
+      "size_bytes": 1170,
+      "mtime_iso": "2026-01-28T14:10:43.642718+00:00",
+      "sha256": "b5fef4bfd6cf0c72dfa802f60cc4d80d50e5cee4cbfc151d2dc79b7d99e74e9b",
+      "is_canonical": false
+    },
+    {
+      "path": "final_release/llm_annotations/ANNOTATION_INPUT_CANONICAL.json",
+      "size_bytes": 935,
+      "mtime_iso": "2026-01-28T22:43:35.370795+00:00",
+      "sha256": "b0e0198a60fc79d26d3c3ac61d08d150a8f16565601b0648c2c0fca716d0b3e8",
+      "is_canonical": true
+    },
+    {
+      "path": "final_release/llm_annotations/ANNOTATION_METADATA.json",
+      "size_bytes": 1465,
+      "mtime_iso": "2026-01-28T14:10:43.619719+00:00",
+      "sha256": "e38ab09c5e1a3a9a8650e80e0ce4fe9e99e4b83d977520a370b3cc6481be28b4",
+      "is_canonical": false
+    },
+    {
+      "path": "final_release/llm_annotations/ANNOTATION_METADATA_deepseek.json",
+      "size_bytes": 2360,
+      "mtime_iso": "2026-01-28T14:10:43.630718+00:00",
+      "sha256": "70d23589524e8ff2f7fdca72bba260b0168b911a1383e3f25acd5c6b79520be2",
+      "is_canonical": false
+    },
+    {
+      "path": "final_release/llm_annotations/ANNOTATION_METADATA_deepseek_20260127_151413.json",
+      "size_bytes": 2360,
+      "mtime_iso": "2026-01-27T15:19:28.009161+00:00",
+      "sha256": "70d23589524e8ff2f7fdca72bba260b0168b911a1383e3f25acd5c6b79520be2",
+      "is_canonical": true
+    },
+    {
+      "path": "final_release/llm_annotations/annotations_deepseek_20260127_151413_part0001.jsonl",
+      "size_bytes": 23105,
+      "mtime_iso": "2026-01-27T14:16:42.017934+00:00",
+      "n_lines": 26,
+      "sha256": "86d1310c12e4c1ebf28430e7c6a79cd590bdcfcd126db41dcbbd40fed8450a81",
+      "is_canonical": false
+    },
+    {
+      "path": "final_release/llm_annotations/annotations_deepseek_20260127_151413_part0001.jsonl",
+      "size_bytes": 793888,
+      "mtime_iso": "2026-01-27T14:26:03.698486+00:00",
+      "n_lines": 900,
+      "sha256": "f3c69eff59d988de1f4e995a03e6bce97fcb9b2ff2675b510bc7341a82e081f2",
+      "is_canonical": false
+    },
+    {
+      "path": "final_release/llm_annotations/annotations_deepseek_20260127_151413_part0001.jsonl",
+      "size_bytes": 802390,
+      "mtime_iso": "2026-01-27T15:19:27.998162+00:00",
+      "n_lines": 900,
+      "sha256": "2c06f4564f8ee96b0a1dd14ff7363ffa688b45d17e52612cd7e300ff185acbb1",
+      "is_canonical": true
+    },
+    {
+      "path": "final_release/llm_annotations/annotations_deepseek_20260127_151413_part0001_audited.jsonl",
+      "size_bytes": 580819,
+      "mtime_iso": "2026-01-28T14:08:37.792479+00:00",
+      "n_lines": 900,
+      "sha256": "486b14173cc42846413bf9cfeba908fee6eb8ef0bf694fe1f3410ba947937174",
+      "is_canonical": true
+    },
+    {
+      "path": "final_release/llm_annotations/annotations_rule_based_20260127_151413.jsonl",
+      "size_bytes": 9406,
+      "mtime_iso": "2026-01-27T14:16:42.000933+00:00",
+      "n_lines": 26,
+      "sha256": "be717315e3faaf82aeacfed7165af404045844de1678fedb8617b036519ced73",
+      "is_canonical": false
+    },
+    {
+      "path": "final_release/llm_annotations/annotations_rule_based_20260127_151413.jsonl",
+      "size_bytes": 316543,
+      "mtime_iso": "2026-01-28T14:10:43.627719+00:00",
+      "n_lines": 900,
+      "sha256": "fc75473b0daa8fbd1a15d410fc1ab6f13f15357c6ae17efaea5284c5e4a93ea8",
+      "is_canonical": false
+    },
+    {
+      "path": "final_release/llm_annotations/deepseek_coverage_summary.json",
+      "size_bytes": 1628,
+      "mtime_iso": "2026-01-28T14:10:43.639719+00:00",
+      "sha256": "16a4fb9575117defee344e1f4f4a94ad8d360f2feab938ece5d46ae0038ab3e8",
+      "is_canonical": false
+    },
+    {
+      "path": "final_release/llm_annotations/deepseek_evidence_diagnosis.json",
+      "size_bytes": 1561,
+      "mtime_iso": "2026-01-27T15:21:14.597676+00:00",
+      "sha256": "9d181f953f3629e58b72931e166146ad1308053ac6138c19ac1dcf538a74ef33",
+      "is_canonical": false
+    },
+    {
+      "path": "final_release/llm_annotations/evidence_validity_deepseek.json",
+      "size_bytes": 11134,
+      "mtime_iso": "2026-01-28T14:10:43.636719+00:00",
+      "sha256": "a8954175788c7c0eb1c663832f9f907ac3ffba594d718e21ec3c2c243f5cc886",
+      "is_canonical": false
+    },
+    {
+      "path": "final_release/llm_annotations/evidence_validity_deepseek_v2_20260127_151413.json",
+      "size_bytes": 359215,
+      "mtime_iso": "2026-01-28T22:43:35.402795+00:00",
+      "sha256": "fd427c1a5e297cf3aebcc507835f228fd198269c5e892a95c72e8cd707f6ad18",
+      "is_canonical": true
+    },
+    {
+      "path": "final_release/llm_annotations/failed_requests.jsonl",
+      "size_bytes": 0,
+      "mtime_iso": "2026-01-28T14:10:43.633718+00:00",
+      "n_lines": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "is_canonical": false
+    },
+    {
+      "path": "final_release/llm_annotations/llm_annotation_meta.json",
+      "size_bytes": 2173,
+      "mtime_iso": "2026-01-28T14:10:43.617719+00:00",
+      "sha256": "eba56d9bcef972d26fe40fb46eb72645a45fe7f812e07c56cb1ff872b82dd13f",
+      "is_canonical": false
+    },
+    {
+      "path": "final_release/llm_annotations/llm_annotation_prompts.jsonl",
+      "size_bytes": 490474,
+      "mtime_iso": "2026-01-28T14:10:43.610719+00:00",
+      "n_lines": 900,
+      "sha256": "3d11310f649ea3294b5942a363829ebf42e2dc989da8d8734541b85974a6e256",
+      "is_canonical": false
+    },
+    {
+      "path": "final_release/llm_annotations/llm_annotation_set.csv",
+      "size_bytes": 229311,
+      "mtime_iso": "2026-01-28T14:10:43.607719+00:00",
+      "sha256": "bd9bee6934c391db73896d269c277f54007f027dc5b53013628e065448021b86",
+      "is_canonical": false
+    },
+    {
+      "path": "final_release/llm_annotations/llm_annotation_set_dedup.csv",
+      "size_bytes": 163415,
+      "mtime_iso": "2026-01-30T19:13:04.913469+00:00",
+      "sha256": "e516f6b43200e8a0d4f6f1844944d760417624036181a31d52884810c0101a75",
+      "is_canonical": false
+    },
+    {
+      "path": "final_release/llm_annotations/llm_annotation_summary.json",
+      "size_bytes": 556,
+      "mtime_iso": "2026-01-28T14:10:43.614719+00:00",
+      "sha256": "83d35130d21cc5a024c277b8fd53c13723cc11652377b4895d5c6ea106e67ec4",
+      "is_canonical": false
+    },
+    {
+      "path": "final_release/llm_annotations/summary_strata.json",
+      "size_bytes": 817,
+      "mtime_iso": "2026-01-28T14:10:43.622719+00:00",
+      "sha256": "656cad98d0df10701a11971cd2ea9a086dbea4797eb14e7cdf503f84b96d58e6",
+      "is_canonical": false
+    },
+    {
+      "path": "final_release/llm_annotations/summary_strata_deepseek.json",
+      "size_bytes": 881,
+      "mtime_iso": "2026-01-28T14:10:43.633718+00:00",
+      "sha256": "fd28b05e8830e28fa2d7989d448116ed43f1c6255c8feb044845c9df52eedcbf",
+      "is_canonical": false
+    },
+    {
+      "path": "final_release/llm_annotations/summary_strata_deepseek_20260127_151413.json",
+      "size_bytes": 1997,
+      "mtime_iso": "2026-01-28T22:43:35.406795+00:00",
+      "sha256": "b164102ff64a77ff4c69f90eb6d520a48437079c05c130383500b6eabbf3e970",
+      "is_canonical": true
+    }
+  ]
+}

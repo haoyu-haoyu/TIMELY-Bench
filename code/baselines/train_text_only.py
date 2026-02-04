@@ -14,6 +14,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import pandas as pd
 import numpy as np
 import json
+from datetime import datetime
 from sklearn.model_selection import GroupKFold, GroupShuffleSplit
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
@@ -31,6 +32,7 @@ from config import (
 # 配置
 EPISODES_DIR = Path(__file__).parent.parent.parent / 'episodes' / 'episodes_enhanced'
 OUTPUT_DIR = RESULTS_DIR / 'text_only_baselines'
+OUTPUT_JSON = OUTPUT_DIR / 'text_only_results_folds.json'
 
 
 def extract_text_features(episode_path: Path) -> dict:
@@ -192,13 +194,15 @@ def main():
     groups = df['subject_id'].values
     
     results = []
-    
+
     for task in ['mortality', 'prolonged_los']:
         print(f"\n{'='*60}")
         print(f"Task: {task}")
         print(f"{'='*60}")
         
         y = df[task].values
+        n_samples = len(y)
+        positive_rate = float(y.mean()) if n_samples > 0 else 0.0
         
         for model_name in ['XGBoost', 'LogisticRegression']:
             print(f"\n{model_name}:")
@@ -220,17 +224,33 @@ def main():
             results.append({
                 'task': task,
                 'model': model_name,
+                'n_samples': n_samples,
+                'positive_rate': positive_rate,
                 'cv_auroc_mean': mean_auroc,
                 'cv_auroc_std': std_auroc,
                 'cv_auprc_mean': mean_auprc,
                 'cv_auprc_std': std_auprc,
                 'test_auroc': test_result['auroc'] if test_result else None,
-                'test_auprc': test_result['auprc'] if test_result else None
+                'test_auprc': test_result['auprc'] if test_result else None,
+                'fold_details': fold_results
             })
     
     results_df = pd.DataFrame(results)
     results_df.to_csv(OUTPUT_DIR / 'text_only_results.csv', index=False)
     print(f"\n结果保存到: {OUTPUT_DIR / 'text_only_results.csv'}")
+
+    # Save fold-level details
+    output_payload = {
+        'timestamp': datetime.now().isoformat(timespec='seconds'),
+        'seed': RANDOM_STATE,
+        'input_paths': {
+            'episodes_dir': str(EPISODES_DIR),
+        },
+        'results': results
+    }
+    with open(OUTPUT_JSON, 'w') as f:
+        json.dump(output_payload, f, indent=2, ensure_ascii=True)
+    print(f"Fold details saved to: {OUTPUT_JSON}")
     
     print("\n" + "=" * 60)
     print("最终结果汇总")

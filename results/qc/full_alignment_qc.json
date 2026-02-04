@@ -1,0 +1,419 @@
+{
+  "timestamp": "2026-01-26T23:37:00",
+  "alignment": {
+    "path": "/Users/wanghaoyu/Downloads/\u4e34\u5e8a\u65f6\u5e8f \u00d7 \u6587\u672c\u5bf9\u9f50\u878d\u5408\u57fa\u51c6/\u8bad\u7ec3\u57fa\u7ebf\u6a21\u578b/TIMELY-Bench_Final/data/processed/temporal_alignment/temporal_textual_alignment.csv",
+    "total_rows": 10000,
+    "discharge_rows": 202,
+    "note_hour_out_of_range_rows": 279,
+    "parse_error_rows": 0,
+    "duplicate_rows": 0,
+    "duplicate_keys": 0,
+    "duplicate_key": "stay_id+pattern_hour+pattern_name+note_id"
+  },
+  "annotation_set": {
+    "path": "/Users/wanghaoyu/Downloads/\u4e34\u5e8a\u65f6\u5e8f \u00d7 \u6587\u672c\u5bf9\u9f50\u878d\u5408\u57fa\u51c6/\u8bad\u7ec3\u57fa\u7ebf\u6a21\u578b/TIMELY-Bench_Final/results/llm_annotations/llm_annotation_set.csv",
+    "exists": true,
+    "sha256": "0ad0ccdf5af05070b8a5582d1788b6894153fbf959fa3ab4d09a7cd20a029828",
+    "total_rows": 26,
+    "discharge_rows": 0,
+    "note_hour_out_of_range_rows": 0,
+    "duplicate_rows": 0
+  },
+  "duplicate_scan": {
+    "n_buckets": 64,
+    "bucket_dir": "/Users/wanghaoyu/Downloads/\u4e34\u5e8a\u65f6\u5e8f \u00d7 \u6587\u672c\u5bf9\u9f50\u878d\u5408\u57fa\u51c6/\u8bad\u7ec3\u57fa\u7ebf\u6a21\u578b/TIMELY-Bench_Final/results/qc/_dup_buckets/alignment_keys",
+    "bucket_summaries": [
+      {
+        "bucket": "bucket_00000.txt",
+        "n_keys": 142,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00001.txt",
+        "n_keys": 140,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00002.txt",
+        "n_keys": 160,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00003.txt",
+        "n_keys": 153,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00004.txt",
+        "n_keys": 179,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00005.txt",
+        "n_keys": 174,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00006.txt",
+        "n_keys": 172,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00007.txt",
+        "n_keys": 146,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00008.txt",
+        "n_keys": 154,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00009.txt",
+        "n_keys": 179,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00010.txt",
+        "n_keys": 147,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00011.txt",
+        "n_keys": 139,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00012.txt",
+        "n_keys": 148,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00013.txt",
+        "n_keys": 163,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00014.txt",
+        "n_keys": 174,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00015.txt",
+        "n_keys": 148,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00016.txt",
+        "n_keys": 146,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00017.txt",
+        "n_keys": 152,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00018.txt",
+        "n_keys": 164,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00019.txt",
+        "n_keys": 150,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00020.txt",
+        "n_keys": 143,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00021.txt",
+        "n_keys": 176,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00022.txt",
+        "n_keys": 158,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00023.txt",
+        "n_keys": 170,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00024.txt",
+        "n_keys": 149,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00025.txt",
+        "n_keys": 153,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00026.txt",
+        "n_keys": 147,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00027.txt",
+        "n_keys": 162,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00028.txt",
+        "n_keys": 144,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00029.txt",
+        "n_keys": 154,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00030.txt",
+        "n_keys": 162,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00031.txt",
+        "n_keys": 162,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00032.txt",
+        "n_keys": 154,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00033.txt",
+        "n_keys": 166,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00034.txt",
+        "n_keys": 148,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00035.txt",
+        "n_keys": 150,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00036.txt",
+        "n_keys": 154,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00037.txt",
+        "n_keys": 133,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00038.txt",
+        "n_keys": 142,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00039.txt",
+        "n_keys": 139,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00040.txt",
+        "n_keys": 168,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00041.txt",
+        "n_keys": 156,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00042.txt",
+        "n_keys": 157,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00043.txt",
+        "n_keys": 158,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00044.txt",
+        "n_keys": 169,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00045.txt",
+        "n_keys": 165,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00046.txt",
+        "n_keys": 159,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00047.txt",
+        "n_keys": 186,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00048.txt",
+        "n_keys": 150,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00049.txt",
+        "n_keys": 161,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00050.txt",
+        "n_keys": 164,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00051.txt",
+        "n_keys": 171,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00052.txt",
+        "n_keys": 156,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00053.txt",
+        "n_keys": 154,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00054.txt",
+        "n_keys": 160,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00055.txt",
+        "n_keys": 152,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00056.txt",
+        "n_keys": 156,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00057.txt",
+        "n_keys": 140,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00058.txt",
+        "n_keys": 171,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00059.txt",
+        "n_keys": 147,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00060.txt",
+        "n_keys": 171,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00061.txt",
+        "n_keys": 137,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00062.txt",
+        "n_keys": 156,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      },
+      {
+        "bucket": "bucket_00063.txt",
+        "n_keys": 140,
+        "duplicate_keys": 0,
+        "duplicate_rows": 0
+      }
+    ],
+    "sample_duplicates": []
+  },
+  "parameters": {
+    "n_buckets": 64,
+    "max_open_files": 64,
+    "max_rows": 10000,
+    "work_dir": "/Users/wanghaoyu/Downloads/\u4e34\u5e8a\u65f6\u5e8f \u00d7 \u6587\u672c\u5bf9\u9f50\u878d\u5408\u57fa\u51c6/\u8bad\u7ec3\u57fa\u7ebf\u6a21\u578b/TIMELY-Bench_Final/results/qc/_dup_buckets"
+  }
+}

@@ -72,26 +72,9 @@ Generated: 2026-01-04
 
 | Window | CV AUROC | Test AUROC |
 |--------|----------|------------|
-| **D0 (Daily)** | - | **0.798** |
 | ±6h | 0.775 ± 0.005 | 0.777 |
 | ±12h | 0.805 ± 0.008 | 0.800 |
 | **±24h** | 0.835 ± 0.006 | **0.833** |
-
----
-
-## 5.1 Delta Features Results (NEW)
-
-| Model | Task | Test AUROC | Feature Count |
-|-------|------|------------|---------------|
-| XGBoost + Delta | Mortality | **0.857** | 126 (40 delta) |
-| XGBoost + Delta | LOS | 0.779 | 126 (40 delta) |
-
-**Top Delta Features by Importance:**
-1. chloride_delta_total (0.0123)
-2. sodium_delta_total (0.0093)
-3. glucose_delta_total (0.0079)
-4. bun_delta_total (0.0074)
-5. spo2_delta_total (0.0063)
 
 ---
 

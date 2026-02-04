@@ -1,0 +1,116 @@
+{
+  "total_stays": 74829,
+  "total_unique_subjects": 54551,
+  "n_subjects_with_1_stay": 42592,
+  "n_subjects_with_2plus_stays": 11959,
+  "max_stays_per_subject": 37,
+  "distribution": {
+    "1": 42592,
+    "2": 7896,
+    "3": 2329,
+    "4": 857,
+    "5": 385,
+    "6": 168,
+    "7": 111,
+    "8": 59,
+    "9": 43,
+    "10": 39,
+    "11": 15,
+    "12": 13,
+    "13": 11,
+    "14": 7,
+    "15": 7,
+    "16": 3,
+    "17": 1,
+    "18": 2,
+    "19": 3,
+    "20": 2,
+    "23": 3,
+    "24": 2,
+    "25": 1,
+    "27": 1,
+    "37": 1
+  },
+  "top_20_subjects": [
+    {
+      "subject_id": 12468016,
+      "stay_count": 37
+    },
+    {
+      "subject_id": 17585185,
+      "stay_count": 27
+    },
+    {
+      "subject_id": 17295976,
+      "stay_count": 25
+    },
+    {
+      "subject_id": 18358138,
+      "stay_count": 24
+    },
+    {
+      "subject_id": 13269859,
+      "stay_count": 24
+    },
+    {
+      "subject_id": 12517625,
+      "stay_count": 23
+    },
+    {
+      "subject_id": 18676703,
+      "stay_count": 23
+    },
+    {
+      "subject_id": 15229355,
+      "stay_count": 23
+    },
+    {
+      "subject_id": 18329161,
+      "stay_count": 20
+    },
+    {
+      "subject_id": 11281568,
+      "stay_count": 20
+    },
+    {
+      "subject_id": 15131736,
+      "stay_count": 19
+    },
+    {
+      "subject_id": 19265652,
+      "stay_count": 19
+    },
+    {
+      "subject_id": 17937834,
+      "stay_count": 19
+    },
+    {
+      "subject_id": 18171767,
+      "stay_count": 18
+    },
+    {
+      "subject_id": 17517983,
+      "stay_count": 18
+    },
+    {
+      "subject_id": 15455517,
+      "stay_count": 17
+    },
+    {
+      "subject_id": 18881392,
+      "stay_count": 16
+    },
+    {
+      "subject_id": 12606543,
+      "stay_count": 16
+    },
+    {
+      "subject_id": 12774362,
+      "stay_count": 16
+    },
+    {
+      "subject_id": 15573773,
+      "stay_count": 15
+    }
+  ]
+}

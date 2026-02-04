@@ -1,0 +1,58 @@
+{
+  "check_name": "LLM_INPUT_INVENTORY",
+  "timestamp": "2026-01-28T22:43:35.358357+00:00",
+  "required_columns": [
+    "stay_id",
+    "pattern_name",
+    "pattern_hour",
+    "note_id",
+    "note_type",
+    "note_hour",
+    "note_text_relevant"
+  ],
+  "candidates_found": 2,
+  "files": [
+    {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/final_release/llm_annotations/llm_annotation_set.csv",
+      "relative_path": "final_release/llm_annotations/llm_annotation_set.csv",
+      "n_rows": 900,
+      "columns": [
+        "stay_id",
+        "pattern_hour",
+        "pattern_name",
+        "pattern_severity",
+        "note_id",
+        "note_hour",
+        "note_type",
+        "note_text_relevant",
+        "time_delta_hours"
+      ],
+      "sha256": "bd9bee6934c391db73896d269c277f54007f027dc5b53013628e065448021b86",
+      "mtime": "2026-01-28T14:10:43.607719+00:00",
+      "size_bytes": 229311,
+      "has_required_columns": true,
+      "missing_columns": []
+    },
+    {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/results/llm_annotations/llm_annotation_set.csv",
+      "relative_path": "results/llm_annotations/llm_annotation_set.csv",
+      "n_rows": 900,
+      "columns": [
+        "stay_id",
+        "pattern_hour",
+        "pattern_name",
+        "pattern_severity",
+        "note_id",
+        "note_hour",
+        "note_type",
+        "note_text_relevant",
+        "time_delta_hours"
+      ],
+      "sha256": "bd9bee6934c391db73896d269c277f54007f027dc5b53013628e065448021b86",
+      "mtime": "2026-01-27T14:19:22.331063+00:00",
+      "size_bytes": 229311,
+      "has_required_columns": true,
+      "missing_columns": []
+    }
+  ]
+}

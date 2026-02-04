@@ -1,0 +1,330 @@
+{
+  "check_name": "EPISODES_INTEGRITY_AUDIT",
+  "timestamp": "2026-01-29T00:12:56.769187+00:00",
+  "episodes_directory": "episodes/episodes_enhanced",
+  "total_episodes_scanned": 74829,
+  "total_notes_scanned": 6975132,
+  "coverage": "100%",
+  "overall_verdict": "PASS",
+  "failing_checks": [],
+  "checks": {
+    "C1_time_window": {
+      "pass": true,
+      "vitals_hour_violations": 0,
+      "vitals_hour_violations_samples": [],
+      "vitals_n_timepoints_violations": 0,
+      "vitals_n_timepoints_violations_samples": [],
+      "vitals_hour_set_missing": 0,
+      "vitals_hour_set_missing_samples": [],
+      "labs_hour_violations": 0,
+      "labs_hour_violations_samples": [],
+      "notes_hour_oob": 0,
+      "notes_hour_oob_samples": [],
+      "notes_discharge_count": 0,
+      "notes_discharge_samples": []
+    },
+    "C2_field_naming": {
+      "pass": true,
+      "missing_rate_keys": [
+        "albumin",
+        "bicarbonate",
+        "bun",
+        "chloride",
+        "creatinine",
+        "dbp",
+        "gcs_min",
+        "glucose_lab",
+        "heart_rate",
+        "hematocrit",
+        "hemoglobin",
+        "lactate",
+        "mbp",
+        "ph",
+        "platelet",
+        "potassium",
+        "resp_rate",
+        "sbp",
+        "sodium",
+        "spo2",
+        "temperature",
+        "urineoutput",
+        "wbc"
+      ],
+      "vitals_data_fields": [
+        "dbp",
+        "gcs",
+        "heart_rate",
+        "mbp",
+        "resp_rate",
+        "sbp",
+        "spo2",
+        "temperature",
+        "urineoutput"
+      ],
+      "labs_data_fields": [
+        "albumin",
+        "bicarbonate",
+        "bun",
+        "chloride",
+        "creatinine",
+        "glucose",
+        "hematocrit",
+        "hemoglobin",
+        "lactate",
+        "ph",
+        "platelet",
+        "potassium",
+        "sodium",
+        "wbc"
+      ],
+      "vitals_field_set_variants": 1,
+      "labs_field_set_variants": 1,
+      "mapping_issues": [
+        {
+          "missing_rate_key": "gcs_min",
+          "data_field_match": "gcs",
+          "issue": "Name mismatch: missing_rate uses 'gcs_min' but timeseries uses 'gcs'",
+          "severity": "INFO",
+          "impact": "No feature misalignment — same underlying variable, naming convention differs between missing_rate summary and hourly data."
+        },
+        {
+          "missing_rate_key": "glucose_lab",
+          "data_field_match": "glucose",
+          "issue": "Name mismatch: missing_rate uses 'glucose_lab' but timeseries uses 'glucose'",
+          "severity": "INFO",
+          "impact": "No feature misalignment — same underlying variable, naming convention differs between missing_rate summary and hourly data."
+        }
+      ],
+      "unmatched_keys": []
+    },
+    "C3_urineoutput": {
+      "pass": true,
+      "total_episodes_with_uo": 70106,
+      "monotonic": 2606,
+      "non_monotonic": 67500,
+      "all_none": 4723,
+      "non_monotonic_rate": 0.9628,
+      "conclusion": "per_interval",
+      "description": "urineoutput is per-interval (hourly) volume, NOT cumulative. 67500/70106 (96.3%) episodes show non-monotonic sequences, confirming values represent output within each hour bucket.",
+      "non_monotonic_samples": [
+        {
+          "file": "TIMELY_v2_30000153.json",
+          "values": [
+            280.0,
+            45.0,
+            50.0,
+            50.0,
+            45.0,
+            70.0,
+            80.0,
+            60.0,
+            60.0,
+            55.0,
+            35.0,
+            35.0
+          ]
+        },
+        {
+          "file": "TIMELY_v2_30000213.json",
+          "values": [
+            550.0,
+            250.0,
+            450.0,
+            350.0,
+            225.0,
+            120.0,
+            350.0,
+            100.0,
+            250.0,
+            300.0,
+            150.0
+          ]
+        },
+        {
+          "file": "TIMELY_v2_30000484.json",
+          "values": [
+            260.0,
+            100.0,
+            100.0,
+            30.0,
+            80.0,
+            80.0,
+            30.0,
+            30.0,
+            30.0,
+            30.0,
+            160.0,
+            80.0
+          ]
+        },
+        {
+          "file": "TIMELY_v2_30000646.json",
+          "values": [
+            700.0,
+            1000.0,
+            925.0,
+            1000.0,
+            750.0
+          ]
+        },
+        {
+          "file": "TIMELY_v2_30000831.json",
+          "values": [
+            250.0,
+            125.0,
+            300.0,
+            250.0,
+            100.0,
+            150.0,
+            125.0,
+            250.0,
+            235.0,
+            110.0
+          ]
+        }
+      ]
+    },
+    "C4_text_fragmentation": {
+      "pass": true,
+      "total_notes": 6975132,
+      "note_type_counts": {
+        "radiology": 85336,
+        "nursing": 6790265,
+        "lab_comment": 99531
+      },
+      "text_length_stats": {
+        "radiology": {
+          "count": 85336,
+          "mean": 1041.1,
+          "median": 691,
+          "p5": 330,
+          "p25": 498,
+          "p75": 1132,
+          "p95": 3085,
+          "min": 19,
+          "max": 17478,
+          "zero_length_count": 0,
+          "under_20_chars": 1
+        },
+        "nursing": {
+          "count": 6790265,
+          "mean": 16.5,
+          "median": 15,
+          "p5": 11,
+          "p25": 14,
+          "p75": 17,
+          "p95": 24,
+          "min": 10,
+          "max": 101,
+          "zero_length_count": 0,
+          "under_20_chars": 5837173
+        },
+        "lab_comment": {
+          "count": 99531,
+          "mean": 105.5,
+          "median": 103,
+          "p5": 40,
+          "p25": 91,
+          "p75": 129,
+          "p95": 145,
+          "min": 35,
+          "max": 296,
+          "zero_length_count": 0,
+          "under_20_chars": 0
+        }
+      },
+      "low_info_types": [
+        "nursing"
+      ],
+      "note_id_duplicates_within_episode": 0,
+      "note_id_dup_samples": [],
+      "exact_duplicate_notes": 5683807,
+      "exact_dup_samples": [
+        {
+          "file": "TIMELY_v2_30000153.json",
+          "count": 2,
+          "text_preview": "CMV/ASSIST/AutoFlow"
+        },
+        {
+          "file": "TIMELY_v2_30000153.json",
+          "count": 18,
+          "text_preview": "ST (Sinus Tachycardia)"
+        },
+        {
+          "file": "TIMELY_v2_30000153.json",
+          "count": 3,
+          "text_preview": "Localizes Pain"
+        },
+        {
+          "file": "TIMELY_v2_30000153.json",
+          "count": 12,
+          "text_preview": "Arouse to Voice"
+        },
+        {
+          "file": "TIMELY_v2_30000153.json",
+          "count": 3,
+          "text_preview": "No Response-ETT"
+        }
+      ],
+      "notes_per_hour_stats": {
+        "nursing": {
+          "mean": 4.32,
+          "median": 2,
+          "max": 66,
+          "p95": 12
+        },
+        "radiology": {
+          "mean": 1.0,
+          "median": 1,
+          "max": 1,
+          "p95": 1
+        },
+        "lab_comment": {
+          "mean": 1.35,
+          "median": 1,
+          "max": 11,
+          "p95": 3
+        }
+      }
+    },
+    "C5_condition_graph": {
+      "pass": true,
+      "episodes_with_graph": 74812,
+      "total_nodes": 3893196,
+      "node_required_fields": [
+        "id",
+        "level",
+        "name",
+        "onset_hour",
+        "severity",
+        "source",
+        "value"
+      ],
+      "node_missing_fields": {},
+      "duplicate_pattern_hour_nodes": 0,
+      "duplicate_samples": []
+    },
+    "C6_leakage": {
+      "pass": true,
+      "labels_keys": {
+        "outcome": 74829,
+        "process": 74829,
+        "has_sepsis": 74829,
+        "has_aki": 74829,
+        "has_ards": 74829,
+        "icd_codes": 74829,
+        "diagnoses_text": 74829
+      },
+      "labels_outcome_keys": {
+        "mortality": 74829,
+        "prolonged_los": 74829,
+        "readmission_30d": 74829,
+        "los_days": 74829,
+        "death_time": 74829
+      },
+      "leakage_in_non_label_sections": 0,
+      "leakage_details": [],
+      "note": "labels.outcome at episode top level is EXPECTED — it provides benchmark ground truth. This check verifies that outcome/label fields do NOT appear inside timeseries, clinical_text, reasoning, metadata, or patient sections, which would constitute leakage."
+    }
+  }
+}

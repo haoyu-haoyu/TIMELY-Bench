@@ -1,0 +1,47 @@
+{
+  "statistics": {
+    "total": 900,
+    "fallback": 899,
+    "model": 1,
+    "has_raw": 900,
+    "markdown_wrapped": 676,
+    "parse_success": 676,
+    "has_evidence": 676
+  },
+  "labels": {
+    "UNRELATED": 667,
+    "AMBIGUOUS": 164,
+    "SUPPORTIVE": 58,
+    "CONTRADICTORY": 11
+  },
+  "rates": {
+    "fallback_rate": 99.8888888888889,
+    "markdown_wrap_rate": 75.1111111111111,
+    "parse_success_rate": 75.1111111111111,
+    "evidence_rate": 75.1111111111111
+  },
+  "root_cause": "B) Parser issue: Model outputs valid JSON but wrapped in markdown code blocks (```json...```). Current parser uses regex and falls back.",
+  "fix_suggestion": "Fix parser to strip markdown code blocks before JSON parsing.",
+  "samples": [
+    {
+      "content_preview": "```json\n{\n    \"label\": \"UNRELATED\",\n    \"evidence_span\": \"Endotracheal tube\"\n}\n```",
+      "was_wrapped": true
+    },
+    {
+      "content_preview": "```json\n{\n    \"label\": \"AMBIGUOUS\",\n    \"evidence_span\": \"No response\"\n}\n```",
+      "was_wrapped": true
+    },
+    {
+      "content_preview": "```json\n{\n    \"label\": \"AMBIGUOUS\",\n    \"evidence_span\": \"No Response-ETT\"\n}\n```",
+      "was_wrapped": true
+    },
+    {
+      "content_preview": "```json\n{\n    \"label\": \"UNRELATED\",\n    \"evidence_span\": \"AF (Atrial Fibrillation)\"\n}\n```",
+      "was_wrapped": true
+    },
+    {
+      "content_preview": "```json\n{\n    \"label\": \"UNRELATED\",\n    \"evidence_span\": \"Movement, but not against gravity\"\n}\n```",
+      "was_wrapped": true
+    }
+  ]
+}

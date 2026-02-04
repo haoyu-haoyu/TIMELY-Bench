@@ -6,7 +6,7 @@ Prolonged LOS (Length of Stay) 任务训练
 - 时序特征（vitals）
 - 标注特征（patterns）
 - BERT 嵌入
-- 概念特征
+- 概念特征（spacy + MedCAT）
 """
 
 import os
@@ -24,11 +24,13 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # 配置
-EPISODES_DIR = Path('/home/ubuntu/TIMELY-Bench_Final/episodes/episodes_enhanced')
-EMBEDDINGS_FILE = Path('/home/ubuntu/TIMELY-Bench_Final/data/processed/text_embeddings/clinical_bert_embeddings.npy')
-CONCEPTS_FILE = Path('/home/ubuntu/TIMELY-Bench_Final/data/processed/text_concepts/spacy_concepts.csv')
-COHORTS_FILE = Path('/home/ubuntu/TIMELY-Bench_Final/data/processed/cohorts/cohort_with_conditions.csv')
-RESULTS_DIR = Path('/home/ubuntu/TIMELY-Bench_Final/results/los_baselines')
+BASE_DIR = Path(__file__).resolve().parents[2]
+EPISODES_DIR = BASE_DIR / 'episodes' / 'episodes_enhanced'
+EMBEDDINGS_FILE = BASE_DIR / 'data' / 'processed' / 'text_embeddings' / 'clinical_bert_embeddings.npy'
+CONCEPTS_FILE = BASE_DIR / 'data' / 'processed' / 'text_concepts' / 'spacy_concepts.csv'
+MEDCAT_FILE = BASE_DIR / 'data' / 'processed' / 'medcat_full' / 'medcat_features_24h.csv'
+COHORTS_FILE = BASE_DIR / 'data' / 'processed' / 'cohorts' / 'cohort_with_conditions.csv'
+RESULTS_DIR = BASE_DIR / 'results' / 'los_baselines'
 RANDOM_STATE = 42
 LOS_THRESHOLD_DAYS = 7  # Prolonged LOS 定义阈值
 
@@ -48,8 +50,21 @@ def load_all_data():
     concepts = pd.read_csv(CONCEPTS_FILE)
     concepts_dict = concepts.set_index('stay_id').to_dict('index')
     print(f"  概念特征: {concepts.shape}")
+
+    medcat_dict = None
+    if MEDCAT_FILE.exists():
+        medcat = pd.read_csv(MEDCAT_FILE)
+        if 'window_hours' in medcat.columns:
+            medcat = medcat.drop(columns=['window_hours'])
+        medcat = medcat.rename(
+            columns={c: f'medcat_{c}' for c in medcat.columns if c != 'stay_id'}
+        )
+        medcat_dict = medcat.set_index('stay_id').to_dict('index')
+        print(f"  MedCAT 特征: {medcat.shape}")
+    else:
+        print("  未找到 MedCAT 特征，跳过")
     
-    return cohort, embeddings, emb_dict, concepts_dict
+    return cohort, embeddings, emb_dict, concepts_dict, medcat_dict
 
 
 def get_los_label(stay_id):
@@ -61,9 +76,13 @@ def get_los_label(stay_id):
     try:
         with open(ep_file) as f:
             ep = json.load(f)
-        
+
+        outcome = ep.get('labels', {}).get('outcome', {})
+        if outcome.get('mortality', 0) == 1:
+            return None
+
         # 直接使用 prolonged_los 标签 (已在 Episode 中预计算)
-        prolonged_los = ep.get('labels', {}).get('outcome', {}).get('prolonged_los')
+        prolonged_los = outcome.get('prolonged_los')
         if prolonged_los is None:
             return None
         
@@ -89,11 +108,19 @@ def extract_episode_features(stay_id):
         vital_cols = ['heart_rate', 'sbp', 'dbp', 'resp_rate', 'spo2', 'temperature']
         for col in vital_cols:
             values = [v.get(col) for v in vitals if v.get(col) is not None]
+            n_values = len(values)
+            features[f'{col}_n'] = n_values
+            features[f'{col}_missing'] = 0 if n_values > 0 else 1
             if values:
                 features[f'{col}_mean'] = np.mean(values)
                 features[f'{col}_std'] = np.std(values)
                 features[f'{col}_min'] = np.min(values)
                 features[f'{col}_max'] = np.max(values)
+            else:
+                features[f'{col}_mean'] = np.nan
+                features[f'{col}_std'] = np.nan
+                features[f'{col}_min'] = np.nan
+                features[f'{col}_max'] = np.nan
         
         # 标注特征
         reasoning = ep.get('reasoning', {})
@@ -114,7 +141,7 @@ def extract_episode_features(stay_id):
         return None
 
 
-def prepare_features(cohort, embeddings, emb_dict, concepts_dict, feature_set='all'):
+def prepare_features(cohort, embeddings, emb_dict, concepts_dict, medcat_dict, feature_set='all'):
     """准备不同特征集"""
     features_list = []
     labels = []
@@ -124,7 +151,10 @@ def prepare_features(cohort, embeddings, emb_dict, concepts_dict, feature_set='a
     vital_cols = ['heart_rate', 'sbp', 'dbp', 'resp_rate', 'spo2', 'temperature']
     ts_feature_names = []
     for col in vital_cols:
-        ts_feature_names.extend([f'{col}_mean', f'{col}_std', f'{col}_min', f'{col}_max'])
+        ts_feature_names.extend([
+            f'{col}_mean', f'{col}_std', f'{col}_min', f'{col}_max',
+            f'{col}_n', f'{col}_missing'
+        ])
     
     for _, row in tqdm(cohort.iterrows(), total=len(cohort), desc="准备特征"):
         stay_id = row['stay_id']
@@ -175,6 +205,11 @@ def prepare_features(cohort, embeddings, emb_dict, concepts_dict, feature_set='a
             else:
                 # 如果没有概念特征，跳过此样本
                 continue
+
+            if medcat_dict is not None:
+                medcat_row = medcat_dict.get(stay_id, {})
+                for k, v in medcat_row.items():
+                    final_features[k] = v
         
         if final_features:
             features_list.append(final_features)
@@ -221,7 +256,7 @@ def main():
     
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     
-    cohort, embeddings, emb_dict, concepts_dict = load_all_data()
+    cohort, embeddings, emb_dict, concepts_dict, medcat_dict = load_all_data()
     
     feature_sets = [
         ('timeseries', '仅时序'),
@@ -238,7 +273,7 @@ def main():
         print(f"特征集: {description}")
         print('='*40)
         
-        X, y = prepare_features(cohort, embeddings, emb_dict, concepts_dict, feature_set)
+        X, y = prepare_features(cohort, embeddings, emb_dict, concepts_dict, medcat_dict, feature_set)
         print(f"  特征数: {X.shape[1]}")
         print(f"  样本数: {len(y):,}")
         print(f"  Prolonged LOS 率: {y.mean()*100:.1f}%")

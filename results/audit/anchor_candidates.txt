@@ -1,0 +1,16 @@
+[
+  {
+    "label": "alignment",
+    "real_path": "data/processed/temporal_alignment/temporal_textual_alignment.csv",
+    "canonical_path": "data/processed/temporal_textual_alignment.csv",
+    "size_bytes": 1161082122,
+    "mtime_iso": "2026-01-23T16:44:00.215168+00:00"
+  },
+  {
+    "label": "timeline",
+    "real_path": "data/processed/disease_timelines/disease_timelines_full.json",
+    "canonical_path": "data/processed/disease_timelines_full.json",
+    "size_bytes": 29015661,
+    "mtime_iso": "2026-01-08T17:15:41+00:00"
+  }
+]

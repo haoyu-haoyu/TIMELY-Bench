@@ -54,6 +54,18 @@ def main():
 
     print(f"   Merged: {len(df_merged)} rows")
 
+    # ==========================================
+    # 2.1 修复 readmission vs mortality 冲突
+    # ==========================================
+    if 'label_mortality' in df_merged.columns and 'readmission_30d' in df_merged.columns:
+        mortality_mask = df_merged['label_mortality'] == 1
+        conflict_mask = mortality_mask & (df_merged['readmission_30d'] == 1)
+        conflict_count = int(conflict_mask.sum())
+        if conflict_count > 0:
+            print(f"   修复冲突: {conflict_count} 条死亡样本被标记为再入院 -> 设为 NA")
+        # 死亡样本 readmission 不适用，设为 NaN 以便后续过滤
+        df_merged.loc[mortality_mask, 'readmission_30d'] = np.nan
+
     # 检查合并情况
     matched = df_merged['los_hours'].notna().sum()
     print(f"   LOS labels matched: {matched} ({matched/len(df_merged)*100:.1f}%)")

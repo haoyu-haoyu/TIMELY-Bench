@@ -1,0 +1,84 @@
+{
+  "generated_at": "2026-01-28T14:08:36.481666+00:00",
+  "unique_stay_ids": 426,
+  "unique_patterns": 24,
+  "unique_note_ids": 900,
+  "total_samples": 900,
+  "note_type_distribution": {
+    "nursing": 300,
+    "radiology": 300,
+    "lab_comment": 300
+  },
+  "severity_distribution": {
+    "severe": 300,
+    "moderate": 300,
+    "mild": 300
+  },
+  "pattern_sample_counts": {
+    "top_10": [
+      {
+        "pattern": "tachypnea",
+        "count": 168
+      },
+      {
+        "pattern": "tachycardia",
+        "count": 124
+      },
+      {
+        "pattern": "hypotension",
+        "count": 117
+      },
+      {
+        "pattern": "map_low",
+        "count": 105
+      },
+      {
+        "pattern": "oliguria",
+        "count": 73
+      },
+      {
+        "pattern": "lactate_elevated",
+        "count": 60
+      },
+      {
+        "pattern": "bun_severe",
+        "count": 50
+      },
+      {
+        "pattern": "hypothermia",
+        "count": 46
+      },
+      {
+        "pattern": "respiratory_distress",
+        "count": 36
+      },
+      {
+        "pattern": "hypoxemia",
+        "count": 35
+      }
+    ],
+    "min_per_pattern": 1,
+    "median_per_pattern": 14,
+    "max_per_pattern": 168,
+    "total_unique_patterns": 24,
+    "long_tail_note": "7 patterns have fewer than 5 samples"
+  },
+  "label_distribution": {
+    "UNRELATED": 668,
+    "AMBIGUOUS": 162,
+    "SUPPORTIVE": 60,
+    "CONTRADICTORY": 10
+  },
+  "evidence_span_length_stats": {
+    "min": 7,
+    "max": 501,
+    "mean": 104.14,
+    "median": 66
+  },
+  "note_text_length_stats": {
+    "min": 10,
+    "max": 1024,
+    "mean": 187.68,
+    "median": 96
+  }
+}

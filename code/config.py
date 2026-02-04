@@ -36,7 +36,8 @@ BENCHMARK_RESULTS_DIR = RESULTS_DIR / 'benchmark_results'
 
 # Data files
 # 原始数据
-TIMESERIES_FILE = RAW_DATA_DIR / 'timeseries.csv'
+_SORTED_TIMESERIES = RAW_DATA_DIR / 'timeseries_sorted.csv'
+TIMESERIES_FILE = _SORTED_TIMESERIES if _SORTED_TIMESERIES.exists() else RAW_DATA_DIR / 'timeseries.csv'
 NOTE_TIME_FILE = RAW_DATA_DIR / 'note_time.csv'
 CLINICAL_LABELS_FILE = RAW_DATA_DIR / 'clinical_labels.csv'
 

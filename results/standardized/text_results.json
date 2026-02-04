@@ -1,0 +1,74 @@
+{
+  "step": "text",
+  "timestamp": "2026-01-25T16:27:02",
+  "seed": 42,
+  "inputs": {
+    "episodes_dir": "/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/episodes/episodes_enhanced"
+  },
+  "results": [
+    {
+      "step": "text",
+      "task": "mortality",
+      "model": "XGBoost",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "auroc_mean": 0.7313918273914368,
+      "auroc_std": 0.0038417978270551614,
+      "auprc_mean": 0.29743776043353803,
+      "auprc_std": 0.007510871955993388,
+      "test_auroc": 0.7433928783831165,
+      "test_auprc": 0.3169475117451384,
+      "fold_details": "[{\"fold\": 1, \"auroc\": 0.733352301092095, \"auprc\": 0.3048150481598523}, {\"fold\": 2, \"auroc\": 0.7356525792181037, \"auprc\": 0.3065102549861526}, {\"fold\": 3, \"auroc\": 0.7332532823340494, \"auprc\": 0.29720688720999494}, {\"fold\": 4, \"auroc\": 0.7245514057743465, \"auprc\": 0.2919504851687683}, {\"fold\": 5, \"auroc\": 0.7301495685385893, \"auprc\": 0.2867061266429221}]",
+      "seed": 42,
+      "input_paths": "{\"episodes_dir\": \"/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/episodes/episodes_enhanced\"}"
+    },
+    {
+      "step": "text",
+      "task": "mortality",
+      "model": "LogisticRegression",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "auroc_mean": 0.7316142461947045,
+      "auroc_std": 0.004426119290100214,
+      "auprc_mean": 0.30204686525836555,
+      "auprc_std": 0.010140822337659764,
+      "test_auroc": 0.7433619468449075,
+      "test_auprc": 0.3237403484683891,
+      "fold_details": "[{\"fold\": 1, \"auroc\": 0.736088828385251, \"auprc\": 0.31322954196681957}, {\"fold\": 2, \"auroc\": 0.7366355651785161, \"auprc\": 0.31256609388022455}, {\"fold\": 3, \"auroc\": 0.7318600724767511, \"auprc\": 0.3037507747915419}, {\"fold\": 4, \"auroc\": 0.7251299897282848, \"auprc\": 0.29125378386656897}, {\"fold\": 5, \"auroc\": 0.7283567752047198, \"auprc\": 0.2894341317866726}]",
+      "seed": 42,
+      "input_paths": "{\"episodes_dir\": \"/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/episodes/episodes_enhanced\"}"
+    },
+    {
+      "step": "text",
+      "task": "prolonged_los",
+      "model": "XGBoost",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "auroc_mean": 0.661948330150037,
+      "auroc_std": 0.003561137827325151,
+      "auprc_mean": 0.26809941485364436,
+      "auprc_std": 0.002703991583936642,
+      "test_auroc": 0.6722527318377064,
+      "test_auprc": 0.2787773450179507,
+      "fold_details": "[{\"fold\": 1, \"auroc\": 0.6578914459520842, \"auprc\": 0.2649672784942628}, {\"fold\": 2, \"auroc\": 0.660872990400152, \"auprc\": 0.2650044782066187}, {\"fold\": 3, \"auroc\": 0.665087503568776, \"auprc\": 0.26850233547212327}, {\"fold\": 4, \"auroc\": 0.6670651292643479, \"auprc\": 0.270859469892113}, {\"fold\": 5, \"auroc\": 0.6588245815648244, \"auprc\": 0.27116351220310425}]",
+      "seed": 42,
+      "input_paths": "{\"episodes_dir\": \"/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/episodes/episodes_enhanced\"}"
+    },
+    {
+      "step": "text",
+      "task": "prolonged_los",
+      "model": "LogisticRegression",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "auroc_mean": 0.6583360507198808,
+      "auroc_std": 0.0031607250884333033,
+      "auprc_mean": 0.2657694540882012,
+      "auprc_std": 0.002561424487556734,
+      "test_auroc": 0.6700606418289745,
+      "test_auprc": 0.28107222440068047,
+      "fold_details": "[{\"fold\": 1, \"auroc\": 0.656740275258751, \"auprc\": 0.26633313714927354}, {\"fold\": 2, \"auroc\": 0.6555194708681688, \"auprc\": 0.26070495301755686}, {\"fold\": 3, \"auroc\": 0.6608410573520886, \"auprc\": 0.26721528979423137}, {\"fold\": 4, \"auroc\": 0.6632506117234134, \"auprc\": 0.26749777852041884}, {\"fold\": 5, \"auroc\": 0.6553288383969817, \"auprc\": 0.2670961119595255}]",
+      "seed": 42,
+      "input_paths": "{\"episodes_dir\": \"/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/episodes/episodes_enhanced\"}"
+    }
+  ]
+}

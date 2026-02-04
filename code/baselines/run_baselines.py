@@ -265,6 +265,12 @@ def run_experiments():
 
         for task in TASKS:
             labels_df = loader.get_task_label(task)
+            if task != 'mortality' and 'label_mortality' in loader.cohort.columns:
+                labels_df = labels_df.merge(
+                    loader.cohort[['stay_id', 'label_mortality']],
+                    on='stay_id',
+                    how='left'
+                )
 
             for cohort_name in COHORTS:
                 cohort_ids = loader.filter_cohort(cohort_name)
@@ -272,12 +278,15 @@ def run_experiments():
                 df = features_df[features_df['stay_id'].isin(cohort_ids)].merge(
                     labels_df, on='stay_id'
                 )
+                if task != 'mortality' and 'label_mortality' in df.columns:
+                    df = df[df['label_mortality'] != 1]
+                df = df[df['label'].notna()]
 
                 if len(df) < 100:
                     print(f"  Skipping {cohort_name}/{task}: too few samples ({len(df)})")
                     continue
 
-                feature_cols = [c for c in df.columns if c not in ['stay_id', 'subject_id', 'label']]
+                feature_cols = [c for c in df.columns if c not in ['stay_id', 'subject_id', 'label', 'label_mortality']]
                 X = df[feature_cols].values
                 y = df['label'].values
                 groups = df['subject_id'].values

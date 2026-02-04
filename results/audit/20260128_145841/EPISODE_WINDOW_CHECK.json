@@ -1,0 +1,16 @@
+{
+  "check_name": "EPISODE_WINDOW_CHECK",
+  "timestamp": "2026-01-28T15:04:24.241189",
+  "episodes_checked": 500,
+  "violations": {
+    "discharge_notes": [],
+    "hour_lt_0": [],
+    "hour_gte_24": []
+  },
+  "summary": {
+    "discharge_notes_count": 0,
+    "hour_lt_0_count": 0,
+    "hour_gte_24_count": 0,
+    "pass": true
+  }
+}

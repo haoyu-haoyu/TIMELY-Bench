@@ -1,0 +1,35 @@
+{
+  "trend_threshold_accuracy": 1.0,
+  "temporal_grounding_accuracy": 0.9,
+  "evidence_validity_rate": 1.0,
+  "label_distribution": {
+    "medium": 500
+  },
+  "pattern_coverage": {
+    "oliguria": 194,
+    "tachycardia": 120,
+    "altered_consciousness": 80,
+    "severe_tachycardia": 48,
+    "hypoxemia": 36,
+    "anemia": 11,
+    "metabolic_acidosis": 5,
+    "lactate_elevated": 4,
+    "leukocytosis": 2
+  },
+  "note_type_coverage": {
+    "nursing": 493,
+    "radiology": 7
+  },
+  "failure_case": {
+    "stay_id": 30000153,
+    "pattern_name": "oliguria",
+    "pattern_hour": 18.0,
+    "note_id": "936615_nursing",
+    "note_hour": 16.0,
+    "note_type": "nursing",
+    "gold_label": "medium",
+    "pred_label": "UNRELATED"
+  },
+  "n_trend": 500,
+  "n_grounding": 500
+}

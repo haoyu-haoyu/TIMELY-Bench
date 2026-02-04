@@ -1,0 +1,31 @@
+{
+  "scan_time": "2026-02-01T21:01:24.899804+00:00",
+  "stale_hits_found": 5,
+  "files_fixed": [
+    "final_release/cres/cres_dataset_manifest.json",
+    "results/audit/PROTECT_LIST.txt",
+    "results/audit/llm_inventory.json"
+  ],
+  "details": [
+    {
+      "file": "final_release/cres/cres_dataset_manifest.json",
+      "pattern": "20260127_151413"
+    },
+    {
+      "file": "results/audit/PROTECT_LIST.txt",
+      "pattern": "20260127_151413"
+    },
+    {
+      "file": "results/audit/PROTECT_LIST.txt",
+      "pattern": "20260127_151413"
+    },
+    {
+      "file": "results/audit/llm_inventory.json",
+      "pattern": "20260127_151413"
+    },
+    {
+      "file": "results/audit/llm_inventory.json",
+      "pattern": "20260127_151413"
+    }
+  ]
+}

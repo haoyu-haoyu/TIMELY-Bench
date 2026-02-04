@@ -1,0 +1,16 @@
+{
+  "schema": "TIMELY-Bench-FinalVerification/1.0",
+  "generated_at": "2026-02-02T09:59:35.869407+00:00",
+  "executor": "Claude Opus 4.5",
+  "overall_verdict": "PASS",
+  "checks": {
+    "PATHS_json": "PASS",
+    "final_release_self_contained": "PASS",
+    "checksums_exist": "PASS",
+    "canonical_jsonl_900": "PASS",
+    "audit_verdict_pass": "PASS",
+    "tree_hash_434_match": "PASS",
+    "all_delivery_files": "PASS",
+    "stale_refs_clean": "PASS"
+  }
+}

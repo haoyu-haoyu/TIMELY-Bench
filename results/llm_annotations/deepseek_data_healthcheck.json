@@ -1,0 +1,94 @@
+{
+  "generated_at": "2026-01-28T14:29:20.878753+00:00",
+  "source_file": "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final/results/llm_annotations/annotations_deepseek_20260127_131903_part0001.jsonl",
+  "source_file_name": "annotations_deepseek_20260127_131903_part0001.jsonl",
+  "metadata_run_id": "20260127_131903",
+  "record_count": 26,
+  "time_delta_analysis": {
+    "source": "audited_jsonl",
+    "count": 26,
+    "min": -6.0,
+    "max": 0.0,
+    "raw_counts": {
+      "total": 26,
+      "lt_minus_6": 0,
+      "le_minus_6": 12,
+      "lt_minus_12": 0,
+      "le_minus_12": 0
+    },
+    "bucket_counts_corrected": {
+      "<=-12h": 0,
+      "(-12h,-6h]": 12,
+      "(-6h,0h]": 14
+    },
+    "bucket_bins_notation": "Using right=True: (-inf,-12], (-12,-6], (-6,0]",
+    "percentiles": {
+      "p01": -6.0,
+      "p05": -6.0,
+      "p10": -6.0,
+      "p25": -6.0,
+      "p50": -5.0,
+      "p75": -3.25,
+      "p90": -3.0,
+      "p95": -2.25,
+      "p99": -0.5
+    },
+    "csv_consistency": {
+      "csv_min": -6.0,
+      "csv_max": 0.0,
+      "csv_count": 26,
+      "is_consistent": true
+    }
+  },
+  "evidence_analysis": {
+    "total_checked": 26,
+    "substring_valid_count": 21,
+    "substring_valid_rate": 0.8077,
+    "by_note_type": {
+      "nursing": {
+        "valid": 12,
+        "total": 12,
+        "rate": 1.0
+      },
+      "radiology": {
+        "valid": 7,
+        "total": 12,
+        "rate": 0.5833
+      },
+      "lab_comment": {
+        "valid": 2,
+        "total": 2,
+        "rate": 1.0
+      }
+    },
+    "by_label": {
+      "UNRELATED": {
+        "valid": 17,
+        "total": 22,
+        "rate": 0.7727
+      },
+      "AMBIGUOUS": {
+        "valid": 3,
+        "total": 3,
+        "rate": 1.0
+      },
+      "SUPPORTIVE": {
+        "valid": 1,
+        "total": 1,
+        "rate": 1.0
+      }
+    }
+  },
+  "contradiction_explanation": {
+    "issue": "min=-6.0 but bucket '-12h~-6h' has 450 records",
+    "root_cause": "pd.cut uses right=True by default, so interval (-12,-6] includes -6.0",
+    "resolution": "Use clearer interval notation: (-12h,-6h] instead of -12h~-6h",
+    "data_is_correct": true,
+    "labels_were_misleading": true
+  },
+  "recommendations": [
+    "Fix bin labels to use interval notation: (-12h,-6h] instead of -12h~-6h",
+    "Split evidence_span into evidence_quote (strict substring) and evidence_rationale",
+    "radiology notes have 57% substring validity - consider note type in evaluation"
+  ]
+}

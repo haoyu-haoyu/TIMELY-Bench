@@ -9,6 +9,12 @@ episodes/
 !results/**/*.json
 !results/**/*.csv
 
+# Archive and backup directories
+archive/
+legacy_archive/
+logs/
+models/
+
 # Model weights (too large for GitHub)
 *.pt
 *.pth
@@ -18,7 +24,7 @@ episodes/
 *.onnx
 
 # Compressed archives
-episodes_enhanced.tar.gz
+*.tar.gz
 
 # Python
 __pycache__/

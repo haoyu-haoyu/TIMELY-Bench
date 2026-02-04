@@ -1,37 +1,43 @@
 -- ============================================
--- Step 1: 获取 Prolonged LOS 标签
+-- Prolonged LOS + 30-day Readmission Labels
 -- 运行位置: GCP BigQuery
+-- 规则:
+--   - 30天起点 = 出院时间 (dischtime)
+--   - 再入院 = 下一次住院 (next hadm_id)
+--   - 院内死亡不计算再入院
 -- ============================================
 
-WITH icu_stays AS (
+WITH admissions_seq AS (
+    SELECT
+        subject_id,
+        hadm_id,
+        admittime,
+        dischtime,
+        hospital_expire_flag,
+        LEAD(hadm_id) OVER (PARTITION BY subject_id ORDER BY admittime) AS next_hadm_id,
+        LEAD(admittime) OVER (PARTITION BY subject_id ORDER BY admittime) AS next_admittime
+    FROM `physionet-data.mimiciv_3_1_hosp.admissions`
+),
+icu_stays AS (
     SELECT 
         icu.stay_id,
         icu.subject_id,
         icu.hadm_id,
         icu.intime,
         icu.outtime,
+        adm.dischtime,
+        adm.hospital_expire_flag,
+        adm.next_hadm_id,
+        adm.next_admittime,
         -- 计算ICU住院时长（小时）
         DATETIME_DIFF(icu.outtime, icu.intime, HOUR) as los_hours,
         -- 计算ICU住院时长（天）
         DATETIME_DIFF(icu.outtime, icu.intime, DAY) as los_days
     FROM `physionet-data.mimiciv_3_1_icu.icustays` icu
+    JOIN admissions_seq adm
+      ON icu.subject_id = adm.subject_id
+     AND icu.hadm_id = adm.hadm_id
     WHERE DATETIME_DIFF(icu.outtime, icu.intime, HOUR) >= 24  -- 只保留住院>24h的
-),
-
--- 获取30天再入院信息
-readmissions AS (
-    SELECT 
-        a1.stay_id,
-        CASE 
-            WHEN MIN(DATETIME_DIFF(a2.intime, a1.outtime, DAY)) <= 30 THEN 1 
-            ELSE 0 
-        END as readmission_30d
-    FROM `physionet-data.mimiciv_3_1_icu.icustays` a1
-    LEFT JOIN `physionet-data.mimiciv_3_1_icu.icustays` a2
-        ON a1.subject_id = a2.subject_id
-        AND a2.intime > a1.outtime
-        AND DATETIME_DIFF(a2.intime, a1.outtime, DAY) <= 30
-    GROUP BY a1.stay_id
 )
 
 SELECT 
@@ -47,8 +53,12 @@ SELECT
     CASE WHEN i.los_days >= 7 THEN 1 ELSE 0 END as prolonged_los_7d,
     
     -- 30天再入院标签
-    COALESCE(r.readmission_30d, 0) as readmission_30d
+    CASE
+        WHEN i.hospital_expire_flag = 1 THEN NULL
+        WHEN i.next_admittime IS NULL THEN 0
+        WHEN DATETIME_DIFF(i.next_admittime, i.dischtime, DAY) <= 30 THEN 1
+        ELSE 0
+    END as readmission_30d
     
 FROM icu_stays i
-LEFT JOIN readmissions r ON i.stay_id = r.stay_id
 ORDER BY i.stay_id

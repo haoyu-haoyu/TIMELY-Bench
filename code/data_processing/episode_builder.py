@@ -92,7 +92,7 @@ OBSERVATION_WINDOW_HOURS = 24
 class EpisodeBuilder:
     """从CSV数据构建Episode对象"""
 
-    def __init__(self, use_alignment_index: bool = True):
+    def __init__(self, use_alignment_index: bool = True, use_llm_features: bool = False):
         self.data_loaded = False
         self.timeseries_df = None
         self.timeseries_grouped = None  # 按 stay_id 分组
@@ -103,6 +103,7 @@ class EpisodeBuilder:
         self.alignment_grouped = None  # 按 stay_id 分组的字典，O(1)查询
         self.alignment_indexer: AlignmentIndexer = None  # 大文件索引器
         self.use_alignment_index = use_alignment_index  # 是否使用索引模式
+        self.use_llm_features = use_llm_features  # opt-in: 是否加载 LLM features
         self.patterns_df = None
         self.patterns_grouped = None  # 按 stay_id 分组
         self.llm_features_df = None
@@ -186,15 +187,15 @@ class EpisodeBuilder:
         else:
             print(f"   detected_patterns_24h.csv not found")
 
-        # LLM特征
-        if LLM_FEATURES_FILE.exists():
+        # LLM特征 (opt-in: 需要显式启用 use_llm_features=True)
+        if self.use_llm_features and LLM_FEATURES_FILE.exists():
             self.llm_features_df = pd.read_csv(LLM_FEATURES_FILE)
             if 'stay_id' in self.llm_features_df.columns:
                 self.llm_features_df['stay_id'] = self.llm_features_df['stay_id'].astype(int)
                 self.llm_features_grouped = self.llm_features_df.groupby('stay_id')
             print(f"   llm_features_deepseek.csv: {len(self.llm_features_df)} features")
         else:
-            print(f"   llm_features_deepseek.csv not found")
+            print(f"   llm_features_deepseek.csv: SKIPPED (use_llm_features=False or not found)")
 
         # 尝试加载标注样本（从pattern_annotations目录）
         annotated_files = list(ANNOTATIONS_DIR.glob('annotated_samples_*.csv'))
@@ -287,15 +288,15 @@ class EpisodeBuilder:
         else:
             print(f"   detected_patterns_24h.csv not found")
 
-        # LLM特征
-        if LLM_FEATURES_FILE.exists():
+        # LLM特征 (opt-in: 需要显式启用 use_llm_features=True)
+        if self.use_llm_features and LLM_FEATURES_FILE.exists():
             self.llm_features_df = pd.read_csv(LLM_FEATURES_FILE)
             if 'stay_id' in self.llm_features_df.columns:
                 self.llm_features_df['stay_id'] = self.llm_features_df['stay_id'].astype(int)
                 self.llm_features_grouped = self.llm_features_df.groupby('stay_id')
             print(f"   llm_features_deepseek.csv: {len(self.llm_features_df)} features")
         else:
-            print(f"   llm_features_deepseek.csv not found")
+            print(f"   llm_features_deepseek.csv: SKIPPED (use_llm_features=False or not found)")
 
         # 标注样本
         annotated_files = list(ANNOTATIONS_DIR.glob('annotated_samples_*.csv'))
@@ -340,7 +341,12 @@ class EpisodeBuilder:
             return ts_data
         
         # 过滤观察窗口
-        patient_ts = patient_ts_all[patient_ts_all['hour'] < OBSERVATION_WINDOW_HOURS].sort_values('hour')
+        patient_ts = patient_ts_all[patient_ts_all['hour'] < OBSERVATION_WINDOW_HOURS].copy()
+        sort_cols = ['hour']
+        if 'charttime' in patient_ts.columns:
+            patient_ts['_charttime_sort'] = pd.to_datetime(patient_ts['charttime'], errors='coerce')
+            sort_cols.append('_charttime_sort')
+        patient_ts = patient_ts.sort_values(sort_cols)
 
         if len(patient_ts) == 0:
             return ts_data
@@ -360,6 +366,8 @@ class EpisodeBuilder:
 
             # 生命体征
             vital = VitalSign(hour=hour)
+            if 'charttime' in row and pd.notna(row['charttime']):
+                vital.timestamp = str(row['charttime'])
             for col in vital_cols:
                 if col in row and pd.notna(row[col]):
                     # 处理列名映射
@@ -372,6 +380,8 @@ class EpisodeBuilder:
             has_lab = any(col in row and pd.notna(row[col]) for col in lab_cols)
             if has_lab:
                 lab = LabValue(hour=hour)
+                if 'charttime' in row and pd.notna(row['charttime']):
+                    lab.timestamp = str(row['charttime'])
                 for col in lab_cols:
                     if col in row and pd.notna(row[col]):
                         attr_name = 'glucose' if col == 'glucose_lab' else col
@@ -430,6 +440,8 @@ class EpisodeBuilder:
                     radiology_text = str(row.get('radiology_text', '')) if pd.notna(row.get('radiology_text')) else ''
                     if radiology_text:
                         hour_offset = to_python_type(row.get('hour_offset', 0))
+                        if hour_offset is None or hour_offset < 0 or hour_offset >= OBSERVATION_WINDOW_HOURS:
+                            continue
                         note = NoteSpan(
                             note_id=note_id,
                             note_type='radiology',
@@ -451,11 +463,18 @@ class EpisodeBuilder:
                     continue
                 seen_notes.add(note_id)
 
+                note_type = str(row.get('note_type', ''))
+                if note_type == 'discharge':
+                    continue
+                chart_hour = to_python_type(row.get('note_hour', 0))
+                if chart_hour is None or chart_hour < 0 or chart_hour >= OBSERVATION_WINDOW_HOURS:
+                    continue
+
                 note = NoteSpan(
                     note_id=note_id,
-                    note_type=str(row.get('note_type', '')),
+                    note_type=note_type,
                     note_category=str(row.get('note_category', '')),
-                    chart_hour=to_python_type(row.get('note_hour', 0)),
+                    chart_hour=chart_hour,
                     text_full=str(row.get('note_text_full', '')),
                     text_relevant=str(row.get('note_text_relevant', ''))
                 )

@@ -339,7 +339,7 @@ class TemporalTextualAligner:
         # 过滤观察窗口内的笔记
         patient_notes = patient_notes[
             (patient_notes['chart_hour'] >= 0) &
-            (patient_notes['chart_hour'] <= observation_window)
+            (patient_notes['chart_hour'] < observation_window)
         ]
 
         # 按类型过滤
@@ -1167,7 +1167,7 @@ class EpisodeEnhancer:
         note_spans = self.aligner.align_notes_for_patient(stay_id)
         
         # === Bug3修复：时间轴隔离 ===
-        # 严格过滤：仅保留chart_hour <= 24的笔记作为特征
+        # 严格过滤：仅保留chart_hour < 24的笔记作为特征
         aligned_spans = []
         evidence_context = []  # 存放出院小结等未来信息
         
@@ -1184,7 +1184,7 @@ class EpisodeEnhancer:
             }
             
             # 时间轴隔离：根据chart_hour分流
-            if span.chart_hour <= observation_window:
+            if span.chart_hour < observation_window:
                 # 24小时内的笔记 -> 作为模型特征
                 aligned_spans.append(span_dict)
             else:

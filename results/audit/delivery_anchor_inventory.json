@@ -1,0 +1,61 @@
+{
+  "generated_at": "2026-02-01T13:31:54.859779+00:00",
+  "canonical_root": "/scratch/users/k25113331/TIMELY-Bench_Final",
+  "anchors": {
+    "MASTER_DELIVERY_AUDIT": {
+      "canonical_path": "final_release/MASTER_DELIVERY_AUDIT.md",
+      "exists": true,
+      "size_bytes": 5294,
+      "mtime": "2026-01-30T22:10:32.482959+00:00",
+      "sha256": "90c83c0a74db3d9d43ecb8e67740cb0f"
+    },
+    "RELEASE_AUDIT_REPORT": {
+      "canonical_path": "final_release/RELEASE_AUDIT_REPORT.md",
+      "exists": true,
+      "size_bytes": 2636,
+      "mtime": "2026-01-28T23:30:14.230140+00:00",
+      "sha256": "e0d5bd724bc7bb6a7ef57d927b468b63"
+    },
+    "manifest": {
+      "canonical_path": "final_release/manifest.json",
+      "exists": true,
+      "size_bytes": 18035,
+      "mtime": "2026-01-28T23:30:14.237140+00:00",
+      "sha256": "dfbc1ee27e5023ba9001c6ac363bf87e"
+    },
+    "PROVENANCE": {
+      "canonical_path": "final_release/PROVENANCE.json",
+      "exists": true,
+      "size_bytes": 6740,
+      "mtime": "2026-01-28T22:43:35.433796+00:00",
+      "sha256": "bdfb0be1162df116baa28e6748a370fa"
+    },
+    "episodes_enhanced": {
+      "canonical_path": "episodes/episodes_enhanced",
+      "exists": true,
+      "is_directory": true,
+      "n_json_files": 74829
+    },
+    "ANNOTATION_METADATA_deepseek": {
+      "canonical_path": "final_release/llm_annotations/ANNOTATION_METADATA_deepseek_20260127_151413.json",
+      "exists": true,
+      "size_bytes": 2360,
+      "mtime": "2026-01-27T15:19:28.009161+00:00",
+      "sha256": "70d23589524e8ff2f7fdca72bba260b0"
+    },
+    "deepseek_annotations_jsonl": {
+      "canonical_path": "final_release/llm_annotations/annotations_deepseek_20260127_151413_part0001.jsonl",
+      "exists": true,
+      "size_bytes": 802390,
+      "mtime": "2026-01-27T15:19:27.998162+00:00",
+      "sha256": "2c06f4564f8ee96b0a1dd14ff7363ffa"
+    },
+    "llm_annotation_set_csv": {
+      "canonical_path": "results/llm_annotations/llm_annotation_set.csv",
+      "exists": true,
+      "size_bytes": 229311,
+      "mtime": "2026-01-27T14:19:22.331063+00:00",
+      "sha256": "bd9bee6934c391db73896d269c277f54"
+    }
+  }
+}

@@ -26,6 +26,13 @@ from config import RAW_DATA_DIR
 # ==========================================
 DATA_DIR = RAW_DATA_DIR
 
+# Strict prediction window defaults (hours)
+DEFAULT_WINDOW_START = 0
+DEFAULT_WINDOW_END = 24
+
+# Prediction tasks should not use discharge notes.
+INCLUDE_DISCHARGE_NOTES = False
+
 # 笔记文件路径
 NOTE_FILES = {
     'discharge': 'discharge_notes.csv',
@@ -200,7 +207,7 @@ def load_nursing_notes(data_dir: str = DATA_DIR) -> pd.DataFrame:
 
     # 过滤观察窗口内的数据 (0-24h)
     if 'hour_offset' in df.columns:
-        df = df[(df['hour_offset'] >= 0) & (df['hour_offset'] <= 24)]
+        df = df[(df['hour_offset'] >= 0) & (df['hour_offset'] < 24)]
 
     print(f"   Loaded {len(df)} nursing notes for {df['stay_id'].nunique()} patients")
     return df
@@ -247,7 +254,7 @@ def load_lab_comments(data_dir: str = DATA_DIR) -> pd.DataFrame:
 
     # 过滤观察窗口内的数据 (0-24h)
     if 'hour_offset' in df.columns:
-        df = df[(df['hour_offset'] >= 0) & (df['hour_offset'] <= 24)]
+        df = df[(df['hour_offset'] >= 0) & (df['hour_offset'] < 24)]
 
     print(f"   Loaded {len(df)} lab comments for {df['stay_id'].nunique()} patients")
     return df
@@ -303,7 +310,9 @@ def load_radiology_notes(data_dir: str = DATA_DIR) -> pd.DataFrame:
 def load_all_notes(
     data_dir: str = DATA_DIR,
     stay_ids: Optional[List[int]] = None,
-    window_hours: int = 24
+    window_hours: int = DEFAULT_WINDOW_END,
+    window_start: int = DEFAULT_WINDOW_START,
+    include_discharge: bool = INCLUDE_DISCHARGE_NOTES,
 ) -> pd.DataFrame:
     """
     加载所有类型的笔记并合并
@@ -322,9 +331,10 @@ def load_all_notes(
     all_notes = []
 
     # 加载各类型笔记
-    discharge_df = load_discharge_notes(data_dir)
-    if len(discharge_df) > 0:
-        all_notes.append(discharge_df)
+    if include_discharge:
+        discharge_df = load_discharge_notes(data_dir)
+        if len(discharge_df) > 0:
+            all_notes.append(discharge_df)
 
     nursing_df = load_nursing_notes(data_dir)
     if len(nursing_df) > 0:
@@ -355,12 +365,10 @@ def load_all_notes(
     if stay_ids is not None:
         merged = merged[merged['stay_id'].isin(stay_ids)]
 
-    # 过滤时间窗口 (对于discharge notes，hour_offset可能很大，我们保留所有)
-    # 对于其他类型，只保留窗口内的
-    mask = (
-        (merged['note_type'] == 'discharge') |
-        ((merged['hour_offset'] >= -6) & (merged['hour_offset'] <= window_hours))
-    )
+    # 过滤时间窗口（严格 0-24h 或用户指定窗口）
+    merged['hour_offset'] = pd.to_numeric(merged['hour_offset'], errors='coerce')
+    merged = merged[merged['hour_offset'].notna()]
+    mask = (merged['hour_offset'] >= window_start) & (merged['hour_offset'] <= window_hours)
     merged = merged[mask]
 
     print(f"\n   Total merged notes: {len(merged)}")
@@ -378,7 +386,10 @@ def load_all_notes(
 
 def get_note_types_for_pattern(pattern_name: str) -> List[str]:
     """获取Pattern应该使用的笔记类型列表"""
-    return PATTERN_NOTE_MAPPING.get(pattern_name, ['discharge', 'radiology'])
+    note_types = PATTERN_NOTE_MAPPING.get(pattern_name, ['discharge', 'radiology'])
+    if not INCLUDE_DISCHARGE_NOTES:
+        note_types = [nt for nt in note_types if nt != 'discharge']
+    return note_types
 
 
 def get_keywords_for_pattern_and_note_type(

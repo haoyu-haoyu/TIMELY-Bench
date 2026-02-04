@@ -74,6 +74,10 @@ class TemporalDataLoader:
             
             self.note_time_df = pd.read_csv(NOTE_TIME_FILE)
             self.note_time_df['stay_id'] = pd.to_numeric(self.note_time_df['stay_id'], errors='coerce').fillna(-1).astype(int)
+            self.note_time_df['hour_offset'] = pd.to_numeric(self.note_time_df['hour_offset'], errors='coerce')
+            self.note_time_df = self.note_time_df[
+                (self.note_time_df['hour_offset'] >= 0) & (self.note_time_df['hour_offset'] < 24)
+            ]
             
             # 合并获取hour_offset
             self.llm_with_time = self.note_time_df.merge(self.llm_df, on='stay_id', how='inner')
@@ -86,18 +90,26 @@ class TemporalDataLoader:
         """加载时序张量"""
         path = os.path.join(DATA_DIR, f'window_{window}', 'features_temporal.npy')
         X = np.load(path)
+
+        mask_path = os.path.join(DATA_DIR, f'window_{window}', 'features_temporal_mask.npy')
+        if os.path.exists(mask_path):
+            X_mask = np.load(mask_path)
+        else:
+            raise FileNotFoundError(
+                f"Missing temporal mask for {window}. Please regenerate data_windows."
+            )
         
         # 加载元数据获取stay_ids顺序
         meta_path = os.path.join(DATA_DIR, f'window_{window}', 'metadata.json')
         with open(meta_path, 'r') as f:
             metadata = json.load(f)
         
-        return X, np.array(metadata['stay_ids']), metadata['feature_names']
+        return X, X_mask, np.array(metadata['stay_ids']), metadata['feature_names']
     
-    def inject_llm_features(self, X, stay_ids, feature_names, window_hours):
+    def inject_llm_features(self, X, X_mask, stay_ids, feature_names, window_hours):
         """将LLM特征注入到时序张量中"""
         if self.llm_with_time is None:
-            return X, feature_names
+            return X, X_mask, feature_names
         
         N, T, D = X.shape
         D_llm = len(LLM_COLS)
@@ -105,6 +117,8 @@ class TemporalDataLoader:
         # 创建扩展张量
         X_new = np.zeros((N, T, D + D_llm))
         X_new[:, :, :D] = X
+        mask_new = np.zeros((N, T, D + D_llm), dtype=np.float32)
+        mask_new[:, :, :D] = X_mask
         
         # 创建ID映射
         id_map = {sid: i for i, sid in enumerate(stay_ids)}
@@ -114,6 +128,8 @@ class TemporalDataLoader:
             if row.stay_id in id_map:
                 idx = id_map[row.stay_id]
                 h = int(row.hour_offset) if hasattr(row, 'hour_offset') else 0
+                if h >= window_hours:
+                    continue
                 
                 if 0 <= h < T:
                     feats = []
@@ -124,9 +140,10 @@ class TemporalDataLoader:
                     
                     # 从该时间点开始填充到末尾
                     X_new[idx, h:, D:] = feats
+                    mask_new[idx, h:, D:] = 1.0
         
         new_feature_names = feature_names + LLM_COLS
-        return X_new, new_feature_names
+        return X_new, mask_new, new_feature_names
     
     def get_task_label(self, task):
         label_map = {
@@ -150,17 +167,21 @@ class TemporalDataLoader:
 # ==========================================
 # 训练函数
 # ==========================================
-def train_gru(X, y, groups, device, epochs=EPOCHS):
+def train_gru(X_values, X_mask, y, groups, device, epochs=EPOCHS):
     """使用GroupKFold训练GRU"""
     
     gkf = GroupKFold(n_splits=N_FOLDS)
     aurocs = []
     auprcs = []
     
-    input_dim = X.shape[2]
+    if X_mask is None:
+        X_mask = np.zeros_like(X_values, dtype=np.float32)
+
+    input_dim = X_values.shape[2] + X_mask.shape[2]
     
-    for fold, (train_idx, val_idx) in enumerate(gkf.split(X, y, groups)):
-        X_train, X_val = X[train_idx], X[val_idx]
+    for fold, (train_idx, val_idx) in enumerate(gkf.split(X_values, y, groups)):
+        X_train, X_val = X_values[train_idx], X_values[val_idx]
+        X_train_mask, X_val_mask = X_mask[train_idx], X_mask[val_idx]
         y_train, y_val = y[train_idx], y[val_idx]
         
         # 标准化 (reshape -> scale -> reshape back)
@@ -170,10 +191,14 @@ def train_gru(X, y, groups, device, epochs=EPOCHS):
         scaler = StandardScaler()
         X_train = scaler.fit_transform(X_train.reshape(-1, D)).reshape(N_train, T, D)
         X_val = scaler.transform(X_val.reshape(-1, D)).reshape(N_val, T, D)
-        
+
         # 处理NaN
         X_train = np.nan_to_num(X_train, nan=0)
         X_val = np.nan_to_num(X_val, nan=0)
+
+        # 拼接缺失掩码
+        X_train = np.concatenate([X_train, X_train_mask], axis=2)
+        X_val = np.concatenate([X_val, X_val_mask], axis=2)
         
         # DataLoader
         train_loader = DataLoader(TimeSeriesDataset(X_train, y_train), 
@@ -244,12 +269,12 @@ def main():
         print(f"\nWindow: {window}")
         
         # 加载时序数据
-        X_base, stay_ids, feature_names = loader.load_temporal_tensor(window)
+        X_base, X_base_mask, stay_ids, feature_names = loader.load_temporal_tensor(window)
         window_hours = int(window.replace('h', ''))
         
         # 注入LLM特征
-        X_with_llm, feature_names_new = loader.inject_llm_features(
-            X_base, stay_ids, feature_names, window_hours
+        X_with_llm, X_with_llm_mask, feature_names_new = loader.inject_llm_features(
+            X_base, X_base_mask, stay_ids, feature_names, window_hours
         )
         
         print(f"   Base tensor: {X_base.shape}")
@@ -264,7 +289,9 @@ def main():
                 # 找到目标患者的索引
                 mask = np.isin(stay_ids, cohort_ids)
                 X_cohort_base = X_base[mask]
+                X_cohort_base_mask = X_base_mask[mask]
                 X_cohort_llm = X_with_llm[mask]
+                X_cohort_llm_mask = X_with_llm_mask[mask]
                 cohort_stay_ids = stay_ids[mask]
                 
                 # 获取标签和groups
@@ -281,7 +308,7 @@ def main():
                 print(f"\n[{window}|{task}|{cohort_name}] n={len(y)}, pos={y.sum()}")
                 
                 # ===== GRU (Tabular only) =====
-                results_tab = train_gru(X_cohort_base, y, groups, device)
+                results_tab = train_gru(X_cohort_base, X_cohort_base_mask, y, groups, device)
                 print(f"   GRU (Tab):     {results_tab['auroc_mean']:.4f} ± {results_tab['auroc_std']:.4f}")
                 all_results.append({
                     'window': window, 'task': task, 'cohort': cohort_name,
@@ -289,7 +316,7 @@ def main():
                 })
                 
                 # ===== GRU (Tabular + LLM) =====
-                results_fused = train_gru(X_cohort_llm, y, groups, device)
+                results_fused = train_gru(X_cohort_llm, X_cohort_llm_mask, y, groups, device)
                 print(f"   GRU (Tab+LLM): {results_fused['auroc_mean']:.4f} ± {results_fused['auroc_std']:.4f}")
                 all_results.append({
                     'window': window, 'task': task, 'cohort': cohort_name,

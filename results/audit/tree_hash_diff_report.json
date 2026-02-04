@@ -1,0 +1,107 @@
+{
+  "generated_at": "2026-02-02T02:03:23.870125Z",
+  "create_tree_hash": "ead1d0c668849f00f4f6cff813a06f9982bf0e385e8c786c2c440bfb0d5a6325",
+  "local_tree_hash": "3fb5e7c7bef3adb8f4c2daf6363e96811036ad2991c517ffe5dce1ea7e0b1c6e",
+  "create_file_count": 165,
+  "local_file_count": 200,
+  "only_on_create": [
+    "final_release/CHECKSUMS.sha256",
+    "final_release/evidence/reference_scan_full.txt",
+    "final_release/evidence/reference_scan_summary.json",
+    "scripts/closure_fix_all.py"
+  ],
+  "only_on_local": [
+    "docs/REPRODUCIBILITY_CHECKLIST.md",
+    "final_release/cres/cres_build_meta.json",
+    "final_release/cres/cres_eval_summary.json",
+    "final_release/cres/temporal_grounding.jsonl",
+    "final_release/cres/temporal_grounding_index.jsonl",
+    "final_release/cres/trend_threshold.jsonl",
+    "final_release/evidence/deepseek_evidence_validity_recheck.json",
+    "final_release/evidence/deepseek_run_canonical.json",
+    "final_release/evidence/discharge_presence_matrix.json",
+    "final_release/evidence/episodes_full_integrity_v2.json",
+    "final_release/evidence/episodes_parse_smoketest.json",
+    "final_release/evidence/final_anchor_inventory.json",
+    "final_release/evidence/nursing_duplicates_full.json",
+    "final_release/evidence/optin_isolation_recheck_v3.json",
+    "final_release/llm_annotations/annotations_20260126_213249.jsonl",
+    "final_release/llm_annotations/deepseek_data_healthcheck.json",
+    "final_release/llm_annotations/evidence_validity_deepseek_v2.json",
+    "final_release/qc/full_alignment_qc.json",
+    "results/audit/AUDIT_COMPLETION_CERTIFICATE.md",
+    "results/audit/AUDIT_FIX_SUMMARY.json",
+    "results/audit/EXECUTIVE_SUMMARY_zh.md",
+    "results/audit/QUICK_SUMMARY_zh.md",
+    "results/audit/README_AUDIT_FILES.md",
+    "results/audit/canonical_anchor_path_mappings.json",
+    "results/audit/deepseek_canonical_run_declaration.json",
+    "results/audit/deepseek_evidence_validity_recheck.json",
+    "results/audit/deepseek_run_canonical.json",
+    "results/audit/discharge_presence_matrix.json",
+    "results/audit/episodes_full_integrity_v2.json",
+    "results/audit/episodes_parse_smoketest.json",
+    "results/audit/final_anchor_inventory.json",
+    "results/audit/final_anchor_inventory_pre_fix.json",
+    "results/audit/final_anchor_inventory_quick.json",
+    "results/audit/local_sync_verification.md",
+    "results/audit/nursing_duplicates_full.json",
+    "results/audit/optin_isolation_recheck_v3.json",
+    "scripts/comprehensive_final_audit.py",
+    "scripts/final_delivery_audit.py",
+    "scripts/fix_final_audit_issues.py"
+  ],
+  "hash_differs": [
+    {
+      "file": "final_release/POST_FIX_CLOSURE_REPORT.md",
+      "create": "f5ee39196bd9616d...",
+      "local": "fd9515f099cfc971..."
+    },
+    {
+      "file": "final_release/PROVENANCE.json",
+      "create": "5b8b70cc1918d582...",
+      "local": "9de4b05d0ca63a2e..."
+    },
+    {
+      "file": "final_release/llm_annotations/ANNOTATION_METADATA.json",
+      "create": "a2891b14b78f7cf6...",
+      "local": "e38ab09c5e1a3a9a..."
+    },
+    {
+      "file": "final_release/llm_annotations/llm_annotation_meta.json",
+      "create": "6ecf959068b31d6f...",
+      "local": "eba56d9bcef972d2..."
+    },
+    {
+      "file": "final_release/llm_annotations/summary_strata.json",
+      "create": "c803eff3f689ae56...",
+      "local": "656cad98d0df1070..."
+    },
+    {
+      "file": "final_release/manifest.json",
+      "create": "e06390fb1a22c74e...",
+      "local": "3ee07989467cc113..."
+    },
+    {
+      "file": "results/audit/PROTECT_LIST.txt",
+      "create": "6b3735467f13b12e...",
+      "local": "91c7efd25ee78e64..."
+    },
+    {
+      "file": "results/audit/llm_inventory.json",
+      "create": "6f770611367a114b...",
+      "local": "900210aab769d3a0..."
+    },
+    {
+      "file": "results/audit/llm_reference_scan.txt",
+      "create": "e9fc4de2d8354f18...",
+      "local": "dae690bce4b89c9e..."
+    },
+    {
+      "file": "scripts/fix_rule_meta_scratch.py",
+      "create": "477dd7026bd39e9a...",
+      "local": "71f11c923ab23c76..."
+    }
+  ],
+  "verdict": "DIFFER"
+}

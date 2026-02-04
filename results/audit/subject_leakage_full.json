@@ -1,0 +1,229 @@
+{
+  "generated_at": "2026-01-28T21:36:27.736117+00:00",
+  "cohort_path": "/scratch/users/k25113331/TIMELY-Bench_Final/data/processed/merge_output/cohort_final.csv",
+  "n_total_stays": 74829,
+  "n_unique_subjects": 54551,
+  "sklearn_version": "1.7.2",
+  "has_stratified_group_kfold": true,
+  "tasks": {
+    "mortality": {
+      "n_valid": 74829,
+      "splitter_meta": {
+        "holdout_splitter": {
+          "name": "GroupShuffleSplit",
+          "params": {
+            "n_splits": 1,
+            "test_size": 0.2,
+            "random_state": 42
+          },
+          "groups": "subject_id",
+          "source_files": [
+            "code/baselines/train_tabular_baselines.py",
+            "code/baselines/train_text_only.py",
+            "code/baselines/train_fusion.py",
+            "code/baselines/train_temporal_gru_v2.py"
+          ]
+        },
+        "cv_splitter": {
+          "name": "GroupKFold",
+          "params": {
+            "n_splits": 5
+          },
+          "groups": "subject_id",
+          "stratified": false
+        },
+        "notes": null
+      },
+      "holdout_test": {
+        "splitter": "GroupShuffleSplit",
+        "n_train_val_subjects": 43640,
+        "n_test_subjects": 10911,
+        "intersection_count": 0
+      },
+      "cv_folds": [
+        {
+          "fold": 1,
+          "cv_splitter": "GroupKFold",
+          "n_train_subjects": 34912,
+          "n_val_subjects": 8728,
+          "intersection_subjects_count": 0
+        },
+        {
+          "fold": 2,
+          "cv_splitter": "GroupKFold",
+          "n_train_subjects": 34912,
+          "n_val_subjects": 8728,
+          "intersection_subjects_count": 0
+        },
+        {
+          "fold": 3,
+          "cv_splitter": "GroupKFold",
+          "n_train_subjects": 34912,
+          "n_val_subjects": 8728,
+          "intersection_subjects_count": 0
+        },
+        {
+          "fold": 4,
+          "cv_splitter": "GroupKFold",
+          "n_train_subjects": 34912,
+          "n_val_subjects": 8728,
+          "intersection_subjects_count": 0
+        },
+        {
+          "fold": 5,
+          "cv_splitter": "GroupKFold",
+          "n_train_subjects": 34912,
+          "n_val_subjects": 8728,
+          "intersection_subjects_count": 0
+        }
+      ]
+    },
+    "prolonged_los": {
+      "n_valid": 74829,
+      "splitter_meta": {
+        "holdout_splitter": {
+          "name": "GroupShuffleSplit",
+          "params": {
+            "n_splits": 1,
+            "test_size": 0.2,
+            "random_state": 42
+          },
+          "groups": "subject_id",
+          "source_files": [
+            "code/baselines/train_tabular_baselines.py",
+            "code/baselines/train_text_only.py",
+            "code/baselines/train_fusion.py",
+            "code/baselines/train_temporal_gru_v2.py"
+          ]
+        },
+        "cv_splitter": {
+          "name": "GroupKFold",
+          "params": {
+            "n_splits": 5
+          },
+          "groups": "subject_id",
+          "stratified": false
+        },
+        "notes": null
+      },
+      "holdout_test": {
+        "splitter": "GroupShuffleSplit",
+        "n_train_val_subjects": 43640,
+        "n_test_subjects": 10911,
+        "intersection_count": 0
+      },
+      "cv_folds": [
+        {
+          "fold": 1,
+          "cv_splitter": "GroupKFold",
+          "n_train_subjects": 34912,
+          "n_val_subjects": 8728,
+          "intersection_subjects_count": 0
+        },
+        {
+          "fold": 2,
+          "cv_splitter": "GroupKFold",
+          "n_train_subjects": 34912,
+          "n_val_subjects": 8728,
+          "intersection_subjects_count": 0
+        },
+        {
+          "fold": 3,
+          "cv_splitter": "GroupKFold",
+          "n_train_subjects": 34912,
+          "n_val_subjects": 8728,
+          "intersection_subjects_count": 0
+        },
+        {
+          "fold": 4,
+          "cv_splitter": "GroupKFold",
+          "n_train_subjects": 34912,
+          "n_val_subjects": 8728,
+          "intersection_subjects_count": 0
+        },
+        {
+          "fold": 5,
+          "cv_splitter": "GroupKFold",
+          "n_train_subjects": 34912,
+          "n_val_subjects": 8728,
+          "intersection_subjects_count": 0
+        }
+      ]
+    },
+    "readmission_30d": {
+      "n_valid": 65899,
+      "splitter_meta": {
+        "holdout_splitter": {
+          "name": "GroupShuffleSplit",
+          "params": {
+            "n_splits": 1,
+            "test_size": 0.2,
+            "random_state": 42
+          },
+          "groups": "subject_id",
+          "source_files": [],
+          "notes": "train_readmission_baselines.py does NOT use GroupShuffleSplit for holdout; it uses CV-only. However, the leakage audit reproduces this split to verify zero subject overlap in a hypothetical holdout scenario, which is strictly more conservative than the actual training pipeline."
+        },
+        "cv_splitter": {
+          "name": "StratifiedGroupKFold",
+          "params": {
+            "n_splits": 5,
+            "shuffle": true,
+            "random_state": 42
+          },
+          "groups": "subject_id",
+          "stratified": true,
+          "source_files": [
+            "code/baselines/train_readmission_baselines.py"
+          ]
+        },
+        "notes": "sklearn 1.7.2 provides StratifiedGroupKFold (HAS_STRATIFIED_GROUP_KFOLD=True). The readmission training script uses StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=42) for cross-validation. No GroupShuffleSplit holdout is applied; the script evaluates via CV only."
+      },
+      "holdout_test": {
+        "splitter": "GroupShuffleSplit",
+        "n_train_val_subjects": 38936,
+        "n_test_subjects": 9734,
+        "intersection_count": 0
+      },
+      "cv_folds": [
+        {
+          "fold": 1,
+          "cv_splitter": "StratifiedGroupKFold",
+          "n_train_subjects": 31112,
+          "n_val_subjects": 7824,
+          "intersection_subjects_count": 0
+        },
+        {
+          "fold": 2,
+          "cv_splitter": "StratifiedGroupKFold",
+          "n_train_subjects": 31161,
+          "n_val_subjects": 7775,
+          "intersection_subjects_count": 0
+        },
+        {
+          "fold": 3,
+          "cv_splitter": "StratifiedGroupKFold",
+          "n_train_subjects": 31155,
+          "n_val_subjects": 7781,
+          "intersection_subjects_count": 0
+        },
+        {
+          "fold": 4,
+          "cv_splitter": "StratifiedGroupKFold",
+          "n_train_subjects": 31151,
+          "n_val_subjects": 7785,
+          "intersection_subjects_count": 0
+        },
+        {
+          "fold": 5,
+          "cv_splitter": "StratifiedGroupKFold",
+          "n_train_subjects": 31165,
+          "n_val_subjects": 7771,
+          "intersection_subjects_count": 0
+        }
+      ]
+    }
+  },
+  "global_max_intersection": 0,
+  "verdict": "PASS"
+}

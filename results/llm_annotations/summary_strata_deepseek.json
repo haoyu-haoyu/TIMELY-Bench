@@ -1,0 +1,30 @@
+{
+  "n_samples": 900,
+  "note_type_counts": {
+    "nursing": 300,
+    "radiology": 300,
+    "lab_comment": 300
+  },
+  "severity_counts": {
+    "severe": 300,
+    "moderate": 300,
+    "mild": 300
+  },
+  "time_delta_bucket_counts": {
+    "-12h~-6h": 450,
+    "-6h~0h": 450,
+    "<=-12h": 0
+  },
+  "label_counts": {
+    "UNRELATED": 668,
+    "AMBIGUOUS": 162,
+    "SUPPORTIVE": 60,
+    "CONTRADICTORY": 10
+  },
+  "dedup_key": "stay_id+pattern_hour+pattern_name+note_id",
+  "metadata_path": "/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/results/llm_annotations/ANNOTATION_METADATA_deepseek.json",
+  "annotation_files": [
+    "/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/results/llm_annotations/annotations_deepseek_20260127_151413_part0001.jsonl"
+  ],
+  "annotation_total_rows": 900
+}

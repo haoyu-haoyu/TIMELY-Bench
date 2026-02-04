@@ -1,0 +1,32 @@
+{
+  "check_name": "DISCHARGE_FULL_CHAIN_AUDIT",
+  "timestamp": "2026-01-30T18:23:24.720009+00:00",
+  "overall_verdict": "PASS",
+  "conclusion": "Baseline and LLM chains have 0 discharge injection.",
+  "layers": {
+    "L1_episodes": {
+      "pass": true,
+      "count": 0,
+      "total_episodes": 74830,
+      "total_notes": 6975132
+    },
+    "L2_llm_set": {
+      "pass": true,
+      "csv": 0,
+      "jsonl": 0
+    },
+    "L3_deepseek": {
+      "pass": true,
+      "count": 0
+    },
+    "L4_final_release": {
+      "pass": true,
+      "count": 0
+    }
+  },
+  "code_guardrail": {
+    "found": true,
+    "line": 60,
+    "code": "chunk = chunk[chunk[\"note_type\"].astype(str).str.lower() != \"discharge\"]"
+  }
+}

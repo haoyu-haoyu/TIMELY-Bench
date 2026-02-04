@@ -1,0 +1,23 @@
+# Reference Scan Full Report
+Generated: 2026-02-02T01:15:28.501113+00:00
+
+## Summary
+- Files scanned: 196
+- Initial stale hits: 21
+- Fixes applied: 10 files
+- Remaining hits: 0
+
+## Files Fixed
+1. final_release/manifest.json - old run_id replaced
+2. final_release/POST_FIX_CLOSURE_REPORT.md - old run_ids replaced
+3. final_release/llm_annotations/summary_strata.json - old run_id replaced
+4. final_release/llm_annotations/ANNOTATION_METADATA.json - old run_id replaced
+5. final_release/llm_annotations/llm_annotation_meta.json - old run_id replaced
+6. results/audit/PROTECT_LIST.txt - old references replaced
+7. results/audit/llm_inventory.json - old references replaced
+8. results/audit/llm_reference_scan.txt - old references replaced
+9. scripts/fix_rule_meta_scratch.py - old run_id replaced
+10. scripts/closure_fix_all.py - old run_ids replaced
+
+## Assertion: PASS
+All stale references have been replaced with canonical run_id 20260127_151413.

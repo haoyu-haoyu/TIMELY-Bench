@@ -14,10 +14,11 @@ sys.path.insert(0, str(Path(__file__).parent))
 from syndrome_detector import SyndromeDetector, get_accuracy
 
 # 配置
-EPISODES_DIR = Path('/home/ubuntu/TIMELY-Bench_Final/episodes/episodes_enhanced')
-RULES_FILE = Path('/home/ubuntu/TIMELY-Bench_Final/code/config/diagnostic_rules.json')
-MEDCAT_FILE = Path('/home/ubuntu/TIMELY-Bench_Final/data/processed/medcat_umls/medcat_umls_concepts.csv')
-OUTPUT_DIR = Path('/home/ubuntu/TIMELY-Bench_Final/episodes/episodes_enhanced')  # 原地更新
+BASE_DIR = Path(__file__).resolve().parents[2]
+EPISODES_DIR = BASE_DIR / 'episodes' / 'episodes_enhanced'
+RULES_FILE = BASE_DIR / 'code' / 'config' / 'diagnostic_rules.json'
+MEDCAT_FILE = BASE_DIR / 'data' / 'processed' / 'medcat_full' / 'medcat_has_concepts_24h.csv'
+OUTPUT_DIR = EPISODES_DIR  # 原地更新
 
 
 def main():
@@ -33,7 +34,7 @@ def main():
     
     # 初始化检测器
     rules_path = str(RULES_FILE) if RULES_FILE.exists() else None
-    detector = SyndromeDetector(rules_path=rules_path, medcat_df=medcat_df)
+    detector = SyndromeDetector(rules_path=rules_path, medcat_df=medcat_df, use_condition_labels=False)
     print(f"初始化检测器完成")
     
     # 获取所有 Episode 文件

@@ -1,0 +1,463 @@
+{
+  "check_name": "EPISODE_SCHEMA_COVERAGE_FIXED",
+  "timestamp": "2026-02-01T13:32:05.235834+00:00",
+  "total_episodes": 74829,
+  "sample_size": 300,
+  "alias_map_applied": true,
+  "fields": {
+    "episode_id": {
+      "documented_name": "episode_id",
+      "actual_jsonpath": "episode_id",
+      "sample_count": 300,
+      "coverage_pct": 100.0,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "stay_id": {
+      "documented_name": "stay_id",
+      "actual_jsonpath": "stay_id",
+      "sample_count": 300,
+      "coverage_pct": 100.0,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "subject_id": {
+      "documented_name": "subject_id",
+      "actual_jsonpath": "patient.subject_id",
+      "sample_count": 300,
+      "coverage_pct": 100.0,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "hadm_id": {
+      "documented_name": "hadm_id",
+      "actual_jsonpath": "patient.hadm_id",
+      "sample_count": 300,
+      "coverage_pct": 100.0,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "patient.age": {
+      "documented_name": "patient.age",
+      "actual_jsonpath": "patient.age",
+      "sample_count": 300,
+      "coverage_pct": 100.0,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "patient.gender": {
+      "documented_name": "patient.gender",
+      "actual_jsonpath": "patient.gender",
+      "sample_count": 300,
+      "coverage_pct": 100.0,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "structured_data": {
+      "documented_name": "structured_data",
+      "actual_jsonpath": "timeseries",
+      "sample_count": 300,
+      "coverage_pct": 100.0,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "structured_data.vitals": {
+      "documented_name": "structured_data.vitals",
+      "actual_jsonpath": "timeseries.vitals",
+      "sample_count": 300,
+      "coverage_pct": 100.0,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "structured_data.labs": {
+      "documented_name": "structured_data.labs",
+      "actual_jsonpath": "timeseries.labs",
+      "sample_count": 296,
+      "coverage_pct": 98.67,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "timeseries": {
+      "documented_name": "timeseries",
+      "actual_jsonpath": "timeseries",
+      "sample_count": 300,
+      "coverage_pct": 100.0,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "timeseries.vitals": {
+      "documented_name": "timeseries.vitals",
+      "actual_jsonpath": "timeseries.vitals",
+      "sample_count": 300,
+      "coverage_pct": 100.0,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "timeseries.labs": {
+      "documented_name": "timeseries.labs",
+      "actual_jsonpath": "timeseries.labs",
+      "sample_count": 296,
+      "coverage_pct": 98.67,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "clinical_text": {
+      "documented_name": "clinical_text",
+      "actual_jsonpath": "clinical_text",
+      "sample_count": 300,
+      "coverage_pct": 100.0,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "clinical_text.notes": {
+      "documented_name": "clinical_text.notes",
+      "actual_jsonpath": "clinical_text.notes",
+      "sample_count": 300,
+      "coverage_pct": 100.0,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "clinical_text.llm_features": {
+      "documented_name": "clinical_text.llm_features",
+      "actual_jsonpath": "clinical_text.llm_features",
+      "sample_count": 172,
+      "coverage_pct": 57.33,
+      "status": "PARTIAL",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "clinical_text.aligned_spans": {
+      "documented_name": "clinical_text.aligned_spans",
+      "actual_jsonpath": "clinical_text.aligned_spans",
+      "sample_count": 172,
+      "coverage_pct": 57.33,
+      "status": "PARTIAL",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "labels": {
+      "documented_name": "labels",
+      "actual_jsonpath": "labels",
+      "sample_count": 300,
+      "coverage_pct": 100.0,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "labels.mortality": {
+      "documented_name": "labels.mortality",
+      "actual_jsonpath": "labels.outcome.mortality",
+      "sample_count": 300,
+      "coverage_pct": 100.0,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "labels.prolonged_los": {
+      "documented_name": "labels.prolonged_los",
+      "actual_jsonpath": "labels.outcome.prolonged_los",
+      "sample_count": 300,
+      "coverage_pct": 100.0,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "labels.readmission_30d": {
+      "documented_name": "labels.readmission_30d",
+      "actual_jsonpath": "labels.outcome.readmission_30d",
+      "sample_count": 261,
+      "coverage_pct": 87.0,
+      "status": "PARTIAL",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "labels.outcome": {
+      "documented_name": "labels.outcome",
+      "actual_jsonpath": "labels.outcome",
+      "sample_count": 300,
+      "coverage_pct": 100.0,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "labels.has_sepsis": {
+      "documented_name": "labels.has_sepsis",
+      "actual_jsonpath": "labels.has_sepsis",
+      "sample_count": 300,
+      "coverage_pct": 100.0,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "labels.has_aki": {
+      "documented_name": "labels.has_aki",
+      "actual_jsonpath": "labels.has_aki",
+      "sample_count": 300,
+      "coverage_pct": 100.0,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "labels.has_ards": {
+      "documented_name": "labels.has_ards",
+      "actual_jsonpath": "labels.has_ards",
+      "sample_count": 300,
+      "coverage_pct": 100.0,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "reasoning": {
+      "documented_name": "reasoning",
+      "actual_jsonpath": "reasoning",
+      "sample_count": 300,
+      "coverage_pct": 100.0,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "reasoning.detected_patterns": {
+      "documented_name": "reasoning.detected_patterns",
+      "actual_jsonpath": "reasoning.detected_patterns",
+      "sample_count": 300,
+      "coverage_pct": 100.0,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "reasoning.pattern_annotations": {
+      "documented_name": "reasoning.pattern_annotations",
+      "actual_jsonpath": "reasoning.pattern_annotations",
+      "sample_count": 299,
+      "coverage_pct": 99.67,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "reasoning.condition_graph": {
+      "documented_name": "reasoning.condition_graph",
+      "actual_jsonpath": "reasoning.condition_graph",
+      "sample_count": 300,
+      "coverage_pct": 100.0,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "metadata": {
+      "documented_name": "metadata",
+      "actual_jsonpath": "metadata",
+      "sample_count": 300,
+      "coverage_pct": 100.0,
+      "status": "PRESENT",
+      "example_episodes": [
+        "TIMELY_v2_30000153",
+        "TIMELY_v2_30000213",
+        "TIMELY_v2_30000484"
+      ]
+    },
+    "patient_state_space": {
+      "documented_name": "patient_state_space",
+      "actual_jsonpath": "patient_state_space",
+      "sample_count": 0,
+      "coverage_pct": 0.0,
+      "status": "NOT_IN_SCHEMA",
+      "example_episodes": []
+    },
+    "reasoning_chain": {
+      "documented_name": "reasoning_chain",
+      "actual_jsonpath": "reasoning_chain",
+      "sample_count": 0,
+      "coverage_pct": 0.0,
+      "status": "NOT_IN_SCHEMA",
+      "example_episodes": []
+    },
+    "disease_timeline": {
+      "documented_name": "disease_timeline",
+      "actual_jsonpath": "disease_timeline",
+      "sample_count": 0,
+      "coverage_pct": 0.0,
+      "status": "NOT_IN_SCHEMA",
+      "example_episodes": []
+    },
+    "syndrome_detection": {
+      "documented_name": "syndrome_detection",
+      "actual_jsonpath": "syndrome_detection",
+      "sample_count": 0,
+      "coverage_pct": 0.0,
+      "status": "NOT_IN_SCHEMA",
+      "example_episodes": []
+    },
+    "conditions": {
+      "documented_name": "conditions",
+      "actual_jsonpath": "conditions",
+      "sample_count": 0,
+      "coverage_pct": 0.0,
+      "status": "NOT_IN_SCHEMA",
+      "example_episodes": []
+    },
+    "risk_factors": {
+      "documented_name": "risk_factors",
+      "actual_jsonpath": "risk_factors",
+      "sample_count": 0,
+      "coverage_pct": 0.0,
+      "status": "NOT_IN_SCHEMA",
+      "example_episodes": []
+    }
+  },
+  "summary": {
+    "fully_present": 26,
+    "partial": 3,
+    "not_in_schema": 6,
+    "present_fields": [
+      "episode_id",
+      "stay_id",
+      "subject_id",
+      "hadm_id",
+      "patient.age",
+      "patient.gender",
+      "structured_data",
+      "structured_data.vitals",
+      "structured_data.labs",
+      "timeseries",
+      "timeseries.vitals",
+      "timeseries.labs",
+      "clinical_text",
+      "clinical_text.notes",
+      "labels",
+      "labels.mortality",
+      "labels.prolonged_los",
+      "labels.outcome",
+      "labels.has_sepsis",
+      "labels.has_aki",
+      "labels.has_ards",
+      "reasoning",
+      "reasoning.detected_patterns",
+      "reasoning.pattern_annotations",
+      "reasoning.condition_graph",
+      "metadata"
+    ],
+    "partial_fields": [
+      "clinical_text.llm_features",
+      "clinical_text.aligned_spans",
+      "labels.readmission_30d"
+    ],
+    "not_in_schema_fields": [
+      "patient_state_space",
+      "reasoning_chain",
+      "disease_timeline",
+      "syndrome_detection",
+      "conditions",
+      "risk_factors"
+    ],
+    "verdict": "PASS"
+  },
+  "fix_explanation": {
+    "issue": "Previous audit used incorrect JSONPath (e.g., 'subject_id' instead of 'patient.subject_id')",
+    "fix": "Applied SCHEMA_ALIAS_MAP to map documented field names to actual episode JSONPaths",
+    "key_mappings": {
+      "subject_id -> patient.subject_id": "FIXED",
+      "hadm_id -> patient.hadm_id": "FIXED",
+      "structured_data -> timeseries": "FIXED (renamed in v2.0)",
+      "labels.mortality -> labels.outcome.mortality": "FIXED",
+      "labels.prolonged_los -> labels.outcome.prolonged_los": "FIXED"
+    }
+  }
+}

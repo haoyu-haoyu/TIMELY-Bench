@@ -1,0 +1,19 @@
+{
+  "check_name": "PATH_MAPPING_CHECK",
+  "timestamp": "2026-01-28T21:36:27.736117+00:00",
+  "scratch_path": "/scratch/users/k25113331/TIMELY-Bench_Final",
+  "cephfs_path": "/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final",
+  "scratch_exists": true,
+  "cephfs_exists": true,
+  "scratch_realpath": "/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final",
+  "cephfs_realpath": "/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final",
+  "scratch_stat_dev_ino": "52:9895663149215",
+  "cephfs_stat_dev_ino": "52:9895663149215",
+  "same_inode": true,
+  "scratch_manifest_sha256": "f50583f790e7f2dbb99d42b4deabc21cf30e1850a0461044b366d4c599a640ef",
+  "cephfs_manifest_sha256": "f50583f790e7f2dbb99d42b4deabc21cf30e1850a0461044b366d4c599a640ef",
+  "same_manifest_hash": true,
+  "canonical_root": "/scratch/users/k25113331/TIMELY-Bench_Final",
+  "explanation": "/scratch/users/k25113331 is a user-facing mount point that resolves to the same CephFS volume at /cephfs/volumes/hpc_data_usr/k25113331/... . Both paths share identical device:inode and file content. The canonical root is set to /scratch because all job submission scripts and user commands reference this path.",
+  "verdict": "CONSISTENT"
+}

@@ -1,0 +1,8 @@
+{
+  "trend_threshold_accuracy": 1.0,
+  "temporal_grounding_accuracy": 0.9,
+  "evidence_validity_rate": 1.0,
+  "n_trend": 500,
+  "n_grounding": 500,
+  "evidence_check": "sample_alignment_index"
+}

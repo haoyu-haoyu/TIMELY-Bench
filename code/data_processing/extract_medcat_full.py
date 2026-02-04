@@ -105,6 +105,8 @@ def extract_concepts(cat, texts):
             entities = cat.get_entities(text)
             
             for ent_id, ent_data in entities.get('entities', {}).items():
+                if ent_data.get('negated'):
+                    continue
                 all_entities.append({
                     'cui': ent_data.get('cui'),
                     'name': ent_data.get('pretty_name'),

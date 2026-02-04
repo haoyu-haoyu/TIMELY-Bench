@@ -174,6 +174,8 @@ def load_and_process_data():
         # 3. 加载笔记和LLM特征
         print("   - 加载笔记和LLM特征...")
         note_time_df = pd.read_csv(NOTE_TIME_FILE)
+        note_time_df['hour_offset'] = pd.to_numeric(note_time_df['hour_offset'], errors='coerce')
+        note_time_df = note_time_df[(note_time_df['hour_offset'] >= 0) & (note_time_df['hour_offset'] < 24)]
         llm_df = pd.read_csv(LLM_FEAT_FILE)
         llm_df['stay_id'] = pd.to_numeric(llm_df['stay_id'], errors='coerce').fillna(-1).astype(int)
         note_merged = note_time_df.merge(llm_df, on='stay_id', how='inner')
@@ -214,7 +216,7 @@ def load_and_process_data():
         ts_df = ts_df[~ts_df.index.duplicated(keep='first')]
         ts_df = ts_df.reindex(mux)
 
-        X_tensor = np.zeros((N, T, D))
+        X_tensor = np.full((N, T, D), np.nan)
         X_tensor[:, :, :D_physio] = ts_df[feature_cols].values.reshape(N, T, D_physio)
 
         # 注入LLM特征
@@ -231,10 +233,11 @@ def load_and_process_data():
 
         print(f"   - LLM特征注入数量: {llm_injected_count}")
 
-        # 缺失值处理（前向填充）
+        # 缺失值处理（前向填充）+ 缺失掩码
         print("   - 处理缺失值...")
-        mask = np.isnan(X_tensor)
-        idx_ffill = np.where(~mask, np.arange(mask.shape[1])[None, :, None], 0)
+        obs_mask = (~np.isnan(X_tensor)).astype(np.float32)
+        nan_mask = np.isnan(X_tensor)
+        idx_ffill = np.where(~nan_mask, np.arange(nan_mask.shape[1])[None, :, None], 0)
         np.maximum.accumulate(idx_ffill, axis=1, out=idx_ffill)
         X_tensor = X_tensor[np.arange(N)[:, None, None],
                            idx_ffill,
@@ -247,7 +250,7 @@ def load_and_process_data():
         print(f"张量构建失败: {e}")
         raise
 
-    return X_tensor, df_clean['label'].values, df_clean['subject_id'].values, D
+    return X_tensor, obs_mask, df_clean['label'].values, df_clean['subject_id'].values, D
 
 # Model definitions
 class ClinicalGRU(nn.Module):
@@ -347,8 +350,9 @@ def main():
 
     # 加载数据
     try:
-        X, y, subjects, input_dim = load_and_process_data()
-        print(f"\n数据准备完成: X={X.shape}, y={y.shape}")
+        X_values, X_mask, y, subjects, base_dim = load_and_process_data()
+        input_dim = base_dim * 2
+        print(f"\n数据准备完成: X={X_values.shape}, mask={X_mask.shape}, y={y.shape}")
     except Exception as e:
         print(f"\n数据加载失败: {e}")
         import traceback
@@ -376,16 +380,18 @@ def main():
     if USE_HOLDOUT_TEST:
         print(f"\n分离独立测试集 ({TEST_SIZE*100:.0f}%)...")
         gss = GroupShuffleSplit(n_splits=1, test_size=TEST_SIZE, random_state=RANDOM_STATE)
-        train_val_idx, test_idx = next(gss.split(X, y, groups=subjects))
+        train_val_idx, test_idx = next(gss.split(X_values, y, groups=subjects))
 
-        X_train_val, X_test = X[train_val_idx], X[test_idx]
+        X_train_val, X_test = X_values[train_val_idx], X_values[test_idx]
+        X_train_val_mask, X_test_mask = X_mask[train_val_idx], X_mask[test_idx]
         y_train_val, y_test = y[train_val_idx], y[test_idx]
         subjects_train_val = subjects[train_val_idx]
 
         print(f"   训练+验证集: {len(X_train_val)}, 测试集: {len(X_test)}")
     else:
-        X_train_val, y_train_val, subjects_train_val = X, y, subjects
-        X_test, y_test = None, None
+        X_train_val, y_train_val, subjects_train_val = X_values, y, subjects
+        X_train_val_mask = X_mask
+        X_test, y_test, X_test_mask = None, None, None
 
     # 交叉验证
     print(f"\n[3/5] 开始 {N_FOLDS} 折交叉验证...")
@@ -404,6 +410,7 @@ def main():
         print(f"{'='*60}")
 
         X_train, X_val = X_train_val[train_idx], X_train_val[val_idx]
+        X_train_mask, X_val_mask = X_train_val_mask[train_idx], X_train_val_mask[val_idx]
         y_train, y_val = y_train_val[train_idx], y_train_val[val_idx]
 
         # 标准化
@@ -419,6 +426,10 @@ def main():
         X_val_2d = scaler.transform(X_val_2d)
         X_val = X_val_2d.reshape(N_val, T, D)
 
+        # 拼接缺失掩码
+        X_train = np.concatenate([X_train, X_train_mask], axis=2)
+        X_val = np.concatenate([X_val, X_val_mask], axis=2)
+
         # DataLoader
         train_loader = DataLoader(MIMICDataset(X_train, y_train),
                                  batch_size=BATCH_SIZE, shuffle=True)
@@ -426,6 +437,7 @@ def main():
                                batch_size=BATCH_SIZE)
 
         # 模型初始化
+        input_dim = D * 2
         model = ClinicalGRU(input_dim, HIDDEN_DIM, NUM_LAYERS, dropout=DROPOUT).to(device)
         optimizer = optim.Adam(model.parameters(), lr=LR)
         criterion = nn.BCELoss()
@@ -557,6 +569,7 @@ def main():
             X_test_2d = X_test.reshape(-1, D)
             X_test_2d = scaler.transform(X_test_2d)
             X_test_scaled = X_test_2d.reshape(N_test, T, D)
+            X_test_scaled = np.concatenate([X_test_scaled, X_test_mask], axis=2)
 
             test_loader = DataLoader(MIMICDataset(X_test_scaled, y_test),
                                     batch_size=BATCH_SIZE)
@@ -607,8 +620,8 @@ def main():
             'lr_scheduler_patience': LR_SCHEDULER_PATIENCE,
         },
         'data': {
-            'total_samples': len(X),
-            'train_val_samples': len(X_train_val) if USE_HOLDOUT_TEST else len(X),
+            'total_samples': len(X_values),
+            'train_val_samples': len(X_train_val) if USE_HOLDOUT_TEST else len(X_values),
             'test_samples': len(X_test) if X_test is not None else 0,
             'input_dim': input_dim,
         },

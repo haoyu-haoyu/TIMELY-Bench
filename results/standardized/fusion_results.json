@@ -1,0 +1,27 @@
+{
+  "step": "fusion",
+  "timestamp": "2026-01-26T11:15:03",
+  "seed": 42,
+  "inputs": {
+    "episodes_dir": "/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/episodes/episodes_enhanced",
+    "cohort_file": "/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/data/processed/merge_output/cohort_final.csv"
+  },
+  "results": [
+    {
+      "step": "fusion",
+      "task": "mortality",
+      "model": "Early Fusion",
+      "n_samples": 72485,
+      "positive_rate": 0.1191142995102435,
+      "auroc_mean": 0.7614401866904366,
+      "auroc_std": 0.006036396806176695,
+      "auprc_mean": 0.3471233521439697,
+      "auprc_std": 0.016089817934393614,
+      "test_auroc": 0.7641665527887368,
+      "test_auprc": 0.3568976731504041,
+      "fold_details": "[{\"fold\": 1, \"auroc\": 0.7694148775923716, \"auprc\": 0.3662197407972383}, {\"fold\": 2, \"auroc\": 0.7615315964521753, \"auprc\": 0.3427296389076012}, {\"fold\": 3, \"auroc\": 0.7511308930128091, \"auprc\": 0.319762391948105}, {\"fold\": 4, \"auroc\": 0.7647741221973927, \"auprc\": 0.3470612426765317}, {\"fold\": 5, \"auroc\": 0.7603494441974337, \"auprc\": 0.3598437463903722}]",
+      "seed": 42,
+      "input_paths": "{\"episodes_dir\": \"/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/episodes/episodes_enhanced\", \"cohort_file\": \"/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/data/processed/merge_output/cohort_final.csv\"}"
+    }
+  ]
+}

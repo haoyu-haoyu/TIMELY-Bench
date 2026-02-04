@@ -40,18 +40,28 @@ from load_multi_notes import (
 # ==========================================
 OUTPUT_DIR = TEMPORAL_ALIGNMENT_DIR
 
-# 时间对齐窗口
+# 时间对齐窗口（严格因果：只看过去）
 ALIGNMENT_WINDOW_BEFORE = 6  # 模式发生前6小时的笔记
-ALIGNMENT_WINDOW_AFTER = 2   # 模式发生后2小时的笔记
+ALIGNMENT_WINDOW_AFTER = 0   # 模式发生后0小时的笔记（禁用lookahead）
 
 # 是否使用多类型笔记
 USE_MULTI_NOTES = True  # 设为True使用新的多类型笔记
+
+# 预测任务默认不使用出院小结
+INCLUDE_DISCHARGE_NOTES = False
+
+# 是否允许同一条 note 匹配多个 pattern 事件
+ALLOW_NOTE_MULTI_MATCH = False
 
 # ==========================================
 # 1. 数据加载
 # ==========================================
 
-def load_notes(note_path: str = None, use_multi_notes: bool = USE_MULTI_NOTES) -> pd.DataFrame:
+def load_notes(
+    note_path: str = None,
+    use_multi_notes: bool = USE_MULTI_NOTES,
+    include_discharge: bool = INCLUDE_DISCHARGE_NOTES,
+) -> pd.DataFrame:
     """
     加载临床笔记数据
 
@@ -64,7 +74,7 @@ def load_notes(note_path: str = None, use_multi_notes: bool = USE_MULTI_NOTES) -
     """
     if use_multi_notes:
         print("Using Multi-Type Notes (Discharge, Nursing, Lab, Radiology)")
-        notes = load_all_notes()
+        notes = load_all_notes(include_discharge=include_discharge)
         return notes
 
     # 原有单文件加载逻辑 (向后兼容)
@@ -303,6 +313,7 @@ def align_patterns_with_notes(
 
         patient_patterns = patterns_df[patterns_df['stay_id'] == stay_id].copy()
         patient_notes = notes_df[notes_df['stay_id'] == stay_id]
+        used_note_ids = set()
 
         if len(patient_notes) == 0:
             continue
@@ -322,6 +333,10 @@ def align_patterns_with_notes(
             # 获取该Pattern应该使用的笔记类型
             if use_pattern_note_mapping and 'note_type' in patient_notes.columns:
                 preferred_note_types = get_note_types_for_pattern(pattern_name)
+                if preferred_note_types and not INCLUDE_DISCHARGE_NOTES:
+                    preferred_note_types = [nt for nt in preferred_note_types if nt != 'discharge']
+                    if not preferred_note_types:
+                        preferred_note_types = None
             else:
                 preferred_note_types = None
 
@@ -334,16 +349,14 @@ def align_patterns_with_notes(
                 for note_type in patient_notes['note_type'].unique():
                     type_notes = patient_notes[patient_notes['note_type'] == note_type]
 
-                    if note_type == 'discharge':
-                        # Discharge notes: 使用所有（不限时间窗口，因为它们是回顾性总结）
-                        matching = type_notes
-                    else:
-                        # 其他类型：使用时间窗口
-                        note_mask = (
-                            (type_notes['hour_offset'] >= pattern_hour - window_before) &
-                            (type_notes['hour_offset'] <= pattern_hour + window_after)
-                        )
-                        matching = type_notes[note_mask]
+                    if note_type == 'discharge' and not INCLUDE_DISCHARGE_NOTES:
+                        continue
+                    # 所有笔记统一按时间窗口过滤（严格因果）
+                    note_mask = (
+                        (type_notes['hour_offset'] >= pattern_hour - window_before) &
+                        (type_notes['hour_offset'] <= pattern_hour + window_after)
+                    )
+                    matching = type_notes[note_mask]
 
                     if len(matching) > 0:
                         matching_notes_list.append(matching)
@@ -375,6 +388,10 @@ def align_patterns_with_notes(
 
             for _, note_row in matching_notes.iterrows():
                 note_type = note_row.get('note_type', 'unknown')
+                note_id = str(note_row.get('note_id', ''))
+                if not ALLOW_NOTE_MULTI_MATCH and note_id in used_note_ids:
+                    continue
+                used_note_ids.add(note_id)
                 note_text = clean_note_text(note_row.get('text', ''))
 
                 # 获取针对该笔记类型的关键词
@@ -457,7 +474,11 @@ def create_alignment_dataset(
 
     print("Loading data...")
     patterns_df = load_pattern_detections(patterns_path)
-    notes_df = load_notes(notes_path, use_multi_notes=use_multi_notes)
+    notes_df = load_notes(
+        notes_path,
+        use_multi_notes=use_multi_notes,
+        include_discharge=INCLUDE_DISCHARGE_NOTES,
+    )
 
     # 打印笔记摘要
     if use_multi_notes and len(notes_df) > 0:
@@ -502,6 +523,7 @@ def create_alignment_dataset(
             
             patient_patterns = patterns_df[patterns_df['stay_id'] == stay_id].copy()
             patient_notes = notes_df[notes_df['stay_id'] == stay_id]
+            used_note_ids = set()
             
             if len(patient_notes) == 0:
                 continue
@@ -520,6 +542,10 @@ def create_alignment_dataset(
                 # 获取该Pattern应该使用的笔记类型
                 if use_multi_notes and 'note_type' in patient_notes.columns:
                     preferred_note_types = get_note_types_for_pattern(pattern_name)
+                    if preferred_note_types and not INCLUDE_DISCHARGE_NOTES:
+                        preferred_note_types = [nt for nt in preferred_note_types if nt != 'discharge']
+                        if not preferred_note_types:
+                            preferred_note_types = None
                 else:
                     preferred_note_types = None
                 
@@ -528,14 +554,13 @@ def create_alignment_dataset(
                     matching_notes_list = []
                     for note_type in patient_notes['note_type'].unique():
                         type_notes = patient_notes[patient_notes['note_type'] == note_type]
-                        if note_type == 'discharge':
-                            matching = type_notes
-                        else:
-                            note_mask = (
-                                (type_notes['hour_offset'] >= pattern_hour - ALIGNMENT_WINDOW_BEFORE) &
-                                (type_notes['hour_offset'] <= pattern_hour + ALIGNMENT_WINDOW_AFTER)
-                            )
-                            matching = type_notes[note_mask]
+                        if note_type == 'discharge' and not INCLUDE_DISCHARGE_NOTES:
+                            continue
+                        note_mask = (
+                            (type_notes['hour_offset'] >= pattern_hour - ALIGNMENT_WINDOW_BEFORE) &
+                            (type_notes['hour_offset'] <= pattern_hour)
+                        )
+                        matching = type_notes[note_mask]
                         if len(matching) > 0:
                             matching_notes_list.append(matching)
                     
@@ -546,7 +571,7 @@ def create_alignment_dataset(
                 else:
                     note_mask = (
                         (patient_notes['hour_offset'] >= pattern_hour - ALIGNMENT_WINDOW_BEFORE) &
-                        (patient_notes['hour_offset'] <= pattern_hour + ALIGNMENT_WINDOW_AFTER)
+                        (patient_notes['hour_offset'] <= pattern_hour)
                     )
                     matching_notes = patient_notes[note_mask]
                 
@@ -562,6 +587,10 @@ def create_alignment_dataset(
                 
                 for _, note_row in matching_notes.iterrows():
                     note_type = note_row.get('note_type', 'unknown')
+                    note_id = str(note_row.get('note_id', ''))
+                    if not ALLOW_NOTE_MULTI_MATCH and note_id in used_note_ids:
+                        continue
+                    used_note_ids.add(note_id)
                     note_text = clean_note_text(note_row.get('text', ''))
                     
                     # 获取针对该笔记类型的关键词
@@ -676,6 +705,10 @@ def create_llm_annotation_samples(
 
     # 筛选有相关文本的样本
     has_relevant = alignment_df[alignment_df['note_text_relevant'].str.len() > 10]
+    if 'note_type' in has_relevant.columns:
+        has_relevant = has_relevant[
+            ~has_relevant['note_type'].astype(str).str.lower().str.contains('discharge', na=False)
+        ]
 
     if len(has_relevant) == 0:
         print("No samples with relevant text found!")

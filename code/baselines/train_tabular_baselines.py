@@ -5,6 +5,7 @@ Tabular Baselines (XGBoost & Logistic Regression)
 特征：
 1. 24小时时序数据的统计特征 (min, max, mean, last)
 2. 标注统计特征 (n_supportive, n_contradictory)
+3. MedCAT 概念统计特征 (medcat_full, 24h)
 """
 
 import sys
@@ -32,6 +33,7 @@ from config import (
 EPISODES_DIR = Path(__file__).parent.parent.parent / 'episodes' / 'episodes_enhanced'
 SPLITS_DIR = PROCESSED_DIR.parent / 'splits'
 OUTPUT_DIR = RESULTS_DIR / 'tabular_baselines'
+MEDCAT_FILE = PROCESSED_DIR / 'medcat_full' / 'medcat_features_24h.csv'
 
 # 时序特征列
 VITALS_COLS = ['heart_rate', 'sbp', 'dbp', 'mbp', 'resp_rate', 'temperature', 'spo2']
@@ -53,10 +55,16 @@ def extract_features_from_episode(episode_path: Path) -> dict:
     
     if vitals:
         vitals_df = pd.DataFrame(vitals)
+        if 'hour' in vitals_df.columns:
+            vitals_df = vitals_df.sort_values('hour')
         for col in VITALS_COLS:
             if col in vitals_df.columns:
-                values = pd.to_numeric(vitals_df[col], errors='coerce').dropna()
-                if len(values) > 0:
+                col_values = pd.to_numeric(vitals_df[col], errors='coerce')
+                values = col_values.dropna()
+                n_values = len(values)
+                features[f'{col}_n'] = n_values
+                features[f'{col}_missing'] = 0 if n_values > 0 else 1
+                if n_values > 0:
                     features[f'{col}_mean'] = values.mean()
                     features[f'{col}_min'] = values.min()
                     features[f'{col}_max'] = values.max()
@@ -66,8 +74,16 @@ def extract_features_from_episode(episode_path: Path) -> dict:
                     for suffix in ['mean', 'min', 'max', 'last', 'std']:
                         features[f'{col}_{suffix}'] = np.nan
             else:
+                features[f'{col}_n'] = 0
+                features[f'{col}_missing'] = 1
                 for suffix in ['mean', 'min', 'max', 'last', 'std']:
                     features[f'{col}_{suffix}'] = np.nan
+    else:
+        for col in VITALS_COLS:
+            features[f'{col}_n'] = 0
+            features[f'{col}_missing'] = 1
+            for suffix in ['mean', 'min', 'max', 'last', 'std']:
+                features[f'{col}_{suffix}'] = np.nan
     
     # Labs 特征 (如果存在)
     labs = ts.get('labs', [])
@@ -111,6 +127,22 @@ def load_all_features():
     print(f"   提取特征: {len(df):,} 个样本, {len(df.columns)} 个特征")
     
     return df
+
+
+def load_medcat_features():
+    """加载 MedCAT 概念特征"""
+    if not MEDCAT_FILE.exists():
+        print("未找到 MedCAT 特征文件，跳过合并")
+        return None
+
+    medcat = pd.read_csv(MEDCAT_FILE)
+    if 'window_hours' in medcat.columns:
+        medcat = medcat.drop(columns=['window_hours'])
+    medcat = medcat.rename(
+        columns={c: f'medcat_{c}' for c in medcat.columns if c != 'stay_id'}
+    )
+    print(f"   MedCAT 特征: {len(medcat):,} 个样本, {len(medcat.columns)-1} 个特征")
+    return medcat
 
 
 def train_and_evaluate(X, y, groups, model_name='XGBoost'):
@@ -205,6 +237,10 @@ def main():
     
     # 加载特征
     df = load_all_features()
+    medcat = load_medcat_features()
+    if medcat is not None:
+        df = df.merge(medcat, on='stay_id', how='left')
+        df = df.fillna(0)
     
     # 准备特征和标签
     feature_cols = [c for c in df.columns if c not in ['stay_id', 'subject_id', 'mortality', 'prolonged_los']]

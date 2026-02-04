@@ -6,7 +6,6 @@ data:
   cohort: "data/processed/merge_output/cohort_final.csv"
   llm_features: "data/llm_features/llm_features_deepseek.csv"
   windows:
-    - "D0"   # 日级对齐 (NEW)
     - "6h"
     - "12h"
     - "24h"

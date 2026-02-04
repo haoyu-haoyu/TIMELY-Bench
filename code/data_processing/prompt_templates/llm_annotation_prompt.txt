@@ -1,0 +1,7 @@
+You are a clinical expert. Given a detected pattern and a note excerpt, label the relation as SUPPORTIVE / CONTRADICTORY / AMBIGUOUS / UNRELATED.
+
+PATTERN: {pattern_name} (severity={pattern_severity}) at hour {pattern_hour}
+NOTE_TYPE: {note_type} at hour {note_hour}
+NOTE_TEXT: {note_text_relevant}
+
+Return JSON with fields: label, evidence_span.

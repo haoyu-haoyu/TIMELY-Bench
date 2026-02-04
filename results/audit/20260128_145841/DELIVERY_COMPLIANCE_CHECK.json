@@ -1,0 +1,48 @@
+{
+  "check_name": "DELIVERY_COMPLIANCE_CHECK",
+  "timestamp": "2026-01-28T15:25:07.569102",
+  "required_files": {
+    "ALIGNMENT_PROTOCOL_CARD.md": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/final_release/ALIGNMENT_PROTOCOL_CARD.md",
+      "exists": true,
+      "size": 3794
+    },
+    "PROVENANCE.json": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/final_release/PROVENANCE.json",
+      "exists": false,
+      "size": 0
+    },
+    "manifest.json": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/final_release/manifest.json",
+      "exists": true,
+      "size": 15432
+    },
+    "results_summary.csv": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/final_release/evidence/results_summary.csv",
+      "exists": true,
+      "size": 10287
+    },
+    "results_summary.md": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/final_release/evidence/results_summary.md",
+      "exists": true,
+      "size": 7543
+    }
+  },
+  "manifest_check": {
+    "run_id": "20260128_141043",
+    "timestamp": "2026-01-28T14:10:43",
+    "git_commit": "unknown",
+    "missing_outputs": [],
+    "hash_mismatches": [],
+    "total_outputs": 29
+  },
+  "violations": [
+    "Missing required file: PROVENANCE.json"
+  ],
+  "summary": {
+    "required_files_present": 4,
+    "required_files_total": 5,
+    "violations_count": 1,
+    "pass": false
+  }
+}

@@ -1,0 +1,963 @@
+{
+  "check_name": "NURSING_DUPLICATES_ANALYSIS",
+  "timestamp": "2026-01-30T18:36:48.807817+00:00",
+  "total_episodes_with_nursing": 74734,
+  "total_nursing_notes": 6790265,
+  "total_all_notes": 6975132,
+  "exact_duplicates": {
+    "total": 6790265,
+    "unique": 245,
+    "duplicate_instances": 6790020,
+    "duplicate_rate": 1.0
+  },
+  "normalized_duplicates": {
+    "description": "lowercase, strip, collapse spaces, remove trailing punctuation",
+    "total": 6790265,
+    "unique": 239,
+    "duplicate_instances": 6790026,
+    "duplicate_rate": 1.0,
+    "additional_unique_collapsed": 6
+  },
+  "near_duplicates": {
+    "description": "char-3gram fingerprint (MD5 hash of sorted trigram set)",
+    "total": 6790265,
+    "unique_fingerprints": 239,
+    "duplicate_instances": 6790026,
+    "duplicate_rate": 1.0,
+    "additional_unique_collapsed": 0
+  },
+  "length_distribution": {
+    "1-10": 18581,
+    "11-15": 3890824,
+    "16-20": 1973221,
+    "21-30": 640096,
+    "31-50": 246579,
+    "51+": 20964
+  },
+  "per_stay_dup_rate_stats": {
+    "mean": 0.817,
+    "median": 0.8235,
+    "p5": 0.6962,
+    "p25": 0.7736,
+    "p75": 0.8659,
+    "p95": 0.9231
+  },
+  "top50_exact_texts": [
+    {
+      "text": "SR (Sinus Rhythm)",
+      "count": 1007429,
+      "length": 17,
+      "length_bin": "16-20"
+    },
+    {
+      "text": "Full resistance",
+      "count": 654844,
+      "length": 15,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Obeys Commands",
+      "count": 401848,
+      "length": 14,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Some resistance",
+      "count": 334541,
+      "length": 15,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Spontaneously",
+      "count": 324114,
+      "length": 13,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Patient Verbalized",
+      "count": 318370,
+      "length": 18,
+      "length_bin": "16-20"
+    },
+    {
+      "text": "Consistently",
+      "count": 288005,
+      "length": 12,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "ST (Sinus Tachycardia)",
+      "count": 274136,
+      "length": 22,
+      "length_bin": "21-30"
+    },
+    {
+      "text": "AF (Atrial Fibrillation)",
+      "count": 177328,
+      "length": 24,
+      "length_bin": "21-30"
+    },
+    {
+      "text": "No response",
+      "count": 171446,
+      "length": 11,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Normal strength",
+      "count": 163545,
+      "length": 15,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "No Response-ETT",
+      "count": 161305,
+      "length": 15,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Nasal cannula",
+      "count": 155685,
+      "length": 13,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Endotracheal tube",
+      "count": 138238,
+      "length": 17,
+      "length_bin": "16-20"
+    },
+    {
+      "text": "Wiggle toes",
+      "count": 114040,
+      "length": 11,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Lifts against gravity, no resistance",
+      "count": 103199,
+      "length": 36,
+      "length_bin": "31-50"
+    },
+    {
+      "text": "Lifts and Holds",
+      "count": 91851,
+      "length": 15,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Moves on Bed",
+      "count": 85887,
+      "length": 12,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "SB (Sinus Bradycardia)",
+      "count": 81777,
+      "length": 22,
+      "length_bin": "21-30"
+    },
+    {
+      "text": "Intubated/trached",
+      "count": 80544,
+      "length": 17,
+      "length_bin": "16-20"
+    },
+    {
+      "text": "Soft Distended",
+      "count": 79507,
+      "length": 14,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Movement, but not against gravity",
+      "count": 78804,
+      "length": 33,
+      "length_bin": "31-50"
+    },
+    {
+      "text": "Stick out tongue",
+      "count": 77344,
+      "length": 16,
+      "length_bin": "16-20"
+    },
+    {
+      "text": "Non-verbal Cues",
+      "count": 74721,
+      "length": 15,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Oriented x3",
+      "count": 62606,
+      "length": 11,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Year, month, & day",
+      "count": 61736,
+      "length": 18,
+      "length_bin": "16-20"
+    },
+    {
+      "text": "Localizes Pain",
+      "count": 59272,
+      "length": 14,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Clean and Dry",
+      "count": 57072,
+      "length": 13,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "CMV/ASSIST/AutoFlow",
+      "count": 53988,
+      "length": 19,
+      "length_bin": "16-20"
+    },
+    {
+      "text": "Unable to Assess",
+      "count": 48531,
+      "length": 16,
+      "length_bin": "16-20"
+    },
+    {
+      "text": "No Movement",
+      "count": 43049,
+      "length": 11,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Change in Vitals",
+      "count": 40561,
+      "length": 16,
+      "length_bin": "16-20"
+    },
+    {
+      "text": "Non-reactive",
+      "count": 38533,
+      "length": 12,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Show a thumb up",
+      "count": 37588,
+      "length": 15,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Dry Sterile Dressing",
+      "count": 37280,
+      "length": 20,
+      "length_bin": "16-20"
+    },
+    {
+      "text": "Inconsistently",
+      "count": 34785,
+      "length": 14,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "1st AV (First degree AV Block)",
+      "count": 31265,
+      "length": 30,
+      "length_bin": "21-30"
+    },
+    {
+      "text": "Flex-withdraws",
+      "count": 30570,
+      "length": 14,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Non-Distended",
+      "count": 29443,
+      "length": 13,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "No movement",
+      "count": 27504,
+      "length": 11,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "No Response",
+      "count": 25230,
+      "length": 11,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Lifts/falls back",
+      "count": 23883,
+      "length": 16,
+      "length_bin": "16-20"
+    },
+    {
+      "text": "Arouse to Voice",
+      "count": 23877,
+      "length": 15,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Oral Center",
+      "count": 22806,
+      "length": 11,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Appropriate",
+      "count": 22614,
+      "length": 11,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Show 2 fingers",
+      "count": 22513,
+      "length": 14,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Grimace Scale",
+      "count": 20954,
+      "length": 13,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Abnormal flexion",
+      "count": 20434,
+      "length": 16,
+      "length_bin": "16-20"
+    },
+    {
+      "text": "Aerosol-cool",
+      "count": 20232,
+      "length": 12,
+      "length_bin": "11-15"
+    },
+    {
+      "text": "Muscle contraction, but no movement",
+      "count": 19310,
+      "length": 35,
+      "length_bin": "31-50"
+    }
+  ],
+  "top50_normalized_texts": [
+    {
+      "text": "sr (sinus rhythm)",
+      "count": 1007429
+    },
+    {
+      "text": "full resistance",
+      "count": 654844
+    },
+    {
+      "text": "obeys commands",
+      "count": 401848
+    },
+    {
+      "text": "some resistance",
+      "count": 334541
+    },
+    {
+      "text": "spontaneously",
+      "count": 324114
+    },
+    {
+      "text": "patient verbalized",
+      "count": 318370
+    },
+    {
+      "text": "consistently",
+      "count": 288005
+    },
+    {
+      "text": "st (sinus tachycardia)",
+      "count": 274136
+    },
+    {
+      "text": "no response",
+      "count": 196676
+    },
+    {
+      "text": "af (atrial fibrillation)",
+      "count": 177328
+    },
+    {
+      "text": "normal strength",
+      "count": 163545
+    },
+    {
+      "text": "no response-ett",
+      "count": 161305
+    },
+    {
+      "text": "nasal cannula",
+      "count": 155685
+    },
+    {
+      "text": "endotracheal tube",
+      "count": 138238
+    },
+    {
+      "text": "wiggle toes",
+      "count": 114040
+    },
+    {
+      "text": "lifts against gravity, no resistance",
+      "count": 103199
+    },
+    {
+      "text": "lifts and holds",
+      "count": 91851
+    },
+    {
+      "text": "moves on bed",
+      "count": 85887
+    },
+    {
+      "text": "sb (sinus bradycardia)",
+      "count": 81777
+    },
+    {
+      "text": "intubated/trached",
+      "count": 80544
+    },
+    {
+      "text": "soft distended",
+      "count": 79507
+    },
+    {
+      "text": "movement, but not against gravity",
+      "count": 78804
+    },
+    {
+      "text": "stick out tongue",
+      "count": 77344
+    },
+    {
+      "text": "non-verbal cues",
+      "count": 74721
+    },
+    {
+      "text": "no movement",
+      "count": 70553
+    },
+    {
+      "text": "oriented x3",
+      "count": 62606
+    },
+    {
+      "text": "year, month, & day",
+      "count": 61736
+    },
+    {
+      "text": "localizes pain",
+      "count": 59272
+    },
+    {
+      "text": "clean and dry",
+      "count": 57072
+    },
+    {
+      "text": "cmv/assist/autoflow",
+      "count": 53988
+    },
+    {
+      "text": "unable to assess",
+      "count": 48531
+    },
+    {
+      "text": "change in vitals",
+      "count": 40561
+    },
+    {
+      "text": "non-reactive",
+      "count": 38533
+    },
+    {
+      "text": "show a thumb up",
+      "count": 37588
+    },
+    {
+      "text": "dry sterile dressing",
+      "count": 37280
+    },
+    {
+      "text": "inconsistently",
+      "count": 34785
+    },
+    {
+      "text": "1st av (first degree av block)",
+      "count": 31265
+    },
+    {
+      "text": "flex-withdraws",
+      "count": 30570
+    },
+    {
+      "text": "non-distended",
+      "count": 29443
+    },
+    {
+      "text": "abnormal flexion",
+      "count": 24601
+    },
+    {
+      "text": "lifts/falls back",
+      "count": 23883
+    },
+    {
+      "text": "arouse to voice",
+      "count": 23877
+    },
+    {
+      "text": "oral center",
+      "count": 22806
+    },
+    {
+      "text": "appropriate",
+      "count": 22614
+    },
+    {
+      "text": "show 2 fingers",
+      "count": 22513
+    },
+    {
+      "text": "grimace scale",
+      "count": 20954
+    },
+    {
+      "text": "aerosol-cool",
+      "count": 20232
+    },
+    {
+      "text": "muscle contraction, but no movement",
+      "count": 19310
+    },
+    {
+      "text": "non-purposeful",
+      "count": 18655
+    },
+    {
+      "text": "year & month",
+      "count": 16669
+    }
+  ],
+  "top50_near_dup_clusters": [
+    {
+      "fingerprint": "37c119ef3b8af486",
+      "count": 1007429,
+      "n_variants": 1,
+      "sample_variants": [
+        "SR (Sinus Rhythm)"
+      ]
+    },
+    {
+      "fingerprint": "086cefb5c6eddaca",
+      "count": 654844,
+      "n_variants": 1,
+      "sample_variants": [
+        "Full resistance"
+      ]
+    },
+    {
+      "fingerprint": "dc1af3df92a3f966",
+      "count": 401848,
+      "n_variants": 1,
+      "sample_variants": [
+        "Obeys Commands"
+      ]
+    },
+    {
+      "fingerprint": "be39f1f58887116c",
+      "count": 334541,
+      "n_variants": 1,
+      "sample_variants": [
+        "Some resistance"
+      ]
+    },
+    {
+      "fingerprint": "81734a9b96db54e8",
+      "count": 324114,
+      "n_variants": 1,
+      "sample_variants": [
+        "Spontaneously"
+      ]
+    },
+    {
+      "fingerprint": "512a2649032a08da",
+      "count": 318370,
+      "n_variants": 1,
+      "sample_variants": [
+        "Patient Verbalized"
+      ]
+    },
+    {
+      "fingerprint": "2ecb0fbf49b11f94",
+      "count": 288005,
+      "n_variants": 1,
+      "sample_variants": [
+        "Consistently"
+      ]
+    },
+    {
+      "fingerprint": "dbd905765d0e2e48",
+      "count": 274136,
+      "n_variants": 1,
+      "sample_variants": [
+        "ST (Sinus Tachycardia)"
+      ]
+    },
+    {
+      "fingerprint": "e1b8f7ba3fd90add",
+      "count": 196676,
+      "n_variants": 2,
+      "sample_variants": [
+        "No Response",
+        "No response"
+      ]
+    },
+    {
+      "fingerprint": "4a8fa7c62b6d3546",
+      "count": 177328,
+      "n_variants": 1,
+      "sample_variants": [
+        "AF (Atrial Fibrillation)"
+      ]
+    },
+    {
+      "fingerprint": "0bdf16f307d2e816",
+      "count": 163545,
+      "n_variants": 1,
+      "sample_variants": [
+        "Normal strength"
+      ]
+    },
+    {
+      "fingerprint": "bc7e243518f0bcfc",
+      "count": 161305,
+      "n_variants": 1,
+      "sample_variants": [
+        "No Response-ETT"
+      ]
+    },
+    {
+      "fingerprint": "0cda4cfc0cdcced9",
+      "count": 155685,
+      "n_variants": 1,
+      "sample_variants": [
+        "Nasal cannula"
+      ]
+    },
+    {
+      "fingerprint": "cf8d8876b5716112",
+      "count": 138238,
+      "n_variants": 1,
+      "sample_variants": [
+        "Endotracheal tube"
+      ]
+    },
+    {
+      "fingerprint": "766e47489f63b15a",
+      "count": 114040,
+      "n_variants": 1,
+      "sample_variants": [
+        "Wiggle toes"
+      ]
+    },
+    {
+      "fingerprint": "540c385b7f238f54",
+      "count": 103199,
+      "n_variants": 1,
+      "sample_variants": [
+        "Lifts against gravity, no resistance"
+      ]
+    },
+    {
+      "fingerprint": "ce0ea2dc18a0ea61",
+      "count": 91851,
+      "n_variants": 1,
+      "sample_variants": [
+        "Lifts and Holds"
+      ]
+    },
+    {
+      "fingerprint": "93e742b818d5096f",
+      "count": 85887,
+      "n_variants": 1,
+      "sample_variants": [
+        "Moves on Bed"
+      ]
+    },
+    {
+      "fingerprint": "c31aefc17fe03068",
+      "count": 81777,
+      "n_variants": 1,
+      "sample_variants": [
+        "SB (Sinus Bradycardia)"
+      ]
+    },
+    {
+      "fingerprint": "9b4c3ba8d18db811",
+      "count": 80544,
+      "n_variants": 1,
+      "sample_variants": [
+        "Intubated/trached"
+      ]
+    },
+    {
+      "fingerprint": "958528d241bacd3e",
+      "count": 79507,
+      "n_variants": 1,
+      "sample_variants": [
+        "Soft Distended"
+      ]
+    },
+    {
+      "fingerprint": "a186e946dfc27e27",
+      "count": 78804,
+      "n_variants": 1,
+      "sample_variants": [
+        "Movement, but not against gravity"
+      ]
+    },
+    {
+      "fingerprint": "0fce99cfe986b679",
+      "count": 77344,
+      "n_variants": 1,
+      "sample_variants": [
+        "Stick out tongue"
+      ]
+    },
+    {
+      "fingerprint": "56da9ec010d63d1b",
+      "count": 74721,
+      "n_variants": 1,
+      "sample_variants": [
+        "Non-verbal Cues"
+      ]
+    },
+    {
+      "fingerprint": "d9d1a3a9fdb0a5f3",
+      "count": 70553,
+      "n_variants": 2,
+      "sample_variants": [
+        "No Movement",
+        "No movement"
+      ]
+    },
+    {
+      "fingerprint": "b2022c7dccf601ca",
+      "count": 62606,
+      "n_variants": 1,
+      "sample_variants": [
+        "Oriented x3"
+      ]
+    },
+    {
+      "fingerprint": "ec00e54e48b01e17",
+      "count": 61736,
+      "n_variants": 1,
+      "sample_variants": [
+        "Year, month, & day"
+      ]
+    },
+    {
+      "fingerprint": "8287170849481aa0",
+      "count": 59272,
+      "n_variants": 1,
+      "sample_variants": [
+        "Localizes Pain"
+      ]
+    },
+    {
+      "fingerprint": "59b5f707b0685fd8",
+      "count": 57072,
+      "n_variants": 1,
+      "sample_variants": [
+        "Clean and Dry"
+      ]
+    },
+    {
+      "fingerprint": "fb041dd4a2b9d081",
+      "count": 53988,
+      "n_variants": 1,
+      "sample_variants": [
+        "CMV/ASSIST/AutoFlow"
+      ]
+    },
+    {
+      "fingerprint": "eb3e6f758234e257",
+      "count": 48531,
+      "n_variants": 1,
+      "sample_variants": [
+        "Unable to Assess"
+      ]
+    },
+    {
+      "fingerprint": "31c32f1d827e7264",
+      "count": 40561,
+      "n_variants": 1,
+      "sample_variants": [
+        "Change in Vitals"
+      ]
+    },
+    {
+      "fingerprint": "513e03c404f4ea62",
+      "count": 38533,
+      "n_variants": 1,
+      "sample_variants": [
+        "Non-reactive"
+      ]
+    },
+    {
+      "fingerprint": "5a7f73a1a692082c",
+      "count": 37588,
+      "n_variants": 1,
+      "sample_variants": [
+        "Show a thumb up"
+      ]
+    },
+    {
+      "fingerprint": "5e90bc846e94e4df",
+      "count": 37280,
+      "n_variants": 1,
+      "sample_variants": [
+        "Dry Sterile Dressing"
+      ]
+    },
+    {
+      "fingerprint": "7f5e167f6724dd4d",
+      "count": 34785,
+      "n_variants": 1,
+      "sample_variants": [
+        "Inconsistently"
+      ]
+    },
+    {
+      "fingerprint": "b561d561b556460c",
+      "count": 31265,
+      "n_variants": 1,
+      "sample_variants": [
+        "1st AV (First degree AV Block)"
+      ]
+    },
+    {
+      "fingerprint": "4f2e271a38f84e4e",
+      "count": 30570,
+      "n_variants": 1,
+      "sample_variants": [
+        "Flex-withdraws"
+      ]
+    },
+    {
+      "fingerprint": "31550316a767a04c",
+      "count": 29443,
+      "n_variants": 1,
+      "sample_variants": [
+        "Non-Distended"
+      ]
+    },
+    {
+      "fingerprint": "475e7557cb8ea90b",
+      "count": 24601,
+      "n_variants": 2,
+      "sample_variants": [
+        "Abnormal Flexion",
+        "Abnormal flexion"
+      ]
+    },
+    {
+      "fingerprint": "b635c119b2e6c484",
+      "count": 23883,
+      "n_variants": 1,
+      "sample_variants": [
+        "Lifts/falls back"
+      ]
+    },
+    {
+      "fingerprint": "5c880e6adc1e5de5",
+      "count": 23877,
+      "n_variants": 1,
+      "sample_variants": [
+        "Arouse to Voice"
+      ]
+    },
+    {
+      "fingerprint": "d850a8ba9edc34db",
+      "count": 22806,
+      "n_variants": 1,
+      "sample_variants": [
+        "Oral Center"
+      ]
+    },
+    {
+      "fingerprint": "26f6abbc9e86e213",
+      "count": 22614,
+      "n_variants": 1,
+      "sample_variants": [
+        "Appropriate"
+      ]
+    },
+    {
+      "fingerprint": "c8cb842c996d2790",
+      "count": 22513,
+      "n_variants": 1,
+      "sample_variants": [
+        "Show 2 fingers"
+      ]
+    },
+    {
+      "fingerprint": "ca7552afc26c0ec3",
+      "count": 20954,
+      "n_variants": 1,
+      "sample_variants": [
+        "Grimace Scale"
+      ]
+    },
+    {
+      "fingerprint": "ede7a9421b6aea87",
+      "count": 20232,
+      "n_variants": 1,
+      "sample_variants": [
+        "Aerosol-cool"
+      ]
+    },
+    {
+      "fingerprint": "b629194884827efe",
+      "count": 19310,
+      "n_variants": 1,
+      "sample_variants": [
+        "Muscle contraction, but no movement"
+      ]
+    },
+    {
+      "fingerprint": "b4c6db6d613140f0",
+      "count": 18655,
+      "n_variants": 1,
+      "sample_variants": [
+        "Non-purposeful"
+      ]
+    },
+    {
+      "fingerprint": "602a547ccd0b7ceb",
+      "count": 16669,
+      "n_variants": 1,
+      "sample_variants": [
+        "Year & month"
+      ]
+    }
+  ],
+  "llm_dedup_savings_estimate": {
+    "exact_dedup_savings_pct": 100.0,
+    "normalized_dedup_savings_pct": 100.0,
+    "fingerprint_dedup_savings_pct": 100.0
+  },
+  "duplicate_source_analysis": {
+    "conclusion": "ALL nursing note duplicates originate from MIMIC-IV flowsheet charted events.",
+    "evidence": "20-stay random sample comparison showed ep_only=0 for all stays."
+  }
+}

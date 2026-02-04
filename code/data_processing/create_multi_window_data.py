@@ -87,6 +87,15 @@ def create_window_features(df_ts, stay_ids, feature_cols, window_hours, aggregat
     # 只保留目标患者
     df_window = df_window[df_window['stay_id'].isin(stay_ids)]
 
+    # 保证 first/last 按时间顺序（若有charttime用于打破同小时并列）
+    if 'hour' in df_window.columns:
+        sort_cols = ['stay_id', 'hour']
+        if 'charttime' in df_window.columns:
+            df_window = df_window.copy()
+            df_window['_charttime_sort'] = pd.to_datetime(df_window['charttime'], errors='coerce')
+            sort_cols.append('_charttime_sort')
+        df_window = df_window.sort_values(sort_cols)
+
     # 按患者聚合
     agg_dict = {col: aggregations for col in feature_cols}
     df_agg = df_window.groupby('stay_id').agg(agg_dict)
@@ -94,6 +103,7 @@ def create_window_features(df_ts, stay_ids, feature_cols, window_hours, aggregat
     # 展平多级列名
     df_agg.columns = ['_'.join(col).strip() for col in df_agg.columns.values]
     df_agg = df_agg.reset_index()
+    df_agg.replace([np.inf, -np.inf], np.nan, inplace=True)
 
     # 添加改进的缺失标记
     missing_stats = {}  # 记录每个特征的缺失率
@@ -155,7 +165,8 @@ def create_window_tensor(df_ts, stay_ids, feature_cols, window_hours):
         window_hours: 窗口小时数
     
     Returns:
-        numpy array of shape (N, T, D)
+        X: numpy array of shape (N, T, D)
+        mask: numpy array of shape (N, T, D) with 1 where observed
     """
     
     N = len(stay_ids)
@@ -184,17 +195,20 @@ def create_window_tensor(df_ts, stay_ids, feature_cols, window_hours):
             for j, col in enumerate(feature_cols):
                 if pd.notna(row[col]):
                     X[idx, hour, j] = row[col]
-    
+
+    # 观测掩码（真实测量值）
+    obs_mask = (~np.isnan(X)).astype(np.float32)
+
     # Forward fill
-    mask = np.isnan(X)
-    idx_ffill = np.where(~mask, np.arange(mask.shape[1])[None, :, None], 0)
+    nan_mask = np.isnan(X)
+    idx_ffill = np.where(~nan_mask, np.arange(nan_mask.shape[1])[None, :, None], 0)
     np.maximum.accumulate(idx_ffill, axis=1, out=idx_ffill)
     X = X[np.arange(N)[:, None, None], idx_ffill, np.arange(D)[None, None, :]]
     
     # 剩余NaN填0
     X = np.nan_to_num(X, nan=0.0)
     
-    return X
+    return X, obs_mask
 
 # ==========================================
 # 4. 主流程
@@ -236,12 +250,17 @@ def main():
         
         # ----- 3.2.2 创建时序张量（用于GRU等） -----
         print(f"   Creating temporal tensor...")
-        X_tensor = create_window_tensor(df_ts, stay_ids, feature_cols, window_hours)
+        X_tensor, X_mask = create_window_tensor(df_ts, stay_ids, feature_cols, window_hours)
         
         tensor_path = os.path.join(window_dir, 'features_temporal.npy')
         np.save(tensor_path, X_tensor)
         print(f"   Saved: {tensor_path}")
         print(f"     Shape: {X_tensor.shape} (patients × hours × features)")
+
+        mask_path = os.path.join(window_dir, 'features_temporal_mask.npy')
+        np.save(mask_path, X_mask)
+        print(f"   Saved: {mask_path}")
+        print(f"     Shape: {X_mask.shape} (patients × hours × features)")
         
         # ----- 3.2.3 保存元数据 -----
         metadata = {
@@ -251,6 +270,7 @@ def main():
             'feature_names': feature_cols,
             'aggregations': AGGREGATIONS,
             'stay_ids': stay_ids.tolist(),
+            'has_temporal_mask': True,
             # 添加缺失率统计到元数据
             'missing_rates': {k: float(v) for k, v in missing_stats.items()},
             'high_missing_features': [k for k, v in missing_stats.items() if v >= MAX_MISSING_RATE],
@@ -325,6 +345,11 @@ class TIMELYBenchLoader:
     def load_temporal_features(self, window='24h'):
         """加载时序特征（用于GRU等）"""
         path = os.path.join(self.data_dir, f'window_{window}', 'features_temporal.npy')
+        return np.load(path)
+
+    def load_temporal_mask(self, window='24h'):
+        """加载时序特征缺失掩码"""
+        path = os.path.join(self.data_dir, f'window_{window}', 'features_temporal_mask.npy')
         return np.load(path)
     
     def load_metadata(self, window='24h'):

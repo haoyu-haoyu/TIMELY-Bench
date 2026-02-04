@@ -14,9 +14,13 @@ from pathlib import Path
 from tqdm import tqdm
 from transformers import AutoTokenizer, AutoModel
 
+import sys
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from config import ROOT_DIR
+
 # 配置
-EPISODES_DIR = Path('/home/ubuntu/TIMELY-Bench_Final/episodes/episodes_enhanced')
-OUTPUT_DIR = Path('/home/ubuntu/TIMELY-Bench_Final/data/processed/text_embeddings')
+EPISODES_DIR = ROOT_DIR / 'episodes' / 'episodes_enhanced'
+OUTPUT_DIR = ROOT_DIR / 'data' / 'processed' / 'text_embeddings'
 MODEL_NAME = 'emilyalsentzer/Bio_ClinicalBERT'
 BATCH_SIZE = 32
 MAX_LENGTH = 512
@@ -76,6 +80,17 @@ def extract_notes_from_episode(episode_path):
         for note in notes:
             if isinstance(note, dict):
                 # 尝试多个可能的键名
+                note_type = note.get('note_type')
+                if note_type == 'discharge':
+                    continue
+                chart_hour = note.get('chart_hour')
+                try:
+                    chart_hour = float(chart_hour) if chart_hour is not None else None
+                except (TypeError, ValueError):
+                    chart_hour = None
+                if chart_hour is not None and (chart_hour < 0 or chart_hour >= 24):
+                    continue
+
                 text = note.get('text_full') or note.get('text_relevant') or note.get('text', '')
             else:
                 text = str(note)
@@ -129,6 +144,9 @@ def main():
     print("=" * 60)
     print("ClinicalBERT 嵌入提取")
     print("=" * 60)
+
+    if not EPISODES_DIR.exists():
+        raise FileNotFoundError(f"Episodes dir not found: {EPISODES_DIR}")
     
     # 创建输出目录
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)

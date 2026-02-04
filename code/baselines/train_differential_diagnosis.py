@@ -17,10 +17,11 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # 配置
-EPISODES_DIR = Path('/home/ubuntu/TIMELY-Bench_Final/episodes/episodes_enhanced')
-HIDDEN_FEATURES_FILE = Path('/home/ubuntu/TIMELY-Bench_Final/data/processed/hidden_features/hidden_features.csv')
-MEDCAT_FILE = Path('/home/ubuntu/TIMELY-Bench_Final/data/processed/medcat_umls/medcat_umls_concepts.csv')
-OUTPUT_DIR = Path('/home/ubuntu/TIMELY-Bench_Final/results/differential_diagnosis')
+BASE_DIR = Path(__file__).resolve().parents[2]
+EPISODES_DIR = BASE_DIR / 'episodes' / 'episodes_enhanced'
+HIDDEN_FEATURES_FILE = BASE_DIR / 'data' / 'processed' / 'hidden_features' / 'hidden_features.csv'
+MEDCAT_FILE = BASE_DIR / 'data' / 'processed' / 'medcat_full' / 'medcat_features_24h.csv'
+OUTPUT_DIR = BASE_DIR / 'results' / 'differential_diagnosis'
 
 
 def load_labels():
@@ -112,8 +113,8 @@ def main():
     # 加载 MedCAT 特征
     if MEDCAT_FILE.exists():
         medcat = pd.read_csv(MEDCAT_FILE)
-        # 重命名可能冲突的列
-        medcat_cols = {c: f'medcat_{c}' for c in medcat.columns if c != 'stay_id' and c.startswith('has_')}
+        # 重命名可能冲突的列（除 stay_id 以外全部加前缀）
+        medcat_cols = {c: f'medcat_{c}' for c in medcat.columns if c != 'stay_id'}
         medcat = medcat.rename(columns=medcat_cols)
         print(f"MedCAT 特征: {len(medcat):,} 样本, {len(medcat.columns)-1} 特征")
     else:

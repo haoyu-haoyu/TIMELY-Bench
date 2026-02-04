@@ -1,0 +1,31 @@
+{
+  "audit_timestamp": "2026-02-01T16:26:26.111802",
+  "files": [
+    {
+      "path": "final_release/manifest.json",
+      "exists": true,
+      "size_bytes": 22681
+    },
+    {
+      "path": "final_release/PROVENANCE.json",
+      "exists": true,
+      "size_bytes": 7374
+    },
+    {
+      "path": "final_release/results_summary.csv",
+      "exists": true,
+      "size_bytes": 10287
+    },
+    {
+      "path": "results/standardized/results_summary.csv",
+      "exists": true,
+      "size_bytes": 10287
+    },
+    {
+      "path": "final_release/llm_annotations/llm_annotation_set.csv",
+      "exists": true,
+      "size_bytes": 7811
+    }
+  ],
+  "episode_files_count": 74829
+}

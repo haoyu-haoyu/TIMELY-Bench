@@ -1,0 +1,57 @@
+{
+  "check_name": "CODE_TREE_HASH",
+  "timestamp": "2026-01-28T21:36:27.736117+00:00",
+  "code_directory": "/scratch/users/k25113331/TIMELY-Bench_Final/code",
+  "code_tree_hash": "3eb5d44bb72dc29d308318049ea8708dad4cb84d40a8ea4f4b250ff1f8998677",
+  "n_files": 111,
+  "hash_method": "sha256 of each file, then sha256 of sorted (relpath + hash) concatenation",
+  "exclusions": [
+    "__pycache__",
+    ".ipynb_checkpoints",
+    ".pyc",
+    ".pyo"
+  ],
+  "scope": "code/ directory only (excludes data, results, final_release, logs)",
+  "files_sample": [
+    [
+      "._baselines",
+      "21ca5ec87b9997356c548d380a6efc7dc81b5cb1bf485ea98857955e52d6f83c"
+    ],
+    [
+      "._config",
+      "21ca5ec87b9997356c548d380a6efc7dc81b5cb1bf485ea98857955e52d6f83c"
+    ],
+    [
+      "._config.py",
+      "bde06355133cf64ceb85fd19a93bfc277c44adad64bf357c5d698840ff2343e0"
+    ],
+    [
+      "._data_processing",
+      "21ca5ec87b9997356c548d380a6efc7dc81b5cb1bf485ea98857955e52d6f83c"
+    ],
+    [
+      "._episode_schema.py",
+      "21ca5ec87b9997356c548d380a6efc7dc81b5cb1bf485ea98857955e52d6f83c"
+    ],
+    [
+      "._pattern_templates.py",
+      "bde06355133cf64ceb85fd19a93bfc277c44adad64bf357c5d698840ff2343e0"
+    ],
+    [
+      "baselines/._permutation_sanity_structured.py",
+      "bde06355133cf64ceb85fd19a93bfc277c44adad64bf357c5d698840ff2343e0"
+    ],
+    [
+      "baselines/._run_baselines.py",
+      "bde06355133cf64ceb85fd19a93bfc277c44adad64bf357c5d698840ff2343e0"
+    ],
+    [
+      "baselines/._run_temporal_gru.py",
+      "bde06355133cf64ceb85fd19a93bfc277c44adad64bf357c5d698840ff2343e0"
+    ],
+    [
+      "baselines/._smoke_structured_mortality.py",
+      "bde06355133cf64ceb85fd19a93bfc277c44adad64bf357c5d698840ff2343e0"
+    ]
+  ]
+}

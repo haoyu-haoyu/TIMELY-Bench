@@ -291,10 +291,10 @@ AKI_PATTERNS = DiseasePatternSet(
             pattern_type=PatternType.DELTA,
             feature="creatinine",
             delta_threshold=0.3,
-            delta_window_hours=48,
+            delta_window_hours=24,
             unit="mg/dL",
-            description="Acute creatinine rise: increase >= 0.3 mg/dL within 48h",
-            clinical_source="KDIGO Stage 1 (increase ≥0.3 mg/dL within 48h)",
+            description="Acute creatinine rise: increase >= 0.3 mg/dL within 24h (aligned to 0-24h window)",
+            clinical_source="KDIGO Stage 1 (window adapted to 24h for strict 0-24h benchmark)",
             severity="moderate",
             reference_pmid="25018915",
             evidence_level="guideline"

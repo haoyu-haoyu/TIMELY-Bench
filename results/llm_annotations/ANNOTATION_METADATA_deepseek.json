@@ -1,0 +1,62 @@
+{
+  "method": "llm",
+  "provider": "deepseek",
+  "model_name": "deepseek-chat",
+  "run_timestamp": "2026-01-27T15:19:28",
+  "run_id": "20260127_151413",
+  "prompt_template_path": "/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/code/data_processing/prompt_templates/llm_annotation_prompt.txt",
+  "prompt_template_sha256": "27d2133bd9945f8763f9abc5b89fd6de6241295d0cc36b40835961c180d4fd6a",
+  "input": {
+    "path": "/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/results/llm_annotations/llm_annotation_set.csv",
+    "sha256": "bd9bee6934c391db73896d269c277f54007f027dc5b53013628e065448021b86",
+    "n_rows": 900,
+    "n_dedup": 900
+  },
+  "alignment": {
+    "path": "/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/data/processed/temporal_alignment/temporal_textual_alignment.csv",
+    "sha256": "1c3ab79220bf8957c255bacd375351f5d4df3d5bc3ab25db0c4f31672f1842bb"
+  },
+  "generation_params": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_tokens": 512,
+    "seed": 42
+  },
+  "concurrency": {
+    "workers": 8,
+    "max_inflight": 16,
+    "rps": 5.0
+  },
+  "retry_policy": {
+    "max_retries": 5,
+    "backoff_base": 1.0
+  },
+  "resume": {
+    "resume_glob": "annotations_deepseek_*.jsonl",
+    "skipped": 0
+  },
+  "outputs": [
+    {
+      "path": "/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/results/llm_annotations/annotations_deepseek_20260127_151413_part0001.jsonl",
+      "sha256": "2c06f4564f8ee96b0a1dd14ff7363ffa688b45d17e52612cd7e300ff185acbb1",
+      "rows": 900
+    }
+  ],
+  "failures": {
+    "path": "/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/results/llm_annotations/failed_requests.jsonl",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "count": 0
+  },
+  "stats": {
+    "to_run": 900,
+    "completed": 900,
+    "failed": 0,
+    "avg_latency_sec": 2.787245030932956,
+    "duration_sec": 314.73552918434143
+  },
+  "notes": [
+    "API key is read from DEEPSEEK_API_KEY and never stored in outputs.",
+    "Prompt contains only pattern metadata and note excerpts; no outcome labels.",
+    "This artefact is opt-in and not used by baseline training scripts."
+  ]
+}

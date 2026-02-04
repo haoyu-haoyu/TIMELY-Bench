@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-01-26T23:01:48",
+  "trend_threshold": {
+    "n": 500,
+    "path": "/Users/wanghaoyu/Downloads/\u4e34\u5e8a\u65f6\u5e8f \u00d7 \u6587\u672c\u5bf9\u9f50\u878d\u5408\u57fa\u51c6/\u8bad\u7ec3\u57fa\u7ebf\u6a21\u578b/TIMELY-Bench_Final/results/cres/trend_threshold.jsonl"
+  },
+  "temporal_grounding": {
+    "n": 500,
+    "path": "/Users/wanghaoyu/Downloads/\u4e34\u5e8a\u65f6\u5e8f \u00d7 \u6587\u672c\u5bf9\u9f50\u878d\u5408\u57fa\u51c6/\u8bad\u7ec3\u57fa\u7ebf\u6a21\u578b/TIMELY-Bench_Final/results/cres/temporal_grounding.jsonl"
+  },
+  "temporal_grounding_index": {
+    "n": 500,
+    "path": "/Users/wanghaoyu/Downloads/\u4e34\u5e8a\u65f6\u5e8f \u00d7 \u6587\u672c\u5bf9\u9f50\u878d\u5408\u57fa\u51c6/\u8bad\u7ec3\u57fa\u7ebf\u6a21\u578b/TIMELY-Bench_Final/results/cres/temporal_grounding_index.jsonl"
+  },
+  "alignment_source": "/Users/wanghaoyu/Downloads/\u4e34\u5e8a\u65f6\u5e8f \u00d7 \u6587\u672c\u5bf9\u9f50\u878d\u5408\u57fa\u51c6/\u8bad\u7ec3\u57fa\u7ebf\u6a21\u578b/TIMELY-Bench_Final/data/processed/temporal_alignment/temporal_textual_alignment.csv",
+  "seed": 42,
+  "max_rows": 50000
+}

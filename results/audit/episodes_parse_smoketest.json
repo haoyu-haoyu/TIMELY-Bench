@@ -1,0 +1,208 @@
+{
+  "test_timestamp": "2026-02-01T16:25:10.512642",
+  "sample_size": 50,
+  "successful_parses": 0,
+  "failed_parses": 50,
+  "errors": [
+    {
+      "file": "TIMELY_v2_39945709.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_39233658.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_32976100.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_37461948.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_31122095.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_30984856.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_38761227.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_39512028.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_32629753.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_31729881.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_37412849.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_30347694.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_39632972.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_31730195.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_31399234.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_34754412.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_31598937.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_35783922.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_30023732.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_36672134.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_37868893.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_39885794.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_30513900.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_33780215.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_37843284.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_38032582.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_38523490.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_36683805.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_36673195.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_35139538.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_30404937.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_37707387.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_36402869.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_31084005.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_31287454.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_33562130.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_35418364.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_39773284.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_37186024.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_34583005.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_35642543.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_31624506.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_32547365.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_36062368.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_34123763.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_34631630.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_31950403.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_38075215.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_33407444.json",
+      "error": "Missing subject_id"
+    },
+    {
+      "file": "TIMELY_v2_34112501.json",
+      "error": "Missing subject_id"
+    }
+  ]
+}

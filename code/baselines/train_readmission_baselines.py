@@ -2,7 +2,7 @@
 30-Day Readmission 任务训练
 预测患者出院后 30 天内是否再入院
 
-与 Mortality/LOS 任务使用相同的特征集
+与 Mortality/LOS 任务使用相同的特征集（含 MedCAT）
 """
 
 import os
@@ -10,7 +10,13 @@ import json
 import numpy as np
 import pandas as pd
 from pathlib import Path
-from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import GroupKFold
+try:
+    from sklearn.model_selection import StratifiedGroupKFold
+    HAS_STRATIFIED_GROUP_KFOLD = True
+except ImportError:
+    StratifiedGroupKFold = None
+    HAS_STRATIFIED_GROUP_KFOLD = False
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.preprocessing import StandardScaler
@@ -20,11 +26,13 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # 配置
-EPISODES_DIR = Path('/home/ubuntu/TIMELY-Bench_Final/episodes/episodes_enhanced')
-EMBEDDINGS_FILE = Path('/home/ubuntu/TIMELY-Bench_Final/data/processed/text_embeddings/clinical_bert_embeddings.npy')
-CONCEPTS_FILE = Path('/home/ubuntu/TIMELY-Bench_Final/data/processed/text_concepts/spacy_concepts.csv')
-COHORTS_FILE = Path('/home/ubuntu/TIMELY-Bench_Final/data/processed/cohorts/cohort_with_conditions.csv')
-RESULTS_DIR = Path('/home/ubuntu/TIMELY-Bench_Final/results/readmission_baselines')
+BASE_DIR = Path(__file__).resolve().parents[2]
+EPISODES_DIR = BASE_DIR / 'episodes' / 'episodes_enhanced'
+EMBEDDINGS_FILE = BASE_DIR / 'data' / 'processed' / 'text_embeddings' / 'clinical_bert_embeddings.npy'
+CONCEPTS_FILE = BASE_DIR / 'data' / 'processed' / 'text_concepts' / 'spacy_concepts.csv'
+MEDCAT_FILE = BASE_DIR / 'data' / 'processed' / 'medcat_full' / 'medcat_features_24h.csv'
+COHORTS_FILE = BASE_DIR / 'data' / 'processed' / 'cohorts' / 'cohort_with_conditions.csv'
+RESULTS_DIR = BASE_DIR / 'results' / 'readmission_baselines'
 RANDOM_STATE = 42
 
 
@@ -43,8 +51,21 @@ def load_all_data():
     concepts = pd.read_csv(CONCEPTS_FILE)
     concepts_dict = concepts.set_index('stay_id').to_dict('index')
     print(f"  概念特征: {concepts.shape}")
+
+    medcat_dict = None
+    if MEDCAT_FILE.exists():
+        medcat = pd.read_csv(MEDCAT_FILE)
+        if 'window_hours' in medcat.columns:
+            medcat = medcat.drop(columns=['window_hours'])
+        medcat = medcat.rename(
+            columns={c: f'medcat_{c}' for c in medcat.columns if c != 'stay_id'}
+        )
+        medcat_dict = medcat.set_index('stay_id').to_dict('index')
+        print(f"  MedCAT 特征: {medcat.shape}")
+    else:
+        print("  未找到 MedCAT 特征，跳过")
     
-    return cohort, embeddings, emb_dict, concepts_dict
+    return cohort, embeddings, emb_dict, concepts_dict, medcat_dict
 
 
 def get_readmission_label(stay_id):
@@ -56,8 +77,12 @@ def get_readmission_label(stay_id):
     try:
         with open(ep_file) as f:
             ep = json.load(f)
-        
-        readmission = ep.get('labels', {}).get('outcome', {}).get('readmission_30d')
+
+        outcome = ep.get('labels', {}).get('outcome', {})
+        if outcome.get('mortality', 0) == 1:
+            return None
+
+        readmission = outcome.get('readmission_30d')
         if readmission is None:
             return None
         
@@ -82,11 +107,19 @@ def extract_episode_features(stay_id):
         vital_cols = ['heart_rate', 'sbp', 'dbp', 'resp_rate', 'spo2', 'temperature']
         for col in vital_cols:
             values = [v.get(col) for v in vitals if v.get(col) is not None]
+            n_values = len(values)
+            features[f'{col}_n'] = n_values
+            features[f'{col}_missing'] = 0 if n_values > 0 else 1
             if values:
                 features[f'{col}_mean'] = np.mean(values)
                 features[f'{col}_std'] = np.std(values)
                 features[f'{col}_min'] = np.min(values)
                 features[f'{col}_max'] = np.max(values)
+            else:
+                features[f'{col}_mean'] = np.nan
+                features[f'{col}_std'] = np.nan
+                features[f'{col}_min'] = np.nan
+                features[f'{col}_max'] = np.nan
         
         reasoning = ep.get('reasoning', {})
         features['n_supportive'] = reasoning.get('n_supportive', 0)
@@ -105,19 +138,23 @@ def extract_episode_features(stay_id):
         return None
 
 
-def prepare_features(cohort, embeddings, emb_dict, concepts_dict, feature_set='all'):
+def prepare_features(cohort, embeddings, emb_dict, concepts_dict, medcat_dict, feature_set='all'):
     """准备不同特征集"""
     features_list = []
     labels = []
-    stay_ids = []
+    groups = []
     
     vital_cols = ['heart_rate', 'sbp', 'dbp', 'resp_rate', 'spo2', 'temperature']
     ts_feature_names = []
     for col in vital_cols:
-        ts_feature_names.extend([f'{col}_mean', f'{col}_std', f'{col}_min', f'{col}_max'])
+        ts_feature_names.extend([
+            f'{col}_mean', f'{col}_std', f'{col}_min', f'{col}_max',
+            f'{col}_n', f'{col}_missing'
+        ])
     
     for _, row in tqdm(cohort.iterrows(), total=len(cohort), desc="准备特征"):
         stay_id = row['stay_id']
+        subject_id = row.get('subject_id')
         
         readmission_label = get_readmission_label(stay_id)
         if readmission_label is None:
@@ -159,24 +196,42 @@ def prepare_features(cohort, embeddings, emb_dict, concepts_dict, feature_set='a
                     final_features[f'concept_{k}'] = v
             else:
                 continue
+
+            if medcat_dict is not None:
+                medcat_row = medcat_dict.get(stay_id, {})
+                for k, v in medcat_row.items():
+                    final_features[k] = v
         
         if final_features:
             features_list.append(final_features)
             labels.append(readmission_label)
-            stay_ids.append(stay_id)
-    
+            groups.append(subject_id)
+
     X = pd.DataFrame(features_list).fillna(0)
-    y = np.array(labels)
-    
-    return X, y
+    y = pd.Series(labels)
+    groups = pd.Series(groups)
+
+    # 显式过滤 NaN 标签（防止死亡样本被当成 0）
+    valid_mask = y.notna().values
+    X = X.loc[valid_mask].reset_index(drop=True)
+    y = y.loc[valid_mask].astype(int).values
+    groups = groups.loc[valid_mask].values
+
+    return X, y, groups
 
 
-def train_and_evaluate(X, y, model_name='LR', n_splits=5):
-    """5-fold CV 训练和评估"""
-    skf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=RANDOM_STATE)
+def _get_cv(n_splits):
+    if HAS_STRATIFIED_GROUP_KFOLD:
+        return StratifiedGroupKFold(n_splits=n_splits, shuffle=True, random_state=RANDOM_STATE)
+    return GroupKFold(n_splits=n_splits)
+
+
+def train_and_evaluate(X, y, groups, model_name='LR', n_splits=5):
+    """Group-aware CV 训练和评估（优先 StratifiedGroupKFold）"""
+    cv = _get_cv(n_splits)
     aurocs, auprcs = [], []
-    
-    for train_idx, test_idx in skf.split(X, y):
+
+    for train_idx, test_idx in cv.split(X, y, groups):
         X_train, X_test = X.iloc[train_idx], X.iloc[test_idx]
         y_train, y_test = y[train_idx], y[test_idx]
         
@@ -205,7 +260,7 @@ def main():
     
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     
-    cohort, embeddings, emb_dict, concepts_dict = load_all_data()
+    cohort, embeddings, emb_dict, concepts_dict, medcat_dict = load_all_data()
     
     feature_sets = [
         ('timeseries', '仅时序'),
@@ -222,12 +277,15 @@ def main():
         print(f"特征集: {description}")
         print('='*40)
         
-        X, y = prepare_features(cohort, embeddings, emb_dict, concepts_dict, feature_set)
+        X, y, groups = prepare_features(cohort, embeddings, emb_dict, concepts_dict, medcat_dict, feature_set)
         print(f"  特征数: {X.shape[1]}")
         print(f"  样本数: {len(y):,}")
         print(f"  Readmission 率: {y.mean()*100:.1f}%")
-        
-        lr_auroc, lr_std, lr_auprc, lr_auprc_std = train_and_evaluate(X, y, 'LR')
+
+        if not HAS_STRATIFIED_GROUP_KFOLD:
+            print("  [WARN] StratifiedGroupKFold 不可用，已降级为 GroupKFold（不分层）")
+
+        lr_auroc, lr_std, lr_auprc, lr_auprc_std = train_and_evaluate(X, y, groups, 'LR')
         print(f"  LR AUROC: {lr_auroc:.4f} ± {lr_std:.4f}")
         
         results.append({
@@ -244,7 +302,7 @@ def main():
             'positive_rate': y.mean()
         })
         
-        gb_auroc, gb_std, gb_auprc, gb_auprc_std = train_and_evaluate(X, y, 'GB')
+        gb_auroc, gb_std, gb_auprc, gb_auprc_std = train_and_evaluate(X, y, groups, 'GB')
         print(f"  GB AUROC: {gb_auroc:.4f} ± {gb_std:.4f}")
         
         results.append({

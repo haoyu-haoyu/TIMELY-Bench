@@ -1,0 +1,98 @@
+{
+  "check_name": "NURSING_DEDUP_IMPACT_ANALYSIS",
+  "timestamp": "2026-01-30T19:13:04.923663+00:00",
+  "dedup_mode": "exact",
+  "sampling_params": {
+    "n_per_stratum": 50,
+    "max_rows": 50000,
+    "seed": 42
+  },
+  "comparison": {
+    "original_sample_size": 900,
+    "dedup_sample_size": 714,
+    "sample_size_change": -186,
+    "sample_size_change_pct": -20.67,
+    "original_unique_stays": 426,
+    "dedup_unique_stays": 248,
+    "stays_lost": 426,
+    "stays_gained": 248,
+    "stays_lost_ids": [
+      "31536843",
+      "32484001",
+      "32508625",
+      "32608984",
+      "32628266",
+      "32657493",
+      "32663023",
+      "32732781",
+      "32865019",
+      "32876962",
+      "32887019",
+      "32894386",
+      "32902274",
+      "32923302",
+      "32927439",
+      "32928326",
+      "32929820",
+      "32973922",
+      "32984497",
+      "32991795"
+    ],
+    "note_type_distribution": {
+      "original": {
+        "nursing": 300,
+        "radiology": 300,
+        "lab_comment": 300
+      },
+      "dedup": {
+        "nursing": 300,
+        "radiology": 209,
+        "lab_comment": 205
+      }
+    },
+    "strata_coverage": {
+      "original_strata": 9,
+      "dedup_strata": 9,
+      "lost_strata": [],
+      "coverage_maintained": true
+    },
+    "nursing_text_diversity": {
+      "original_unique_nursing_texts": 55,
+      "dedup_unique_nursing_texts": 48
+    },
+    "friendly_fire": {
+      "stays_losing_all_nursing": 41,
+      "sample_ids": [
+        "33565926",
+        "33565240",
+        "33565168",
+        "33564921",
+        "33564472",
+        "33564095",
+        "33564186",
+        "33562496",
+        "33562905",
+        "33565904"
+      ]
+    },
+    "candidate_pool_reduction": {
+      "total_rows_read": 50000,
+      "skipped_nursing_dups": 0,
+      "kept_candidates": 50000,
+      "reduction_pct": 0.0
+    },
+    "llm_cost_estimate": {
+      "note": "LLM annotation cost is proportional to sample size. If sample size changes, cost changes proportionally.",
+      "original_cost_units": 900,
+      "dedup_cost_units": 714,
+      "savings_pct": 20.67
+    }
+  },
+  "conclusion": {
+    "candidate_pool_reduced": false,
+    "candidate_reduction_pct": 0.0,
+    "strata_coverage_maintained": true,
+    "friendly_fire_stays": 41,
+    "recommendation": "Nursing dedup (exact) reduces the candidate pool by 0.0%, maintains full strata coverage, and causes 41 stays to lose all nursing samples. Safe for opt-in use."
+  }
+}

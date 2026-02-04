@@ -1,0 +1,200 @@
+{
+  "generated_at": "2026-01-28T14:59:16.575621",
+  "audit_run_id": "unknown",
+  "project_root": "/scratch/users/k25113331/TIMELY-Bench_Final",
+  "critical_files": {
+    "main_alignment": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/data/processed/temporal_alignment/temporal_textual_alignment.csv",
+      "exists": true,
+      "size_bytes": 1161082122,
+      "mtime": "2026-01-23T16:44:00.215168",
+      "is_authoritative": true,
+      "description": "Primary temporal-textual alignment file",
+      "sha256_partial": "be82f0258f2193b71e5aa30af128ac144e2d398babef794653a05d687ab53c56",
+      "sha256_note": "first_and_last_1MB_only"
+    },
+    "main_alignment_alt": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/results/temporal_alignment/temporal_textual_alignment.csv",
+      "exists": false,
+      "description": "Alternative alignment location (check which is used)"
+    },
+    "results_summary_csv": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/results/standardized/results_summary.csv",
+      "exists": true,
+      "size_bytes": 10287,
+      "mtime": "2026-01-26T11:15:03.435295",
+      "is_authoritative": true,
+      "description": "Main evaluation results",
+      "sha256": "9fffa4e35ccb472232ffcc60f6206abd4ee904a0f03b96b92c024e92bba532d5"
+    },
+    "results_summary_md": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/results/standardized/results_summary.md",
+      "exists": true,
+      "size_bytes": 7543,
+      "mtime": "2026-01-26T11:15:03.650295",
+      "is_authoritative": false,
+      "description": "Markdown summary",
+      "sha256": "8149a2cacd588f20539ec57ca1063b6d6928d9a2f9895d0d5a5412222b853889"
+    },
+    "predefined_splits": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/predefined_splits.csv",
+      "exists": true,
+      "size_bytes": 1088639,
+      "mtime": "2026-01-18T20:34:07",
+      "is_authoritative": true,
+      "description": "Train/val/test split assignments",
+      "sha256": "428b2c9a34035a81ca0dd78e143366bdf2d74fa10d010b712ad47853fa110757"
+    }
+  },
+  "episodes": {
+    "episodes_enhanced_dir": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/episodes/episodes_enhanced",
+      "exists": true,
+      "is_directory": true,
+      "file_count": 74830,
+      "total_size_bytes": 10204288616,
+      "description": "Enhanced episode parquet files"
+    },
+    "episodes_tar": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/episodes_enhanced.tar.gz",
+      "exists": true,
+      "size_bytes": 673803558,
+      "mtime": "2026-01-26T13:19:40.186052",
+      "is_authoritative": false,
+      "description": "Compressed episodes archive",
+      "sha256_partial": "7e96ef9231a805d0708d54583a0399017cc1f8cc756df63345c40c7f3f885daa",
+      "sha256_note": "first_and_last_1MB_only"
+    }
+  },
+  "qa_and_audit": {
+    "run_final_qa_script": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/code/data_processing/run_final_qa.py",
+      "exists": true,
+      "size_bytes": 9424,
+      "mtime": "2026-01-24T22:38:36.204111",
+      "is_authoritative": false,
+      "description": "QA gate script",
+      "sha256": "09b58f846259a8061043855c7cb3e3ad1c6504b24550024cd0855c0a40f97d9b"
+    },
+    "full_alignment_qc": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/results/qc/full_alignment_qc.json",
+      "exists": false,
+      "description": "Full alignment QC results"
+    }
+  },
+  "final_release": {
+    "manifest": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/final_release/manifest.json",
+      "exists": true,
+      "size_bytes": 15432,
+      "mtime": "2026-01-28T14:10:43.659718",
+      "is_authoritative": true,
+      "description": "Release manifest with hashes",
+      "sha256": "7dd3732910181ff340ab935993b1fd2241c14e135987ed9133b1ea50d0a41630"
+    },
+    "release_audit_report": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/final_release/RELEASE_AUDIT_REPORT.md",
+      "exists": true,
+      "size_bytes": 379,
+      "mtime": "2026-01-28T14:10:43.677718",
+      "is_authoritative": false,
+      "description": "Release audit report",
+      "sha256": "b75d8e02c350e5cec3ff7cbe6227eff82838ada18fc509bc5b65007fcb47c250"
+    },
+    "alignment_protocol_card": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/final_release/ALIGNMENT_PROTOCOL_CARD.md",
+      "exists": true,
+      "size_bytes": 3794,
+      "mtime": "2026-01-28T14:10:43.568719",
+      "is_authoritative": false,
+      "description": "Alignment protocol documentation",
+      "sha256": "e508442d289fc8e177e61da588b02741a79d4ad1f857df54cc49499f2a7119ad"
+    },
+    "provenance": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/final_release/PROVENANCE.json",
+      "exists": false,
+      "description": "Provenance tracking"
+    }
+  },
+  "llm_extension": {
+    "llm_annotations_dir": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/final_release/llm_annotations",
+      "exists": true,
+      "is_directory": true,
+      "file_count": 19,
+      "total_size_bytes": 3269681,
+      "description": "LLM/DeepSeek annotations (opt-in extension)"
+    },
+    "deepseek_metadata": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/results/llm_annotations/ANNOTATION_METADATA_deepseek.json",
+      "exists": true,
+      "size_bytes": 2360,
+      "mtime": "2026-01-27T15:19:28.009161",
+      "is_authoritative": false,
+      "description": "DeepSeek annotation metadata",
+      "sha256": "70d23589524e8ff2f7fdca72bba260b0168b911a1383e3f25acd5c6b79520be2"
+    }
+  },
+  "training_data": {
+    "timeseries_sorted": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/data/raw/timeseries_sorted.csv",
+      "exists": true,
+      "size_bytes": 129256071,
+      "mtime": "2026-01-23T14:45:37.266577",
+      "is_authoritative": false,
+      "description": "Sorted timeseries data",
+      "sha256_partial": "759cf98ba844c20d6e355c0fe40c2dcf1883b910fbdcd8b143102511d4b1b77c",
+      "sha256_note": "first_and_last_1MB_only"
+    },
+    "clinical_labels": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/data/raw/clinical_labels.csv",
+      "exists": true,
+      "size_bytes": 75302182,
+      "mtime": "2025-12-24T21:03:51",
+      "is_authoritative": false,
+      "description": "Clinical outcome labels",
+      "sha256_partial": "5fc4e3e0173410bd3c1b6d5310a89d696a1305365ff8233d81da1219e1098865",
+      "sha256_note": "first_and_last_1MB_only"
+    },
+    "note_time": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/data/raw/note_time.csv",
+      "exists": true,
+      "size_bytes": 93055460,
+      "mtime": "2025-12-24T20:23:35",
+      "is_authoritative": false,
+      "description": "Note timing information",
+      "sha256_partial": "8a462e8db05e0c350bb76b2d1c367cdbd791da423e00603bc1d3b8707c1baf19",
+      "sha256_note": "first_and_last_1MB_only"
+    }
+  },
+  "sanity_checks": {
+    "late_fusion_sanity": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/results/standardized/late_fusion_sanity_xgb.json",
+      "exists": true,
+      "size_bytes": 2983,
+      "mtime": "2026-01-26T11:15:01.361298",
+      "is_authoritative": false,
+      "description": "Late fusion alpha=1 sanity check",
+      "sha256": "4ea4acca350eaf3166154b204f923f44663abfc112598241e22e7eb277d6d75c"
+    },
+    "permutation_mortality": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/results/standardized/permutation_structured_mortality.json",
+      "exists": true,
+      "size_bytes": 2736,
+      "mtime": "2026-01-25T22:25:14.503599",
+      "is_authoritative": false,
+      "description": "Permutation test results",
+      "sha256": "66ea076051584202385353637c4cde89e0f91e0be2fd34fa8658dd0b322c72db"
+    }
+  },
+  "legacy_files": {
+    "legacy_archive": {
+      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/legacy",
+      "exists": true,
+      "is_directory": true,
+      "file_count": 88,
+      "total_size_bytes": 398084,
+      "description": "Legacy/deprecated files (should not be used)"
+    }
+  }
+}
