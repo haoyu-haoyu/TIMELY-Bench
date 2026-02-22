@@ -1,14 +1,15 @@
 # TIMELY-Bench Reproducibility Checklist
 
-This checklist ensures that all experiments and results in TIMELY-Bench can be reproduced.
+This checklist ensures that the **canonical benchmark runs** in TIMELY-Bench can be reproduced from the shipped artefacts.
 
 ---
 
 ## ✅ Data Availability
 
-- [x] **MIMIC-IV v2.2** - Available via PhysioNet (requires credentialed access)
-- [x] **Predefined splits** - `data/processed/predefined_splits.csv` (fixed train/val/test)
-- [x] **Episode JSONs** - Prebuilt in `episodes/episodes_enhanced/`
+- [x] **MIMIC-IV v3.1** - Available via PhysioNet (requires credentialed access)
+- [x] **Predefined splits** - `data/splits/predefined_splits.csv` (patient-level dev/test + fold_id)
+- [x] **Episode JSONs** - Prebuilt in `episodes/episodes_enhanced/` (large)
+- [x] **Windowed structured features** - `data/processed/data_windows/window_{6h,12h,24h,D0}/features_aggregated.csv`
 
 ---
 
@@ -42,37 +43,43 @@ TIMELY-Bench_Final/
 ├── data/processed/         # Processed data
 ├── episodes/               # Episode JSONs
 ├── results/                # Experiment results
-├── Makefile                # Automation
-└── Snakefile               # Pipeline (alternative)
+└── docs/                   # Data/model/protocol cards
 ```
 
 ---
 
 ## ✅ Reproduction Steps
 
-### Quick Start (5 min)
+### Core Baselines
+
 ```bash
-# Run all baseline experiments
-make all
+cd TIMELY-Bench_Final
+
+# Structured baselines (XGBoost / Logistic Regression) across windows
+python3 code/baselines/run_baselines.py
+
+# Text-only baseline (annotation-derived)
+python3 code/baselines/train_text_only.py
+
+# Text-only baselines (raw text semantics)
+python3 code/baselines/train_text_only_embeddings.py
+python3 code/baselines/train_text_only_medcat.py
+
+# Early/Late fusion (structured + text representations)
+python3 code/baselines/train_fusion.py
+
+# ClinicalGRU (mortality)
+python3 code/baselines/train_temporal_gru_v2.py
+
+# Canonical results aggregation for reporting (run after each step)
+python3 code/utils/standardize_results.py --step structured
+python3 code/utils/standardize_results.py --step text
+python3 code/utils/standardize_results.py --step fusion
+python3 code/utils/standardize_results.py --step gru
 ```
 
-### Full Pipeline (2-4 hours)
-```bash
-# 1. Generate data splits
-make splits
-
-# 2. Run tabular baselines
-make baselines
-
-# 3. Run fusion experiments
-make fusion
-
-# 4. Run GRU models
-make gru
-
-# 5. Evaluate
-make eval
-```
+Notes:
+- Training the GRU and running some audits may require HPC/GPU (see `scripts/`).
 
 ---
 
@@ -80,18 +87,17 @@ make eval
 
 ### Data Integrity
 ```bash
-make verify
-make check-leakage
+python3 scripts/comprehensive_final_audit.py
 ```
 
 ### Expected Outputs
 
 | Task | Model | Expected AUROC |
 |------|-------|----------------|
-| Mortality | XGBoost | ~0.80 |
-| Mortality | Full Fusion | ~0.84 |
-| LOS | XGBoost | ~0.74 |
-| LOS | Full Fusion | ~0.84 |
+| Mortality (24h, all) | Structured XGBoost | ~0.865 |
+| Mortality (24h, all) | Structured Logistic Regression | ~0.844 |
+| Mortality (24h, all) | ClinicalGRU | ~0.839 |
+| Prolonged LOS (24h, all) | Structured XGBoost | ~0.809 |
 
 ---
 
@@ -103,7 +109,7 @@ All experiments use fixed random seeds for reproducibility:
 |-----------|-------|
 | RANDOM_STATE | 42 |
 | N_FOLDS | 5 |
-| TEST_SIZE | 0.15 |
+| TEST_SIZE | 0.20 |
 
 Defined in `code/config.py`.
 
@@ -114,7 +120,7 @@ Defined in `code/config.py`.
 | Component | Minimum | Recommended |
 |-----------|---------|-------------|
 | RAM | 16 GB | 32 GB |
-| GPU | Not required | NVIDIA 8GB+ |
+| GPU | Not required (tabular) | NVIDIA 16GB+ (GRU) |
 | Storage | 100 GB | 200 GB |
 
 ---
@@ -125,10 +131,12 @@ Before submission, verify these files exist:
 
 | File | Purpose |
 |------|---------|
-| `data/processed/predefined_splits.csv` | Fixed data splits |
-| `data/processed/cohorts/cohort_with_conditions.csv` | Cohort definition |
-| `results/tabular_baselines/tabular_results.csv` | Baseline results |
-| `results/fusion_baselines/fusion_results.csv` | Fusion results |
+| `data/splits/predefined_splits.csv` | Canonical dev/test split + GroupKFold fold assignment |
+| `data/splits/split_summary.json` | Split metadata and rates |
+| `data/processed/merge_output/cohort_final.csv` | Cohort labels |
+| `results/standardized/results_summary.csv` | Canonical results |
+| `results/fusion_baselines/fusion_results_folds.json` | Fusion fold outputs |
+| `results/text_only_baselines/text_only_results_folds.json` | Text-only fold outputs |
 | `docs/DATA_CARD.md` | Data documentation |
 | `docs/MODEL_CARD.md` | Model documentation |
 | `docs/ALIGNMENT_PROTOCOL_CARD.md` | Alignment documentation |
@@ -137,9 +145,8 @@ Before submission, verify these files exist:
 
 ## ✅ Known Issues
 
-1. **Large file sizes**: Episode JSONs total ~50GB; use `rsync` for transfers
-2. **Memory usage**: Full dataset training requires 16GB+ RAM
-3. **MedCAT model**: Uses simplified keyword matching (not full MedCAT)
+1. **Large file sizes**: episode JSONs and raw alignment matrices are large; use `rsync` for transfers.
+2. **Text modality definition**: canonical runs include three text representations (annotation-derived features, ClinicalBERT embeddings, and MedCAT concepts); always verify model labels in `results/standardized/text_results.csv` and `results/standardized/fusion_results.csv`.
 
 ---
 

@@ -1,0 +1,146 @@
+{
+  "timestamp": "2026-02-18T03:08:13",
+  "task": "mortality",
+  "window": "24h",
+  "cohort": "all",
+  "text_representation": "clinicalbert",
+  "structured_pred_path": "${PROJECT_ROOT}/results/fusion_baselines/predictions/structured_xgb_clinicalbert_24h_all_mortality.csv",
+  "text_pred_path": "${PROJECT_ROOT}/results/fusion_baselines/predictions/text_only_xgb_clinicalbert_24h_all_mortality.csv",
+  "n_rows_structured": 74819,
+  "n_rows_text": 74819,
+  "merge_key": "stay_id",
+  "alignment_info": {
+    "structured_rows": 74829,
+    "emb_meta_rows": 74819,
+    "structured_dup_stay": 0,
+    "emb_meta_dup_stay": 0,
+    "merged_rows": 74819
+  },
+  "split_info": {
+    "source": "predefined_splits.csv",
+    "n_rows_total": 74819,
+    "n_rows_valid": 74819,
+    "n_rows_dev": 59786,
+    "n_rows_test": 15033,
+    "n_rows_dropped_missing_split": 0
+  },
+  "best_alpha_per_fold": [
+    0.5,
+    0.6000000000000001,
+    0.6000000000000001,
+    0.5,
+    0.6000000000000001
+  ],
+  "alpha_final": 0.56,
+  "folds": [
+    {
+      "fold": 1,
+      "val_auroc_alpha1": 0.8637956605630094,
+      "val_auprc_alpha1": 0.5362378419343778,
+      "val_auroc_alpha0": 0.8039098621914038,
+      "val_auprc_alpha0": 0.4217892593599101,
+      "best_alpha": 0.5,
+      "best_val_auroc": 0.8756876784893967,
+      "best_val_auprc": 0.5478058696174732
+    },
+    {
+      "fold": 2,
+      "val_auroc_alpha1": 0.8752823002605659,
+      "val_auprc_alpha1": 0.5278908297752465,
+      "val_auroc_alpha0": 0.8174331236725846,
+      "val_auprc_alpha0": 0.3930800973294465,
+      "best_alpha": 0.6000000000000001,
+      "best_val_auroc": 0.8842173193333582,
+      "best_val_auprc": 0.5222384844346826
+    },
+    {
+      "fold": 3,
+      "val_auroc_alpha1": 0.8641860198107306,
+      "val_auprc_alpha1": 0.5233934314759638,
+      "val_auroc_alpha0": 0.8024368907606219,
+      "val_auprc_alpha0": 0.4087605543187753,
+      "best_alpha": 0.6000000000000001,
+      "best_val_auroc": 0.8731410334715772,
+      "best_val_auprc": 0.5355121164352707
+    },
+    {
+      "fold": 4,
+      "val_auroc_alpha1": 0.8649798071220662,
+      "val_auprc_alpha1": 0.518260157296319,
+      "val_auroc_alpha0": 0.809209762238412,
+      "val_auprc_alpha0": 0.41817774664680124,
+      "best_alpha": 0.5,
+      "best_val_auroc": 0.8782466601762666,
+      "best_val_auprc": 0.5296211589749111
+    },
+    {
+      "fold": 5,
+      "val_auroc_alpha1": 0.8704281737380701,
+      "val_auprc_alpha1": 0.510335968292233,
+      "val_auroc_alpha0": 0.8078067214610396,
+      "val_auprc_alpha0": 0.3906572555859383,
+      "best_alpha": 0.6000000000000001,
+      "best_val_auroc": 0.8804365588123314,
+      "best_val_auprc": 0.5211878426809761
+    }
+  ],
+  "test_metrics": {
+    "test_alpha1": [
+      0.8675054659521937,
+      0.5389405178880646
+    ],
+    "test_alpha0": [
+      0.8147056306418975,
+      0.4317135563374935
+    ],
+    "test_best": [
+      0.8805245801916574,
+      0.5508026683648495
+    ]
+  },
+  "stacking": {
+    "fold_rows": [
+      {
+        "fold": 1,
+        "val_auroc": 0.8755998077582969,
+        "val_auprc": 0.5539102040023551,
+        "n_train_meta": 47828,
+        "n_val_meta": 11958
+      },
+      {
+        "fold": 2,
+        "val_auroc": 0.8842419062184377,
+        "val_auprc": 0.5209852273249481,
+        "n_train_meta": 47827,
+        "n_val_meta": 11959
+      },
+      {
+        "fold": 3,
+        "val_auroc": 0.8731566534964492,
+        "val_auprc": 0.5350048668012481,
+        "n_train_meta": 47829,
+        "n_val_meta": 11957
+      },
+      {
+        "fold": 4,
+        "val_auroc": 0.8778058661455012,
+        "val_auprc": 0.5340978149587443,
+        "n_train_meta": 47831,
+        "n_val_meta": 11955
+      },
+      {
+        "fold": 5,
+        "val_auroc": 0.88046832151264,
+        "val_auprc": 0.5208470662954068,
+        "n_train_meta": 47829,
+        "n_val_meta": 11957
+      }
+    ],
+    "cv_auroc_mean": 0.878254511026265,
+    "cv_auroc_std": 0.0038467321487499423,
+    "cv_auprc_mean": 0.5329690358765405,
+    "cv_auprc_std": 0.01212027298513694,
+    "test_auroc": 0.8802506490971493,
+    "test_auprc": 0.5524076241722257
+  }
+}

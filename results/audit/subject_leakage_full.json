@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-01-28T21:36:27.736117+00:00",
-  "cohort_path": "/scratch/users/k25113331/TIMELY-Bench_Final/data/processed/merge_output/cohort_final.csv",
+  "cohort_path": "${PROJECT_ROOT}/data/processed/merge_output/cohort_final.csv",
   "n_total_stays": 74829,
   "n_unique_subjects": 54551,
   "sklearn_version": "1.7.2",

@@ -1,0 +1,231 @@
+{
+  "graph_name": "stroke_neuro_graph.json",
+  "version": "v1",
+  "condition": "Stroke",
+  "description": "Neurologic deficit proxies + hemodynamic instability in early ICU window; PMID: 31662037",
+  "nodes": [
+    {
+      "id": "condition_stroke",
+      "type": "condition",
+      "domain": "condition",
+      "label": "Stroke",
+      "source": "AHA/ASA Acute Ischemic Stroke Guidelines"
+    },
+    {
+      "id": "struct_gcs_neurologic_decline",
+      "type": "structured_indicator",
+      "domain": "symptom",
+      "label": "gcs Neurologic decline proxy: GCS < 14",
+      "feature": "gcs",
+      "threshold": 14,
+      "direction": "below",
+      "unit": "score",
+      "severity": "moderate",
+      "source": "AHA/ASA neurologic assessment in acute stroke"
+    },
+    {
+      "id": "pattern_neurologic_decline",
+      "type": "pattern_event",
+      "domain": "symptom",
+      "label": "neurologic_decline",
+      "severity": "moderate",
+      "source": "AHA/ASA neurologic assessment in acute stroke"
+    },
+    {
+      "id": "text_neurologic_decline",
+      "type": "text_evidence",
+      "domain": "text_evidence",
+      "label": "text evidence for neurologic_decline",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_gcs_severe_neurologic_impairment",
+      "type": "structured_indicator",
+      "domain": "symptom",
+      "label": "gcs Severe neurologic impairment proxy: GCS <= 8",
+      "feature": "gcs",
+      "threshold": 8,
+      "direction": "below",
+      "unit": "score",
+      "severity": "severe",
+      "source": "Acute stroke critical-care escalation threshold"
+    },
+    {
+      "id": "pattern_severe_neurologic_impairment",
+      "type": "pattern_event",
+      "domain": "symptom",
+      "label": "severe_neurologic_impairment",
+      "severity": "severe",
+      "source": "Acute stroke critical-care escalation threshold"
+    },
+    {
+      "id": "text_severe_neurologic_impairment",
+      "type": "text_evidence",
+      "domain": "text_evidence",
+      "label": "text evidence for severe_neurologic_impairment",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_sbp_stroke_hypertensive_crisis",
+      "type": "structured_indicator",
+      "domain": "vital_sign",
+      "label": "sbp Severe hypertension in stroke context: SBP > 180 mmHg",
+      "feature": "sbp",
+      "threshold": 180,
+      "direction": "above",
+      "unit": "mmHg",
+      "severity": "severe",
+      "source": "AHA/ASA BP management threshold in acute stroke"
+    },
+    {
+      "id": "pattern_stroke_hypertensive_crisis",
+      "type": "pattern_event",
+      "domain": "vital_sign",
+      "label": "stroke_hypertensive_crisis",
+      "severity": "severe",
+      "source": "AHA/ASA BP management threshold in acute stroke"
+    },
+    {
+      "id": "text_stroke_hypertensive_crisis",
+      "type": "text_evidence",
+      "domain": "text_evidence",
+      "label": "text evidence for stroke_hypertensive_crisis",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_spo2_stroke_hypoxemia",
+      "type": "structured_indicator",
+      "domain": "vital_sign",
+      "label": "spo2 Hypoxemia during stroke care: SpO2 < 94%",
+      "feature": "spo2",
+      "threshold": 94,
+      "direction": "below",
+      "unit": "%",
+      "severity": "moderate",
+      "source": "Neurocritical care oxygenation target"
+    },
+    {
+      "id": "pattern_stroke_hypoxemia",
+      "type": "pattern_event",
+      "domain": "vital_sign",
+      "label": "stroke_hypoxemia",
+      "severity": "moderate",
+      "source": "Neurocritical care oxygenation target"
+    },
+    {
+      "id": "text_stroke_hypoxemia",
+      "type": "text_evidence",
+      "domain": "text_evidence",
+      "label": "text evidence for stroke_hypoxemia",
+      "source": "temporal_textual_alignment"
+    }
+  ],
+  "edges": [
+    {
+      "source": "struct_gcs_neurologic_decline",
+      "target": "pattern_neurologic_decline",
+      "relation": "triggers",
+      "evidence": "gcs threshold/criterion"
+    },
+    {
+      "source": "text_neurologic_decline",
+      "target": "pattern_neurologic_decline",
+      "relation": "supports",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "text_neurologic_decline",
+      "target": "pattern_neurologic_decline",
+      "relation": "contradicts",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "pattern_neurologic_decline",
+      "target": "condition_stroke",
+      "relation": "aggregates",
+      "evidence": "AHA/ASA Acute Ischemic Stroke Guidelines"
+    },
+    {
+      "source": "struct_gcs_severe_neurologic_impairment",
+      "target": "pattern_severe_neurologic_impairment",
+      "relation": "triggers",
+      "evidence": "gcs threshold/criterion"
+    },
+    {
+      "source": "text_severe_neurologic_impairment",
+      "target": "pattern_severe_neurologic_impairment",
+      "relation": "supports",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "text_severe_neurologic_impairment",
+      "target": "pattern_severe_neurologic_impairment",
+      "relation": "contradicts",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "pattern_severe_neurologic_impairment",
+      "target": "condition_stroke",
+      "relation": "aggregates",
+      "evidence": "AHA/ASA Acute Ischemic Stroke Guidelines"
+    },
+    {
+      "source": "struct_sbp_stroke_hypertensive_crisis",
+      "target": "pattern_stroke_hypertensive_crisis",
+      "relation": "triggers",
+      "evidence": "sbp threshold/criterion"
+    },
+    {
+      "source": "text_stroke_hypertensive_crisis",
+      "target": "pattern_stroke_hypertensive_crisis",
+      "relation": "supports",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "text_stroke_hypertensive_crisis",
+      "target": "pattern_stroke_hypertensive_crisis",
+      "relation": "contradicts",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "pattern_stroke_hypertensive_crisis",
+      "target": "condition_stroke",
+      "relation": "aggregates",
+      "evidence": "AHA/ASA Acute Ischemic Stroke Guidelines"
+    },
+    {
+      "source": "struct_spo2_stroke_hypoxemia",
+      "target": "pattern_stroke_hypoxemia",
+      "relation": "triggers",
+      "evidence": "spo2 threshold/criterion"
+    },
+    {
+      "source": "text_stroke_hypoxemia",
+      "target": "pattern_stroke_hypoxemia",
+      "relation": "supports",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "text_stroke_hypoxemia",
+      "target": "pattern_stroke_hypoxemia",
+      "relation": "contradicts",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "pattern_stroke_hypoxemia",
+      "target": "condition_stroke",
+      "relation": "aggregates",
+      "evidence": "AHA/ASA Acute Ischemic Stroke Guidelines"
+    }
+  ],
+  "sources": [
+    {
+      "name": "AHA/ASA Acute Ischemic Stroke Guidelines",
+      "reference": "Neurologic deficit proxies + hemodynamic instability in early ICU window; PMID: 31662037"
+    }
+  ],
+  "metadata": {
+    "generated_by": "build_condition_graphs.py",
+    "generated_at": "2026-02-08T20:24:16"
+  }
+}

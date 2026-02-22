@@ -1,0 +1,40 @@
+{
+  "evaluation_mode": "external_predictions",
+  "run_id": "cres_gpt51_full_32004532",
+  "timestamp": "2026-02-18T21:08:32",
+  "predictions_file": "${PROJECT_ROOT}/results/cres/model_runs/cres_gpt51_full_32004532/predictions.jsonl",
+  "prediction_metadata": {
+    "n_rows_raw": 3600,
+    "n_rows_valid": 3600,
+    "model_names": [
+      "gpt-5.1"
+    ],
+    "model_versions": [],
+    "prompt_shas": [
+      "d04ee7804da0847ea996a706671d659c853f589001ffd51030f9c33987c1047a"
+    ]
+  },
+  "trend_threshold_accuracy": 0.9855555555555555,
+  "temporal_grounding_accuracy": 0.45,
+  "temporal_grounding_macro_f1": 0.40019575203990526,
+  "temporal_grounding_balanced_accuracy": 0.4981481481481482,
+  "diagnostic_consistency_accuracy": 0.3877777777777778,
+  "diagnostic_consistency_macro_f1": 0.3806614161178121,
+  "contrastive_inference_accuracy": 0.7122222222222222,
+  "contrastive_inference_macro_f1": 0.7059440267335004,
+  "contrastive_tie_rate": 0.3,
+  "evidence_validity_rate": 1.0,
+  "n_trend": 900,
+  "n_grounding": 900,
+  "n_diagnostic": 900,
+  "n_contrastive": 900,
+  "n_trend_scored": 900,
+  "n_grounding_scored": 900,
+  "n_diagnostic_scored": 900,
+  "n_contrastive_scored": 900,
+  "label_unique_count": 3,
+  "label_entropy": 1.5709505944546684,
+  "dominant_label_ratio": 0.4,
+  "dominant_note_type_ratio": 0.3333333333333333,
+  "warning_flags": []
+}

@@ -72,6 +72,12 @@
                 "type": "integer",
                 "minimum": 0
               },
+              "timestamp": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
               "heart_rate": {
                 "type": [
                   "number",
@@ -140,6 +146,12 @@
               "hour": {
                 "type": "integer"
               },
+              "timestamp": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
               "creatinine": {
                 "type": [
                   "number",
@@ -164,6 +176,24 @@
                   "null"
                 ]
               },
+              "bicarbonate": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "chloride": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "ph": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
               "lactate": {
                 "type": [
                   "number",
@@ -182,7 +212,25 @@
                   "null"
                 ]
               },
+              "hematocrit": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
               "platelet": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "glucose": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "albumin": {
                 "type": [
                   "number",
                   "null"
@@ -198,6 +246,13 @@
         "end_hour": {
           "type": "integer",
           "default": 24
+        },
+        "resolution_hours": {
+          "type": "integer",
+          "default": 1
+        },
+        "n_timepoints": {
+          "type": "integer"
         },
         "missing_rate": {
           "type": "object"
@@ -227,13 +282,31 @@
                 "type": "string"
               },
               "chart_hour": {
-                "type": "integer"
+                "type": "number"
+              },
+              "chart_time": {
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "text_full": {
                 "type": "string"
               },
               "text_relevant": {
                 "type": "string"
+              },
+              "text_length": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "has_llm_features": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
               }
             }
           }
@@ -275,6 +348,82 @@
                   "integer",
                   "null"
                 ]
+              },
+              "extended_features": {
+                "type": "object"
+              },
+              "extraction_confidence": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "model_version": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
+        "n_notes": {
+          "type": "integer"
+        },
+        "note_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "coverage_hours": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "aligned_spans": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "note_id",
+              "note_type",
+              "chart_hour",
+              "span_start_hour",
+              "span_end_hour",
+              "text"
+            ],
+            "properties": {
+              "note_id": {
+                "type": "string"
+              },
+              "note_type": {
+                "type": "string"
+              },
+              "chart_hour": {
+                "type": "number"
+              },
+              "span_start_hour": {
+                "type": "number"
+              },
+              "span_end_hour": {
+                "type": "number"
+              },
+              "text": {
+                "type": "string"
+              },
+              "keywords": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "relevance_score": {
+                "type": [
+                  "number",
+                  "null"
+                ]
               }
             }
           }
@@ -291,17 +440,195 @@
           ],
           "properties": {
             "nodes": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "name",
+                  "level",
+                  "onset_hour"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "level": {
+                    "type": "string",
+                    "enum": [
+                      "pattern",
+                      "condition"
+                    ]
+                  },
+                  "onset_hour": {
+                    "type": "integer"
+                  },
+                  "value": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "severity": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "source": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              }
             },
             "edges": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "source_id",
+                  "target_id",
+                  "relationship"
+                ],
+                "properties": {
+                  "source_id": {
+                    "type": "string"
+                  },
+                  "target_id": {
+                    "type": "string"
+                  },
+                  "relationship": {
+                    "type": "string",
+                    "enum": [
+                      "indicates",
+                      "contributes_to",
+                      "progresses_to",
+                      "cascade_causes"
+                    ]
+                  },
+                  "confidence": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "time_delta_hours": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "clinical_rule": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              }
             },
             "primary_condition": {
               "type": [
                 "string",
                 "null"
               ]
+            },
+            "n_pattern_nodes": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "n_condition_nodes": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "n_edges": {
+              "type": [
+                "integer",
+                "null"
+              ]
             }
+          }
+        },
+        "physiology_templates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "pattern_type",
+              "disease",
+              "feature"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "pattern_type": {
+                "type": "string"
+              },
+              "disease": {
+                "type": "string"
+              },
+              "feature": {
+                "type": "string"
+              },
+              "threshold": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "direction": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "delta_threshold": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "delta_window_hours": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "description": {
+                "type": "string"
+              },
+              "unit": {
+                "type": "string"
+              },
+              "severity": {
+                "type": "string"
+              },
+              "clinical_source": {
+                "type": "string"
+              },
+              "reference_pmid": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "evidence_level": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": true
           }
         },
         "detected_patterns": {
@@ -336,6 +663,66 @@
                   "moderate",
                   "severe"
                 ]
+              },
+              "disease": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "feature": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "unit": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "description": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "start_hour": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "end_hour": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "duration_hours": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "clinical_source": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reference_pmid": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "evidence_level": {
+                "type": [
+                  "string",
+                  "null"
+                ]
               }
             }
           }
@@ -354,8 +741,32 @@
               "note_id": {
                 "type": "string"
               },
+              "note_hour": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "note_type": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "time_delta_hours": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
               "alignment_quality": {
                 "type": "string"
+              },
+              "aligned_text": {
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "annotation_category": {
                 "type": [
@@ -369,9 +780,51 @@
                   "AMBIGUOUS",
                   null
                 ]
+              },
+              "annotation_confidence": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "annotation_reasoning": {
+                "type": [
+                  "string",
+                  "null"
+                ]
               }
             }
           }
+        },
+        "n_patterns_detected": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "n_alignments": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "n_supportive": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "n_contradictory": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "n_unrelated": {
+          "type": [
+            "integer",
+            "null"
+          ]
         }
       }
     },
@@ -400,7 +853,8 @@
               "enum": [
                 0,
                 1
-              ]
+              ],
+              "description": "Prolonged ICU length-of-stay label (ICU LOS > 7 days)"
             },
             "readmission_30d": {
               "type": [
@@ -462,14 +916,41 @@
         "schema_version": {
           "type": "string"
         },
+        "created_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "source_database": {
           "type": "string"
+        },
+        "source_version": {
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "observation_window_hours": {
           "type": "integer"
         },
         "data_quality_score": {
           "type": "number"
+        },
+        "completeness": {
+          "type": "object"
+        },
+        "preprocessing_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "llm_annotation_model": {
+          "type": [
+            "string",
+            "null"
+          ]
         }
       }
     }

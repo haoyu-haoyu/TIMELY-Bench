@@ -1,257 +1,153 @@
-# Model Card: TIMELY-Bench Baselines v2.0
+# Model Card: TIMELY-Bench Core Baselines (v2.0)
 
-## Overview
+This model card describes the baseline models that are used as the **canonical benchmark** in TIMELY-Bench.
 
-This document describes the baseline models implemented in TIMELY-Bench for benchmarking multimodal EHR fusion. Version 2.0 adds enhanced reasoning features including syndrome detection, reasoning chains, and LLM-generated disease timelines.
+Key design choice: TIMELY-Bench includes three complementary ``text'' representations:
+- **Annotation-derived alignment features** (counts/ratios from pattern-text alignment + simple note statistics). These are transparent and fast, but they are not raw semantic embeddings.
+- **ClinicalBERT embeddings** (stay-level CLS embeddings from raw notes within the first 24 hours, mean pooled). This baseline captures ``what the note says'' semantics.
+- **MedCAT/UMLS concepts** (stay-level bag-of-concepts features from concept extraction within the first 24 hours). This provides a structured text representation, but discards most context.
 
----
+## Tasks
 
-## Models Summary
+- `mortality`: in-hospital mortality (binary label).
+- `prolonged_los`: ICU length-of-stay > 7 days (binary label).
 
-| Model | Type | Input | Test AUROC (Mortality) |
-|-------|------|-------|------------------------|
-| **Delta Features** | Tree-based | TS + Delta (δ6h, δ12h) | **0.857** |
-| Full Feature Fusion | Tree-based | TS + Annotations + BERT + Concepts | 0.844 |
-| Enhanced Reasoning | Tree-based | TS + Syndrome + Timeline + State | 0.816 |
-| BERT + Annotation | Tree-based | TS + Annotations + BERT | 0.840 |
-| Enhanced GRU | Deep Learning | Time-series + LLM + Annotations | 0.831 |
-| Temporal GRU | Deep Learning | Time-series + LLM | 0.824 |
-| XGBoost (Tabular) | Tree-based | Time-series stats + Annotations | 0.804 |
+## Inputs
 
-### Prediction Task Results
+- Structured features: windowed aggregated features in `data/processed/data_windows/window_{6h,12h,24h,D0}/features_aggregated.csv`.
+- Text (annotation-derived) features: extracted per episode from `episodes/episodes_enhanced/*.json`:
+  - note statistics (`n_notes`, total/avg text length)
+  - alignment statistics (`n_alignments`, `n_supportive`, `n_contradictory`, `supportive_ratio`, `annotation_density`)
+- Text (ClinicalBERT) embeddings: precomputed stay-level embeddings under `data/processed/text_embeddings/`:
+  - `clinical_bert_embeddings.npy`
+  - `embedding_stay_ids.csv`
+- Text (MedCAT) concepts: stay-level bag-of-concepts features under `data/processed/medcat_full/`:
+  - `medcat_has_concepts_24h.csv`
 
-| Task | Best Model | AUROC |
-|------|------------|-------|
-| **Mortality** | Delta Features | **0.857** |
-| **Prolonged LOS** | Full Feature Fusion | 0.844 |
-| **30-Day Readmission** | XGBoost | 0.632 |
+## Canonical Results (24h, All Cohort; Test Set)
 
-### Alignment Window Results
+These values are generated from `results/standardized/results_summary.csv`.
 
-| Window | Test AUROC |
-|--------|------------|
-| D0 (Daily) | 0.798 |
-| ±6h | 0.777 |
-| ±12h | 0.800 |
-| **±24h** | **0.833** |
+### Mortality
 
-### Disease-Stratified Models (5-fold CV)
+| Model | AUROC | AUPRC | Notes |
+|------|------:|------:|------|
+| Structured XGBoost | 0.8677 | 0.5414 | `structured_results.csv` |
+| Structured Logistic Regression | 0.8481 | 0.5076 | `structured_results.csv` |
+| ClinicalGRU | 0.8419 | 0.4832 | `gru_results.csv` |
+| Text-only XGBoost (AnnotFeatures) | 0.7551 | 0.3266 | `text_results.csv` |
+| Text-only Logistic Regression (MedCAT) | 0.5519 | 0.1501 | `text_results.csv` |
+| Text-only XGBoost (MedCAT) | 0.5520 | 0.1506 | `text_results.csv` |
+| Text-only Logistic Regression (ClinicalBERT) | 0.8318 | 0.4439 | `text_results.csv` |
+| Text-only XGBoost (ClinicalBERT) | 0.8168 | 0.4437 | `text_results.csv` |
+| Early Fusion XGBoost (AnnotFeatures) | 0.8725 | 0.5568 | `fusion_results.csv` |
+| Early Fusion XGBoost (ClinicalBERT) | 0.8848 | 0.5844 | `fusion_results.csv` |
+| Late Fusion (tuned alpha; AnnotFeatures) | 0.8688 | 0.5354 | `fusion_results_late_xgb.csv` |
+| Late Fusion (stacking; AnnotFeatures) | 0.8689 | 0.5348 | `fusion_results_late_xgb.csv` |
+| Late Fusion (tuned alpha; ClinicalBERT) | 0.8805 | 0.5508 | `fusion_results_late_xgb.csv` |
+| Late Fusion (stacking; ClinicalBERT) | 0.8803 | 0.5524 | `fusion_results_late_xgb.csv` |
 
-| Condition | N Samples | Mortality | GB AUROC |
-|-----------|-----------|-----------|----------|
-| AKI | 57,263 | 14.5% | 0.820 ± 0.002 |
-| Sepsis | 34,152 | 18.2% | 0.807 ± 0.006 |
-| ARDS | 822 | 39.9% | 0.676 ± 0.015 |
+### Prolonged LOS
 
----
+| Model | AUROC | AUPRC | Notes |
+|------|------:|------:|------|
+| Structured XGBoost | 0.8145 | 0.4604 | `structured_results.csv` |
+| Structured Logistic Regression | 0.7966 | 0.4219 | `structured_results.csv` |
+| Text-only XGBoost (AnnotFeatures) | 0.7007 | 0.3107 | `text_results.csv` |
+| Text-only Logistic Regression (MedCAT) | 0.5491 | 0.1922 | `text_results.csv` |
+| Text-only XGBoost (MedCAT) | 0.5495 | 0.1946 | `text_results.csv` |
+| Text-only Logistic Regression (ClinicalBERT) | 0.8000 | 0.4521 | `text_results.csv` |
+| Text-only XGBoost (ClinicalBERT) | 0.7997 | 0.4559 | `text_results.csv` |
+| Early Fusion XGBoost (AnnotFeatures) | 0.8182 | 0.4677 | `fusion_results.csv` |
+| Early Fusion XGBoost (ClinicalBERT) | 0.8353 | 0.5089 | `fusion_results.csv` |
+| Late Fusion (tuned alpha; AnnotFeatures) | 0.8146 | 0.4579 | `fusion_results_late_xgb.csv` |
+| Late Fusion (stacking; AnnotFeatures) | 0.8146 | 0.4582 | `fusion_results_late_xgb.csv` |
+| Late Fusion (tuned alpha; ClinicalBERT) | 0.8338 | 0.5062 | `fusion_results_late_xgb.csv` |
+| Late Fusion (stacking; ClinicalBERT) | 0.8336 | 0.5063 | `fusion_results_late_xgb.csv` |
 
-## Model Details
+## Cross-Window Structured Baselines (Mortality, All Cohort; CV Mean AUROC)
 
-### 1. Enhanced Reasoning Model (NEW in v2.0)
+| Model | 6h | 12h | 24h | D0 |
+|------|---:|----:|----:|---:|
+| XGBoost | 0.8052 | 0.8385 | 0.8679 | 0.8111 |
+| Logistic Regression | 0.7833 | 0.8177 | 0.8517 | 0.7969 |
 
-| Parameter | Value |
-|-----------|-------|
-| Architecture | XGBoost |
-| Feature Count | 46 |
-| Key Features | syndrome_detection, disease_timeline, patient_state_space |
-| Test AUROC (Mortality) | 0.816 |
-| Test AUROC (LOS) | 0.793 |
+## Late Fusion Definition
 
-**New Reasoning Features:**
-- `sepsis_detected`, `aki_detected`, `ards_detected`
-- `dt_has_sepsis`, `dt_onset_hour`, `dt_deteriorating`
-- `rc_evidence_count`, `rc_confidence`
-- `pss_hours`, `pss_last_severity`
+- Late fusion includes two implementations:
+  - weighted blending: `p_fused = alpha * p_structured + (1-alpha) * p_text`
+  - stacking: logistic meta-learner trained on out-of-fold structured/text probabilities
+- Tuned alpha (AnnotFeatures) is reported in:
+  - `results/standardized/late_fusion_sanity_xgb_24h_all_mortality.json`
+  - `results/standardized/late_fusion_sanity_xgb_24h_all_prolonged_los.json`
+- Tuned alpha (ClinicalBERT) is reported in:
+  - `results/standardized/late_fusion_sanity_xgb_clinicalbert_24h_all_mortality.json`
+  - `results/standardized/late_fusion_sanity_xgb_clinicalbert_24h_all_prolonged_los.json`
 
-### 2. Full Feature Fusion (Best Overall)
+## Calibration (24h, Mortality, All Cohort)
 
-| Parameter | Value |
-|-----------|-------|
-| Architecture | XGBoost |
-| n_estimators | 100 |
-| max_depth | 6 |
-| Feature Sets | Vitals + BERT + Concepts + Annotations |
-| Test AUROC | 0.844 |
+Computed from:
+- `results/calibration/calibration_fusion_summary.csv` (structured/text/fusion XGBoost families)
+- `results/calibration/calibration_summary.csv` (structured Logistic Regression)
+- `results/calibration/calibration_dl_summary.json` (ClinicalGRU)
 
-### 3. Enhanced GRU
+| Model | ECE | Brier |
+|------|----:|------:|
+| Structured XGBoost | 0.1974 | 0.1327 |
+| Structured Logistic Regression | 0.0083 | 0.0823 |
+| ClinicalGRU | 0.0336 | 0.0871 |
+| TextOnly XGBoost (annotation-derived) | 0.0062 | 0.0965 |
+| TextOnly XGBoost (ClinicalBERT) | 0.0089 | 0.0881 |
+| Early Fusion XGBoost (annotation-derived) | 0.0066 | 0.0770 |
+| Early Fusion XGBoost (ClinicalBERT) | 0.0086 | 0.0740 |
+| Late Fusion XGBoost (annotation-derived) | 0.1813 | 0.1234 |
+| Late Fusion XGBoost (ClinicalBERT) | 0.1078 | 0.0915 |
 
-| Parameter | Value |
-|-----------|-------|
-| Architecture | GRU + Static Feature Fusion |
-| Hidden Dim | 128 |
-| Num Layers | 2 |
-| Dropout | 0.2 |
-| Input Dim (Seq) | 30 (25 physio + 5 LLM) |
-| Input Dim (Static) | 4 (annotation features) |
+## Training Protocol (Core Baselines)
 
-**Training:**
-- Optimizer: Adam (lr=0.001)
-- Loss: Binary Cross-Entropy
-- Early Stopping: patience=10
-- 5-Fold GroupKFold CV (by subject_id)
+- Split: patient-level (grouped by `subject_id`), holdout test size = 0.20, seed = 42.
+- CV: 5-fold `GroupKFold` on train/val partition (by `subject_id`).
+- Metrics: AUROC, AUPRC; calibration metrics (ECE/Brier, and HL where available).
 
-### 4. XGBoost (Tabular)
-
-| Parameter | Value |
-|-----------|-------|
-| n_estimators | 100 |
-| max_depth | 6 |
-| learning_rate | 0.1 |
-| Features | 35 (time-series mean/std + annotations) |
-
----
-
-## Feature Sets
-
-### Time-Series Features (per vital)
-
-| Feature | Description |
-|---------|-------------|
-| `{vital}_mean` | Mean value over 24h |
-| `{vital}_std` | Standard deviation |
-| `{vital}_min` | Minimum value |
-| `{vital}_max` | Maximum value |
-| `{vital}_last` | Last recorded value |
-
-### Annotation Features
-
-| Feature | Description |
-|---------|-------------|
-| `n_supportive` | Count of SUPPORTIVE annotations |
-| `n_contradictory` | Count of CONTRADICTORY annotations |
-| `n_patterns` | Count of detected patterns |
-| `n_conditions` | Count of associated conditions |
-
-### Enhanced Reasoning Features (NEW in v2.0)
-
-| Feature | Description |
-|---------|-------------|
-| `sepsis_detected` | Syndrome detection result |
-| `aki_detected` | AKI detection result |
-| `aki_stage` | AKI severity stage (1-3) |
-| `dt_has_sepsis` | Disease timeline includes sepsis |
-| `dt_onset_hour` | Predicted disease onset hour |
-| `dt_deteriorating` | Patient prognosis is deteriorating |
-| `rc_evidence_count` | Number of reasoning evidence |
-| `rc_confidence` | Reasoning chain confidence |
-| `pss_hours` | Hours in patient state-space |
-
-### ClinicalBERT Embedding Features
-
-| Feature | Description |
-|---------|-------------|
-| `bert_0` to `bert_49` | Top 50 PCA dimensions from 768-dim ClinicalBERT embeddings |
-| **Model** | emilyalsentzer/Bio_ClinicalBERT |
-| **Pooling** | Mean pooling across notes per stay |
-
-### NER Medical Concept Features
-
-| Feature | Description |
-|---------|-------------|
-| `concept_DISEASE` | Count of disease entities |
-| `concept_DRUG` | Count of drug/medication entities |
-| `concept_PROCEDURE` | Count of procedure entities |
-| **Model** | spaCy en_core_sci_lg |
-
----
-
-## Evaluation Metrics
-
-### Discrimination
-
-| Model | AUROC | AUPRC |
-|-------|-------|-------|
-| Full Feature Fusion | 0.844 | 0.486 |
-| Enhanced Reasoning | 0.816 | 0.418 |
-| Enhanced GRU | 0.831 | 0.468 |
-| XGBoost | 0.804 | 0.409 |
-
-### Calibration
-
-| Model | ECE ↓ | HL p-value |
-|-------|-------|------------|
-| EarlyFusion_XGBoost | 0.0067 | 0.0001 |
-| Tabular_XGBoost | 0.0065 | 0.0382 |
-| TextOnly_XGBoost | 0.0015 | 0.0002 |
-
-**Note**: All models show good calibration (ECE < 0.01).
-
----
-
-## Ablation Studies
-
-### Time Window Sensitivity
-
-| Window | AUROC |
-|--------|-------|
-| ±6h | 0.777 |
-| ±12h | 0.800 |
-| ±24h (default) | 0.833 |
-
-### Note Category Importance
-
-| Category | Importance |
-|----------|------------|
-| **Nursing** | Highest (AUROC 0.638 alone) |
-| Radiology | Moderate (AUROC 0.545 alone) |
-| Others | Minimal contribution |
-
----
-
-## Intended Use
-
-- **Primary**: Benchmark for multimodal EHR fusion research
-- **Secondary**: Educational demonstration of fusion strategies
-- **New**: Clinical reasoning and disease progression modeling
-
-## Limitations
-
-1. **Single-task optimization**: Models optimized for mortality only
-2. **Fixed architecture**: No hyperparameter tuning for GRU
-3. **Limited fusion strategies**: Only early/late fusion tested
-4. **Syndrome Detection**: High Sepsis Recall, Lower AKI Recall
-
-## Ethical Considerations
-
-- Models trained on de-identified data
-- Not validated for clinical deployment
-- Should not be used for individual patient decisions
-
----
-
-## Reproducibility
+## Reproduction (Core)
 
 ```bash
-# Train all baselines
-python code/baselines/train_tabular_baselines.py
-python code/baselines/train_text_only.py
-python code/baselines/train_enhanced_gru.py
-python code/baselines/train_fusion.py
-python code/baselines/train_enhanced_reasoning.py  # NEW
+cd TIMELY-Bench_Final
 
-# Evaluate
-python code/baselines/eval_calibration.py
-python code/baselines/eval_note_ablation.py
+# Structured baselines (multi-window)
+python3 code/baselines/run_baselines.py
+
+# ClinicalGRU (mortality)
+python3 code/baselines/train_temporal_gru_v2.py
+
+# Text-only baseline (annotation-derived)
+python3 code/baselines/train_text_only.py
+
+# Text-only baseline (ClinicalBERT embeddings)
+python3 code/baselines/train_text_only_embeddings.py
+
+# Text-only baseline (MedCAT concepts)
+python3 code/baselines/train_text_only_medcat.py
+
+# Early / Late fusion (AnnotFeatures + ClinicalBERT variants)
+python3 code/baselines/train_fusion.py
+
+# Canonical aligner comparison (D0/6h/12h/24h; MedCAT baseline)
+python3 code/baselines/train_aligner_comparison.py
+
+# Note-category ablation (alignment-derived note-type features)
+python3 code/baselines/eval_note_ablation.py
+
+# Canonical aggregation for reporting
+python3 code/utils/standardize_results.py --step fusion
 ```
 
----
+## Known Risks / Common Confusions
 
-## Version History
+1. Naming: `EarlyFusion_XGBoost` in some robustness/calibration scripts is a **structured-only** label used for multi-window comparisons. The multimodal early-fusion baseline lives in `results/fusion_baselines/`.
+2. "Text-only" in this repo can refer to either annotation-derived alignment features or ClinicalBERT embeddings; check the model label and `source_json` in `results/standardized/text_results.csv`.
 
-| Version | Date | Changes |
-|---------|------|---------|
-| v1.0 | 2025-12 | Initial release |
-| **v2.0** | **2026-01** | Added enhanced reasoning model, syndrome detection features, disease timeline features |
+## Optional / Experimental Scripts (Not Part Of Canonical Tables)
 
----
-
-## Citation
-
-```bibtex
-@misc{timely-bench-2026,
-  title={TIMELY-Bench: A Unified Framework for Multimodal Clinical Reasoning at Scale},
-  author={[Author Names]},
-  year={2026},
-  institution={King's College London, LOPPN Department}
-}
-```
+- Delta-feature ablations: `code/baselines/train_with_delta_features.py`
+- Concept / embedding feature extraction: `code/data_processing/extract_bert_embeddings.py`, `code/data_processing/extract_concepts_medcat_full.py`

@@ -1,10 +1,10 @@
 {
   "step": "smoke_structured_mortality",
-  "timestamp": "2026-01-25T15:14:08",
+  "timestamp": "2026-02-18T01:14:05",
   "seed": 42,
   "inputs": {
-    "features_file": "/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/data/processed/data_windows/window_24h/features_aggregated.csv",
-    "cohort_file": "/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/data/processed/merge_output/cohort_final.csv"
+    "features_file": "${PROJECT_ROOT}/data/processed/data_windows/window_24h/features_aggregated.csv",
+    "cohort_file": "${PROJECT_ROOT}/data/processed/merge_output/cohort_final_extended.csv"
   },
   "results": [
     {
@@ -15,41 +15,41 @@
       "window": "24h",
       "n_samples": 74829,
       "positive_rate": 0.11933875903727165,
-      "auroc_mean": 0.8449927323827499,
-      "auroc_std": 0.002181964924949437,
-      "auprc_mean": 0.4730776428351575,
-      "auprc_std": 0.009525800497863121,
-      "test_auroc": 0.8452502498324403,
-      "test_auprc": 0.4941303716146597,
+      "auroc_mean": 0.8517259863632403,
+      "auroc_std": 0.0024070928676710557,
+      "auprc_mean": 0.4868314031821196,
+      "auprc_std": 0.008117731694638714,
+      "test_auroc": 0.8498997054067227,
+      "test_auprc": 0.5093083004965386,
       "fold_details": [
         {
           "fold": 1,
-          "auroc": 0.8447183567434929,
-          "auprc": 0.4899633149297899
+          "auroc": 0.8517171492840767,
+          "auprc": 0.5022165609772303
         },
         {
           "fold": 2,
-          "auroc": 0.8465296302353488,
-          "auprc": 0.4664699976581348
+          "auroc": 0.8547194802166739,
+          "auprc": 0.4808625230717897
         },
         {
           "fold": 3,
-          "auroc": 0.8421265296082207,
-          "auprc": 0.4669044042082804
+          "auroc": 0.848425983583508,
+          "auprc": 0.47944151357081133
         },
         {
           "fold": 4,
-          "auroc": 0.8433587459400398,
-          "auprc": 0.46476489885322725
+          "auroc": 0.8497541456978266,
+          "auprc": 0.48532140113453626
         },
         {
           "fold": 5,
-          "auroc": 0.8482303993866476,
-          "auprc": 0.47728559852635516
+          "auroc": 0.854013173034116,
+          "auprc": 0.4863150171562303
         }
       ],
       "seed": 42,
-      "input_paths": "{\"features_file\": \"/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/data/processed/data_windows/window_24h/features_aggregated.csv\", \"cohort_file\": \"/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/data/processed/merge_output/cohort_final.csv\"}"
+      "input_paths": "{\"features_file\": \"${PROJECT_ROOT}/data/processed/data_windows/window_24h/features_aggregated.csv\", \"cohort_file\": \"${PROJECT_ROOT}/data/processed/merge_output/cohort_final_extended.csv\"}"
     }
   ]
 }

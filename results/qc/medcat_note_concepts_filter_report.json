@@ -1,0 +1,25 @@
+{
+  "input_path": "${PROJECT_ROOT}/data/processed/medcat_full/medcat_note_concepts_24h.csv",
+  "output_path": "${PROJECT_ROOT}/data/processed/medcat_full/medcat_note_concepts_24h.csv",
+  "total_rows": 8089815,
+  "kept_rows": 7433786,
+  "removed_rows": 656029,
+  "excluded_note_types": [
+    "discharge"
+  ],
+  "removed_by_type": {
+    "discharge": 656029
+  },
+  "note_type_counts_before": {
+    "discharge": 656029,
+    "lab_comment": 542662,
+    "nursing": 1635539,
+    "radiology": 5255585
+  },
+  "note_type_counts_after": {
+    "lab_comment": 542662,
+    "nursing": 1635539,
+    "radiology": 5255585
+  },
+  "timestamp": "2026-02-07T22:33:00"
+}

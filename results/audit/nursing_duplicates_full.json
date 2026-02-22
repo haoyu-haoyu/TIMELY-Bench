@@ -1,215 +1,215 @@
 {
-  "audit_timestamp": "2026-02-01T16:30:55.734156",
+  "audit_timestamp": "2026-02-20T19:30:48.312600",
   "sampled_episodes": 5000,
-  "total_nursing_notes": 453928,
-  "unique_nursing_notes": 219,
+  "total_nursing_notes": 454050,
+  "unique_nursing_notes": 222,
   "duplicate_rate_percent": 99.95,
   "top_50_duplicates": [
     {
       "text_preview": "SR (Sinus Rhythm)",
-      "count": 67956
+      "count": 67409
     },
     {
       "text_preview": "Full resistance",
-      "count": 42778
+      "count": 42645
     },
     {
       "text_preview": "Obeys Commands",
-      "count": 26729
+      "count": 26503
     },
     {
       "text_preview": "Some resistance",
-      "count": 23517
+      "count": 22233
     },
     {
       "text_preview": "Spontaneously",
-      "count": 21505
+      "count": 21426
     },
     {
       "text_preview": "Patient Verbalized",
-      "count": 21240
+      "count": 20733
     },
     {
       "text_preview": "Consistently",
-      "count": 18998
+      "count": 19052
     },
     {
       "text_preview": "ST (Sinus Tachycardia)",
-      "count": 17650
-    },
-    {
-      "text_preview": "AF (Atrial Fibrillation)",
-      "count": 12399
+      "count": 18793
     },
     {
       "text_preview": "No response",
-      "count": 11444
+      "count": 12340
+    },
+    {
+      "text_preview": "AF (Atrial Fibrillation)",
+      "count": 11515
     },
     {
       "text_preview": "No Response-ETT",
-      "count": 10750
-    },
-    {
-      "text_preview": "Nasal cannula",
-      "count": 10663
+      "count": 11138
     },
     {
       "text_preview": "Normal strength",
-      "count": 10528
+      "count": 11065
+    },
+    {
+      "text_preview": "Nasal cannula",
+      "count": 10061
     },
     {
       "text_preview": "Endotracheal tube",
-      "count": 9196
+      "count": 9420
     },
     {
       "text_preview": "Wiggle toes",
-      "count": 7795
+      "count": 7660
     },
     {
       "text_preview": "Lifts against gravity, no resistance",
-      "count": 7331
+      "count": 6794
     },
     {
       "text_preview": "Lifts and Holds",
-      "count": 5903
+      "count": 6332
     },
     {
       "text_preview": "Moves on Bed",
-      "count": 5866
+      "count": 5977
     },
     {
       "text_preview": "SB (Sinus Bradycardia)",
-      "count": 5334
+      "count": 5656
     },
     {
       "text_preview": "Intubated/trached",
-      "count": 5288
+      "count": 5525
     },
     {
       "text_preview": "Soft Distended",
-      "count": 5207
-    },
-    {
-      "text_preview": "Stick out tongue",
-      "count": 5113
+      "count": 5303
     },
     {
       "text_preview": "Movement, but not against gravity",
-      "count": 5082
+      "count": 5125
+    },
+    {
+      "text_preview": "Stick out tongue",
+      "count": 5037
     },
     {
       "text_preview": "Non-verbal Cues",
-      "count": 5005
-    },
-    {
-      "text_preview": "Localizes Pain",
-      "count": 4191
+      "count": 4978
     },
     {
       "text_preview": "Oriented x3",
-      "count": 4139
+      "count": 4232
     },
     {
       "text_preview": "Year, month, & day",
-      "count": 4096
+      "count": 4216
+    },
+    {
+      "text_preview": "Localizes Pain",
+      "count": 3931
     },
     {
       "text_preview": "Clean and Dry",
-      "count": 3875
+      "count": 3864
     },
     {
       "text_preview": "CMV/ASSIST/AutoFlow",
-      "count": 3606
+      "count": 3728
     },
     {
       "text_preview": "Unable to Assess",
-      "count": 3218
-    },
-    {
-      "text_preview": "Non-reactive",
-      "count": 2829
+      "count": 3413
     },
     {
       "text_preview": "Change in Vitals",
-      "count": 2788
+      "count": 2810
     },
     {
       "text_preview": "No Movement",
-      "count": 2765
+      "count": 2761
     },
     {
-      "text_preview": "Inconsistently",
-      "count": 2484
-    },
-    {
-      "text_preview": "Dry Sterile Dressing",
-      "count": 2475
+      "text_preview": "Non-reactive",
+      "count": 2652
     },
     {
       "text_preview": "Show a thumb up",
-      "count": 2467
+      "count": 2514
     },
     {
-      "text_preview": "1st AV (First degree AV Block)",
-      "count": 2039
+      "text_preview": "Dry Sterile Dressing",
+      "count": 2457
     },
     {
-      "text_preview": "Non-Distended",
-      "count": 2024
+      "text_preview": "Inconsistently",
+      "count": 2282
     },
     {
       "text_preview": "Flex-withdraws",
-      "count": 1936
+      "count": 2201
     },
     {
-      "text_preview": "No Response",
-      "count": 1828
+      "text_preview": "1st AV (First degree AV Block)",
+      "count": 2175
     },
     {
       "text_preview": "No movement",
-      "count": 1699
+      "count": 2142
     },
     {
-      "text_preview": "Show 2 fingers",
-      "count": 1659
+      "text_preview": "Non-Distended",
+      "count": 1978
     },
     {
-      "text_preview": "Arouse to Voice",
-      "count": 1588
-    },
-    {
-      "text_preview": "Lifts/falls back",
-      "count": 1577
-    },
-    {
-      "text_preview": "Abnormal flexion",
-      "count": 1498
-    },
-    {
-      "text_preview": "Oral Center",
-      "count": 1446
-    },
-    {
-      "text_preview": "Muscle contraction, but no movement",
-      "count": 1413
-    },
-    {
-      "text_preview": "Grimace Scale",
-      "count": 1368
-    },
-    {
-      "text_preview": "Aerosol-cool",
-      "count": 1357
+      "text_preview": "No Response",
+      "count": 1780
     },
     {
       "text_preview": "Appropriate",
-      "count": 1294
+      "count": 1696
+    },
+    {
+      "text_preview": "Oral Center",
+      "count": 1639
+    },
+    {
+      "text_preview": "Arouse to Voice",
+      "count": 1518
+    },
+    {
+      "text_preview": "Lifts/falls back",
+      "count": 1487
+    },
+    {
+      "text_preview": "Show 2 fingers",
+      "count": 1453
+    },
+    {
+      "text_preview": "Abnormal flexion",
+      "count": 1446
+    },
+    {
+      "text_preview": "Grimace Scale",
+      "count": 1444
+    },
+    {
+      "text_preview": "Non-purposeful",
+      "count": 1411
+    },
+    {
+      "text_preview": "Aerosol-cool",
+      "count": 1363
     }
   ],
   "unique_per_stay_stats": {
-    "mean": 14.88,
+    "mean": 14.86,
     "min": 4,
-    "max": 41,
-    "stays_with_nursing": 4992
+    "max": 36,
+    "stays_with_nursing": 4997
   }
 }

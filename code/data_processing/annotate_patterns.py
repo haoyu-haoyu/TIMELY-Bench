@@ -37,11 +37,14 @@ from config import TEMPORAL_ALIGNMENT_DIR, PROCESSED_DIR
 # ==========================================
 # 配置
 # ==========================================
-ALIGNMENT_SAMPLES_FILE = TEMPORAL_ALIGNMENT_DIR / 'llm_annotation_samples.csv'
+# Debug-only sampling file for quick manual/LLM inspection.
+# Canonical release input is results/llm_annotations/llm_annotation_set.csv.
+ALIGNMENT_DEBUG_SAMPLES_FILE = TEMPORAL_ALIGNMENT_DIR / 'llm_annotation_debug_samples.csv'
+LEGACY_ALIGNMENT_SAMPLES_FILE = TEMPORAL_ALIGNMENT_DIR / 'llm_annotation_samples.csv'
 OUTPUT_DIR = PROCESSED_DIR / 'pattern_annotations'
 
 # API配置（根据实际情况修改）
-DEEPSEEK_API_KEY = os.environ.get('DEEPSEEK_API_KEY', 'sk-588753c1fec34a878771870bef4a7ee5')
+DEEPSEEK_API_KEY = os.environ.get('DEEPSEEK_API_KEY', '')
 DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions"
 
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', '')
@@ -636,12 +639,17 @@ def main():
     print("=" * 60)
     
     # 加载样本
-    if not os.path.exists(ALIGNMENT_SAMPLES_FILE):
-        print(f"Samples file not found: {ALIGNMENT_SAMPLES_FILE}")
+    samples_path = ALIGNMENT_DEBUG_SAMPLES_FILE
+    if not samples_path.exists() and LEGACY_ALIGNMENT_SAMPLES_FILE.exists():
+        samples_path = LEGACY_ALIGNMENT_SAMPLES_FILE
+        print(f"[WARN] Using legacy debug sample file: {samples_path}")
+
+    if not samples_path.exists():
+        print(f"Samples file not found: {ALIGNMENT_DEBUG_SAMPLES_FILE}")
         return
     
-    samples_df = pd.read_csv(ALIGNMENT_SAMPLES_FILE)
-    print(f"Loaded {len(samples_df)} samples")
+    samples_df = pd.read_csv(samples_path)
+    print(f"Loaded {len(samples_df)} samples from {samples_path.name}")
     
     # 检查API可用性
     if DEEPSEEK_API_KEY:

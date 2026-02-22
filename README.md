@@ -14,9 +14,9 @@ English | [中文](README_zh.md)
 |--------|-------|
 | Total Episodes | **74,829** |
 | Unique Patients | ~50,000 |
-| Time Windows | 6h, 12h, 24h |
+| Time Windows | 6h, 12h, 24h (+ D0 aligner comparison) |
 | Physiological Features | 25 |
-| Text-derived Features | 11 |
+| Text representations | annotation-derived stats, ClinicalBERT embeddings (MedCAT concepts optional) |
 
 **Last updated:** February 2026 | **Version:** 2.0 Final
 
@@ -25,59 +25,74 @@ English | [中文](README_zh.md)
 TIMELY-Bench is a comprehensive benchmark for evaluating multimodal clinical prediction models that integrate temporal physiological data with clinical text annotations. It:
 
 - Curates benchmark-ready cohorts from MIMIC-IV with transparent alignment protocols
-- Provides multi-window temporal feature extraction (6h, 12h, 24h)
+- Provides multi-window temporal feature extraction (6h, 12h, 24h) and D0 aligner protocol comparison
 - Implements traditional ML and deep learning baselines
 - Includes early fusion approaches combining structured + text features
 - Offers calibration evaluation and cross-window robustness analysis
 
 ## Key Results (24h Window, All Cohort)
 
+All values below use **holdout test-set** metrics from `results/standardized/results_summary.csv`.
+
 ### Mortality Prediction
 
 | Model | AUROC | AUPRC | ECE | Brier |
 |-------|-------|-------|-----|-------|
-| **EarlyFusion_XGBoost** | **0.866** | **0.536** | 0.0076 | 0.0787 |
-| XGBoost | 0.865 | 0.535 | 0.0081 | 0.0790 |
-| LogisticRegression | 0.839 | 0.487 | 0.0094 | 0.0835 |
-| ClinicalGRU | 0.835 | 0.488 | 0.0336 | 0.0871 |
+| Early Fusion XGBoost (Structured + ClinicalBERT embeddings) | **0.885** | **0.584** | 0.0086 | 0.0740 |
+| Late Fusion (tuned $\alpha$, ClinicalBERT) | 0.881 | 0.551 | 0.1078 | 0.0915 |
+| Early Fusion XGBoost (Structured + annotation-derived) | 0.873 | 0.557 | 0.0066 | 0.0770 |
+| Late Fusion (tuned $\alpha$, annotation-derived) | 0.869 | 0.535 | 0.1813 | 0.1234 |
+| XGBoost (Structured) | 0.868 | 0.541 | 0.1974 | 0.1327 |
+| Logistic Regression (Structured) | 0.848 | 0.508 | 0.0083 | 0.0823 |
+| Clinical GRU (Temporal) | 0.842 | 0.483 | 0.0336 | 0.0871 |
+| Logistic Regression (Text-Only, ClinicalBERT embeddings) | 0.832 | 0.444 | --- | --- |
+| XGBoost (Text-Only, ClinicalBERT embeddings) | 0.817 | 0.444 | 0.0089 | 0.0881 |
+| XGBoost (Text-Only, annotation-derived) | 0.755 | 0.327 | 0.0062 | 0.0965 |
+| Logistic Regression (Text-Only, MedCAT concepts) | 0.552 | 0.150 | --- | --- |
+| XGBoost (Text-Only, MedCAT concepts) | 0.552 | 0.151 | --- | --- |
 
 ### Prolonged LOS Prediction
 
 | Model | AUROC | AUPRC |
 |-------|-------|-------|
-| **EarlyFusion_XGBoost** | **0.812** | **0.463** |
-| XGBoost | 0.768 | 0.757 |
-| ClinicalGRU | 0.751 | 0.372 |
-| LogisticRegression | 0.738 | 0.725 |
+| Early Fusion XGBoost (Structured + ClinicalBERT embeddings) | **0.835** | **0.509** |
+| Late Fusion (tuned $\alpha$, ClinicalBERT) | 0.834 | 0.506 |
+| Early Fusion XGBoost (Structured + annotation-derived) | 0.818 | 0.468 |
+| XGBoost (Structured) | 0.815 | 0.460 |
+| Logistic Regression (Structured) | 0.797 | 0.422 |
+| Late Fusion (tuned $\alpha$, annotation-derived) | 0.815 | 0.458 |
+| XGBoost (Text-Only, ClinicalBERT embeddings) | 0.800 | 0.456 |
+| Logistic Regression (Text-Only, ClinicalBERT embeddings) | 0.800 | 0.452 |
+| XGBoost (Text-Only, annotation-derived) | 0.701 | 0.311 |
+| Logistic Regression (Text-Only, MedCAT concepts) | 0.549 | 0.192 |
+| XGBoost (Text-Only, MedCAT concepts) | 0.550 | 0.195 |
 
 ### Cross-Window Robustness
 
-| Task | Best Model | AUROC CV | Stability |
-|------|------------|----------|-----------|
-| Mortality | EarlyFusion_XGBoost | **2.72%** | Most Stable |
-| Prolonged LOS | ClinicalGRU | **3.99%** | Most Stable |
+Mortality AUROC (Structured baselines, all cohort):
 
-**Key Finding:** Window choice significantly affects performance (Friedman p<0.001). Longer windows consistently improve prediction accuracy with large effect sizes (Cohen's d > 1.0).
+| Model | 6h | 12h | 24h | CV (%) |
+|------|----|-----|-----|--------|
+| XGBoost | 0.805 | 0.839 | 0.868 | 3.05 |
+| Logistic Regression | 0.783 | 0.818 | 0.852 | 3.13 |
+
+**Key Finding:** Window choice significantly affects AUROC (Friedman $\chi^2$=12.0, p=0.0025). Longer windows consistently improve performance (Wilcoxon p=0.0313 for each pairwise comparison).
 
 ---
 
-## New Features
+## Outputs Included In `final_release/`
 
-**LLM-Guided Disease Timelines**
-- 74,711 episodes processed with DeepSeek API
-- Probabilistic disease progression tracking
-- Onset hour prediction and prognosis assessment
+- `final_release/` is a lightweight, checksummed bundle of key artefacts (graphs, templates, QC, CRES, and evidence). The full episode JSONs live in `episodes/episodes_enhanced/` and are not duplicated inside `final_release/` due to size.
+- `condition_graphs/`: guideline-anchored condition graphs for Sepsis/SIRS, AKI/KDIGO, Delirium/ICU, and Stroke/Neuro (with domain tags like `lab_marker`, `vital_sign`, `symptom`, `medication`, `multimorbidity`).
+- `physiology_templates/`: canonical trajectories (physiology templates) describing expected temporal evolution for exemplar conditions.
+- `llm_annotations/`: a curated annotation subset (e.g., ~900 items) for quality-control and evaluation.
+- `evidence/`, `qc/`, `cres/`: reproducibility artefacts and evaluation scaffolding.
 
-**Reasoning Chain**
-- Syndrome detection (Sepsis F1: 85.3%, AKI F1: 68.4%)
-- Rule-based diagnostic reasoning
-- Patient state-space reconstruction (48-hour vectors)
+## Important Terminology (Avoid Confusion)
 
-**Enhanced Episode Structure**
-- `patient_state_space`: Hourly state vectors
-- `reasoning.syndrome_detection`: Clinical criteria detection
-- `reasoning.reasoning_chain`: Diagnostic evidence chain
-- `reasoning.disease_timeline`: LLM-generated progression
+- `Early Fusion (AnnotFeatures)`: structured aggregated features concatenated with annotation-derived text features, trained as one tabular model (`results/fusion_baselines/`).
+- `Early Fusion (ClinicalBERT)`: structured aggregated features concatenated with stay-level ClinicalBERT embeddings.
+- `EarlyFusion_XGBoost` (in some robustness/calibration scripts): a structured-only label used by legacy naming; it is not multimodal fusion.
 
 ## Project Structure
 
@@ -85,11 +100,10 @@ TIMELY-Bench is a comprehensive benchmark for evaluating multimodal clinical pre
 TIMELY-Bench_Final/
 ├── code/
 │   ├── baselines/                    # Model training scripts
-│   │   ├── run_baselines.py          # Traditional ML (XGBoost, LR)
-│   │   ├── train_temporal_gru_v2.py  # ClinicalGRU model
-│   │   ├── train_fusion.py           # EarlyFusion model
-│   │   ├── train_dl_multiwindow.py   # Multi-window DL training
-│   │   └── data_loader.py            # Data loading utilities
+│   │   ├── train_tabular_baselines.py
+│   │   ├── train_text_only.py
+│   │   ├── train_fusion.py
+│   │   └── train_temporal_gru_v2.py
 │   ├── evaluation/                   # Evaluation scripts
 │   │   ├── run_calibration_evaluation.py
 │   │   ├── update_robustness_final.py
@@ -100,19 +114,22 @@ TIMELY-Bench_Final/
 │       ├── data_windows/             # Multi-window features
 │       │   ├── window_6h/            # 6-hour features (~208 MB)
 │       │   ├── window_12h/           # 12-hour features (~347 MB)
-│       │   └── window_24h/           # 24-hour features (~560 MB)
+│       │   ├── window_24h/           # 24-hour features (~560 MB)
+│       │   └── window_D0/            # D0 calendar-day aligner features
 │       └── merge_output/
 │           └── cohort_final.csv      # Patient cohort labels
 ├── results/
-│   ├── robustness/                   # Robustness analysis
-│   │   ├── window_performance.csv    # 48 rows (4 models × 3 windows × 2 tasks)
-│   │   ├── statistical_tests.json    # Friedman & Wilcoxon tests
-│   │   └── *.png                     # Visualizations
+│   ├── standardized/                 # Canonical results summary (CSV/JSON)
+│   ├── robustness/                   # Cross-window analysis + stats tests
 │   ├── calibration/                  # Calibration evaluation
-│   └── Output_temporal_gru/          # DL model checkpoints
+│   ├── fusion_baselines/             # Early/late fusion baselines (+ tuned alpha)
+│   └── text_only_baselines/          # Text-only baseline outputs
 ├── scripts/                          # HPC submission scripts
-└── documentation/
-    └── FINAL_PROJECT_REPORT.md       # Complete project report
+└── docs/
+    ├── RESULTS_SUMMARY.md            # Canonical release-facing metrics
+    ├── DATA_CARD.md                  # Dataset documentation
+    ├── MODEL_CARD.md                 # Baseline model documentation
+    └── ALIGNMENT_PROTOCOL_CARD.md    # Alignment protocol documentation
 ```
 
 ---
@@ -135,14 +152,14 @@ pip install torch numpy pandas scikit-learn xgboost matplotlib seaborn scipy tqd
 ```bash
 cd TIMELY-Bench_Final
 
-# Traditional ML baselines (local)
-python code/baselines/run_baselines.py
+# Structured-only baselines
+python code/baselines/train_tabular_baselines.py
 
-# Deep Learning models (requires GPU)
-python code/baselines/train_dl_multiwindow.py --all
+# Text-only baselines (annotation-derived)
+python code/baselines/train_text_only.py
 
-# Or train specific window/task
-python code/baselines/train_dl_multiwindow.py --window 24h --task mortality
+# Fusion baselines (early concat + late weighted)
+python code/baselines/train_fusion.py
 ```
 
 ### Run Evaluations
@@ -181,11 +198,12 @@ sbatch scripts/run_dl_multiwindow_hpc.sh
 
 ## Documentation
 
-- [Final Project Report](documentation/FINAL_PROJECT_REPORT.md) - Complete project report with all metrics
+- [Results Summary](docs/RESULTS_SUMMARY.md) - Canonical benchmark tables (release-facing)
 - [Data Card](docs/DATA_CARD.md) - Dataset description and statistics
 - [Alignment Protocol Card](docs/ALIGNMENT_PROTOCOL_CARD.md) - Time alignment details
 - [Model Card](docs/MODEL_CARD.md) - Baseline model specifications
 - [Calibration README](results/calibration/CALIBRATION_README.md) - Calibration evaluation details
+- [Legacy archived report](documentation/archive_legacy/FINAL_PROJECT_REPORT.md) - Historical report kept for provenance
 
 ---
 

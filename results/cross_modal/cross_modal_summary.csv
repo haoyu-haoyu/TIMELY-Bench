@@ -1,0 +1,2 @@
+task,model,n_folds,mean_auroc,std_auroc,timestamp
+mortality,CrossModalAttention,5,0.7869542140194825,0.003348036079079753,2026-01-19T01:57:51.607459

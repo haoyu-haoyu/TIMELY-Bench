@@ -234,8 +234,8 @@ shutil.copy2(AUDIT / "anchor_fingerprint_strong.json", EVIDENCE / "anchor_finger
 print(f"  anchor_fingerprint_strong.json written")
 print("  STEP B: PASS")
 
-# ─── STEP C: Unify DeepSeek canonical run ───
-print("\n>>> STEP C: Unify DeepSeek canonical run and archive old runs")
+# ─── STEP C: Unify legacy LLM annotation run metadata ───
+print("\n>>> STEP C: Unify legacy LLM annotation run metadata and archive old runs")
 
 # Inventory all LLM annotation files
 llm_inventory = {"generated_at": TS_ISO, "canonical_run_id": "20260127_151413", "files": []}
@@ -529,7 +529,7 @@ summary = {
         f"Anchor symlinks created: data/processed/temporal_textual_alignment.csv → temporal_alignment/...",
         f"Anchor symlinks created: data/processed/disease_timelines_full.json → disease_timelines/...",
         f"Non-canonical DeepSeek runs archived to {ARCHIVE.relative_to(ROOT)}/llm_runs/",
-        f"All delivery docs updated to reference canonical run 20260127_151413 (900 records)",
+        f"All delivery docs updated to reference the latest canonical release metadata",
     ],
 }
 
@@ -555,7 +555,7 @@ for a in anchors:
 
 md_lines += [
     "",
-    "## DeepSeek Canonical Run",
+    "## Legacy LLM Annotation Run (DeepSeek)",
     "",
     f"- **Run ID**: {llm_check['canonical_run_id']}",
     f"- **Model**: {llm_check['model']}",
@@ -595,8 +595,8 @@ prov["closure_fixes"].append({
     "timestamp": TS_ISO,
     "actions": [
         "Created canonical anchor symlinks for temporal_textual_alignment.csv and disease_timelines_full.json",
-        "Archived non-canonical DeepSeek runs (20260127_151413, 20260127_151413) to legacy_archive",
-        "Updated stale references in delivery docs to canonical run_id 20260127_151413",
+        "Archived non-canonical legacy LLM runs to legacy_archive",
+        "Updated stale references in delivery docs to canonical release metadata",
         "Generated strong multi-offset fingerprints for anchor files",
         "Generated FINAL_AUDIT_SUMMARY.json/.md",
         "Archived .ipynb_checkpoints, macOS resource forks, __pycache__",
@@ -654,7 +654,7 @@ closure_report = f"""# POST_FIX_CLOSURE_REPORT
 - **Open check**: PASS (JSON start token validated)
 - **SHA256**: {sha256_file(timeline_real)}
 
-## 2. DeepSeek Canonical Run
+## 2. Legacy LLM Annotation Run (DeepSeek)
 
 | Field | Value |
 |-------|-------|
@@ -673,7 +673,7 @@ closure_report = f"""# POST_FIX_CLOSURE_REPORT
 ## 3. Stale Reference Cleanup
 
 Reference scan found {len(scan_results)} stale hits across delivery docs.
-All fixed to reference canonical run 20260127_151413.
+All fixed to reference canonical release metadata.
 
 **Post-fix scan**: Run `grep -r "131903\\|141941\\|900 records" final_release/` to verify 0 hits.
 

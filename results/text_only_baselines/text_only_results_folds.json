@@ -1,0 +1,169 @@
+{
+  "timestamp": "2026-02-18T02:10:02",
+  "seed": 42,
+  "input_paths": {
+    "episodes_dir": "${PROJECT_ROOT}/episodes/episodes_enhanced"
+  },
+  "results": [
+    {
+      "task": "mortality",
+      "model": "XGBoost",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.7432808307531481,
+      "cv_auroc_std": 0.00475749408089622,
+      "cv_auprc_mean": 0.3069308407124097,
+      "cv_auprc_std": 0.015720812195680042,
+      "test_auroc": 0.7550808933273397,
+      "test_auprc": 0.3265808790761396,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.7502304885650131,
+          "auprc": 0.3371593531789281
+        },
+        {
+          "fold": 2,
+          "auroc": 0.7383310021835364,
+          "auprc": 0.3000974176189784
+        },
+        {
+          "fold": 3,
+          "auroc": 0.7376043572590658,
+          "auprc": 0.291288495158488
+        },
+        {
+          "fold": 4,
+          "auroc": 0.7442857876314128,
+          "auprc": 0.30356708491446277
+        },
+        {
+          "fold": 5,
+          "auroc": 0.7459525181267124,
+          "auprc": 0.3025418526911914
+        }
+      ],
+      "split_source": "predefined_splits.csv"
+    },
+    {
+      "task": "mortality",
+      "model": "LogisticRegression",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.7371460390178711,
+      "cv_auroc_std": 0.004955542717719352,
+      "cv_auprc_mean": 0.30675802219395,
+      "cv_auprc_std": 0.01464027440868684,
+      "test_auroc": 0.7480593115718317,
+      "test_auprc": 0.3286661003717089,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.7424956043575666,
+          "auprc": 0.33526232654802085
+        },
+        {
+          "fold": 2,
+          "auroc": 0.7283971754365416,
+          "auprc": 0.3032745886558041
+        },
+        {
+          "fold": 3,
+          "auroc": 0.7354596174892254,
+          "auprc": 0.2942396280019267
+        },
+        {
+          "fold": 4,
+          "auroc": 0.7387270609530079,
+          "auprc": 0.3029758265984768
+        },
+        {
+          "fold": 5,
+          "auroc": 0.7406507368530144,
+          "auprc": 0.29803774116552134
+        }
+      ],
+      "split_source": "predefined_splits.csv"
+    },
+    {
+      "task": "prolonged_los",
+      "model": "XGBoost",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.6875047609121563,
+      "cv_auroc_std": 0.008036372427435509,
+      "cv_auprc_mean": 0.2966865873840052,
+      "cv_auprc_std": 0.006024121329560931,
+      "test_auroc": 0.7007244571285033,
+      "test_auprc": 0.3106641996415649,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.6818451040652385,
+          "auprc": 0.29497999511264394
+        },
+        {
+          "fold": 2,
+          "auroc": 0.6999434373823022,
+          "auprc": 0.3069668721637167
+        },
+        {
+          "fold": 3,
+          "auroc": 0.6931388038757421,
+          "auprc": 0.29662076791684866
+        },
+        {
+          "fold": 4,
+          "auroc": 0.6775982620850545,
+          "auprc": 0.2881514598732209
+        },
+        {
+          "fold": 5,
+          "auroc": 0.6849981971524444,
+          "auprc": 0.296713841853596
+        }
+      ],
+      "split_source": "predefined_splits.csv"
+    },
+    {
+      "task": "prolonged_los",
+      "model": "LogisticRegression",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.6774315499380859,
+      "cv_auroc_std": 0.0071955935454097565,
+      "cv_auprc_mean": 0.29226907812085506,
+      "cv_auprc_std": 0.005418977306202137,
+      "test_auroc": 0.6849113619367949,
+      "test_auprc": 0.3030964824283616,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.6733509818240832,
+          "auprc": 0.2831460216684444
+        },
+        {
+          "fold": 2,
+          "auroc": 0.6892773921180426,
+          "auprc": 0.29906781712452496
+        },
+        {
+          "fold": 3,
+          "auroc": 0.676564716761149,
+          "auprc": 0.2960529265285668
+        },
+        {
+          "fold": 4,
+          "auroc": 0.6677629172961914,
+          "auprc": 0.29054158019498566
+        },
+        {
+          "fold": 5,
+          "auroc": 0.6802017416909631,
+          "auprc": 0.29253704508775324
+        }
+      ],
+      "split_source": "predefined_splits.csv"
+    }
+  ]
+}

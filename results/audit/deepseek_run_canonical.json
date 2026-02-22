@@ -1,54 +1,26 @@
 {
-  "audit_timestamp": "2026-02-01T16:30:57.864168",
+  "audit_timestamp": "2026-02-20T19:31:02.756964",
   "deepseek_annotation_files": [
     {
-      "filename": "annotations_deepseek_20260126_233913_evidence2.jsonl",
-      "path": "final_release/llm_annotations/annotations_deepseek_20260126_233913_evidence2.jsonl",
-      "size_bytes": 6105,
-      "sha256": "57a6fc0867b774765bbf0a04d4c47a474cae8391cb151109fe3e0ade4d0474e2",
-      "annotation_count": 10
+      "filename": "annotations_deepseek_20260127_151413_part0001.jsonl",
+      "path": "final_release/llm_annotations/annotations_deepseek_20260127_151413_part0001.jsonl",
+      "size_bytes": 802390,
+      "sha256": "2c06f4564f8ee96b0a1dd14ff7363ffa688b45d17e52612cd7e300ff185acbb1",
+      "annotation_count": 900
     },
     {
-      "filename": "annotations_deepseek_20260126_233913_part0001.jsonl",
-      "path": "final_release/llm_annotations/annotations_deepseek_20260126_233913_part0001.jsonl",
-      "size_bytes": 5246,
-      "sha256": "5bf6768749765304baa5ea4646572091bc6374410c29d16de5bb06c64ae90e53",
-      "annotation_count": 10
-    },
-    {
-      "filename": "annotations_deepseek_20260126_233913_part0002.jsonl",
-      "path": "final_release/llm_annotations/annotations_deepseek_20260126_233913_part0002.jsonl",
-      "size_bytes": 5245,
-      "sha256": "7d0631af84e1692a17cf01b7b655a2078930dc9e07c8ee53c685e7753a45ebef",
-      "annotation_count": 10
-    },
-    {
-      "filename": "annotations_deepseek_20260127_131219_evidence2.jsonl",
-      "path": "final_release/llm_annotations/annotations_deepseek_20260127_131219_evidence2.jsonl",
-      "size_bytes": 0,
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "annotation_count": 0
-    },
-    {
-      "filename": "annotations_deepseek_20260127_131903_evidence2.jsonl",
-      "path": "final_release/llm_annotations/annotations_deepseek_20260127_131903_evidence2.jsonl",
-      "size_bytes": 27310,
-      "sha256": "93b4daacf6e3a1eda3b252f7b40e68cdea302514e6bcd584704f74166b51a384",
-      "annotation_count": 26
-    },
-    {
-      "filename": "annotations_deepseek_20260127_131903_part0001.jsonl",
-      "path": "final_release/llm_annotations/annotations_deepseek_20260127_131903_part0001.jsonl",
-      "size_bytes": 23105,
-      "sha256": "86d1310c12e4c1ebf28430e7c6a79cd590bdcfcd126db41dcbbd40fed8450a81",
-      "annotation_count": 26
+      "filename": "annotations_deepseek_20260127_151413_part0001_audited.jsonl",
+      "path": "final_release/llm_annotations/annotations_deepseek_20260127_151413_part0001_audited.jsonl",
+      "size_bytes": 580819,
+      "sha256": "486b14173cc42846413bf9cfeba908fee6eb8ef0bf694fe1f3410ba947937174",
+      "annotation_count": 900
     }
   ],
-  "total_annotations": 82,
+  "total_annotations": 1800,
   "note_type_distribution": {
-    "radiology": 41,
-    "nursing": 37,
-    "lab_comment": 4
+    "nursing": 600,
+    "radiology": 600,
+    "lab_comment": 600
   },
-  "unique_stay_id_count": 3
+  "unique_stay_id_count": 426
 }

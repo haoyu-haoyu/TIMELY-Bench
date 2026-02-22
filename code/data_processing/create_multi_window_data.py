@@ -1,6 +1,9 @@
 """
 创建多时间窗口数据
-根据项目要求，创建 ±6h, ±12h, ±24h 三个时间窗口的数据
+生成 6h/12h/24h/D0 四个以 ICU 入院时间为起点的观察窗口数据。
+
+- 6h/12h/24h: hour_offset in [0, window_hours)
+- D0: ICU 入院当天（calendar-day）窗口，hour_offset in [0, hours_to_midnight(intime))
 """
 
 import sys
@@ -25,8 +28,12 @@ OUTPUT_DIR = DATA_WINDOWS_DIR
 TIME_WINDOWS = {
     '6h': 6,
     '12h': 12,
-    '24h': 24
+    '24h': 24,
+    'D0': None,
 }
+
+# D0 时序张量统一保存为 24 长度，超过当天截止小时的位置留空并由 mask 标识
+D0_TENSOR_HOURS = 24
 
 # 特征聚合方式
 AGGREGATIONS = ['min', 'max', 'mean', 'last', 'first', 'std']
@@ -58,10 +65,38 @@ def load_data():
     
     return df_cohort, df_ts, feature_cols
 
+
+def build_d0_cutoff_map(df_cohort: pd.DataFrame) -> dict:
+    """按 stay_id 构建 D0 截止小时（距当日午夜剩余小时数）。"""
+    if 'intime' not in df_cohort.columns:
+        print("   [WARN] cohort缺少intime列，D0将退化为24h")
+        return {int(sid): 24.0 for sid in df_cohort['stay_id'].dropna().astype(int).tolist()}
+
+    dt = pd.to_datetime(df_cohort['intime'], errors='coerce')
+    frac = dt.dt.hour + dt.dt.minute / 60.0 + dt.dt.second / 3600.0
+    cutoff = (24.0 - frac).clip(lower=0.0, upper=24.0).fillna(24.0)
+    out = dict(zip(df_cohort['stay_id'].astype(int), cutoff.astype(float)))
+    return out
+
+
+def _filter_window_rows(df_ts: pd.DataFrame, stay_ids, window_hours, d0_cutoff_map=None):
+    """按固定窗口或D0窗口过滤时序行。"""
+    df_window = df_ts[df_ts['stay_id'].isin(stay_ids)].copy()
+    df_window = df_window[df_window['hour'] >= 0].copy()
+
+    if window_hours is not None:
+        return df_window[df_window['hour'] < window_hours].copy()
+
+    if d0_cutoff_map is None:
+        raise ValueError("D0 window requires d0_cutoff_map")
+
+    cutoff = df_window['stay_id'].map(d0_cutoff_map).fillna(24.0).astype(float)
+    return df_window[df_window['hour'] < cutoff].copy()
+
 # ==========================================
 # 2. 为单个窗口创建聚合特征
 # ==========================================
-def create_window_features(df_ts, stay_ids, feature_cols, window_hours, aggregations):
+def create_window_features(df_ts, stay_ids, feature_cols, window_hours, aggregations, d0_cutoff_map=None):
     """
     创建指定时间窗口的聚合特征
 
@@ -82,10 +117,12 @@ def create_window_features(df_ts, stay_ids, feature_cols, window_hours, aggregat
     """
 
     # 过滤到指定时间窗口
-    df_window = df_ts[df_ts['hour'] < window_hours].copy()
-
-    # 只保留目标患者
-    df_window = df_window[df_window['stay_id'].isin(stay_ids)]
+    df_window = _filter_window_rows(
+        df_ts=df_ts,
+        stay_ids=stay_ids,
+        window_hours=window_hours,
+        d0_cutoff_map=d0_cutoff_map,
+    )
 
     # 保证 first/last 按时间顺序（若有charttime用于打破同小时并列）
     if 'hour' in df_window.columns:
@@ -132,12 +169,37 @@ def create_window_features(df_ts, stay_ids, feature_cols, window_hours, aggregat
         )
         df_agg[last_hour_col] = df_agg[last_hour_col].fillna(-1)  # -1表示无测量
 
+        # 3.1 新增：首个测量时间（用于delta/slope）
+        first_measurement_hour = df_window[df_window[col].notna()].groupby('stay_id')['hour'].min()
+        first_hour_col = f'{col}_first_hour'
+        df_agg = df_agg.merge(
+            first_measurement_hour.reset_index().rename(columns={'hour': first_hour_col}),
+            on='stay_id', how='left'
+        )
+        df_agg[first_hour_col] = df_agg[first_hour_col].fillna(-1)
+
+        # 3.2 新增：delta（last-first），满足作业要求中的时序变化特征
+        delta_col = f'{col}_delta_last_first'
+        last_col = f'{col}_last'
+        first_col = f'{col}_first'
+        if last_col in df_agg.columns and first_col in df_agg.columns:
+            df_agg[delta_col] = df_agg[last_col] - df_agg[first_col]
+            df_agg[delta_col] = df_agg[delta_col].replace([np.inf, -np.inf], np.nan).fillna(0.0)
+        else:
+            df_agg[delta_col] = 0.0
+
+        # 3.3 可选：单位时间斜率（仅当至少两次测量且时间跨度>0）
+        slope_col = f'{col}_slope_per_hour'
+        denom = (df_agg[last_hour_col] - df_agg[first_hour_col]).replace(0, np.nan)
+        df_agg[slope_col] = (df_agg[delta_col] / denom).replace([np.inf, -np.inf], np.nan).fillna(0.0)
+
         # 4. 计算缺失率统计
         missing_rate = df_agg[missing_col].mean()
         missing_stats[col] = missing_rate
 
     # 输出缺失率警告
-    print(f"\n   缺失率统计 (window={window_hours}h):")
+    label = "D0" if window_hours is None else f"{window_hours}h"
+    print(f"\n   缺失率统计 (window={label}):")
     high_missing = []
     for col, rate in sorted(missing_stats.items(), key=lambda x: -x[1]):
         if rate >= MAX_MISSING_RATE:
@@ -154,7 +216,7 @@ def create_window_features(df_ts, stay_ids, feature_cols, window_hours, aggregat
 # ==========================================
 # 3. 创建时序张量（用于GRU等模型）
 # ==========================================
-def create_window_tensor(df_ts, stay_ids, feature_cols, window_hours):
+def create_window_tensor(df_ts, stay_ids, feature_cols, window_hours, d0_cutoff_map=None):
     """
     创建3D时序张量 (N, T, D)
     
@@ -170,7 +232,7 @@ def create_window_tensor(df_ts, stay_ids, feature_cols, window_hours):
     """
     
     N = len(stay_ids)
-    T = window_hours
+    T = D0_TENSOR_HOURS if window_hours is None else window_hours
     D = len(feature_cols)
     
     # 创建ID映射
@@ -180,10 +242,12 @@ def create_window_tensor(df_ts, stay_ids, feature_cols, window_hours):
     X = np.full((N, T, D), np.nan)
     
     # 过滤数据
-    df_window = df_ts[
-        (df_ts['stay_id'].isin(stay_ids)) & 
-        (df_ts['hour'] < window_hours)
-    ].copy()
+    df_window = _filter_window_rows(
+        df_ts=df_ts,
+        stay_ids=stay_ids,
+        window_hours=window_hours,
+        d0_cutoff_map=d0_cutoff_map,
+    )
     
     # 填充张量
     for _, row in df_window.iterrows():
@@ -220,12 +284,14 @@ def main():
     # 加载数据
     df_cohort, df_ts, feature_cols = load_data()
     stay_ids = df_cohort['stay_id'].unique()
+    d0_cutoff_map = build_d0_cutoff_map(df_cohort)
     
     print(f"\n⏱️ [2] Creating multi-window datasets...")
     print("=" * 60)
     
     for window_name, window_hours in TIME_WINDOWS.items():
-        print(f"\nProcessing {window_name} window ({window_hours} hours)...")
+        window_label = "D0 (calendar-day)" if window_hours is None else f"{window_hours} hours"
+        print(f"\nProcessing {window_name} window ({window_label})...")
         
         window_dir = os.path.join(OUTPUT_DIR, f'window_{window_name}')
         os.makedirs(window_dir, exist_ok=True)
@@ -233,7 +299,7 @@ def main():
         # ----- 3.2.1 创建聚合特征（用于XGBoost等） -----
         print(f"   Creating aggregated features...")
         df_agg, missing_stats = create_window_features(
-            df_ts, stay_ids, feature_cols, window_hours, AGGREGATIONS
+            df_ts, stay_ids, feature_cols, window_hours, AGGREGATIONS, d0_cutoff_map=d0_cutoff_map
         )
         
         # 确保所有患者都有记录（即使全是NaN）
@@ -250,7 +316,9 @@ def main():
         
         # ----- 3.2.2 创建时序张量（用于GRU等） -----
         print(f"   Creating temporal tensor...")
-        X_tensor, X_mask = create_window_tensor(df_ts, stay_ids, feature_cols, window_hours)
+        X_tensor, X_mask = create_window_tensor(
+            df_ts, stay_ids, feature_cols, window_hours, d0_cutoff_map=d0_cutoff_map
+        )
         
         tensor_path = os.path.join(window_dir, 'features_temporal.npy')
         np.save(tensor_path, X_tensor)
@@ -265,17 +333,23 @@ def main():
         # ----- 3.2.3 保存元数据 -----
         metadata = {
             'window_hours': window_hours,
+            'window_type': 'D0_daily' if window_hours is None else 'fixed_hour_window',
             'n_patients': len(stay_ids),
             'n_features': len(feature_cols),
             'feature_names': feature_cols,
             'aggregations': AGGREGATIONS,
             'stay_ids': stay_ids.tolist(),
             'has_temporal_mask': True,
+            'temporal_tensor_hours': int(X_tensor.shape[1]),
             # 添加缺失率统计到元数据
             'missing_rates': {k: float(v) for k, v in missing_stats.items()},
             'high_missing_features': [k for k, v in missing_stats.items() if v >= MAX_MISSING_RATE],
-            'missing_rate_threshold': MAX_MISSING_RATE
+            'missing_rate_threshold': MAX_MISSING_RATE,
         }
+        if window_hours is None:
+            metadata['d0_cutoff_hours_source'] = 'cohort.intime'
+            metadata['d0_cutoff_hours_min'] = float(min(d0_cutoff_map.values()))
+            metadata['d0_cutoff_hours_max'] = float(max(d0_cutoff_map.values()))
         
         metadata_path = os.path.join(window_dir, 'metadata.json')
         import json
@@ -291,7 +365,12 @@ def main():
     
     for window_name, window_hours in TIME_WINDOWS.items():
         # 统计每个窗口的数据覆盖率
-        df_window = df_ts[df_ts['hour'] < window_hours]
+        df_window = _filter_window_rows(
+            df_ts=df_ts,
+            stay_ids=stay_ids,
+            window_hours=window_hours,
+            d0_cutoff_map=d0_cutoff_map,
+        )
         patients_with_data = df_window['stay_id'].nunique()
         coverage = patients_with_data / len(stay_ids) * 100
         
@@ -406,7 +485,7 @@ class TIMELYBenchLoader:
         """准备训练数据
         
         Args:
-            window: '6h', '12h', '24h'
+            window: '6h', '12h', '24h', 'D0'
             task: 'mortality', 'prolonged_los', 'readmission'
             disease: None, 'sepsis', 'aki', etc.
             data_type: 'aggregated' or 'temporal'
@@ -488,6 +567,8 @@ if __name__ == "__main__":
     print("├── window_12h/")
     print("│   └── ...")
     print("├── window_24h/")
+    print("│   └── ...")
+    print("├── window_D0/")
     print("│   └── ...")
     print("└── data_loader.py")
     print("\nMulti-Window Data Creation Complete!")

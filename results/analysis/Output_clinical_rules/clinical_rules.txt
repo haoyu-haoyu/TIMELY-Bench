@@ -1,0 +1,22 @@
+|--- bun_max <= 23.50
+|   |--- gcs_motor <= 5.60
+|   |   |--- ast_max_missing <= 0.50
+|   |   |   |--- class: 1
+|   |   |--- ast_max_missing >  0.50
+|   |   |   |--- class: 0
+|   |--- gcs_motor >  5.60
+|   |   |--- charlson_comorbidity_index <= 5.50
+|   |   |   |--- class: 0
+|   |   |--- charlson_comorbidity_index >  5.50
+|   |   |   |--- class: 0
+|--- bun_max >  23.50
+|   |--- gcs_verbal <= 4.50
+|   |   |--- lactate_min <= 1.75
+|   |   |   |--- class: 1
+|   |   |--- lactate_min >  1.75
+|   |   |   |--- class: 1
+|   |--- gcs_verbal >  4.50
+|   |   |--- pt_min <= 14.90
+|   |   |   |--- class: 0
+|   |   |--- pt_min >  14.90
+|   |   |   |--- class: 1

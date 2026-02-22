@@ -1,0 +1,20 @@
+{
+  "run_id": "cres_gemini3_full_32008668",
+  "timestamp": "2026-02-19T21:48:03",
+  "backend": "openai",
+  "model_name": "gemini-3-flash-preview",
+  "model_version": "",
+  "tasks": [
+    "trend_threshold",
+    "temporal_grounding",
+    "diagnostic_consistency",
+    "contrastive_inference"
+  ],
+  "max_per_task": 0,
+  "predictions_path": "${PROJECT_ROOT}/results/cres/model_runs/cres_gemini3_full_32008668/predictions.jsonl",
+  "resume": true,
+  "n_existing_predictions": 1500,
+  "n_new_predictions": 2100,
+  "n_predictions": 3600,
+  "prompt_sha": "7dfe601ee94f91de28ff1f33952dd123ba362cbb9009e28101b4ba5d489fa379"
+}

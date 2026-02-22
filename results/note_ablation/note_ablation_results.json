@@ -1,0 +1,1247 @@
+{
+  "timestamp": "2026-02-08T14:23:44",
+  "seed": 42,
+  "input_paths": {
+    "cohort_file": "${PROJECT_ROOT}/data/processed/merge_output/cohort_final.csv",
+    "splits_file": "${PROJECT_ROOT}/data/splits/predefined_splits.csv",
+    "alignment_file": "${PROJECT_ROOT}/data/processed/temporal_alignment/temporal_textual_alignment.csv"
+  },
+  "feature_source": "temporal_textual_alignment",
+  "feature_definition": [
+    "n_alignments",
+    "mean_abs_delta_hours",
+    "high_quality_ratio",
+    "mean_quality_score"
+  ],
+  "note_types": [
+    "nursing",
+    "radiology",
+    "lab_comment"
+  ],
+  "default_included_types": [
+    "nursing",
+    "radiology",
+    "lab_comment"
+  ],
+  "canonical_policy": {
+    "discharge_excluded": true,
+    "include_discharge_override": false,
+    "low_coverage_threshold": 0.01
+  },
+  "feature_coverage_by_note_type": {
+    "nursing": 0.9987304387336461,
+    "radiology": 0.6042710713760707,
+    "lab_comment": 0.4719159684079702
+  },
+  "low_coverage_note_types": [],
+  "tasks": [
+    "mortality",
+    "prolonged_los"
+  ],
+  "results": [
+    {
+      "ablation": "all_included",
+      "note_types": "nursing,radiology,lab_comment",
+      "task": "mortality",
+      "model": "XGBoost (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.6693255212160311,
+      "cv_auroc_std": 0.006494653605806334,
+      "cv_auprc_mean": 0.26011507461316097,
+      "cv_auprc_std": 0.011470684195228373,
+      "test_auroc": 0.684077935544967,
+      "test_auprc": 0.29137866853200806,
+      "feature_nonzero_rate": 0.9994253564794398,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.6772049019971971,
+          "auprc": 0.2779845325115909
+        },
+        {
+          "fold": 2,
+          "auroc": 0.6678582557787467,
+          "auprc": 0.25688098179753116
+        },
+        {
+          "fold": 3,
+          "auroc": 0.666496184016678,
+          "auprc": 0.24951221977560523
+        },
+        {
+          "fold": 4,
+          "auroc": 0.6756656086190111,
+          "auprc": 0.26828594365450587
+        },
+        {
+          "fold": 5,
+          "auroc": 0.6594026556685222,
+          "auprc": 0.24791169532657176
+        }
+      ]
+    },
+    {
+      "ablation": "all_included",
+      "note_types": "nursing,radiology,lab_comment",
+      "task": "mortality",
+      "model": "LogisticRegression (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.6705346638072571,
+      "cv_auroc_std": 0.007642530371334809,
+      "cv_auprc_mean": 0.25864690401660645,
+      "cv_auprc_std": 0.011620955248685923,
+      "test_auroc": 0.6789462626018948,
+      "test_auprc": 0.2829254878449518,
+      "feature_nonzero_rate": 0.9994253564794398,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.6775163994919524,
+          "auprc": 0.2783991360968546
+        },
+        {
+          "fold": 2,
+          "auroc": 0.6665337754736704,
+          "auprc": 0.2533292894685225
+        },
+        {
+          "fold": 3,
+          "auroc": 0.6670978757168142,
+          "auprc": 0.24493394327818774
+        },
+        {
+          "fold": 4,
+          "auroc": 0.6811398726920013,
+          "auprc": 0.26413840939987787
+        },
+        {
+          "fold": 5,
+          "auroc": 0.6603853956618473,
+          "auprc": 0.25243374183958955
+        }
+      ]
+    },
+    {
+      "ablation": "all_included",
+      "note_types": "nursing,radiology,lab_comment",
+      "task": "prolonged_los",
+      "model": "XGBoost (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.6691380612023465,
+      "cv_auroc_std": 0.006905204168262256,
+      "cv_auprc_mean": 0.2993262986713816,
+      "cv_auprc_std": 0.008292774215992471,
+      "test_auroc": 0.6839072824822984,
+      "test_auprc": 0.3201039293982999,
+      "feature_nonzero_rate": 0.9994253564794398,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.6571998235150925,
+          "auprc": 0.28763363727628805
+        },
+        {
+          "fold": 2,
+          "auroc": 0.6775546711212659,
+          "auprc": 0.3038552154867278
+        },
+        {
+          "fold": 3,
+          "auroc": 0.673545438738413,
+          "auprc": 0.3006503116948599
+        },
+        {
+          "fold": 4,
+          "auroc": 0.6670779157240272,
+          "auprc": 0.29308600997059164
+        },
+        {
+          "fold": 5,
+          "auroc": 0.670312456912934,
+          "auprc": 0.31140631892844095
+        }
+      ]
+    },
+    {
+      "ablation": "all_included",
+      "note_types": "nursing,radiology,lab_comment",
+      "task": "prolonged_los",
+      "model": "LogisticRegression (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.6690191522306271,
+      "cv_auroc_std": 0.007918248214245261,
+      "cv_auprc_mean": 0.300477604613513,
+      "cv_auprc_std": 0.008524685588345309,
+      "test_auroc": 0.6837112654946321,
+      "test_auprc": 0.31982184797866964,
+      "feature_nonzero_rate": 0.9994253564794398,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.657544755152548,
+          "auprc": 0.2860810697342017
+        },
+        {
+          "fold": 2,
+          "auroc": 0.6790145397330907,
+          "auprc": 0.30860120736677693
+        },
+        {
+          "fold": 3,
+          "auroc": 0.673220268026403,
+          "auprc": 0.3012742704882965
+        },
+        {
+          "fold": 4,
+          "auroc": 0.6621549450605685,
+          "auprc": 0.2971137396592847
+        },
+        {
+          "fold": 5,
+          "auroc": 0.673161253180526,
+          "auprc": 0.30931773581900524
+        }
+      ]
+    },
+    {
+      "ablation": "only_nursing",
+      "note_types": "nursing",
+      "task": "mortality",
+      "model": "XGBoost (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.5566681647147694,
+      "cv_auroc_std": 0.00682525561064021,
+      "cv_auprc_mean": 0.1522263525548949,
+      "cv_auprc_std": 0.007516456542187045,
+      "test_auroc": 0.5689156101421613,
+      "test_auprc": 0.16784365010490218,
+      "feature_nonzero_rate": 0.9987304387336461,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5651987027454226,
+          "auprc": 0.1652919216704795
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5515132882444853,
+          "auprc": 0.14209560127400062
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5496923241720919,
+          "auprc": 0.1492137367772992
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5522058766778848,
+          "auprc": 0.15208428628093587
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5647306317339629,
+          "auprc": 0.15244621677175924
+        }
+      ]
+    },
+    {
+      "ablation": "only_nursing",
+      "note_types": "nursing",
+      "task": "mortality",
+      "model": "LogisticRegression (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.5630381874022529,
+      "cv_auroc_std": 0.009576775369871428,
+      "cv_auprc_mean": 0.1522781071883024,
+      "cv_auprc_std": 0.011528084158121843,
+      "test_auroc": 0.5727184323324386,
+      "test_auprc": 0.16367938274064275,
+      "feature_nonzero_rate": 0.9987304387336461,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5773331771898056,
+          "auprc": 0.172709725128549
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5555921903212759,
+          "auprc": 0.13896610976591578
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5530179364289141,
+          "auprc": 0.14594332250541547
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5577919186367057,
+          "auprc": 0.14805255386155908
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5714557144345631,
+          "auprc": 0.1557188246800726
+        }
+      ]
+    },
+    {
+      "ablation": "only_nursing",
+      "note_types": "nursing",
+      "task": "prolonged_los",
+      "model": "XGBoost (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.5692975481472705,
+      "cv_auroc_std": 0.001311946285578685,
+      "cv_auprc_mean": 0.2065676713568907,
+      "cv_auprc_std": 0.0048277083908017104,
+      "test_auroc": 0.5825697227623003,
+      "test_auprc": 0.21672558201910197,
+      "feature_nonzero_rate": 0.9987304387336461,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5707360130639403,
+          "auprc": 0.21385637297001076
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5705652116309532,
+          "auprc": 0.206947961656632
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5672433428092889,
+          "auprc": 0.20523172268346598
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5684727871340041,
+          "auprc": 0.1988500195247088
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5694703860981661,
+          "auprc": 0.20795227994963594
+        }
+      ]
+    },
+    {
+      "ablation": "only_nursing",
+      "note_types": "nursing",
+      "task": "prolonged_los",
+      "model": "LogisticRegression (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.5746051026576527,
+      "cv_auroc_std": 0.002954827129054414,
+      "cv_auprc_mean": 0.2061950555520376,
+      "cv_auprc_std": 0.004992507229205316,
+      "test_auroc": 0.588956614981931,
+      "test_auprc": 0.21627089975624073,
+      "feature_nonzero_rate": 0.9987304387336461,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5729386258519962,
+          "auprc": 0.21534427123277197
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5741466601339212,
+          "auprc": 0.2034814820180606
+        },
+        {
+          "fold": 3,
+          "auroc": 0.57619651582196,
+          "auprc": 0.20575935589685898
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5705133702206576,
+          "auprc": 0.20042339491791558
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5792303412597288,
+          "auprc": 0.20596677369458063
+        }
+      ]
+    },
+    {
+      "ablation": "only_radiology",
+      "note_types": "radiology",
+      "task": "mortality",
+      "model": "XGBoost (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.5827687101687198,
+      "cv_auroc_std": 0.00777093693463146,
+      "cv_auprc_mean": 0.16148953150571985,
+      "cv_auprc_std": 0.007969015327686102,
+      "test_auroc": 0.6035298401288942,
+      "test_auprc": 0.1825157698453191,
+      "feature_nonzero_rate": 0.6042710713760707,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5863371065492609,
+          "auprc": 0.17390414667719234
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5843236230791841,
+          "auprc": 0.1563269858543399
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5713938117199218,
+          "auprc": 0.157426177927797
+        },
+        {
+          "fold": 4,
+          "auroc": 0.594196811628927,
+          "auprc": 0.16748321287385173
+        },
+        {
+          "fold": 5,
+          "auroc": 0.577592197866305,
+          "auprc": 0.15230713419541828
+        }
+      ]
+    },
+    {
+      "ablation": "only_radiology",
+      "note_types": "radiology",
+      "task": "mortality",
+      "model": "LogisticRegression (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.5892687470030924,
+      "cv_auroc_std": 0.008371566575655756,
+      "cv_auprc_mean": 0.16776162353056762,
+      "cv_auprc_std": 0.009575801602176002,
+      "test_auroc": 0.6096788011050199,
+      "test_auprc": 0.18453979837531917,
+      "feature_nonzero_rate": 0.6042710713760707,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5934852208129721,
+          "auprc": 0.17974363845799046
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5872803341385309,
+          "auprc": 0.158509209348203
+        },
+        {
+          "fold": 3,
+          "auroc": 0.579406029376375,
+          "auprc": 0.16216789067139667
+        },
+        {
+          "fold": 4,
+          "auroc": 0.6031425659652276,
+          "auprc": 0.1790403275421458
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5830295847223561,
+          "auprc": 0.159347051633102
+        }
+      ]
+    },
+    {
+      "ablation": "only_radiology",
+      "note_types": "radiology",
+      "task": "prolonged_los",
+      "model": "XGBoost (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.6263474685668278,
+      "cv_auroc_std": 0.0043783384125520505,
+      "cv_auprc_mean": 0.2559757788756668,
+      "cv_auprc_std": 0.004884046063805603,
+      "test_auroc": 0.6329758682203769,
+      "test_auprc": 0.26757027341394723,
+      "feature_nonzero_rate": 0.6042710713760707,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.6203123985718922,
+          "auprc": 0.25302172971209075
+        },
+        {
+          "fold": 2,
+          "auroc": 0.6311302816079887,
+          "auprc": 0.25500089971400774
+        },
+        {
+          "fold": 3,
+          "auroc": 0.6226507330926652,
+          "auprc": 0.24935863751502604
+        },
+        {
+          "fold": 4,
+          "auroc": 0.6265154793969443,
+          "auprc": 0.258990896400606
+        },
+        {
+          "fold": 5,
+          "auroc": 0.631128450164649,
+          "auprc": 0.2635067310366034
+        }
+      ]
+    },
+    {
+      "ablation": "only_radiology",
+      "note_types": "radiology",
+      "task": "prolonged_los",
+      "model": "LogisticRegression (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.6295079464060256,
+      "cv_auroc_std": 0.005042955445151639,
+      "cv_auprc_mean": 0.2603798733436875,
+      "cv_auprc_std": 0.00762150266089067,
+      "test_auroc": 0.6350132266346026,
+      "test_auprc": 0.27514007870171847,
+      "feature_nonzero_rate": 0.6042710713760707,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.6246529637293087,
+          "auprc": 0.25049638105185545
+        },
+        {
+          "fold": 2,
+          "auroc": 0.6371416676665766,
+          "auprc": 0.27225107479145694
+        },
+        {
+          "fold": 3,
+          "auroc": 0.6251288789546274,
+          "auprc": 0.2554164228583198
+        },
+        {
+          "fold": 4,
+          "auroc": 0.6267827964532714,
+          "auprc": 0.2584939989526039
+        },
+        {
+          "fold": 5,
+          "auroc": 0.6338334252263438,
+          "auprc": 0.26524148906420153
+        }
+      ]
+    },
+    {
+      "ablation": "only_lab_comment",
+      "note_types": "lab_comment",
+      "task": "mortality",
+      "model": "XGBoost (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.6335993701735891,
+      "cv_auroc_std": 0.00861879242564395,
+      "cv_auprc_mean": 0.22337651814981405,
+      "cv_auprc_std": 0.009101680227696127,
+      "test_auroc": 0.6296799631828889,
+      "test_auprc": 0.2392119712469845,
+      "feature_nonzero_rate": 0.4719159684079702,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.6263159766411304,
+          "auprc": 0.2291346739873202
+        },
+        {
+          "fold": 2,
+          "auroc": 0.6416026049390355,
+          "auprc": 0.2302276280147101
+        },
+        {
+          "fold": 3,
+          "auroc": 0.6364193694436394,
+          "auprc": 0.22345959413175054
+        },
+        {
+          "fold": 4,
+          "auroc": 0.6427861988706776,
+          "auprc": 0.22828988058996857
+        },
+        {
+          "fold": 5,
+          "auroc": 0.6208727009734628,
+          "auprc": 0.2057708140253209
+        }
+      ]
+    },
+    {
+      "ablation": "only_lab_comment",
+      "note_types": "lab_comment",
+      "task": "mortality",
+      "model": "LogisticRegression (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.6360566667641603,
+      "cv_auroc_std": 0.007528995540994474,
+      "cv_auprc_mean": 0.23298591891437193,
+      "cv_auprc_std": 0.008669688217452114,
+      "test_auroc": 0.6362510354608224,
+      "test_auprc": 0.24982928717126507,
+      "feature_nonzero_rate": 0.4719159684079702,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.6322221750591287,
+          "auprc": 0.24571926237069205
+        },
+        {
+          "fold": 2,
+          "auroc": 0.6424026801362277,
+          "auprc": 0.2358013283570763
+        },
+        {
+          "fold": 3,
+          "auroc": 0.63839045836088,
+          "auprc": 0.22899326097265088
+        },
+        {
+          "fold": 4,
+          "auroc": 0.6439118635900399,
+          "auprc": 0.23505133751462204
+        },
+        {
+          "fold": 5,
+          "auroc": 0.6233561566745249,
+          "auprc": 0.21936440535681845
+        }
+      ]
+    },
+    {
+      "ablation": "only_lab_comment",
+      "note_types": "lab_comment",
+      "task": "prolonged_los",
+      "model": "XGBoost (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.5786867757118783,
+      "cv_auroc_std": 0.0067956924081434625,
+      "cv_auprc_mean": 0.23010993558776635,
+      "cv_auprc_std": 0.00638423504154973,
+      "test_auroc": 0.58474817988945,
+      "test_auprc": 0.24008012874222207,
+      "feature_nonzero_rate": 0.4719159684079702,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5733478121957158,
+          "auprc": 0.2219299651411852
+        },
+        {
+          "fold": 2,
+          "auroc": 0.585472541846234,
+          "auprc": 0.2343017903296162
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5832739452418797,
+          "auprc": 0.23716095327053027
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5833218968257992,
+          "auprc": 0.23427502688415794
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5680176824497626,
+          "auprc": 0.22288194231334219
+        }
+      ]
+    },
+    {
+      "ablation": "only_lab_comment",
+      "note_types": "lab_comment",
+      "task": "prolonged_los",
+      "model": "LogisticRegression (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.5832031350494173,
+      "cv_auroc_std": 0.007130083791048673,
+      "cv_auprc_mean": 0.23743369915705262,
+      "cv_auprc_std": 0.007020047067407674,
+      "test_auroc": 0.5901322495869284,
+      "test_auprc": 0.24606459270546877,
+      "feature_nonzero_rate": 0.4719159684079702,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5727420581791627,
+          "auprc": 0.2251931220280881
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5908344290680506,
+          "auprc": 0.24263851982758194
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5908438619113953,
+          "auprc": 0.24559162668163337
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5836757178159491,
+          "auprc": 0.23794546077838669
+        },
+        {
+          "fold": 5,
+          "auroc": 0.577919608272529,
+          "auprc": 0.23579976646957299
+        }
+      ]
+    },
+    {
+      "ablation": "exclude_nursing",
+      "note_types": "radiology,lab_comment",
+      "task": "mortality",
+      "model": "XGBoost (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.6529858067914429,
+      "cv_auroc_std": 0.00773250396402758,
+      "cv_auprc_mean": 0.23716148253285288,
+      "cv_auprc_std": 0.008877267008023357,
+      "test_auroc": 0.6650213499119839,
+      "test_auprc": 0.26562094528171387,
+      "feature_nonzero_rate": 0.7494955164441593,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.651312774182855,
+          "auprc": 0.24817729698206137
+        },
+        {
+          "fold": 2,
+          "auroc": 0.654386058573143,
+          "auprc": 0.2393561415515076
+        },
+        {
+          "fold": 3,
+          "auroc": 0.6545953144751242,
+          "auprc": 0.23379502842681316
+        },
+        {
+          "fold": 4,
+          "auroc": 0.6643738609544845,
+          "auprc": 0.24243945519567825
+        },
+        {
+          "fold": 5,
+          "auroc": 0.6402610257716076,
+          "auprc": 0.22203949050820404
+        }
+      ]
+    },
+    {
+      "ablation": "exclude_nursing",
+      "note_types": "radiology,lab_comment",
+      "task": "mortality",
+      "model": "LogisticRegression (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.6591281744967118,
+      "cv_auroc_std": 0.008060951452359615,
+      "cv_auprc_mean": 0.24646372113051726,
+      "cv_auprc_std": 0.00983921179050901,
+      "test_auroc": 0.6670637507991839,
+      "test_auprc": 0.27073547146932186,
+      "feature_nonzero_rate": 0.7494955164441593,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.6568669548500127,
+          "auprc": 0.2609777782402565
+        },
+        {
+          "fold": 2,
+          "auroc": 0.6611748704906548,
+          "auprc": 0.24494644448453914
+        },
+        {
+          "fold": 3,
+          "auroc": 0.659698021600872,
+          "auprc": 0.23810558146334956
+        },
+        {
+          "fold": 4,
+          "auroc": 0.6715044914173308,
+          "auprc": 0.2539033317231504
+        },
+        {
+          "fold": 5,
+          "auroc": 0.6463965341246886,
+          "auprc": 0.23438546974129065
+        }
+      ]
+    },
+    {
+      "ablation": "exclude_nursing",
+      "note_types": "radiology,lab_comment",
+      "task": "prolonged_los",
+      "model": "XGBoost (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.6482973053709585,
+      "cv_auroc_std": 0.0076952642761061694,
+      "cv_auprc_mean": 0.2800417187129744,
+      "cv_auprc_std": 0.006018252956190642,
+      "test_auroc": 0.6602492052078381,
+      "test_auprc": 0.2949036095108906,
+      "feature_nonzero_rate": 0.7494955164441593,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.6345305146462187,
+          "auprc": 0.268883929963156
+        },
+        {
+          "fold": 2,
+          "auroc": 0.6570959134511227,
+          "auprc": 0.2821412313081302
+        },
+        {
+          "fold": 3,
+          "auroc": 0.6521932503133819,
+          "auprc": 0.28197308128274146
+        },
+        {
+          "fold": 4,
+          "auroc": 0.6462457421947064,
+          "auprc": 0.28020914618417714
+        },
+        {
+          "fold": 5,
+          "auroc": 0.6514211062493624,
+          "auprc": 0.28700120482666736
+        }
+      ]
+    },
+    {
+      "ablation": "exclude_nursing",
+      "note_types": "radiology,lab_comment",
+      "task": "prolonged_los",
+      "model": "LogisticRegression (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.6515105594634318,
+      "cv_auroc_std": 0.009146295255754807,
+      "cv_auprc_mean": 0.28856779440141184,
+      "cv_auprc_std": 0.008849609298751494,
+      "test_auroc": 0.6670116301371508,
+      "test_auprc": 0.3045520525568738,
+      "feature_nonzero_rate": 0.7494955164441593,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.6366905022719894,
+          "auprc": 0.2725587121127007
+        },
+        {
+          "fold": 2,
+          "auroc": 0.6649135171584557,
+          "auprc": 0.2981982144573204
+        },
+        {
+          "fold": 3,
+          "auroc": 0.6530453596414214,
+          "auprc": 0.2879087003601023
+        },
+        {
+          "fold": 4,
+          "auroc": 0.6485674695275873,
+          "auprc": 0.28914194794348586
+        },
+        {
+          "fold": 5,
+          "auroc": 0.6543359487177054,
+          "auprc": 0.2950313971334498
+        }
+      ]
+    },
+    {
+      "ablation": "exclude_radiology",
+      "note_types": "nursing,lab_comment",
+      "task": "mortality",
+      "model": "XGBoost (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.65296309233583,
+      "cv_auroc_std": 0.0060759085117985685,
+      "cv_auprc_mean": 0.2514909418961605,
+      "cv_auprc_std": 0.010795383609915391,
+      "test_auroc": 0.6582113039204234,
+      "test_auprc": 0.27965305863049866,
+      "feature_nonzero_rate": 0.9991981718317765,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.6598599268753078,
+          "auprc": 0.2672342567612536
+        },
+        {
+          "fold": 2,
+          "auroc": 0.6558222848896187,
+          "auprc": 0.2517924959899576
+        },
+        {
+          "fold": 3,
+          "auroc": 0.647860882956057,
+          "auprc": 0.24134915191161055
+        },
+        {
+          "fold": 4,
+          "auroc": 0.6574177932541996,
+          "auprc": 0.25889506665214346
+        },
+        {
+          "fold": 5,
+          "auroc": 0.6438545737039673,
+          "auprc": 0.23818373816583743
+        }
+      ]
+    },
+    {
+      "ablation": "exclude_radiology",
+      "note_types": "nursing,lab_comment",
+      "task": "mortality",
+      "model": "LogisticRegression (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.6528453978571997,
+      "cv_auroc_std": 0.006173925202034944,
+      "cv_auprc_mean": 0.2516457677965437,
+      "cv_auprc_std": 0.00982396126308788,
+      "test_auroc": 0.6579793786748822,
+      "test_auprc": 0.2700906672322596,
+      "feature_nonzero_rate": 0.9991981718317765,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.6572524815577565,
+          "auprc": 0.26974411902904105
+        },
+        {
+          "fold": 2,
+          "auroc": 0.6515351194646358,
+          "auprc": 0.2495211259938942
+        },
+        {
+          "fold": 3,
+          "auroc": 0.6527447173056165,
+          "auprc": 0.24297483378092402
+        },
+        {
+          "fold": 4,
+          "auroc": 0.6604288834593897,
+          "auprc": 0.2529257233795633
+        },
+        {
+          "fold": 5,
+          "auroc": 0.6422657874986001,
+          "auprc": 0.2430630367992959
+        }
+      ]
+    },
+    {
+      "ablation": "exclude_radiology",
+      "note_types": "nursing,lab_comment",
+      "task": "prolonged_los",
+      "model": "XGBoost (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.6272180202716168,
+      "cv_auroc_std": 0.0049007985255473865,
+      "cv_auprc_mean": 0.26484447151985846,
+      "cv_auprc_std": 0.005879390609414986,
+      "test_auroc": 0.6397239028857975,
+      "test_auprc": 0.27971911488300616,
+      "feature_nonzero_rate": 0.9991981718317765,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.6188853050957481,
+          "auprc": 0.2557611187108053
+        },
+        {
+          "fold": 2,
+          "auroc": 0.6315794338926164,
+          "auprc": 0.26733457327516874
+        },
+        {
+          "fold": 3,
+          "auroc": 0.631638514306518,
+          "auprc": 0.27190901953349333
+        },
+        {
+          "fold": 4,
+          "auroc": 0.6294420364457847,
+          "auprc": 0.26047909147262516
+        },
+        {
+          "fold": 5,
+          "auroc": 0.6245448116174173,
+          "auprc": 0.26873855460719975
+        }
+      ]
+    },
+    {
+      "ablation": "exclude_radiology",
+      "note_types": "nursing,lab_comment",
+      "task": "prolonged_los",
+      "model": "LogisticRegression (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.6271088112741472,
+      "cv_auroc_std": 0.006830380312637833,
+      "cv_auprc_mean": 0.26176679566726746,
+      "cv_auprc_std": 0.005887384242819365,
+      "test_auroc": 0.6400710095870742,
+      "test_auprc": 0.2747468296120449,
+      "feature_nonzero_rate": 0.9991981718317765,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.6192136025235313,
+          "auprc": 0.2522694385207096
+        },
+        {
+          "fold": 2,
+          "auroc": 0.6317930604995551,
+          "auprc": 0.26562479320071397
+        },
+        {
+          "fold": 3,
+          "auroc": 0.6370384915341125,
+          "auprc": 0.26940064898412686
+        },
+        {
+          "fold": 4,
+          "auroc": 0.6200195172723829,
+          "auprc": 0.2587748296189694
+        },
+        {
+          "fold": 5,
+          "auroc": 0.6274793845411544,
+          "auprc": 0.26276426801181757
+        }
+      ]
+    },
+    {
+      "ablation": "exclude_lab_comment",
+      "note_types": "nursing,radiology",
+      "task": "mortality",
+      "model": "XGBoost (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.6095225953570964,
+      "cv_auroc_std": 0.0037423950546661214,
+      "cv_auprc_mean": 0.18630729140696847,
+      "cv_auprc_std": 0.010649452938393261,
+      "test_auroc": 0.6328412726256336,
+      "test_auprc": 0.21274231040240127,
+      "feature_nonzero_rate": 0.9992783546485988,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.611387941626576,
+          "auprc": 0.20397677896647926
+        },
+        {
+          "fold": 2,
+          "auroc": 0.6066717203305362,
+          "auprc": 0.1754624588563811
+        },
+        {
+          "fold": 3,
+          "auroc": 0.603914344340803,
+          "auprc": 0.178228786646892
+        },
+        {
+          "fold": 4,
+          "auroc": 0.6112025199856241,
+          "auprc": 0.192900150702712
+        },
+        {
+          "fold": 5,
+          "auroc": 0.6144364505019426,
+          "auprc": 0.18096828186237796
+        }
+      ]
+    },
+    {
+      "ablation": "exclude_lab_comment",
+      "note_types": "nursing,radiology",
+      "task": "mortality",
+      "model": "LogisticRegression (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.6149968752629076,
+      "cv_auroc_std": 0.010087038205530323,
+      "cv_auprc_mean": 0.18705470386072715,
+      "cv_auprc_std": 0.012347181520818016,
+      "test_auroc": 0.6326852052409712,
+      "test_auprc": 0.20626981179957948,
+      "feature_nonzero_rate": 0.9992783546485988,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.6314785351917951,
+          "auprc": 0.20700931183312238
+        },
+        {
+          "fold": 2,
+          "auroc": 0.6078497152893959,
+          "auprc": 0.17290614660548984
+        },
+        {
+          "fold": 3,
+          "auroc": 0.6018707202585146,
+          "auprc": 0.1768874181807718
+        },
+        {
+          "fold": 4,
+          "auroc": 0.6186996919816229,
+          "auprc": 0.19428569372964608
+        },
+        {
+          "fold": 5,
+          "auroc": 0.6150857135932094,
+          "auprc": 0.1841849489546056
+        }
+      ]
+    },
+    {
+      "ablation": "exclude_lab_comment",
+      "note_types": "nursing,radiology",
+      "task": "prolonged_los",
+      "model": "XGBoost (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.645465594349923,
+      "cv_auroc_std": 0.0034731431583832975,
+      "cv_auprc_mean": 0.2747580250494934,
+      "cv_auprc_std": 0.006786064750221219,
+      "test_auroc": 0.6532151217469504,
+      "test_auprc": 0.29170067474370154,
+      "feature_nonzero_rate": 0.9992783546485988,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.640205138347939,
+          "auprc": 0.2703769936001227
+        },
+        {
+          "fold": 2,
+          "auroc": 0.6508517098044508,
+          "auprc": 0.27869662391334954
+        },
+        {
+          "fold": 3,
+          "auroc": 0.6443602433531603,
+          "auprc": 0.2711356341778879
+        },
+        {
+          "fold": 4,
+          "auroc": 0.6449732788909053,
+          "auprc": 0.2674586559752065
+        },
+        {
+          "fold": 5,
+          "auroc": 0.6469376013531599,
+          "auprc": 0.2861222175809003
+        }
+      ]
+    },
+    {
+      "ablation": "exclude_lab_comment",
+      "note_types": "nursing,radiology",
+      "task": "prolonged_los",
+      "model": "LogisticRegression (AlignmentStats)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.6460210966340624,
+      "cv_auroc_std": 0.004434694865825905,
+      "cv_auprc_mean": 0.2792046964565035,
+      "cv_auprc_std": 0.008530438633361885,
+      "test_auroc": 0.6525745535722774,
+      "test_auprc": 0.29827176889718215,
+      "feature_nonzero_rate": 0.9992783546485988,
+      "low_coverage_flag": false,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.6411929720464135,
+          "auprc": 0.27093726083517633
+        },
+        {
+          "fold": 2,
+          "auroc": 0.6518104256033623,
+          "auprc": 0.2917200767416738
+        },
+        {
+          "fold": 3,
+          "auroc": 0.6455951601633048,
+          "auprc": 0.27293343843339973
+        },
+        {
+          "fold": 4,
+          "auroc": 0.6412157981873303,
+          "auprc": 0.27323490968634045
+        },
+        {
+          "fold": 5,
+          "auroc": 0.6502911271699006,
+          "auprc": 0.287197796585927
+        }
+      ]
+    }
+  ]
+}

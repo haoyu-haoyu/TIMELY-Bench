@@ -1,18 +1,68 @@
 {
-  "timestamp": "2026-01-26T23:01:48",
+  "timestamp": "2026-02-18T06:28:51",
   "trend_threshold": {
-    "n": 500,
-    "path": "/Users/wanghaoyu/Downloads/\u4e34\u5e8a\u65f6\u5e8f \u00d7 \u6587\u672c\u5bf9\u9f50\u878d\u5408\u57fa\u51c6/\u8bad\u7ec3\u57fa\u7ebf\u6a21\u578b/TIMELY-Bench_Final/results/cres/trend_threshold.jsonl"
+    "n": 900,
+    "path": "${PROJECT_ROOT}/results/cres/trend_threshold.jsonl"
   },
   "temporal_grounding": {
-    "n": 500,
-    "path": "/Users/wanghaoyu/Downloads/\u4e34\u5e8a\u65f6\u5e8f \u00d7 \u6587\u672c\u5bf9\u9f50\u878d\u5408\u57fa\u51c6/\u8bad\u7ec3\u57fa\u7ebf\u6a21\u578b/TIMELY-Bench_Final/results/cres/temporal_grounding.jsonl"
+    "n": 900,
+    "path": "${PROJECT_ROOT}/results/cres/temporal_grounding.jsonl"
   },
   "temporal_grounding_index": {
-    "n": 500,
-    "path": "/Users/wanghaoyu/Downloads/\u4e34\u5e8a\u65f6\u5e8f \u00d7 \u6587\u672c\u5bf9\u9f50\u878d\u5408\u57fa\u51c6/\u8bad\u7ec3\u57fa\u7ebf\u6a21\u578b/TIMELY-Bench_Final/results/cres/temporal_grounding_index.jsonl"
+    "n": 900,
+    "path": "${PROJECT_ROOT}/results/cres/temporal_grounding_index.jsonl"
   },
-  "alignment_source": "/Users/wanghaoyu/Downloads/\u4e34\u5e8a\u65f6\u5e8f \u00d7 \u6587\u672c\u5bf9\u9f50\u878d\u5408\u57fa\u51c6/\u8bad\u7ec3\u57fa\u7ebf\u6a21\u578b/TIMELY-Bench_Final/data/processed/temporal_alignment/temporal_textual_alignment.csv",
+  "diagnostic_consistency": {
+    "n": 900,
+    "path": "${PROJECT_ROOT}/results/cres/diagnostic_consistency.jsonl"
+  },
+  "contrastive_inference": {
+    "n": 900,
+    "path": "${PROJECT_ROOT}/results/cres/contrastive_inference.jsonl"
+  },
+  "alignment_source": "${PROJECT_ROOT}/data/processed/temporal_alignment/temporal_textual_alignment.csv",
+  "grounding_sampling": {
+    "n_eligible_rows": 6974406,
+    "note_type_counts": {
+      "nursing": 6790265,
+      "radiology": 84610,
+      "lab_comment": 99531
+    },
+    "note_type_targets": {
+      "nursing": 300,
+      "lab_comment": 300,
+      "radiology": 300
+    },
+    "derived_label_targets": {
+      "nursing": {
+        "high": 90,
+        "medium": 120,
+        "low": 90
+      },
+      "lab_comment": {
+        "high": 90,
+        "medium": 120,
+        "low": 90
+      },
+      "radiology": {
+        "high": 90,
+        "medium": 120,
+        "low": 90
+      }
+    },
+    "realized_note_type_counts": {
+      "nursing": 300,
+      "lab_comment": 300,
+      "radiology": 300
+    },
+    "realized_label_counts": {
+      "high": 270,
+      "medium": 360,
+      "low": 270
+    }
+  },
+  "diagnostic_multimorbidity_nonempty_ratio": 0.3211111111111111,
   "seed": 42,
-  "max_rows": 50000
+  "max_rows": 0,
+  "min_multimorbidity_ratio": 0.3
 }

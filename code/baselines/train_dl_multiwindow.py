@@ -1,6 +1,7 @@
 """
 Multi-Window Deep Learning Model Training for Robustness Analysis.
-Trains ClinicalGRU and EarlyFusion models across 6h, 12h, 24h windows.
+Trains ClinicalGRU and EarlyFusion models across configured windows
+(6h, 12h, 24h, D0).
 
 Usage:
     python code/baselines/train_dl_multiwindow.py --window 6h --task mortality
@@ -41,7 +42,7 @@ warnings.filterwarnings('ignore')
 from config import (
     COHORT_FILE, RESULTS_DIR, N_FOLDS, RANDOM_STATE, TEST_SIZE,
     HIDDEN_DIM, NUM_LAYERS, DROPOUT, BATCH_SIZE, EPOCHS, LR,
-    USE_HOLDOUT_TEST, PROCESSED_DIR
+    USE_HOLDOUT_TEST, PROCESSED_DIR, WINDOWS as CONFIG_WINDOWS, TASKS as CONFIG_TASKS
 )
 
 # Alias for clarity
@@ -54,8 +55,8 @@ MODEL_DIR = RESULTS_DIR / 'Output_temporal_gru' / 'models'
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 MODEL_DIR.mkdir(parents=True, exist_ok=True)
 
-WINDOWS = ['6h', '12h', '24h']
-TASKS = ['mortality', 'prolonged_los']
+WINDOWS = list(CONFIG_WINDOWS)
+TASKS = list(CONFIG_TASKS)
 COHORTS = ['all', 'sepsis', 'aki']
 
 
@@ -584,8 +585,8 @@ def run_single(window: str, task: str):
 
 def main():
     parser = argparse.ArgumentParser(description='Multi-window DL training for Robustness')
-    parser.add_argument('--window', type=str, choices=['6h', '12h', '24h'], help='Time window')
-    parser.add_argument('--task', type=str, choices=['mortality', 'prolonged_los'], help='Prediction task')
+    parser.add_argument('--window', type=str, choices=WINDOWS, help='Time window')
+    parser.add_argument('--task', type=str, choices=TASKS, help='Prediction task')
     parser.add_argument('--all', action='store_true', help='Run all combinations')
     args = parser.parse_args()
 

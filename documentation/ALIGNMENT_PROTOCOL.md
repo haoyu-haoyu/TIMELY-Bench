@@ -1,8 +1,13 @@
-# TIMELY-Bench Alignment Protocol Card
+# TIMELY-Bench Alignment Protocol (Deprecated)
 
-## Overview
+This file is a **legacy snapshot** and is not kept in sync with the canonical benchmark protocols.
 
-This document describes the time-alignment protocols used in TIMELY-Bench for fusing clinical time-series with notes.
+Canonical sources:
+- `TIMELY-Bench_Final/docs/ALIGNMENT_PROTOCOL_CARD.md`
+- `TIMELY-Bench_Final/final_release/ALIGNMENT_PROTOCOL_CARD.md`
+
+The remainder of this file summarises the current protocol at a high level and replaces older "LLM feature injection"
+descriptions that are no longer used in v2.0.
 
 ---
 
@@ -20,9 +25,9 @@ This document describes the time-alignment protocols used in TIMELY-Bench for fu
 
 | Window ID | Hours | Description |
 |-----------|-------|-------------|
-| W6 | 6h | Early warning (first 6 hours) |
-| W12 | 12h | Standard observation |
-| W24 | 24h | Full first-day observation |
+| 6h | 6h | Observation horizon from ICU admission: [0h, 6h) |
+| 12h | 12h | Observation horizon from ICU admission: [0h, 12h) |
+| 24h | 24h | Observation horizon from ICU admission: [0h, 24h) |
 
 ---
 
@@ -46,25 +51,13 @@ Aggregation: Hourly buckets [0, 1, 2, ..., W-1]
 
 ## Text Alignment
 
-### Radiology Reports
+TIMELY-Bench supports two complementary text pathways:
 
-```
-Data Source: noteevents (category='Radiology')
-Time Field: charttime
-Alignment: hour_offset = floor((charttime - T0) / 3600)
-```
-
-### LLM Feature Injection
-
-For each note at hour `h`:
-- Extract 5 binary features using LLM
-- Inject features at hour `h` and propagate to end of window
-- If multiple notes exist, use logical OR
-
-```python
-# Injection logic
-X[patient, h:, llm_features] = extracted_values
-```
+1. **Pattern-note alignment (evidence extraction; causal lookback)**:
+   for each detected pattern event at hour `t`, align notes in `[t-6h, t]` (no lookahead) and optionally annotate a
+   sparse audited subset as SUPPORTIVE / CONTRADICTORY / UNRELATED.
+2. **Semantic text baselines**:
+   stay-level ClinicalBERT embeddings computed from raw note text within the first 24 hours (mean pooled across notes).
 
 ---
 
@@ -73,30 +66,19 @@ X[patient, h:, llm_features] = extracted_values
 ### 1. Early Fusion (Concatenation)
 
 ```
-X_fused = concat(X_tabular, X_llm)
-Model: XGBoost on concatenated features
+X_fused = concat(X_structured, X_text)
+Model: XGBoost on concatenated features (Early Fusion)
 ```
 
-### 2. Late Fusion (Probability Average)
+### 2. Late Fusion (Weighted Probabilities)
 
 ```
-p_tab = TabularModel(X_tabular)
-p_text = TextModel(X_llm)
-p_fused = (p_tab + p_text) / 2
+p_struct = StructuredModel(X_structured)
+p_text = TextModel(X_text)
+p_fused = alpha * p_struct + (1 - alpha) * p_text
 ```
 
-### 3. Late Fusion (Weighted)
-
-```
-p_fused = 0.7 * p_tab + 0.3 * p_text
-```
-
-### 4. Temporal Fusion (GRU)
-
-```
-X_temporal[t, :] = concat(X_tabular[t, :], X_llm[t, :])
-Model: GRU with final hidden state -> prediction
-```
+In v2.0 canonical results, Late Fusion is tuned on a validation split per task and text representation.
 
 ---
 
@@ -121,9 +103,7 @@ Model: GRU with final hidden state -> prediction
 
 ## Reproducibility Checklist
 
-- [ ] Use provided data splits (or GroupKFold with same random_state=42)
-- [ ] Apply StandardScaler within each fold
+- [ ] Use the patient-level splits in `data/splits/` (or GroupKFold with the same random_state=42)
+- [ ] Apply StandardScaler within each fold (no leakage)
 - [ ] Use identical time windows (6h/12h/24h from ICU admission)
-- [ ] Report mean and std across folds
-- [ ] Cite MIMIC-IV v3.1 and this benchmark
-
+- [ ] Cite the MIMIC-IV version recorded in episode metadata (`metadata.source_version`, e.g. v3.1)

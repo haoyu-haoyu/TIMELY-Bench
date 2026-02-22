@@ -36,7 +36,11 @@ subject_ids = np.array([int(r["subject_id"]) for r in rows])
 
 label_cols = {
     "mortality":     [int(r["label_mortality"]) for r in rows],
-    "prolonged_los": [int(r.get("prolonged_los_3d", r.get("prolonged_los", "0"))) for r in rows],
+    # Canonical definition in this project is LOS > 7d (prefer prolonged_los_7d if present).
+    "prolonged_los": [
+        int(r.get("prolonged_los_7d", r.get("prolonged_los_3d", r.get("prolonged_los", "0"))))
+        for r in rows
+    ],
 }
 # readmission_30d may be NaN for deceased patients
 readm = []

@@ -1,0 +1,12 @@
+{
+  "n_rows_raw": 3600,
+  "n_rows_valid": 3600,
+  "model_names": [
+    "gemini-3-flash-preview"
+  ],
+  "model_versions": [],
+  "prompt_shas": [
+    "3ef2c7d2cf15f7ec8f6e47750b29e7f18dfd6d778d2977cb5b8452b4c5303e6a",
+    "7dfe601ee94f91de28ff1f33952dd123ba362cbb9009e28101b4ba5d489fa379"
+  ]
+}

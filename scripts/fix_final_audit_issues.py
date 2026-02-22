@@ -98,8 +98,8 @@ def fix_canonical_anchor_paths():
     return mappings
 
 def fix_deepseek_canonical_run():
-    """统一DeepSeek canonical run口径"""
-    print("=== 第二阶段：统一DeepSeek Canonical Run ===\n")
+    """统一legacy LLM annotation canonical run口径"""
+    print("=== 第二阶段：统一Legacy LLM Annotation Canonical Run ===\n")
 
     # 检查文档中声称的900记录run是否存在
     canonical_run_id = "20260127_151413"
@@ -269,7 +269,7 @@ def generate_fix_summary():
     print("修复总结")
     print("="*60)
     print(f"\n✓ Canonical Anchor路径: FIXED (2个文件)")
-    print(f"✓ DeepSeek Canonical Run: CONFIRMED (run_id={summary['issues_fixed']['deepseek_canonical_run']['canonical_run_id']}, 900 records)")
+    print(f"✓ Legacy LLM Annotation Canonical Run: CONFIRMED (run_id={summary['issues_fixed']['deepseek_canonical_run']['canonical_run_id']}, 900 records)")
     print(f"✓ 文档口径: 需要更新引用")
     print(f"\n详细信息请查看: {summary_file.relative_to(PROJECT_ROOT)}")
     print("="*60 + "\n")

@@ -95,8 +95,12 @@ def load_cohort() -> pd.DataFrame:
     df = pd.read_csv(COHORT_FILE)
     if 'label_mortality' in df.columns and 'mortality' not in df.columns:
         df['mortality'] = df['label_mortality']
-    if 'prolonged_los_3d' in df.columns and 'prolonged_los' not in df.columns:
-        df['prolonged_los'] = df['prolonged_los_3d']
+    # Prolonged LOS label: keep consistent with the benchmark definition (>7 days).
+    if 'prolonged_los' not in df.columns:
+        if 'prolonged_los_7d' in df.columns:
+            df['prolonged_los'] = df['prolonged_los_7d']
+        elif 'prolonged_los_3d' in df.columns:
+            df['prolonged_los'] = df['prolonged_los_3d']
     if 'has_sepsis_final' in df.columns:
         df['has_sepsis'] = df['has_sepsis_final']
     if 'has_aki_final' in df.columns:
@@ -223,9 +227,6 @@ def load_gru_data_and_model():
 
 def load_text_features(cohort_df: pd.DataFrame):
     """Load text-only features from episode JSON files."""
-    from pathlib import Path
-    import glob
-
     PROJECT_ROOT = Path(__file__).parent.parent.parent
     episode_dirs = [
         PROJECT_ROOT / 'episodes' / 'episodes_enhanced',
@@ -248,6 +249,7 @@ def load_text_features(cohort_df: pd.DataFrame):
 
     print(f"[Text] Loading episodes from {episode_dir}...")
 
+    valid_stay_ids = set(pd.to_numeric(cohort_df['stay_id'], errors='coerce').fillna(-1).astype(int).tolist())
     features_list = []
     episode_files = list(episode_dir.glob('*.json'))
     print(f"[Text] Found {len(episode_files)} episode files")
@@ -260,26 +262,45 @@ def load_text_features(cohort_df: pd.DataFrame):
             stay_id = episode.get('stay_id')
             if stay_id is None:
                 continue
+            stay_id = int(stay_id)
+            if stay_id not in valid_stay_ids:
+                continue
 
-            # Extract text features
-            notes = episode.get('clinical_notes', [])
-            n_notes = len(notes)
-            total_text_length = sum(len(n.get('text', '')) for n in notes)
-            avg_text_length = total_text_length / max(n_notes, 1)
+            # Extract text features (match episode schema + train_text_only/train_fusion).
+            clinical = episode.get('clinical_text', {}) or {}
+            notes = clinical.get('notes', []) or []
+            n_notes = int(clinical.get('n_notes', len(notes)) or 0)
 
-            # Annotation features
-            annotations = episode.get('annotations', {})
-            patterns = annotations.get('pattern_matches', [])
-            alignments = episode.get('temporal_text_alignments', [])
+            def _note_text(n: dict) -> str:
+                # Episodes may store multiple text fields; prefer full text if present.
+                return n.get('text_full') or n.get('text_relevant') or n.get('text') or ''
 
-            n_patterns = len(patterns)
-            n_alignments = len(alignments)
+            total_text_length = int(sum(len(_note_text(n)) for n in notes))
+            avg_text_length = float(total_text_length) / float(max(n_notes, 1))
 
-            supportive = sum(1 for a in alignments if a.get('relationship') == 'supportive')
-            contradictory = sum(1 for a in alignments if a.get('relationship') == 'contradictory')
+            # Annotation-derived reasoning features
+            reasoning = episode.get('reasoning', {}) or {}
+            detected_patterns = reasoning.get('detected_patterns', []) or []
+            n_patterns = int(reasoning.get('n_patterns_detected', len(detected_patterns)) or len(detected_patterns))
+            n_alignments = int(reasoning.get('n_alignments', 0) or 0)
+            supportive = int(reasoning.get('n_supportive', 0) or 0)
+            contradictory = int(reasoning.get('n_contradictory', 0) or 0)
+
+            total_annot = supportive + contradictory
+            if total_annot > 0:
+                supportive_ratio = supportive / total_annot
+                contradictory_ratio = contradictory / total_annot
+            else:
+                supportive_ratio = 0.5
+                contradictory_ratio = 0.5
+
+            if n_alignments > 0:
+                annotation_density = total_annot / n_alignments
+            else:
+                annotation_density = 0.0
 
             features_list.append({
-                'stay_id': int(stay_id),
+                'stay_id': stay_id,
                 'n_notes': n_notes,
                 'total_text_length': total_text_length,
                 'avg_text_length': avg_text_length,
@@ -287,9 +308,9 @@ def load_text_features(cohort_df: pd.DataFrame):
                 'n_alignments': n_alignments,
                 'n_supportive': supportive,
                 'n_contradictory': contradictory,
-                'supportive_ratio': supportive / max(n_alignments, 1),
-                'contradictory_ratio': contradictory / max(n_alignments, 1),
-                'annotation_density': (supportive + contradictory) / max(n_alignments, 1),
+                'supportive_ratio': supportive_ratio,
+                'contradictory_ratio': contradictory_ratio,
+                'annotation_density': annotation_density,
             })
         except Exception:
             continue

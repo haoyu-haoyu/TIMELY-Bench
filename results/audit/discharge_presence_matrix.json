@@ -1,5 +1,5 @@
 {
-  "audit_timestamp": "2026-02-01T16:30:55.834722",
+  "audit_timestamp": "2026-02-20T19:30:48.362025",
   "files_checked": {
     "episodes_enhanced": {
       "exists": true,
@@ -7,13 +7,9 @@
       "total_files": 74829,
       "discharge_count": 0
     },
-    "llm_annotation_set.csv": {
-      "exists": true,
-      "discharge_count": 0
-    },
     "deepseek_annotations": {
       "exists": true,
-      "total_files": 6,
+      "total_files": 2,
       "discharge_count": 0
     }
   },

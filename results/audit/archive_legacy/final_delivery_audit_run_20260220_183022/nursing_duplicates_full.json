@@ -1,0 +1,12 @@
+{
+  "audit_timestamp": "2026-02-20T18:28:30.461812",
+  "total_nursing_notes": 0,
+  "unique_nursing_notes": 0,
+  "duplicate_rate_percent": 0,
+  "top_50_duplicates": [],
+  "unique_per_stay_stats": {
+    "mean": 0,
+    "min": 0,
+    "max": 0
+  }
+}

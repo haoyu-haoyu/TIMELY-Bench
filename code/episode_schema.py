@@ -102,6 +102,18 @@ class LabValue:
     # 代谢
     glucose: Optional[float] = None           # mg/dL
     albumin: Optional[float] = None           # g/dL
+    bilirubin_total: Optional[float] = None   # mg/dL
+
+
+@dataclass
+class Intervention:
+    """单个时间点的干预/治疗信号（结构化）"""
+    hour: int
+    timestamp: Optional[str] = None
+
+    # Binary indicators (0/1). These are derived from medication/procedure records.
+    vasopressors: Optional[int] = None
+    rrt: Optional[int] = None
 
 
 @dataclass
@@ -109,6 +121,7 @@ class TimeSeriesData:
     """完整的时序数据"""
     vitals: List[VitalSign] = field(default_factory=list)
     labs: List[LabValue] = field(default_factory=list)
+    interventions: List[Intervention] = field(default_factory=list)
 
     # 元数据
     start_hour: int = 0
@@ -398,7 +411,7 @@ class EpisodeMetadata:
 
     # 数据来源
     source_database: str = "MIMIC-IV"
-    source_version: str = "2.2"
+    source_version: str = "3.1"
 
     # 数据窗口
     observation_window_hours: int = 24
@@ -567,6 +580,7 @@ EPISODE_JSON_SCHEMA = {
                         "required": ["hour"],
                         "properties": {
                             "hour": {"type": "integer", "minimum": 0},
+                            "timestamp": {"type": ["string", "null"]},
                             "heart_rate": {"type": ["number", "null"]},
                             "sbp": {"type": ["number", "null"]},
                             "dbp": {"type": ["number", "null"]},
@@ -586,19 +600,43 @@ EPISODE_JSON_SCHEMA = {
                         "required": ["hour"],
                         "properties": {
                             "hour": {"type": "integer"},
+                            "timestamp": {"type": ["string", "null"]},
                             "creatinine": {"type": ["number", "null"]},
                             "bun": {"type": ["number", "null"]},
                             "sodium": {"type": ["number", "null"]},
                             "potassium": {"type": ["number", "null"]},
+                            "bicarbonate": {"type": ["number", "null"]},
+                            "chloride": {"type": ["number", "null"]},
+                            "ph": {"type": ["number", "null"]},
                             "lactate": {"type": ["number", "null"]},
                             "wbc": {"type": ["number", "null"]},
                             "hemoglobin": {"type": ["number", "null"]},
+                            "hematocrit": {"type": ["number", "null"]},
                             "platelet": {"type": ["number", "null"]}
+                            ,
+                            "glucose": {"type": ["number", "null"]},
+                            "albumin": {"type": ["number", "null"]},
+                            "bilirubin_total": {"type": ["number", "null"]}
+                        }
+                    }
+                },
+                "interventions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": ["hour"],
+                        "properties": {
+                            "hour": {"type": "integer"},
+                            "timestamp": {"type": ["string", "null"]},
+                            "vasopressors": {"type": ["integer", "null"]},
+                            "rrt": {"type": ["integer", "null"]}
                         }
                     }
                 },
                 "start_hour": {"type": "integer", "default": 0},
                 "end_hour": {"type": "integer", "default": 24},
+                "resolution_hours": {"type": "integer", "default": 1},
+                "n_timepoints": {"type": "integer"},
                 "missing_rate": {"type": "object"}
             }
         },
@@ -614,9 +652,12 @@ EPISODE_JSON_SCHEMA = {
                             "note_id": {"type": "string"},
                             "note_type": {"type": "string"},
                             "note_category": {"type": "string"},
-                            "chart_hour": {"type": "integer"},
+                            "chart_hour": {"type": "number"},
+                            "chart_time": {"type": ["string", "null"]},
                             "text_full": {"type": "string"},
-                            "text_relevant": {"type": "string"}
+                            "text_relevant": {"type": "string"},
+                            "text_length": {"type": ["integer", "null"]},
+                            "has_llm_features": {"type": ["boolean", "null"]}
                         }
                     }
                 },
@@ -630,7 +671,30 @@ EPISODE_JSON_SCHEMA = {
                             "edema": {"type": ["integer", "null"]},
                             "pleural_effusion": {"type": ["integer", "null"]},
                             "pneumothorax": {"type": ["integer", "null"]},
-                            "tubes_lines": {"type": ["integer", "null"]}
+                            "tubes_lines": {"type": ["integer", "null"]},
+                            "extended_features": {"type": "object"},
+                            "extraction_confidence": {"type": ["number", "null"]},
+                            "model_version": {"type": ["string", "null"]}
+                        }
+                    }
+                },
+                "n_notes": {"type": "integer"},
+                "note_types": {"type": "array", "items": {"type": "string"}},
+                "coverage_hours": {"type": "array", "items": {"type": "integer"}},
+                "aligned_spans": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": ["note_id", "note_type", "chart_hour", "span_start_hour", "span_end_hour", "text"],
+                        "properties": {
+                            "note_id": {"type": "string"},
+                            "note_type": {"type": "string"},
+                            "chart_hour": {"type": "number"},
+                            "span_start_hour": {"type": "number"},
+                            "span_end_hour": {"type": "number"},
+                            "text": {"type": "string"},
+                            "keywords": {"type": "array", "items": {"type": "string"}},
+                            "relevance_score": {"type": ["number", "null"]}
                         }
                     }
                 }
@@ -642,9 +706,68 @@ EPISODE_JSON_SCHEMA = {
                 "condition_graph": {
                     "type": ["object", "null"],
                     "properties": {
-                        "nodes": {"type": "array"},
-                        "edges": {"type": "array"},
-                        "primary_condition": {"type": ["string", "null"]}
+                        "nodes": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "required": ["id", "name", "level", "onset_hour"],
+                                "properties": {
+                                    "id": {"type": "string"},
+                                    "name": {"type": "string"},
+                                    "level": {"type": "string", "enum": ["pattern", "condition"]},
+                                    "onset_hour": {"type": "integer"},
+                                    "value": {"type": ["number", "null"]},
+                                    "severity": {"type": ["string", "null"]},
+                                    "source": {"type": ["string", "null"]}
+                                }
+                            }
+                        },
+                        "edges": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "required": ["source_id", "target_id", "relationship"],
+                                "properties": {
+                                    "source_id": {"type": "string"},
+                                    "target_id": {"type": "string"},
+                                    "relationship": {
+                                        "type": "string",
+                                        "enum": ["indicates", "contributes_to", "progresses_to", "cascade_causes"]
+                                    },
+                                    "confidence": {"type": ["number", "null"]},
+                                    "time_delta_hours": {"type": ["number", "null"]},
+                                    "clinical_rule": {"type": ["string", "null"]}
+                                }
+                            }
+                        },
+                        "primary_condition": {"type": ["string", "null"]},
+                        "n_pattern_nodes": {"type": ["integer", "null"]},
+                        "n_condition_nodes": {"type": ["integer", "null"]},
+                        "n_edges": {"type": ["integer", "null"]}
+                    }
+                },
+                "physiology_templates": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": ["name", "pattern_type", "disease", "feature"],
+                        "properties": {
+                            "name": {"type": "string"},
+                            "pattern_type": {"type": "string"},
+                            "disease": {"type": "string"},
+                            "feature": {"type": "string"},
+                            "threshold": {"type": ["number", "null"]},
+                            "direction": {"type": ["string", "null"]},
+                            "delta_threshold": {"type": ["number", "null"]},
+                            "delta_window_hours": {"type": ["integer", "null"]},
+                            "description": {"type": "string"},
+                            "unit": {"type": "string"},
+                            "severity": {"type": "string"},
+                            "clinical_source": {"type": "string"},
+                            "reference_pmid": {"type": ["string", "null"]},
+                            "evidence_level": {"type": "string"}
+                        },
+                        "additionalProperties": True
                     }
                 },
                 "detected_patterns": {
@@ -657,7 +780,17 @@ EPISODE_JSON_SCHEMA = {
                             "detection_hour": {"type": "integer"},
                             "value": {"type": "number"},
                             "threshold": {"type": ["number", "null"]},
-                            "severity": {"type": "string", "enum": ["mild", "moderate", "severe"]}
+                            "severity": {"type": "string", "enum": ["mild", "moderate", "severe"]},
+                            "disease": {"type": ["string", "null"]},
+                            "feature": {"type": ["string", "null"]},
+                            "unit": {"type": ["string", "null"]},
+                            "description": {"type": ["string", "null"]},
+                            "start_hour": {"type": ["integer", "null"]},
+                            "end_hour": {"type": ["integer", "null"]},
+                            "duration_hours": {"type": ["integer", "null"]},
+                            "clinical_source": {"type": ["string", "null"]},
+                            "reference_pmid": {"type": ["string", "null"]},
+                            "evidence_level": {"type": ["string", "null"]}
                         }
                     }
                 },
@@ -669,14 +802,25 @@ EPISODE_JSON_SCHEMA = {
                             "pattern_name": {"type": "string"},
                             "pattern_hour": {"type": "integer"},
                             "note_id": {"type": "string"},
+                            "note_hour": {"type": ["integer", "null"]},
+                            "note_type": {"type": ["string", "null"]},
+                            "time_delta_hours": {"type": ["number", "null"]},
                             "alignment_quality": {"type": "string"},
+                            "aligned_text": {"type": ["string", "null"]},
                             "annotation_category": {
                                 "type": ["string", "null"],
                                 "enum": ["SUPPORTIVE", "CONTRADICTORY", "UNRELATED", "AMBIGUOUS", None]
-                            }
+                            },
+                            "annotation_confidence": {"type": ["number", "null"]},
+                            "annotation_reasoning": {"type": ["string", "null"]}
                         }
                     }
-                }
+                },
+                "n_patterns_detected": {"type": ["integer", "null"]},
+                "n_alignments": {"type": ["integer", "null"]},
+                "n_supportive": {"type": ["integer", "null"]},
+                "n_contradictory": {"type": ["integer", "null"]},
+                "n_unrelated": {"type": ["integer", "null"]}
             }
         },
         "labels": {
@@ -688,7 +832,11 @@ EPISODE_JSON_SCHEMA = {
                     "required": ["mortality", "prolonged_los"],
                     "properties": {
                         "mortality": {"type": "integer", "enum": [0, 1]},
-                        "prolonged_los": {"type": "integer", "enum": [0, 1]},
+                        "prolonged_los": {
+                            "type": "integer",
+                            "enum": [0, 1],
+                            "description": "Prolonged ICU length-of-stay label (ICU LOS > 7 days)"
+                        },
                         "readmission_30d": {"type": ["integer", "null"]},
                         "los_days": {"type": ["number", "null"]}
                     }
@@ -711,9 +859,14 @@ EPISODE_JSON_SCHEMA = {
             "type": "object",
             "properties": {
                 "schema_version": {"type": "string"},
+                "created_at": {"type": ["string", "null"]},
                 "source_database": {"type": "string"},
+                "source_version": {"type": ["string", "null"]},
                 "observation_window_hours": {"type": "integer"},
-                "data_quality_score": {"type": "number"}
+                "data_quality_score": {"type": "number"},
+                "completeness": {"type": "object"},
+                "preprocessing_version": {"type": ["string", "null"]},
+                "llm_annotation_model": {"type": ["string", "null"]}
             }
         }
     }
@@ -842,7 +995,7 @@ def create_example_episode() -> Episode:
         schema_version="2.0",
         created_at=datetime.now().isoformat(),
         source_database="MIMIC-IV",
-        source_version="2.2",
+        source_version="3.1",
         observation_window_hours=24,
         data_quality_score=0.85
     )

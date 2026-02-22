@@ -9,7 +9,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from config import COHORT_FILE, TEMPORAL_ALIGNMENT_DIR, ROOT_DIR, TIMESERIES_FILE
+from config import COHORT_FILE, TEMPORAL_ALIGNMENT_DIR, ROOT_DIR, TIMESERIES_FILE, N_FOLDS
 
 
 EPISODES_DIR = ROOT_DIR / 'episodes' / 'episodes_enhanced'
@@ -170,68 +170,100 @@ def check_subject_split(root_dir: Path, cohort_path: Path) -> bool:
     cohort['stay_id'] = pd.to_numeric(cohort['stay_id'], errors='coerce')
     cohort['subject_id'] = pd.to_numeric(cohort['subject_id'], errors='coerce')
 
-    # 优先检查 predefined_splits.csv
-    predefined = root_dir / 'data' / 'processed' / 'predefined_splits.csv'
+    # Prefer canonical predefined split file (data/splits).
+    predefined = root_dir / 'data' / 'splits' / 'predefined_splits.csv'
+    if not predefined.exists():
+        predefined = root_dir / 'data' / 'processed' / 'predefined_splits.csv'
     if predefined.exists():
         splits_df = pd.read_csv(predefined)
         if 'stay_id' not in splits_df.columns or 'split' not in splits_df.columns:
             print("[WARN] predefined_splits.csv missing stay_id/split columns")
             return False
 
-        merged = splits_df.merge(cohort, on='stay_id', how='left')
-        train_subjects = set(merged[merged['split'] == 'train']['subject_id'].dropna())
-        val_subjects = set(merged[merged['split'] == 'val']['subject_id'].dropna())
-        test_subjects = set(merged[merged['split'] == 'test']['subject_id'].dropna())
+        # If subject_id not present, join from cohort (required for leakage check).
+        if 'subject_id' not in splits_df.columns:
+            merged = splits_df.merge(cohort, on='stay_id', how='left')
+        else:
+            merged = splits_df.copy()
 
-        if train_subjects & val_subjects:
-            print(f"[FAIL] subject_id overlap between train/val: {len(train_subjects & val_subjects)}")
-            ok = False
-        if train_subjects & test_subjects:
-            print(f"[FAIL] subject_id overlap between train/test: {len(train_subjects & test_subjects)}")
-            ok = False
-        if val_subjects & test_subjects:
-            print(f"[FAIL] subject_id overlap between val/test: {len(val_subjects & test_subjects)}")
-            ok = False
+        # Canonical schema: split in {dev,test} with fold_id for dev rows.
+        split_values = set(merged['split'].astype(str).str.lower().unique().tolist())
+        if split_values.issubset({'dev', 'test'}) and 'fold_id' in merged.columns:
+            dev = merged[merged['split'].astype(str).str.lower() == 'dev']
+            test = merged[merged['split'].astype(str).str.lower() == 'test']
 
-        if ok:
-            print("[PASS] subject_id split check (predefined_splits.csv)")
-        return ok
+            dev_subjects = set(dev['subject_id'].dropna())
+            test_subjects = set(test['subject_id'].dropna())
+            inter = dev_subjects & test_subjects
+            if inter:
+                print(f"[FAIL] subject_id overlap between dev/test: {len(inter)}")
+                ok = False
 
-    # 备选：data/splits/{train,val,test}.csv
-    splits_dir = root_dir / 'data' / 'splits'
-    train_path = splits_dir / 'train.csv'
-    val_path = splits_dir / 'val.csv'
-    test_path = splits_dir / 'test.csv'
-    if train_path.exists() and val_path.exists() and test_path.exists():
-        train = pd.read_csv(train_path)
-        val = pd.read_csv(val_path)
-        test = pd.read_csv(test_path)
+            # Each subject must map to a single fold_id.
+            fold_nunique = dev.groupby('subject_id')['fold_id'].nunique()
+            n_multi = int((fold_nunique > 1).sum())
+            if n_multi > 0:
+                print(f"[FAIL] {n_multi} subjects appear in multiple fold_id values")
+                ok = False
 
-        for df in (train, val, test):
-            if 'stay_id' not in df.columns:
-                print("[WARN] split file missing stay_id column")
-                return False
+            # fold_id range sanity
+            bad_fold = dev[(dev['fold_id'] < 1) | (dev['fold_id'] > N_FOLDS)]
+            if len(bad_fold) > 0:
+                print(f"[FAIL] {len(bad_fold)} dev rows have invalid fold_id (expected 1..{N_FOLDS})")
+                ok = False
 
-        train_sub = set(cohort[cohort['stay_id'].isin(train['stay_id'])]['subject_id'].dropna())
-        val_sub = set(cohort[cohort['stay_id'].isin(val['stay_id'])]['subject_id'].dropna())
-        test_sub = set(cohort[cohort['stay_id'].isin(test['stay_id'])]['subject_id'].dropna())
+            if ok:
+                print("[PASS] subject_id split check (predefined_splits.csv: dev/test + fold_id)")
+            return ok
 
-        if train_sub & val_sub:
-            print(f"[FAIL] subject_id overlap between train/val: {len(train_sub & val_sub)}")
-            ok = False
-        if train_sub & test_sub:
-            print(f"[FAIL] subject_id overlap between train/test: {len(train_sub & test_sub)}")
-            ok = False
-        if val_sub & test_sub:
-            print(f"[FAIL] subject_id overlap between val/test: {len(val_sub & test_sub)}")
-            ok = False
-
-        if ok:
-            print("[PASS] subject_id split check (data/splits)")
-        return ok
-
-    print("[WARN] No split files found for subject_id check")
+    print("[WARN] No predefined_splits.csv found for subject_id check")
     return False
+
+
+def check_split_summary_consistency(root_dir: Path) -> bool:
+    """
+    Ensure the canonical split summary and final_release copy are consistent.
+    This prevents 2.2/2.3 style metadata drift.
+    """
+    canonical = root_dir / "data" / "splits" / "split_summary.json"
+    release = root_dir / "final_release" / "evidence" / "split_summary.json"
+
+    if not canonical.exists():
+        print(f"[WARN] Missing canonical split summary: {canonical}")
+        return False
+    if not release.exists():
+        print(f"[WARN] Missing release split summary: {release}")
+        return False
+
+    try:
+        c = json.loads(canonical.read_text())
+        r = json.loads(release.read_text())
+    except Exception as exc:
+        print(f"[WARN] Failed to parse split summary JSON: {exc}")
+        return False
+
+    keys = [
+        "version",
+        "test_size",
+        "n_folds",
+        "split_method",
+        "fold_assignment_source",
+        "groups_column",
+        "total_episodes",
+    ]
+    mismatches = []
+    for key in keys:
+        if c.get(key) != r.get(key):
+            mismatches.append((key, c.get(key), r.get(key)))
+
+    if mismatches:
+        print("[FAIL] split_summary mismatch between canonical and final_release:")
+        for key, lhs, rhs in mismatches:
+            print(f"   - {key}: canonical={lhs} | release={rhs}")
+        return False
+
+    print("[PASS] split_summary canonical/release are consistent")
+    return True
 
 
 def main():
@@ -246,6 +278,7 @@ def main():
     ok &= check_episode_windows(EPISODES_DIR, sample=args.sample)
     ok &= check_timeseries_order(Path(TIMESERIES_FILE), max_rows=args.timeseries_rows)
     ok &= check_subject_split(Path(ROOT_DIR), Path(COHORT_FILE))
+    ok &= check_split_summary_consistency(Path(ROOT_DIR))
 
     if ok:
         print("\n[OK] Final QA checks passed")

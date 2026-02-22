@@ -68,9 +68,12 @@ output_files = [
 for rel in output_files:
     outputs[rel] = file_meta(ROOT / rel)
 
-# QA gate log
-qa_log = file_meta(ROOT / "final_release/qa_31341087.log")
-qa_err = file_meta(ROOT / "final_release/qa_31341087.err")
+# QA gate report (canonical final_qa_*.json/.md under final_release/evidence)
+qa_evidence_dir = ROOT / "final_release" / "evidence"
+qa_json_candidates = sorted(qa_evidence_dir.glob("final_qa_*.json"))
+qa_md_candidates = sorted(qa_evidence_dir.glob("final_qa_*.md"))
+qa_json = qa_json_candidates[-1] if qa_json_candidates else None
+qa_md = qa_md_candidates[-1] if qa_md_candidates else None
 
 provenance = {
     "schema": "TIMELY-Bench-PROVENANCE/1.0",
@@ -92,9 +95,9 @@ provenance = {
     },
     "baseline_outputs": outputs,
     "qa_gate": {
-        "log": qa_log,
-        "err": qa_err,
-        "verdict": "PASS (err file size = 0)",
+        "json_report": file_meta(qa_json) if qa_json else {"path": str(qa_evidence_dir / "final_qa_*.json"), "exists": False},
+        "markdown_report": file_meta(qa_md) if qa_md else {"path": str(qa_evidence_dir / "final_qa_*.md"), "exists": False},
+        "verdict": "PASS (final_qa report present)" if qa_json else "UNKNOWN (final_qa report missing)",
     },
     "generation_commands": [
         "python3 code/baselines/train_tabular_baselines.py",
@@ -103,13 +106,18 @@ provenance = {
         "python3 code/baselines/train_temporal_gru_v2.py",
         "python3 code/baselines/train_readmission_baselines.py",
         "python3 code/baselines/train_los_baselines.py",
-        "python3 code/data_processing/standardize_results.py",
-        "python3 code/data_processing/run_qa_gate.py",
+        "python3 code/utils/standardize_results.py",
+        "python3 code/data_processing/run_final_qa.py",
         "python3 code/data_processing/build_final_release_bundle.py",
     ],
     "split_configuration": {
-        "method": "GroupShuffleSplit (holdout) + GroupKFold (CV)",
+        "method": "canonical_predefined_splits_csv",
+        "split_file": "data/splits/predefined_splits.csv",
         "groups_column": "subject_id",
+        "dev_split_label": "dev",
+        "test_split_label": "test",
+        "fold_id_range": "1..5 on dev rows",
+        "upstream_generation": "GroupShuffleSplit(test_size=0.2, random_state=42) + deterministic GroupKFold(5)",
         "test_size": 0.2,
         "n_folds": 5,
         "random_state": 42,

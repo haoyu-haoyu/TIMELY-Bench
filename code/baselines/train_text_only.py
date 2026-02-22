@@ -15,7 +15,7 @@ import pandas as pd
 import numpy as np
 import json
 from datetime import datetime
-from sklearn.model_selection import GroupKFold, GroupShuffleSplit
+from sklearn.model_selection import GroupKFold
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score, average_precision_score
@@ -28,6 +28,7 @@ from config import (
     PROCESSED_DIR, RESULTS_DIR, N_FOLDS, RANDOM_STATE,
     TEST_SIZE, USE_HOLDOUT_TEST, LLM_FEATURES_FILE
 )
+from utils.predefined_split import resolve_predefined_partition
 
 # 配置
 EPISODES_DIR = Path(__file__).parent.parent.parent / 'episodes' / 'episodes_enhanced'
@@ -51,7 +52,7 @@ def extract_text_features(episode_path: Path) -> dict:
     
     notes = clinical.get('notes', [])
     if notes:
-        features['total_text_length'] = sum(len(n.get('text', '')) for n in notes)
+        features['total_text_length'] = sum(len(n.get('text_full') or n.get('text_relevant') or n.get('text', '')) for n in notes)
         features['avg_text_length'] = features['total_text_length'] / len(notes)
     else:
         features['total_text_length'] = 0
@@ -109,24 +110,38 @@ def load_all_features():
     return df
 
 
-def train_and_evaluate(X, y, groups, model_name='XGBoost'):
+def train_and_evaluate(X, y, groups, stay_ids, model_name='XGBoost'):
     """训练和评估"""
     
     if USE_HOLDOUT_TEST:
-        gss = GroupShuffleSplit(n_splits=1, test_size=TEST_SIZE, random_state=RANDOM_STATE)
-        train_val_idx, test_idx = next(gss.split(X, y, groups=groups))
+        train_val_idx, test_idx, fold_ids, split_info = resolve_predefined_partition(stay_ids)
         
         X_train_val, X_test = X[train_val_idx], X[test_idx]
         y_train_val, y_test = y[train_val_idx], y[test_idx]
         groups_train_val = groups[train_val_idx]
+        fold_train_val = fold_ids[train_val_idx]
     else:
+        split_info = {"source": "runtime_groupkfold"}
         X_train_val, y_train_val, groups_train_val = X, y, groups
         X_test, y_test = None, None
     
-    gkf = GroupKFold(n_splits=N_FOLDS)
     fold_results = []
-    
-    for fold, (train_idx, val_idx) in enumerate(gkf.split(X_train_val, y_train_val, groups=groups_train_val)):
+
+    if USE_HOLDOUT_TEST:
+        fold_iter = []
+        for fold in range(1, N_FOLDS + 1):
+            train_idx = np.where(fold_train_val != fold)[0]
+            val_idx = np.where(fold_train_val == fold)[0]
+            if len(train_idx) == 0 or len(val_idx) == 0:
+                continue
+            fold_iter.append((fold, train_idx, val_idx))
+    else:
+        gkf = GroupKFold(n_splits=N_FOLDS)
+        fold_iter = []
+        for fold, (train_idx, val_idx) in enumerate(gkf.split(X_train_val, y_train_val, groups=groups_train_val), start=1):
+            fold_iter.append((fold, train_idx, val_idx))
+
+    for fold, train_idx, val_idx in fold_iter:
         X_train, X_val = X_train_val[train_idx], X_train_val[val_idx]
         y_train, y_val = y_train_val[train_idx], y_train_val[val_idx]
         
@@ -149,8 +164,8 @@ def train_and_evaluate(X, y, groups, model_name='XGBoost'):
         auroc = roc_auc_score(y_val, y_pred)
         auprc = average_precision_score(y_val, y_pred)
         
-        fold_results.append({'fold': fold + 1, 'auroc': auroc, 'auprc': auprc})
-        print(f"   Fold {fold+1}: AUROC={auroc:.4f}, AUPRC={auprc:.4f}")
+        fold_results.append({'fold': fold, 'auroc': auroc, 'auprc': auprc})
+        print(f"   Fold {fold}: AUROC={auroc:.4f}, AUPRC={auprc:.4f}")
     
     test_result = None
     if X_test is not None:
@@ -174,7 +189,7 @@ def train_and_evaluate(X, y, groups, model_name='XGBoost'):
         test_auprc = average_precision_score(y_test, y_test_pred)
         test_result = {'auroc': test_auroc, 'auprc': test_auprc}
     
-    return fold_results, test_result
+    return fold_results, test_result, split_info
 
 
 def main():
@@ -207,7 +222,7 @@ def main():
         for model_name in ['XGBoost', 'LogisticRegression']:
             print(f"\n{model_name}:")
             
-            fold_results, test_result = train_and_evaluate(X, y, groups, model_name)
+            fold_results, test_result, split_info = train_and_evaluate(X, y, groups, df['stay_id'].values, model_name)
             
             mean_auroc = np.mean([r['auroc'] for r in fold_results])
             std_auroc = np.std([r['auroc'] for r in fold_results])
@@ -232,7 +247,8 @@ def main():
                 'cv_auprc_std': std_auprc,
                 'test_auroc': test_result['auroc'] if test_result else None,
                 'test_auprc': test_result['auprc'] if test_result else None,
-                'fold_details': fold_results
+                'fold_details': fold_results,
+                'split_source': split_info['source'],
             })
     
     results_df = pd.DataFrame(results)

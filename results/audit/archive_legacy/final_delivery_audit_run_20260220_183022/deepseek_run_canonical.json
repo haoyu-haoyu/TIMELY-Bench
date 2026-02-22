@@ -1,0 +1,26 @@
+{
+  "audit_timestamp": "2026-02-20T18:30:22.232931",
+  "deepseek_annotation_files": [
+    {
+      "filename": "annotations_deepseek_20260127_151413_part0001.jsonl",
+      "path": "final_release/llm_annotations/annotations_deepseek_20260127_151413_part0001.jsonl",
+      "size_bytes": 802390,
+      "sha256": "2c06f4564f8ee96b0a1dd14ff7363ffa688b45d17e52612cd7e300ff185acbb1",
+      "annotation_count": 900
+    },
+    {
+      "filename": "annotations_deepseek_20260127_151413_part0001_audited.jsonl",
+      "path": "final_release/llm_annotations/annotations_deepseek_20260127_151413_part0001_audited.jsonl",
+      "size_bytes": 580819,
+      "sha256": "486b14173cc42846413bf9cfeba908fee6eb8ef0bf694fe1f3410ba947937174",
+      "annotation_count": 900
+    }
+  ],
+  "total_annotations": 1800,
+  "note_type_distribution": {
+    "nursing": 600,
+    "radiology": 600,
+    "lab_comment": 600
+  },
+  "unique_stay_id_count": 426
+}

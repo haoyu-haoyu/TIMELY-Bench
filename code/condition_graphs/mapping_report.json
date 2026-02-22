@@ -1,8 +1,9 @@
 {
-  "timestamp": "2026-01-28T14:10:42",
+  "timestamp": "2026-02-09T22:49:07",
   "available_features": [
     "albumin",
     "bicarbonate",
+    "bilirubin_total",
     "bun",
     "chloride",
     "creatinine",
@@ -18,11 +19,13 @@
     "platelet",
     "potassium",
     "resp_rate",
+    "rrt",
     "sbp",
     "sodium",
     "spo2",
     "temperature",
     "urineoutput",
+    "vasopressors",
     "wbc"
   ],
   "graphs": {
@@ -30,8 +33,10 @@
       "structured_features": [
         "bicarbonate",
         "bun",
+        "ckd",
         "creatinine",
         "potassium",
+        "rrt",
         "urineoutput"
       ],
       "mapped_features": {
@@ -39,13 +44,48 @@
         "bun": "bun",
         "creatinine": "creatinine",
         "potassium": "potassium",
+        "rrt": "rrt",
         "urineoutput": "urineoutput"
       },
-      "missing_features": []
+      "missing_features": [
+        "ckd"
+      ],
+      "feature_status": {
+        "bicarbonate": "mapped",
+        "bun": "mapped",
+        "ckd": "external_static",
+        "creatinine": "mapped",
+        "potassium": "mapped",
+        "rrt": "mapped",
+        "urineoutput": "mapped"
+      }
+    },
+    "delirium_icu_graph.json": {
+      "structured_features": [
+        "gcs",
+        "heart_rate",
+        "spo2",
+        "temperature"
+      ],
+      "mapped_features": {
+        "gcs": "gcs",
+        "heart_rate": "heart_rate",
+        "spo2": "spo2",
+        "temperature": "temperature"
+      },
+      "missing_features": [],
+      "feature_status": {
+        "gcs": "mapped",
+        "heart_rate": "mapped",
+        "spo2": "mapped",
+        "temperature": "mapped"
+      }
     },
     "sepsis_sirs_graph.json": {
       "structured_features": [
         "bilirubin_total",
+        "ckd",
+        "gcs",
         "heart_rate",
         "lactate",
         "mbp",
@@ -54,9 +94,12 @@
         "sbp",
         "spo2",
         "temperature",
+        "vasopressors",
         "wbc"
       ],
       "mapped_features": {
+        "bilirubin_total": "bilirubin_total",
+        "gcs": "gcs",
         "heart_rate": "heart_rate",
         "lactate": "lactate",
         "mbp": "mbp",
@@ -65,17 +108,78 @@
         "sbp": "sbp",
         "spo2": "spo2",
         "temperature": "temperature",
+        "vasopressors": "vasopressors",
         "wbc": "wbc"
       },
       "missing_features": [
-        "bilirubin_total"
-      ]
+        "ckd"
+      ],
+      "feature_status": {
+        "bilirubin_total": "mapped",
+        "ckd": "external_static",
+        "gcs": "mapped",
+        "heart_rate": "mapped",
+        "lactate": "mapped",
+        "mbp": "mapped",
+        "platelet": "mapped",
+        "resp_rate": "mapped",
+        "sbp": "mapped",
+        "spo2": "mapped",
+        "temperature": "mapped",
+        "vasopressors": "mapped",
+        "wbc": "mapped"
+      }
+    },
+    "stroke_neuro_graph.json": {
+      "structured_features": [
+        "gcs",
+        "sbp",
+        "spo2"
+      ],
+      "mapped_features": {
+        "gcs": "gcs",
+        "sbp": "sbp",
+        "spo2": "spo2"
+      },
+      "missing_features": [],
+      "feature_status": {
+        "gcs": "mapped",
+        "sbp": "mapped",
+        "spo2": "mapped"
+      }
     }
   },
   "missing_fields": [
-    "bilirubin_total"
+    "ckd"
   ],
+  "feature_status": {
+    "bicarbonate": "mapped",
+    "bilirubin_total": "mapped",
+    "bun": "mapped",
+    "ckd": "external_static",
+    "creatinine": "mapped",
+    "gcs": "mapped",
+    "heart_rate": "mapped",
+    "lactate": "mapped",
+    "mbp": "mapped",
+    "platelet": "mapped",
+    "potassium": "mapped",
+    "resp_rate": "mapped",
+    "rrt": "mapped",
+    "sbp": "mapped",
+    "spo2": "mapped",
+    "temperature": "mapped",
+    "urineoutput": "mapped",
+    "vasopressors": "mapped",
+    "wbc": "mapped"
+  },
+  "status_counts": {
+    "mapped": 18,
+    "derived": 0,
+    "external_static": 1,
+    "unobserved": 0
+  },
   "mapping_notes": {
-    "bilirubin_total": "not in episode schema (optional, requires lab extension)"
+    "ckd": "external static comorbidity feature from diagnosis history (not a time-series variable)"
   }
 }

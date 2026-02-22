@@ -1,0 +1,69 @@
+{
+  "timestamp": "2025-12-24T14:55:15.291803",
+  "config": {
+    "hidden_dim": 64,
+    "num_layers": 2,
+    "dropout": 0.2,
+    "batch_size": 256,
+    "epochs": 50,
+    "learning_rate": 0.001,
+    "early_stopping_patience": 10,
+    "lr_scheduler_patience": 5
+  },
+  "data": {
+    "total_samples": 74829,
+    "train_val_samples": 59793,
+    "test_samples": 15036,
+    "input_dim": 30
+  },
+  "cross_validation": {
+    "n_folds": 5,
+    "mean_auroc": 0.8334925471974328,
+    "std_auroc": 0.00617972124452817,
+    "mean_auprc": 0.46506948911679763,
+    "std_auprc": 0.017793244783486335,
+    "best_fold": 5,
+    "best_auroc": 0.8420615518048186,
+    "fold_details": [
+      {
+        "fold": 1,
+        "val_auroc": 0.8311735196155028,
+        "val_auprc": 0.46537603567772845,
+        "best_epoch": 7,
+        "total_epochs": 18
+      },
+      {
+        "fold": 2,
+        "val_auroc": 0.8392929677583142,
+        "val_auprc": 0.4739557842036579,
+        "best_epoch": 9,
+        "total_epochs": 20
+      },
+      {
+        "fold": 3,
+        "val_auroc": 0.8291831754258062,
+        "val_auprc": 0.44907542433343417,
+        "best_epoch": 7,
+        "total_epochs": 18
+      },
+      {
+        "fold": 4,
+        "val_auroc": 0.8257515213827216,
+        "val_auprc": 0.4437213718071626,
+        "best_epoch": 9,
+        "total_epochs": 18
+      },
+      {
+        "fold": 5,
+        "val_auroc": 0.8420615518048186,
+        "val_auprc": 0.4932188295620048,
+        "best_epoch": 7,
+        "total_epochs": 18
+      }
+    ]
+  },
+  "test": {
+    "test_auroc": 0.8329485482668675,
+    "test_auprc": 0.4762810013158475
+  }
+}

@@ -1,0 +1,218 @@
+{
+  "summary": {
+    "evaluation_mode": "external_predictions",
+    "run_id": "cres_gpt51_full_32004532",
+    "timestamp": "2026-02-18T21:08:32",
+    "predictions_file": "${PROJECT_ROOT}/results/cres/model_runs/cres_gpt51_full_32004532/predictions.jsonl",
+    "prediction_metadata": {
+      "n_rows_raw": 3600,
+      "n_rows_valid": 3600,
+      "model_names": [
+        "gpt-5.1"
+      ],
+      "model_versions": [],
+      "prompt_shas": [
+        "d04ee7804da0847ea996a706671d659c853f589001ffd51030f9c33987c1047a"
+      ]
+    },
+    "trend_threshold_accuracy": 0.9855555555555555,
+    "temporal_grounding_accuracy": 0.45,
+    "temporal_grounding_macro_f1": 0.40019575203990526,
+    "temporal_grounding_balanced_accuracy": 0.4981481481481482,
+    "diagnostic_consistency_accuracy": 0.3877777777777778,
+    "diagnostic_consistency_macro_f1": 0.3806614161178121,
+    "contrastive_inference_accuracy": 0.7122222222222222,
+    "contrastive_inference_macro_f1": 0.7059440267335004,
+    "contrastive_tie_rate": 0.3,
+    "evidence_validity_rate": 1.0,
+    "n_trend": 900,
+    "n_grounding": 900,
+    "n_diagnostic": 900,
+    "n_contrastive": 900,
+    "n_trend_scored": 900,
+    "n_grounding_scored": 900,
+    "n_diagnostic_scored": 900,
+    "n_contrastive_scored": 900,
+    "label_unique_count": 3,
+    "label_entropy": 1.5709505944546684,
+    "dominant_label_ratio": 0.4,
+    "dominant_note_type_ratio": 0.3333333333333333,
+    "warning_flags": []
+  },
+  "task_results": {
+    "trend_threshold": {
+      "accuracy": 0.9855555555555555,
+      "macro_f1": 0.9855361096585409,
+      "balanced_accuracy": 0.9852784202099271,
+      "confusion_matrix": {
+        "labels": [
+          "no",
+          "yes"
+        ],
+        "matrix": [
+          [
+            427,
+            11
+          ],
+          [
+            2,
+            460
+          ]
+        ]
+      },
+      "n_gold": 900,
+      "n_scored": 900,
+      "coverage": 1.0,
+      "n_missing_predictions": 0,
+      "n_task_mismatch": 0,
+      "missing_id_examples": [],
+      "task_mismatch_examples": [],
+      "gold_label_distribution": {
+        "no": 438,
+        "yes": 462
+      },
+      "pred_label_distribution": {
+        "no": 429,
+        "yes": 471
+      }
+    },
+    "temporal_grounding": {
+      "accuracy": 0.45,
+      "macro_f1": 0.40019575203990526,
+      "balanced_accuracy": 0.4981481481481482,
+      "confusion_matrix": {
+        "labels": [
+          "high",
+          "low",
+          "medium"
+        ],
+        "matrix": [
+          [
+            131,
+            122,
+            17
+          ],
+          [
+            2,
+            268,
+            0
+          ],
+          [
+            9,
+            345,
+            6
+          ]
+        ]
+      },
+      "n_gold": 900,
+      "n_scored": 900,
+      "coverage": 1.0,
+      "n_missing_predictions": 0,
+      "n_task_mismatch": 0,
+      "missing_id_examples": [],
+      "task_mismatch_examples": [],
+      "gold_label_distribution": {
+        "high": 270,
+        "medium": 360,
+        "low": 270
+      },
+      "pred_label_distribution": {
+        "low": 735,
+        "medium": 23,
+        "high": 142
+      }
+    },
+    "diagnostic_consistency": {
+      "accuracy": 0.3877777777777778,
+      "macro_f1": 0.3806614161178121,
+      "balanced_accuracy": 0.4121277450810765,
+      "confusion_matrix": {
+        "labels": [
+          "ambiguous",
+          "consistent",
+          "inconsistent"
+        ],
+        "matrix": [
+          [
+            90,
+            35,
+            39
+          ],
+          [
+            156,
+            169,
+            90
+          ],
+          [
+            176,
+            55,
+            90
+          ]
+        ]
+      },
+      "n_gold": 900,
+      "n_scored": 900,
+      "coverage": 1.0,
+      "n_missing_predictions": 0,
+      "n_task_mismatch": 0,
+      "missing_id_examples": [],
+      "task_mismatch_examples": [],
+      "gold_label_distribution": {
+        "ambiguous": 164,
+        "inconsistent": 321,
+        "consistent": 415
+      },
+      "pred_label_distribution": {
+        "ambiguous": 422,
+        "consistent": 259,
+        "inconsistent": 219
+      }
+    },
+    "contrastive_inference": {
+      "accuracy": 0.7122222222222222,
+      "macro_f1": 0.7059440267335004,
+      "balanced_accuracy": 0.7074074074074074,
+      "confusion_matrix": {
+        "labels": [
+          "A_more_plausible",
+          "B_more_plausible",
+          "tie"
+        ],
+        "matrix": [
+          [
+            178,
+            103,
+            34
+          ],
+          [
+            11,
+            298,
+            6
+          ],
+          [
+            21,
+            84,
+            165
+          ]
+        ]
+      },
+      "n_gold": 900,
+      "n_scored": 900,
+      "coverage": 1.0,
+      "n_missing_predictions": 0,
+      "n_task_mismatch": 0,
+      "missing_id_examples": [],
+      "task_mismatch_examples": [],
+      "gold_label_distribution": {
+        "B_more_plausible": 315,
+        "A_more_plausible": 315,
+        "tie": 270
+      },
+      "pred_label_distribution": {
+        "B_more_plausible": 485,
+        "A_more_plausible": 210,
+        "tie": 205
+      }
+    }
+  }
+}

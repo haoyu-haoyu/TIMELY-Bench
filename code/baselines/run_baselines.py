@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import pandas as pd
 import numpy as np
 import os
-from sklearn.model_selection import GroupKFold, GroupShuffleSplit
+from sklearn.model_selection import GroupKFold
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score, average_precision_score, brier_score_loss, confusion_matrix
@@ -23,8 +23,10 @@ warnings.filterwarnings('ignore')
 from config import (
     DATA_WINDOWS_DIR, MERGE_OUTPUT_DIR, BENCHMARK_RESULTS_DIR,
     WINDOWS, TASKS, COHORTS, N_FOLDS, RANDOM_STATE,
-    TEST_SIZE, USE_HOLDOUT_TEST, get_features_file, PROCESSED_DIR
+    TEST_SIZE, USE_HOLDOUT_TEST, get_features_file, PROCESSED_DIR,
+    COHORT_FILE
 )
+from utils.predefined_split import resolve_predefined_partition
 
 # 导入annotation特征
 try:
@@ -40,10 +42,12 @@ except ImportError:
 # ==========================================
 # 配置
 # ==========================================
-COHORT_FILE = MERGE_OUTPUT_DIR / 'cohort_final.csv'
 OUTPUT_DIR = BENCHMARK_RESULTS_DIR
 MODELS = ['LogisticRegression', 'XGBoost']
 USE_ANNOTATION_FEATURES = True  # 是否使用推理得分特征
+# For prolonged LOS, some pipelines exclude mortality cases to avoid competing-risk censoring.
+# Canonical TIMELY-Bench v2.0 results keep *all* episodes unless explicitly enabled.
+EXCLUDE_MORTALITY_FOR_NON_MORTALITY_TASKS = False
 
 # ==========================================
 # 数据加载
@@ -133,19 +137,18 @@ class ModelTrainer:
         else:
             raise ValueError(f"Unknown model: {self.model_name}")
 
-    def train_and_evaluate(self, X, y, groups, use_holdout=True):
+    def train_and_evaluate(self, X, y, groups, stay_ids, use_holdout=True):
         """使用GroupKFold交叉验证，支持独立测试集"""
 
         if use_holdout and USE_HOLDOUT_TEST:
-            # 分离独立测试集
-            gss = GroupShuffleSplit(n_splits=1, test_size=TEST_SIZE, random_state=RANDOM_STATE)
-            train_val_idx, test_idx = next(gss.split(X, y, groups))
+            train_val_idx, test_idx, fold_ids, split_info = resolve_predefined_partition(stay_ids)
 
             X_train_val, X_test = X[train_val_idx], X[test_idx]
             y_train_val, y_test = y[train_val_idx], y[test_idx]
             groups_train_val = groups[train_val_idx]
-            gkf = GroupKFold(n_splits=N_FOLDS)
+            fold_train_val = fold_ids[train_val_idx]
         else:
+            split_info = {"source": "runtime_groupkfold"}
             X_train_val, y_train_val, groups_train_val = X, y, groups
             X_test, y_test = None, None
             gkf = GroupKFold(n_splits=N_FOLDS)
@@ -153,7 +156,20 @@ class ModelTrainer:
         metrics_per_fold = {'auroc': [], 'auprc': [], 'brier': []}
         best_model, best_scaler, best_auroc = None, None, -1
 
-        for fold, (train_idx, val_idx) in enumerate(gkf.split(X_train_val, y_train_val, groups_train_val)):
+        if use_holdout and USE_HOLDOUT_TEST:
+            fold_iter = []
+            for fold in range(1, N_FOLDS + 1):
+                train_idx = np.where(fold_train_val != fold)[0]
+                val_idx = np.where(fold_train_val == fold)[0]
+                if len(train_idx) == 0 or len(val_idx) == 0:
+                    continue
+                fold_iter.append((fold, train_idx, val_idx))
+        else:
+            fold_iter = []
+            for fold, (train_idx, val_idx) in enumerate(gkf.split(X_train_val, y_train_val, groups_train_val), start=1):
+                fold_iter.append((fold, train_idx, val_idx))
+
+        for fold, train_idx, val_idx in fold_iter:
             X_train, X_val = X_train_val[train_idx], X_train_val[val_idx]
             y_train, y_val = y_train_val[train_idx], y_train_val[val_idx]
 
@@ -235,6 +251,7 @@ class ModelTrainer:
             'auprc_std': np.std(metrics_per_fold['auprc']),
             'brier_mean': np.mean(metrics_per_fold['brier']),
             'brier_std': np.std(metrics_per_fold['brier']),
+            'split_source': split_info['source'],
             **test_results
         }
 
@@ -265,7 +282,7 @@ def run_experiments():
 
         for task in TASKS:
             labels_df = loader.get_task_label(task)
-            if task != 'mortality' and 'label_mortality' in loader.cohort.columns:
+            if EXCLUDE_MORTALITY_FOR_NON_MORTALITY_TASKS and task != 'mortality' and 'label_mortality' in loader.cohort.columns:
                 labels_df = labels_df.merge(
                     loader.cohort[['stay_id', 'label_mortality']],
                     on='stay_id',
@@ -278,7 +295,7 @@ def run_experiments():
                 df = features_df[features_df['stay_id'].isin(cohort_ids)].merge(
                     labels_df, on='stay_id'
                 )
-                if task != 'mortality' and 'label_mortality' in df.columns:
+                if EXCLUDE_MORTALITY_FOR_NON_MORTALITY_TASKS and task != 'mortality' and 'label_mortality' in df.columns:
                     df = df[df['label_mortality'] != 1]
                 df = df[df['label'].notna()]
 
@@ -298,7 +315,7 @@ def run_experiments():
                     print(f"  n={len(df)}, pos={y.sum()} ({y.mean()*100:.1f}%)")
 
                     trainer = ModelTrainer(model_name)
-                    results = trainer.train_and_evaluate(X, y, groups)
+                    results = trainer.train_and_evaluate(X, y, groups, df['stay_id'].values)
 
                     result_row = {
                         'window': window,
@@ -352,12 +369,12 @@ def run_experiments():
 def generate_report(results_df):
     """生成benchmark报告"""
 
-    report = """# Benchmark Results
+    report = f"""# Benchmark Results
 
 ## Overview
 
 Experiments across:
-- Time Windows: 6h, 12h, 24h
+- Time Windows: {', '.join(WINDOWS)}
 - Tasks: Mortality, Prolonged LOS
 - Cohorts: All, Sepsis, AKI
 - Models: Logistic Regression, XGBoost
@@ -372,8 +389,9 @@ Experiments across:
             continue
 
         report += f"\n### {task.replace('_', ' ').title()}\n\n"
-        report += "| Cohort | Model | 6h | 12h | 24h |\n"
-        report += "|--------|-------|-----|------|-----|\n"
+        header_cols = " | ".join(WINDOWS)
+        report += f"| Cohort | Model | {header_cols} |\n"
+        report += f"|--------|-------|{'|'.join(['-----'] * len(WINDOWS))}|\n"
 
         for cohort in COHORTS:
             for model in MODELS:
@@ -387,7 +405,8 @@ Experiments across:
                     else:
                         aurocs[window] = "-"
 
-                report += f"| {cohort} | {model} | {aurocs.get('6h', '-')} | {aurocs.get('12h', '-')} | {aurocs.get('24h', '-')} |\n"
+                values = " | ".join([aurocs.get(w, '-') for w in WINDOWS])
+                report += f"| {cohort} | {model} | {values} |\n"
 
     report_path = OUTPUT_DIR / 'benchmark_report.md'
     with open(report_path, 'w') as f:

@@ -566,7 +566,135 @@ CRITICAL_PATTERNS = DiseasePatternSet(
 )
 
 # ==========================================
-# 6. 所有模式的注册表
+# 6. Stroke模式模板 (基于AHA/ASA急性卒中指南)
+# ==========================================
+
+STROKE_PATTERNS = DiseasePatternSet(
+    disease="Stroke",
+    clinical_standard="AHA/ASA Acute Ischemic Stroke Guidelines",
+    reference="Neurologic deficit proxies + hemodynamic instability in early ICU window; PMID: 31662037",
+    patterns=[
+        PatternTemplate(
+            name="neurologic_decline",
+            pattern_type=PatternType.THRESHOLD,
+            feature="gcs",
+            threshold=14,
+            direction=Direction.BELOW,
+            unit="score",
+            description="Neurologic decline proxy: GCS < 14",
+            clinical_source="AHA/ASA neurologic assessment in acute stroke",
+            severity="moderate",
+            reference_pmid="31662037",
+            evidence_level="guideline"
+        ),
+        PatternTemplate(
+            name="severe_neurologic_impairment",
+            pattern_type=PatternType.THRESHOLD,
+            feature="gcs",
+            threshold=8,
+            direction=Direction.BELOW,
+            unit="score",
+            description="Severe neurologic impairment proxy: GCS <= 8",
+            clinical_source="Acute stroke critical-care escalation threshold",
+            severity="severe",
+            reference_pmid="31662037",
+            evidence_level="guideline"
+        ),
+        PatternTemplate(
+            name="stroke_hypertensive_crisis",
+            pattern_type=PatternType.THRESHOLD,
+            feature="sbp",
+            threshold=180,
+            direction=Direction.ABOVE,
+            unit="mmHg",
+            description="Severe hypertension in stroke context: SBP > 180 mmHg",
+            clinical_source="AHA/ASA BP management threshold in acute stroke",
+            severity="severe",
+            reference_pmid="31662037",
+            evidence_level="guideline"
+        ),
+        PatternTemplate(
+            name="stroke_hypoxemia",
+            pattern_type=PatternType.THRESHOLD,
+            feature="spo2",
+            threshold=94,
+            direction=Direction.BELOW,
+            unit="%",
+            description="Hypoxemia during stroke care: SpO2 < 94%",
+            clinical_source="Neurocritical care oxygenation target",
+            severity="moderate",
+            reference_pmid="31662037",
+            evidence_level="guideline"
+        ),
+    ]
+)
+
+# ==========================================
+# 7. Delirium模式模板 (基于ICU Delirium指南)
+# ==========================================
+
+DELIRIUM_PATTERNS = DiseasePatternSet(
+    disease="Delirium",
+    clinical_standard="PADIS Delirium Guidelines (SCCM 2018)",
+    reference="Acute mental-status change proxies and precipitating physiology in ICU; PMID: 30113379",
+    patterns=[
+        PatternTemplate(
+            name="acute_mental_status_change",
+            pattern_type=PatternType.THRESHOLD,
+            feature="gcs",
+            threshold=14,
+            direction=Direction.BELOW,
+            unit="score",
+            description="Acute mental-status change proxy: GCS < 14",
+            clinical_source="Delirium screening proxy in ICU",
+            severity="moderate",
+            reference_pmid="30113379",
+            evidence_level="guideline"
+        ),
+        PatternTemplate(
+            name="delirium_autonomic_stress",
+            pattern_type=PatternType.THRESHOLD,
+            feature="heart_rate",
+            threshold=100,
+            direction=Direction.ABOVE,
+            unit="bpm",
+            description="Autonomic stress during possible delirium: heart rate > 100 bpm",
+            clinical_source="ICU delirium precipitating physiology",
+            severity="mild",
+            reference_pmid="30113379",
+            evidence_level="observational"
+        ),
+        PatternTemplate(
+            name="delirium_hypoxemia",
+            pattern_type=PatternType.THRESHOLD,
+            feature="spo2",
+            threshold=92,
+            direction=Direction.BELOW,
+            unit="%",
+            description="Hypoxemia as delirium precipitant: SpO2 < 92%",
+            clinical_source="Delirium risk-factor physiology in ICU",
+            severity="moderate",
+            reference_pmid="30113379",
+            evidence_level="observational"
+        ),
+        PatternTemplate(
+            name="delirium_fever_trigger",
+            pattern_type=PatternType.THRESHOLD,
+            feature="temperature",
+            threshold=38.0,
+            direction=Direction.ABOVE,
+            unit="°C",
+            description="Infectious trigger proxy for delirium: temperature > 38.0°C",
+            clinical_source="Delirium precipitating factors in critical care",
+            severity="mild",
+            reference_pmid="30113379",
+            evidence_level="observational"
+        ),
+    ]
+)
+
+# ==========================================
+# 8. 所有模式的注册表
 # ==========================================
 
 PATTERN_REGISTRY = {
@@ -574,6 +702,8 @@ PATTERN_REGISTRY = {
     "aki": AKI_PATTERNS,
     "ards": ARDS_PATTERNS,
     "critical": CRITICAL_PATTERNS,
+    "stroke": STROKE_PATTERNS,
+    "delirium": DELIRIUM_PATTERNS,
 }
 
 def get_all_patterns() -> Dict[str, DiseasePatternSet]:

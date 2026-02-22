@@ -1,79 +1,458 @@
 {
-  "schema": "TIMELY-Bench-FINAL-AUDIT/2.0",
-  "generated_at": "2026-02-01T21:03:40.801975+00:00",
-  "closure_fix_run_id": "closure_20260201_191928",
-  "verdict": "PASS",
-  "canonical_anchors": {
-    "total": 10,
-    "all_exist": true,
-    "details": [
-      {
-        "label": "temporal_textual_alignment",
-        "canonical_path": "data/processed/temporal_textual_alignment.csv",
-        "exists": true,
-        "is_symlink": true,
-        "size_bytes": 1161082122
-      },
-      {
-        "label": "disease_timelines_full",
-        "canonical_path": "data/processed/disease_timelines_full.json",
-        "exists": true,
-        "is_symlink": true,
-        "size_bytes": 29015661
-      },
-      {
-        "label": "MASTER_DELIVERY_AUDIT.md",
-        "canonical_path": "final_release/MASTER_DELIVERY_AUDIT.md",
-        "exists": true
-      },
-      {
-        "label": "RELEASE_AUDIT_REPORT.md",
-        "canonical_path": "final_release/RELEASE_AUDIT_REPORT.md",
-        "exists": true
-      },
-      {
-        "label": "manifest.json",
-        "canonical_path": "final_release/manifest.json",
-        "exists": true
-      },
-      {
-        "label": "PROVENANCE.json",
-        "canonical_path": "final_release/PROVENANCE.json",
-        "exists": true
-      },
-      {
-        "label": "evidence/evidence_validity_deepseek_v2_20260127_151413.json",
-        "canonical_path": "final_release/evidence/evidence_validity_deepseek_v2_20260127_151413.json",
-        "exists": true
-      },
-      {
-        "label": "llm_annotations/ANNOTATION_METADATA_deepseek_20260127_151413.json",
-        "canonical_path": "final_release/llm_annotations/ANNOTATION_METADATA_deepseek_20260127_151413.json",
-        "exists": true
-      },
-      {
-        "label": "llm_annotations/annotations_deepseek_20260127_151413_part0001.jsonl",
-        "canonical_path": "final_release/llm_annotations/annotations_deepseek_20260127_151413_part0001.jsonl",
-        "exists": true
-      },
-      {
-        "label": "llm_annotations/annotations_deepseek_20260127_151413_part0001_audited.jsonl",
-        "canonical_path": "final_release/llm_annotations/annotations_deepseek_20260127_151413_part0001_audited.jsonl",
-        "exists": true
+  "audit_timestamp": "2026-02-20T19:31:02.781141",
+  "audit_version": "final_delivery_v1",
+  "sections": {
+    "canonical_anchors": {
+      "audit_timestamp": "2026-02-20T19:30:32.509664",
+      "audit_version": "final_delivery_v1",
+      "files": [
+        {
+          "canonical_path": "final_release/manifest.json",
+          "exists": true,
+          "sha256": "13e9ff09b59c76620d0798feeee283e47284c7119b437c3468dba5c609cfecfa",
+          "size_bytes": 39603,
+          "mtime": "2026-02-20T19:20:19.226619"
+        },
+        {
+          "canonical_path": "final_release/PROVENANCE.json",
+          "exists": true,
+          "sha256": "e2ee903e958700198ea6f0d33a26394051e488eb2f80b6d2879bb058dc4de757",
+          "size_bytes": 4927,
+          "mtime": "2026-02-20T19:20:18.716003"
+        },
+        {
+          "canonical_path": "final_release/RELEASE_AUDIT_REPORT.md",
+          "exists": true,
+          "sha256": "b56eac5352e45b5dbcbd45848a7a9b5b261cf3f6ee948b7acdd573ddc3a9452e",
+          "size_bytes": 791,
+          "mtime": "2026-02-20T19:18:50.748389"
+        },
+        {
+          "canonical_path": "final_release/MASTER_DELIVERY_AUDIT.md",
+          "exists": true,
+          "sha256": "53b6f445bdfac11fc56a10bc39be08ebbb6a2d3f03e06e3b19268d6e4d88c8ad",
+          "size_bytes": 1569,
+          "mtime": "2026-02-20T19:18:59.789421"
+        },
+        {
+          "canonical_path": "final_release/ALIGNMENT_PROTOCOL_CARD.md",
+          "exists": true,
+          "sha256": "8f1dc3cf34f99c8bbd459a44f91715e357a35e3f03498c5a09d9610d9504b01d",
+          "size_bytes": 5186,
+          "mtime": "2026-02-20T19:20:14.495269"
+        },
+        {
+          "canonical_path": "final_release/results_summary.csv",
+          "exists": true,
+          "sha256": "26203cc418296d890079c66d8521d487b732668d41c675603dfb8adeedc34f3a",
+          "size_bytes": 20734,
+          "mtime": "2026-02-20T19:20:14.499745"
+        },
+        {
+          "canonical_path": "final_release/results_summary.md",
+          "exists": true,
+          "sha256": "ffcf1e02c03d0a4b982ae3fbb413b186898294ba195f7fac290f9d75a157f32d",
+          "size_bytes": 10636,
+          "mtime": "2026-02-20T19:20:14.500112"
+        },
+        {
+          "canonical_path": "results/standardized/results_summary.csv",
+          "exists": true,
+          "sha256": "26203cc418296d890079c66d8521d487b732668d41c675603dfb8adeedc34f3a",
+          "size_bytes": 20734,
+          "mtime": "2026-02-20T17:24:27.640917"
+        },
+        {
+          "canonical_path": "results/standardized/results_summary.md",
+          "exists": true,
+          "sha256": "ffcf1e02c03d0a4b982ae3fbb413b186898294ba195f7fac290f9d75a157f32d",
+          "size_bytes": 10636,
+          "mtime": "2026-02-20T17:24:27.646302"
+        },
+        {
+          "canonical_path": "results/standardized/permutation_structured_mortality.json",
+          "exists": true,
+          "sha256": "66ea076051584202385353637c4cde89e0f91e0be2fd34fa8658dd0b322c72db",
+          "size_bytes": 2736,
+          "mtime": "2026-02-04T01:06:13"
+        },
+        {
+          "canonical_path": "results/standardized/late_fusion_sanity_xgb.json",
+          "exists": true,
+          "sha256": "8fe7b44585e36d41d3b76f78730d675cf6b6fe8f4ef290781f47537c60b26a38",
+          "size_bytes": 2840,
+          "mtime": "2026-02-20T16:25:57.744019"
+        },
+        {
+          "canonical_path": "data/processed/temporal_textual_alignment.csv",
+          "exists": false
+        },
+        {
+          "canonical_path": "data/processed/disease_timelines_full.json",
+          "exists": false
+        },
+        {
+          "canonical_path": "final_release/llm_annotations/llm_annotation_set.csv",
+          "exists": true,
+          "sha256": "bd9bee6934c391db73896d269c277f54007f027dc5b53013628e065448021b86",
+          "size_bytes": 229311,
+          "mtime": "2026-02-20T19:20:18.698587"
+        },
+        {
+          "canonical_path": "final_release/llm_annotations/ANNOTATION_METADATA.json",
+          "exists": true,
+          "sha256": "3c0197c412c951068e0517721e9eb92c7b9d16416c595e2e716cac583523f449",
+          "size_bytes": 990,
+          "mtime": "2026-02-20T19:20:18.755876"
+        },
+        {
+          "canonical_path": "final_release/llm_annotations/ANNOTATION_METADATA_deepseek.json",
+          "exists": true,
+          "sha256": "2c6d66cab90191076be087202a0d3c2cc79f1a4e47b1585a90460c8ed71e0f90",
+          "size_bytes": 1965,
+          "mtime": "2026-02-20T19:20:18.756169"
+        },
+        {
+          "canonical_path": "final_release/llm_annotations/evidence_validity_deepseek_v2.json",
+          "exists": false
+        },
+        {
+          "canonical_path": "final_release/evidence/nursing_duplicates_summary.json",
+          "exists": true,
+          "sha256": "512c3257c15cceeb955b80335564ec16fbee3cdf7109150915f4d3bbf9456a8e",
+          "size_bytes": 19114,
+          "mtime": "2026-02-20T19:20:18.742560"
+        },
+        {
+          "canonical_path": "final_release/evidence/discharge_audit_report.json",
+          "exists": true,
+          "sha256": "f5448cd3d62b6e728e078d9ffdd1a77052e951985005bbf2ce9ab77d0b83dee0",
+          "size_bytes": 711,
+          "mtime": "2026-02-20T19:20:18.734986"
+        },
+        {
+          "canonical_path": "final_release/evidence/episodes_integrity_report.md",
+          "exists": true,
+          "sha256": "2b2df5b9c31b745d37b7e47a6c11503de7fdee1a99d68f662102c7fc0b897b09",
+          "size_bytes": 5167,
+          "mtime": "2026-01-29T00:50:04"
+        },
+        {
+          "canonical_path": "final_release/cres/cres_dataset_manifest.json",
+          "exists": true,
+          "sha256": "7aa615cef44c335988d49b5e10773fc311d7e539efe8edc41a795c5a788d5a46",
+          "size_bytes": 1397,
+          "mtime": "2026-02-20T19:20:18.765801"
+        },
+        {
+          "canonical_path": "final_release/cres/cres_eval_summary.json",
+          "exists": true,
+          "sha256": "ec2867ba209e15763486e41552ce66b36468ab43a5e271b48dae7cfc7f1e240c",
+          "size_bytes": 1451,
+          "mtime": "2026-02-20T19:20:18.782932"
+        }
+      ],
+      "episode_files": {
+        "directory": "episodes/episodes_enhanced",
+        "total_files": 74829,
+        "sample_filenames": [
+          "TIMELY_v2_30000153.json",
+          "TIMELY_v2_30000213.json",
+          "TIMELY_v2_30000484.json",
+          "TIMELY_v2_30000646.json",
+          "TIMELY_v2_30000831.json"
+        ]
       }
-    ]
-  },
-  "deepseek_canonical_run": {
-    "canonical_run_id": "20260127_151413",
-    "model": "deepseek-chat",
-    "n_records": 900,
-    "quote_valid_rate": 0.8078,
-    "jsonl_exists": true,
-    "audited_exists": true,
-    "jsonl_lines": 900,
-    "audited_lines": 900
-  },
-  "qa_gate": "PASS",
-  "subject_leakage": "PASS",
-  "opt_in_isolation": "PASS"
+    },
+    "episodes_integrity": {
+      "audit_timestamp": "2026-02-20T19:30:34.152577",
+      "total_episode_files": 74829,
+      "sampled_episodes": 3000,
+      "discharge_notes_count": 0,
+      "total_notes": 280460,
+      "note_type_distribution": {
+        "radiology": 3379,
+        "nursing": 273087,
+        "lab_comment": 3994
+      },
+      "note_hour_stats": {
+        "min": 0,
+        "max": 23
+      },
+      "labels_coverage": {
+        "outcome.mortality": 3000,
+        "outcome.prolonged_los": 3000,
+        "outcome.readmission_30d": 2659,
+        "process.sepsis_onset_hour": 2989,
+        "process.aki_onset_hour": 2941,
+        "process.aki_stage_max": 2941,
+        "process.first_severe_pattern_hour": 2342,
+        "has_sepsis": 3000,
+        "has_aki": 3000,
+        "has_ards": 3000,
+        "process.ards_onset_hour": 1044
+      },
+      "parse_errors": [],
+      "unique_stay_id_count": 3000,
+      "unique_subject_id_count": 2930
+    },
+    "nursing_duplicates": {
+      "audit_timestamp": "2026-02-20T19:30:48.312600",
+      "sampled_episodes": 5000,
+      "total_nursing_notes": 454050,
+      "unique_nursing_notes": 222,
+      "duplicate_rate_percent": 99.95,
+      "top_50_duplicates": [
+        {
+          "text_preview": "SR (Sinus Rhythm)",
+          "count": 67409
+        },
+        {
+          "text_preview": "Full resistance",
+          "count": 42645
+        },
+        {
+          "text_preview": "Obeys Commands",
+          "count": 26503
+        },
+        {
+          "text_preview": "Some resistance",
+          "count": 22233
+        },
+        {
+          "text_preview": "Spontaneously",
+          "count": 21426
+        },
+        {
+          "text_preview": "Patient Verbalized",
+          "count": 20733
+        },
+        {
+          "text_preview": "Consistently",
+          "count": 19052
+        },
+        {
+          "text_preview": "ST (Sinus Tachycardia)",
+          "count": 18793
+        },
+        {
+          "text_preview": "No response",
+          "count": 12340
+        },
+        {
+          "text_preview": "AF (Atrial Fibrillation)",
+          "count": 11515
+        },
+        {
+          "text_preview": "No Response-ETT",
+          "count": 11138
+        },
+        {
+          "text_preview": "Normal strength",
+          "count": 11065
+        },
+        {
+          "text_preview": "Nasal cannula",
+          "count": 10061
+        },
+        {
+          "text_preview": "Endotracheal tube",
+          "count": 9420
+        },
+        {
+          "text_preview": "Wiggle toes",
+          "count": 7660
+        },
+        {
+          "text_preview": "Lifts against gravity, no resistance",
+          "count": 6794
+        },
+        {
+          "text_preview": "Lifts and Holds",
+          "count": 6332
+        },
+        {
+          "text_preview": "Moves on Bed",
+          "count": 5977
+        },
+        {
+          "text_preview": "SB (Sinus Bradycardia)",
+          "count": 5656
+        },
+        {
+          "text_preview": "Intubated/trached",
+          "count": 5525
+        },
+        {
+          "text_preview": "Soft Distended",
+          "count": 5303
+        },
+        {
+          "text_preview": "Movement, but not against gravity",
+          "count": 5125
+        },
+        {
+          "text_preview": "Stick out tongue",
+          "count": 5037
+        },
+        {
+          "text_preview": "Non-verbal Cues",
+          "count": 4978
+        },
+        {
+          "text_preview": "Oriented x3",
+          "count": 4232
+        },
+        {
+          "text_preview": "Year, month, & day",
+          "count": 4216
+        },
+        {
+          "text_preview": "Localizes Pain",
+          "count": 3931
+        },
+        {
+          "text_preview": "Clean and Dry",
+          "count": 3864
+        },
+        {
+          "text_preview": "CMV/ASSIST/AutoFlow",
+          "count": 3728
+        },
+        {
+          "text_preview": "Unable to Assess",
+          "count": 3413
+        },
+        {
+          "text_preview": "Change in Vitals",
+          "count": 2810
+        },
+        {
+          "text_preview": "No Movement",
+          "count": 2761
+        },
+        {
+          "text_preview": "Non-reactive",
+          "count": 2652
+        },
+        {
+          "text_preview": "Show a thumb up",
+          "count": 2514
+        },
+        {
+          "text_preview": "Dry Sterile Dressing",
+          "count": 2457
+        },
+        {
+          "text_preview": "Inconsistently",
+          "count": 2282
+        },
+        {
+          "text_preview": "Flex-withdraws",
+          "count": 2201
+        },
+        {
+          "text_preview": "1st AV (First degree AV Block)",
+          "count": 2175
+        },
+        {
+          "text_preview": "No movement",
+          "count": 2142
+        },
+        {
+          "text_preview": "Non-Distended",
+          "count": 1978
+        },
+        {
+          "text_preview": "No Response",
+          "count": 1780
+        },
+        {
+          "text_preview": "Appropriate",
+          "count": 1696
+        },
+        {
+          "text_preview": "Oral Center",
+          "count": 1639
+        },
+        {
+          "text_preview": "Arouse to Voice",
+          "count": 1518
+        },
+        {
+          "text_preview": "Lifts/falls back",
+          "count": 1487
+        },
+        {
+          "text_preview": "Show 2 fingers",
+          "count": 1453
+        },
+        {
+          "text_preview": "Abnormal flexion",
+          "count": 1446
+        },
+        {
+          "text_preview": "Grimace Scale",
+          "count": 1444
+        },
+        {
+          "text_preview": "Non-purposeful",
+          "count": 1411
+        },
+        {
+          "text_preview": "Aerosol-cool",
+          "count": 1363
+        }
+      ],
+      "unique_per_stay_stats": {
+        "mean": 14.86,
+        "min": 4,
+        "max": 36,
+        "stays_with_nursing": 4997
+      }
+    },
+    "deepseek_canonical_run": {
+      "audit_timestamp": "2026-02-20T19:31:02.756964",
+      "deepseek_annotation_files": [
+        {
+          "filename": "annotations_deepseek_20260127_151413_part0001.jsonl",
+          "path": "final_release/llm_annotations/annotations_deepseek_20260127_151413_part0001.jsonl",
+          "size_bytes": 802390,
+          "sha256": "2c06f4564f8ee96b0a1dd14ff7363ffa688b45d17e52612cd7e300ff185acbb1",
+          "annotation_count": 900
+        },
+        {
+          "filename": "annotations_deepseek_20260127_151413_part0001_audited.jsonl",
+          "path": "final_release/llm_annotations/annotations_deepseek_20260127_151413_part0001_audited.jsonl",
+          "size_bytes": 580819,
+          "sha256": "486b14173cc42846413bf9cfeba908fee6eb8ef0bf694fe1f3410ba947937174",
+          "annotation_count": 900
+        }
+      ],
+      "total_annotations": 1800,
+      "note_type_distribution": {
+        "nursing": 600,
+        "radiology": 600,
+        "lab_comment": 600
+      },
+      "unique_stay_id_count": 426
+    },
+    "discharge_presence": {
+      "audit_timestamp": "2026-02-20T19:30:48.362025",
+      "files_checked": {
+        "episodes_enhanced": {
+          "exists": true,
+          "sampled_files": 1000,
+          "total_files": 74829,
+          "discharge_count": 0
+        },
+        "deepseek_annotations": {
+          "exists": true,
+          "total_files": 2,
+          "discharge_count": 0
+        }
+      },
+      "total_discharge_count": 0
+    }
+  }
 }

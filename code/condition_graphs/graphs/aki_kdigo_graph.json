@@ -7,12 +7,14 @@
     {
       "id": "condition_aki",
       "type": "condition",
+      "domain": "condition",
       "label": "AKI",
       "source": "KDIGO AKI Guidelines (Kidney International Supplements 2012)"
     },
     {
       "id": "struct_creatinine_creatinine_elevated",
       "type": "structured_indicator",
+      "domain": "lab_marker",
       "label": "creatinine Elevated creatinine: > 1.2 mg/dL (upper normal limit)",
       "feature": "creatinine",
       "threshold": 1.2,
@@ -24,6 +26,7 @@
     {
       "id": "pattern_creatinine_elevated",
       "type": "pattern_event",
+      "domain": "lab_marker",
       "label": "creatinine_elevated",
       "severity": "mild",
       "source": "KDIGO AKI Guidelines 2012"
@@ -31,12 +34,14 @@
     {
       "id": "text_creatinine_elevated",
       "type": "text_evidence",
+      "domain": "text_evidence",
       "label": "text evidence for creatinine_elevated",
       "source": "temporal_textual_alignment"
     },
     {
       "id": "struct_creatinine_creatinine_severe",
       "type": "structured_indicator",
+      "domain": "lab_marker",
       "label": "creatinine Severe creatinine elevation: >= 4.0 mg/dL (Stage 3 AKI)",
       "feature": "creatinine",
       "threshold": 4.0,
@@ -48,6 +53,7 @@
     {
       "id": "pattern_creatinine_severe",
       "type": "pattern_event",
+      "domain": "lab_marker",
       "label": "creatinine_severe",
       "severity": "severe",
       "source": "KDIGO Stage 3 (\u22654.0 mg/dL or initiation of RRT)"
@@ -55,12 +61,14 @@
     {
       "id": "text_creatinine_severe",
       "type": "text_evidence",
+      "domain": "text_evidence",
       "label": "text evidence for creatinine_severe",
       "source": "temporal_textual_alignment"
     },
     {
       "id": "struct_creatinine_creatinine_rise_acute",
       "type": "structured_indicator",
+      "domain": "lab_marker",
       "label": "creatinine Acute creatinine rise: increase >= 0.3 mg/dL within 24h (aligned to 0-24h window)",
       "feature": "creatinine",
       "threshold": 0.3,
@@ -72,6 +80,7 @@
     {
       "id": "pattern_creatinine_rise_acute",
       "type": "pattern_event",
+      "domain": "lab_marker",
       "label": "creatinine_rise_acute",
       "severity": "moderate",
       "source": "KDIGO Stage 1 (window adapted to 24h for strict 0-24h benchmark)"
@@ -79,12 +88,14 @@
     {
       "id": "text_creatinine_rise_acute",
       "type": "text_evidence",
+      "domain": "text_evidence",
       "label": "text evidence for creatinine_rise_acute",
       "source": "temporal_textual_alignment"
     },
     {
       "id": "struct_bun_bun_elevated",
       "type": "structured_indicator",
+      "domain": "lab_marker",
       "label": "bun Elevated BUN: > 20 mg/dL (upper normal limit: 7-20 mg/dL)",
       "feature": "bun",
       "threshold": 20,
@@ -96,6 +107,7 @@
     {
       "id": "pattern_bun_elevated",
       "type": "pattern_event",
+      "domain": "lab_marker",
       "label": "bun_elevated",
       "severity": "mild",
       "source": "Lab reference range (Mayo Clinic)"
@@ -103,12 +115,14 @@
     {
       "id": "text_bun_elevated",
       "type": "text_evidence",
+      "domain": "text_evidence",
       "label": "text evidence for bun_elevated",
       "source": "temporal_textual_alignment"
     },
     {
       "id": "struct_bun_bun_severe",
       "type": "structured_indicator",
+      "domain": "lab_marker",
       "label": "bun Severe BUN elevation: > 40 mg/dL (>2x upper normal)",
       "feature": "bun",
       "threshold": 40,
@@ -120,6 +134,7 @@
     {
       "id": "pattern_bun_severe",
       "type": "pattern_event",
+      "domain": "lab_marker",
       "label": "bun_severe",
       "severity": "severe",
       "source": "Clinical marker of severe renal dysfunction"
@@ -127,12 +142,14 @@
     {
       "id": "text_bun_severe",
       "type": "text_evidence",
+      "domain": "text_evidence",
       "label": "text evidence for bun_severe",
       "source": "temporal_textual_alignment"
     },
     {
       "id": "struct_urineoutput_oliguria",
       "type": "structured_indicator",
+      "domain": "symptom",
       "label": "urineoutput Oliguria: urine output < 500 mL/day (KDIGO: <0.5mL/kg/h for 6h)",
       "feature": "urineoutput",
       "threshold": 500,
@@ -144,6 +161,7 @@
     {
       "id": "pattern_oliguria",
       "type": "pattern_event",
+      "domain": "symptom",
       "label": "oliguria",
       "severity": "moderate",
       "source": "KDIGO AKI Stage 1 urine output criterion"
@@ -151,12 +169,14 @@
     {
       "id": "text_oliguria",
       "type": "text_evidence",
+      "domain": "text_evidence",
       "label": "text evidence for oliguria",
       "source": "temporal_textual_alignment"
     },
     {
       "id": "struct_potassium_hyperkalemia",
       "type": "structured_indicator",
+      "domain": "lab_marker",
       "label": "potassium Hyperkalemia: K+ > 5.5 mEq/L",
       "feature": "potassium",
       "threshold": 5.5,
@@ -168,6 +188,7 @@
     {
       "id": "pattern_hyperkalemia",
       "type": "pattern_event",
+      "domain": "lab_marker",
       "label": "hyperkalemia",
       "severity": "severe",
       "source": "AKI complication; critical value"
@@ -175,12 +196,14 @@
     {
       "id": "text_hyperkalemia",
       "type": "text_evidence",
+      "domain": "text_evidence",
       "label": "text evidence for hyperkalemia",
       "source": "temporal_textual_alignment"
     },
     {
       "id": "struct_bicarbonate_metabolic_acidosis",
       "type": "structured_indicator",
+      "domain": "lab_marker",
       "label": "bicarbonate Metabolic acidosis: bicarbonate < 22 mEq/L",
       "feature": "bicarbonate",
       "threshold": 22,
@@ -192,6 +215,7 @@
     {
       "id": "pattern_metabolic_acidosis",
       "type": "pattern_event",
+      "domain": "lab_marker",
       "label": "metabolic_acidosis",
       "severity": "moderate",
       "source": "AKI complication; normal range 22-28 mEq/L"
@@ -199,8 +223,48 @@
     {
       "id": "text_metabolic_acidosis",
       "type": "text_evidence",
+      "domain": "text_evidence",
       "label": "text evidence for metabolic_acidosis",
       "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_rrt_initiated",
+      "type": "structured_indicator",
+      "domain": "medication",
+      "label": "Renal replacement therapy initiated",
+      "feature": "rrt",
+      "threshold": 1,
+      "direction": "above",
+      "unit": "binary",
+      "severity": "critical",
+      "source": "KDIGO Stage 3 (initiation of RRT)"
+    },
+    {
+      "id": "pattern_rrt_initiated",
+      "type": "pattern_event",
+      "domain": "medication",
+      "label": "rrt_initiated",
+      "severity": "critical",
+      "source": "KDIGO Stage 3 (initiation of RRT)"
+    },
+    {
+      "id": "text_rrt_initiated",
+      "type": "text_evidence",
+      "domain": "text_evidence",
+      "label": "text evidence for RRT initiation",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "multi_ckd",
+      "type": "structured_indicator",
+      "domain": "multimorbidity",
+      "label": "Pre-existing chronic kidney disease (CKD)",
+      "feature": "ckd",
+      "threshold": 1,
+      "direction": "above",
+      "unit": "binary",
+      "severity": "moderate",
+      "source": "KDIGO AKI Guidelines (risk factor: CKD)"
     }
   ],
   "edges": [
@@ -395,6 +459,30 @@
       "target": "condition_aki",
       "relation": "aggregates",
       "evidence": "KDIGO AKI Guidelines (Kidney International Supplements 2012)"
+    },
+    {
+      "source": "struct_rrt_initiated",
+      "target": "pattern_rrt_initiated",
+      "relation": "triggers",
+      "evidence": "KDIGO Stage 3 criterion"
+    },
+    {
+      "source": "text_rrt_initiated",
+      "target": "pattern_rrt_initiated",
+      "relation": "supports",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "pattern_rrt_initiated",
+      "target": "condition_aki",
+      "relation": "aggregates",
+      "evidence": "KDIGO Stage 3"
+    },
+    {
+      "source": "multi_ckd",
+      "target": "condition_aki",
+      "relation": "contributes_to",
+      "evidence": "CKD increases AKI risk and affects recovery"
     }
   ],
   "sources": [
@@ -405,6 +493,6 @@
   ],
   "metadata": {
     "generated_by": "build_condition_graphs.py",
-    "generated_at": "2026-01-26T21:15:53"
+    "generated_at": "2026-02-08T20:24:15"
   }
 }

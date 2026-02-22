@@ -1,0 +1,11 @@
+{
+  "n_rows_raw": 3600,
+  "n_rows_valid": 3600,
+  "model_names": [
+    "deepseek-chat"
+  ],
+  "model_versions": [],
+  "prompt_shas": [
+    "b8a6205151d2626bb7582cb2fab7744c9c75748254dda8c5c5f30acf07626637"
+  ]
+}

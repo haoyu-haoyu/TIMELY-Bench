@@ -2,7 +2,7 @@
 # ============================
 # 完整的可复现自动化流程
 
-.PHONY: all install data baselines fusion gru eval verify clean help
+.PHONY: all install data baselines readmission fusion gru eval verify clean help
 
 # Python 解释器
 PYTHON = python3
@@ -10,6 +10,7 @@ PYTHON = python3
 # 目录
 CODE_DIR = code
 DATA_DIR = data/processed
+SPLITS_FILE = data/splits/predefined_splits.csv
 RESULTS_DIR = results
 EPISODES_DIR = episodes
 
@@ -38,13 +39,18 @@ install:
 # 数据处理
 # ==============================================================================
 
-data: splits patterns episodes
+data: splits windows patterns episodes
 	@echo "✅ Data processing completed!"
 
 # 生成固定的数据划分
 splits:
 	@echo "📊 Generating predefined splits..."
 	$(PYTHON) $(CODE_DIR)/data_processing/generate_predefined_splits.py
+
+# 生成多窗口特征 (6h/12h/24h/D0)
+windows:
+	@echo "⏱️ Building multi-window features..."
+	$(PYTHON) $(CODE_DIR)/data_processing/create_multi_window_data.py
 
 # 模式检测
 patterns:
@@ -62,9 +68,16 @@ episodes:
 
 # 表格基线 (XGBoost, LR)
 baselines:
-	@echo "🚀 Running tabular baselines..."
-	$(PYTHON) $(CODE_DIR)/baselines/train_tabular_baselines.py
-	@echo "✅ Tabular baselines completed"
+	@echo "🚀 Running canonical structured baselines (multi-window)..."
+	$(PYTHON) $(CODE_DIR)/baselines/run_baselines.py
+	@echo "✅ Structured baselines completed"
+
+# Readmission baseline
+readmission:
+	@echo "📦 Running readmission baselines..."
+	$(PYTHON) $(CODE_DIR)/baselines/train_readmission_baselines.py
+	$(PYTHON) $(CODE_DIR)/utils/standardize_results.py --step readmission
+	@echo "✅ Readmission baselines completed"
 
 # 仅文本基线
 text-only:
@@ -89,10 +102,9 @@ delta:
 	$(PYTHON) $(CODE_DIR)/baselines/train_with_delta_features.py
 	@echo "✅ Delta features completed"
 
-# 增强推理特征训练
-reasoning:
-	@echo "💡 Running enhanced reasoning experiments..."
-	$(PYTHON) $(CODE_DIR)/baselines/train_enhanced_reasoning.py
+# 增强推理特征训练（已并入 annotation-derived text-only baseline）
+reasoning: text-only
+	@echo "✅ reasoning target mapped to text-only (annotation-derived) baseline"
 
 # 对齐窗口对比
 aligner:
@@ -109,7 +121,8 @@ eval: calibration ablation
 # 校准评估
 calibration:
 	@echo "📏 Running calibration evaluation..."
-	$(PYTHON) $(CODE_DIR)/baselines/eval_calibration.py
+	$(PYTHON) $(CODE_DIR)/evaluation/run_calibration_evaluation.py
+	$(PYTHON) $(CODE_DIR)/evaluation/compute_fusion_calibration.py --no-plots
 
 # 笔记消融实验
 ablation:
@@ -125,7 +138,7 @@ verify:
 	@echo ""
 	@echo "--- Predefined Splits ---"
 	$(PYTHON) -c "import pandas as pd; \
-		df = pd.read_csv('$(DATA_DIR)/predefined_splits.csv'); \
+		df = pd.read_csv('$(SPLITS_FILE)'); \
 		print(df['split'].value_counts())"
 	@echo ""
 	@echo "--- Episodes Count ---"
@@ -140,8 +153,8 @@ verify:
 check-leakage:
 	@echo "🔒 Checking for data leakage..."
 	$(PYTHON) -c "import pandas as pd; \
-		splits = pd.read_csv('$(DATA_DIR)/predefined_splits.csv'); \
-		train_ids = set(splits[splits['split']=='train']['stay_id']); \
+		splits = pd.read_csv('$(SPLITS_FILE)'); \
+		train_ids = set(splits[splits['split']=='dev']['stay_id']); \
 		test_ids = set(splits[splits['split']=='test']['stay_id']); \
 		overlap = train_ids & test_ids; \
 		print(f'Train-Test overlap: {len(overlap)}'); \
@@ -178,16 +191,18 @@ help:
 	@echo "║                                                                  ║"
 	@echo "║  DATA                                                            ║"
 	@echo "║    make data         - Process all data (splits, patterns)       ║"
-	@echo "║    make splits       - Generate predefined train/val/test splits ║"
+	@echo "║    make splits       - Generate predefined dev/test + fold_id    ║"
+	@echo "║    make windows      - Build 6h/12h/24h/D0 feature windows       ║"
 	@echo "║    make patterns     - Run pattern detection                     ║"
 	@echo "║                                                                  ║"
 	@echo "║  TRAINING                                                        ║"
-	@echo "║    make baselines    - Run tabular baselines (XGBoost, LR)       ║"
+	@echo "║    make baselines    - Run canonical structured baselines         ║"
+	@echo "║    make readmission  - Run readmission baseline + standardize     ║"
 	@echo "║    make text-only    - Run text-only baselines                   ║"
 	@echo "║    make fusion       - Run fusion experiments                    ║"
 	@echo "║    make gru          - Run GRU temporal models                   ║"
 	@echo "║    make delta        - Run with delta features                   ║"
-	@echo "║    make reasoning    - Run enhanced reasoning features           ║"
+	@echo "║    make reasoning    - Alias of text-only baseline               ║"
 	@echo "║    make aligner      - Run alignment window comparison           ║"
 	@echo "║                                                                  ║"
 	@echo "║  EVALUATION                                                      ║"

@@ -35,6 +35,7 @@ python code/baselines/train_los_baselines.py
 echo ""
 echo "Running readmission baselines..."
 python code/baselines/train_readmission_baselines.py
+python code/utils/standardize_results.py --step readmission
 
 echo ""
 echo "Running enhanced feature ablation..."

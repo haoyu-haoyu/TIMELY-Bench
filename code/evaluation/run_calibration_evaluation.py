@@ -6,6 +6,9 @@ Run Calibration Evaluation for TIMELY-Bench
 - results/calibration/calibration_summary.json
 - results/calibration/calibration_summary.csv
 - results/calibration/reliability_diagrams/
+
+Notes:
+- 作业要求.md 里明确提到 calibration (ECE/HL)，因此这里会同时输出 HL 统计量。
 """
 
 import sys
@@ -60,9 +63,12 @@ def load_cohort() -> pd.DataFrame:
     if 'label_mortality' in df.columns and 'mortality' not in df.columns:
         df['mortality'] = df['label_mortality']
 
-    # 使用prolonged_los_3d作为默认的prolonged_los
-    if 'prolonged_los_3d' in df.columns and 'prolonged_los' not in df.columns:
-        df['prolonged_los'] = df['prolonged_los_3d']
+    # Prolonged LOS label: keep consistent with the benchmark definition (>7 days).
+    if 'prolonged_los' not in df.columns:
+        if 'prolonged_los_7d' in df.columns:
+            df['prolonged_los'] = df['prolonged_los_7d']
+        elif 'prolonged_los_3d' in df.columns:
+            df['prolonged_los'] = df['prolonged_los_3d']
 
     # 使用has_sepsis_final替代has_sepsis（如果存在）
     if 'has_sepsis_final' in df.columns:
@@ -198,7 +204,8 @@ def run_calibration_evaluation():
                         # 保存预测用于绘图
                         predictions_store[key] = (y_test, y_prob)
 
-                        print(f"    ECE={metrics['ece']:.4f}, Brier={metrics['brier_score']:.4f}")
+                        hl = metrics.get("hl_statistic", float("nan"))
+                        print(f"    ECE={metrics['ece']:.4f}, Brier={metrics['brier_score']:.4f}, HL={hl:.3f}")
 
                     except Exception as e:
                         print(f"    Error: {e}")
@@ -269,7 +276,7 @@ def run_calibration_evaluation():
         (results_df['window'] == '24h') &
         (results_df['task'] == 'mortality') &
         (results_df['cohort'] == 'all')
-    ][['model', 'ece', 'mce', 'brier_score', 'n_test']]
+    ][['model', 'ece', 'mce', 'brier_score', 'hl_statistic', 'hl_p_value', 'n_test']]
     print(summary.to_string(index=False))
 
     return results_df

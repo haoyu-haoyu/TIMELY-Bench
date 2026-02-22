@@ -377,6 +377,107 @@ HF_COMPENSATION_TRAJECTORY = CanonicalTrajectory(
     features_monitored=["bnp", "sbp", "heart_rate", "spo2", "creatinine", "urine_output"]
 )
 
+# ============================================================
+# Delirium / Stroke Trajectories (MHaPS exemplar conditions)
+# ============================================================
+
+DELIRIUM_FLUCTUATION_TRAJECTORY = CanonicalTrajectory(
+    condition="Delirium",
+    trajectory_type=TrajectoryType.OSCILLATING,
+    phases=[
+        TrajectoryPhase(
+            name="onset_phase",
+            duration_hours=(0, 8),
+            expected_direction="worsening",
+            key_features=["gcs", "heart_rate", "resp_rate"],
+            expected_values={
+                "gcs": (10, 14),
+                "heart_rate": (90, 130),
+                "resp_rate": (18, 28),
+            },
+            description="Acute attention/cognition fluctuation with autonomic instability",
+        ),
+        TrajectoryPhase(
+            name="fluctuation_phase",
+            duration_hours=(8, 24),
+            expected_direction="stable",
+            key_features=["gcs", "sleep_wake_disturbance", "agitation_score"],
+            expected_values={
+                "gcs": (9, 15),
+                "heart_rate": (80, 130),
+                "temperature": (36.0, 38.5),
+            },
+            description="Typical waxing-waning course within the first ICU day",
+        ),
+        TrajectoryPhase(
+            name="partial_reorientation",
+            duration_hours=(24, 72),
+            expected_direction="improving",
+            key_features=["gcs", "heart_rate", "spo2"],
+            expected_values={
+                "gcs": (12, 15),
+                "heart_rate": (75, 110),
+                "spo2": (92, 100),
+            },
+            description="Improvement after trigger management and non-pharmacologic interventions",
+        ),
+    ],
+    probability=0.45,
+    clinical_significance="Represents fluctuating ICU delirium trajectory requiring serial reassessment",
+    reference="DSM-5 delirium criteria; ICU delirium practice guidance",
+    expected_outcome="prolonged_stay",
+    features_monitored=["gcs", "heart_rate", "resp_rate", "temperature", "spo2"],
+)
+
+STROKE_DETERIORATION_TRAJECTORY = CanonicalTrajectory(
+    condition="Stroke",
+    trajectory_type=TrajectoryType.WORSENING,
+    phases=[
+        TrajectoryPhase(
+            name="hyperacute_phase",
+            duration_hours=(0, 6),
+            expected_direction="worsening",
+            key_features=["gcs", "sbp", "dbp", "spo2"],
+            expected_values={
+                "gcs": (11, 15),
+                "sbp": (140, 210),
+                "dbp": (80, 120),
+                "spo2": (90, 98),
+            },
+            description="Early neurologic deficit with blood-pressure lability",
+        ),
+        TrajectoryPhase(
+            name="early_deterioration",
+            duration_hours=(6, 24),
+            expected_direction="worsening",
+            key_features=["gcs", "pupil_asymmetry", "sbp"],
+            expected_values={
+                "gcs": (6, 12),
+                "sbp": (150, 220),
+                "spo2": (88, 96),
+            },
+            description="Neurologic worsening due to edema, extension, or secondary injury",
+        ),
+        TrajectoryPhase(
+            name="critical_phase",
+            duration_hours=(24, 72),
+            expected_direction="worsening",
+            key_features=["gcs", "resp_rate", "spo2"],
+            expected_values={
+                "gcs": (3, 10),
+                "resp_rate": (12, 30),
+                "spo2": (85, 95),
+            },
+            description="High-risk phase with potential airway compromise and poor prognosis",
+        ),
+    ],
+    probability=0.30,
+    clinical_significance="Captures acute neurological decline trajectory in severe stroke",
+    reference="ESO stroke guidelines; acute neurological deterioration literature",
+    expected_outcome="mortality",
+    features_monitored=["gcs", "sbp", "dbp", "resp_rate", "spo2"],
+)
+
 
 # ============================================================
 # Registry of all trajectories
@@ -389,6 +490,8 @@ CANONICAL_TRAJECTORIES = {
     "aki_progression": AKI_PROGRESSION_TRAJECTORY,
     "ards_recovery": ARDS_RECOVERY_TRAJECTORY,
     "hf_compensation": HF_COMPENSATION_TRAJECTORY,
+    "delirium_fluctuation": DELIRIUM_FLUCTUATION_TRAJECTORY,
+    "stroke_deterioration": STROKE_DETERIORATION_TRAJECTORY,
 }
 
 
@@ -408,7 +511,9 @@ def export_trajectories_to_json(output_path: Path) -> None:
             "Surviving Sepsis Campaign Guidelines 2021 (PMID: 34599691)",
             "KDIGO AKI Guidelines 2012 (PMID: 22890468)",
             "Berlin Definition of ARDS 2012 (PMID: 22797452)",
-            "ESC Heart Failure Guidelines 2016 (PMID: 27206819)"
+            "ESC Heart Failure Guidelines 2016 (PMID: 27206819)",
+            "DSM-5 Delirium Criteria",
+            "ESO Stroke Guidelines 2008/updates"
         ]
     }
 

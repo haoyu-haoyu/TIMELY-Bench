@@ -10,38 +10,57 @@ This document describes the time-alignment protocols used in TIMELY-Bench to ali
 
 | Window ID | Description | Time Offset | Use Case |
 |-----------|-------------|-------------|----------|
-| **D0** | Same calendar day | Same day as pattern | Daily aggregated features |
-| **W6** | ±6 hours | charttime ± 6h | High temporal precision |
-| **W12** | ±12 hours | charttime ± 12h | Balanced precision/coverage |
-| **W24** | ±24 hours | charttime ± 24h | Maximum coverage |
+| **6h** | 6-hour observation horizon | ICU `intime` + [0h, 6h) | Earliest prediction, minimal data |
+| **12h** | 12-hour observation horizon | ICU `intime` + [0h, 12h) | Balanced precision/coverage |
+| **24h** | 24-hour observation horizon | ICU `intime` + [0h, 24h) | Primary benchmark window |
+| **D0** | Calendar-day (admission day) aligner | ICU `intime` + [0h, hours-to-midnight) | Canonical daily aligner (chartdate-style) |
+
+Note: 6h/12h/24h/D0 are all generated in the canonical feature pipeline (`code/data_processing/create_multi_window_data.py`) and consumed by structured baselines (`code/baselines/run_baselines.py`). D0 is also stress-tested in the dedicated aligner comparison (`code/baselines/train_aligner_comparison.py`).
 
 ---
 
 ## Alignment Algorithm
 
 ```
-For each (time-series observation, clinical note) pair:
-    1. Extract charttime from time-series record
-    2. Extract note_time from clinical note
-    3. Compute time_delta = |charttime - note_time|
-    4. If time_delta <= window_size:
-        - Mark as temporally aligned
-        - Extract relevant text segments
-        - Generate annotation (SUPPORTIVE/CONTRADICTORY/UNRELATED)
+Structured observation windowing (prediction features):
+    For each ICU stay:
+        1. Compute hour_offset relative to ICU admission (intime)
+        2. Keep time-series rows with 0 <= hour_offset < window_hours (6/12/24), or
+           use D0 cutoff 0 <= hour_offset < hours_to_midnight (calendar-day aligner)
+        3. Aggregate per-feature statistics (min/max/mean/first/last/std) + missingness + counts
+
+Pattern-text alignment (evidence extraction; causal):
+    For each detected pattern event at hour t:
+        1. Select notes with hour_offset in [t - 6h, t + 0h] (no lookahead)
+        2. Mark as temporally aligned (pattern-hour, note-hour)
+        3. Optionally annotate alignment as SUPPORTIVE / CONTRADICTORY / UNRELATED
 ```
 
 ---
 
-## Performance by Window Size
+## Performance by Window Size (Structured Baselines)
 
-| Window | Test AUROC | Coverage | n_alignments/episode |
-|--------|------------|----------|---------------------|
-| **D0** | 0.798 | ~50% | ~650 |
-| ±6h | 0.777 | 45% | ~520 |
-| ±12h | 0.800 | 72% | ~890 |
-| **±24h** | **0.833** | 100% | ~1,350 |
+These are the canonical structured-only baselines evaluated on the same patient-level split. Source: `results/standardized/structured_results.csv`.
 
-**Conclusion**: ±24h window provides best predictive performance. D0 (daily) offers a balance for aggregated features.
+### Mortality (All cohort; test set)
+
+| Window | Logistic Regression AUROC | XGBoost AUROC |
+|--------|---------------------------:|--------------:|
+| 6h | 0.7812 | 0.8091 |
+| 12h | 0.8141 | 0.8355 |
+| 24h | 0.8483 | 0.8693 |
+| D0 | 0.7908 | 0.8104 |
+
+**Conclusion**: within fixed-hour windows, longer context provides stronger performance (6h < 12h < 24h). D0 is a calendar-day protocol and is expected to fall between early and longer fixed-hour windows.
+
+### Canonical aligner comparison (MedCAT concept baseline; holdout test AUROC)
+
+| Aligner | Mortality | Prolonged LOS |
+|--------|----------:|--------------:|
+| 6h | 0.516 | 0.527 |
+| 12h | 0.530 | 0.535 |
+| 24h | 0.552 | 0.550 |
+| D0 | 0.523 | 0.528 |
 
 ---
 
@@ -73,8 +92,7 @@ Patterns are detected from time-series data using clinical thresholds:
 
 | Source | Method | Coverage | Precision |
 |--------|--------|----------|-----------|
-| **Rule-based** | Keyword + negation detection | 96% | ~70% |
-| **LLM (DeepSeek)** | Prompt-based reasoning | 4% | ~90% |
+| **Sparse audited subset** | Manual/LLM-assisted auditing of sampled items | Small curated set | Used for QC |
 
 ---
 
@@ -93,9 +111,8 @@ Patterns are detected from time-series data using clinical thresholds:
 
 | File | Size | Description |
 |------|------|-------------|
-| `temporal_textual_alignment.csv` | 47 GB | Full alignment matrix |
-| `smart_annotations_full.csv` | 6.9 GB | Pattern annotations |
-| `episodes_all/` | ~50 GB | 74,829 Episode JSONs |
+| `data/processed/temporal_alignment/temporal_textual_alignment.csv` | ~1.1 GB | Canonical alignment matrix (0-24h, discharge-excluded) |
+| `episodes/episodes_enhanced/` | large | 74,829 Episode JSONs |
 
 ---
 
@@ -121,7 +138,6 @@ python code/data_processing/batch_build_all_episodes.py
 
 ## Limitations
 
-1. **Window granularity**: 4 predefined windows tested (D0, ±6h, ±12h, ±24h)
-2. **Note timestamp accuracy**: Some notes have imprecise `charttime`
-3. **Pattern coverage**: Only 15 common patterns detected
-4. **Annotation noise**: Rule-based annotations may have false positives
+1. **Window granularity**: released benchmark windows are (6h, 12h, 24h, D0).
+2. **Note timestamp accuracy**: documentation time may lag observation time; this motivates explicit time-window alignment.
+3. **Annotation sparsity**: SUPPORTIVE/CONTRADICTORY labels are sparse in the released episodes; most alignments are unlabeled (null category).

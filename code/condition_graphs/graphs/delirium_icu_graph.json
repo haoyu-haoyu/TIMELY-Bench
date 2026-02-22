@@ -1,0 +1,231 @@
+{
+  "graph_name": "delirium_icu_graph.json",
+  "version": "v1",
+  "condition": "Delirium",
+  "description": "Acute mental-status change proxies and precipitating physiology in ICU; PMID: 30113379",
+  "nodes": [
+    {
+      "id": "condition_delirium",
+      "type": "condition",
+      "domain": "condition",
+      "label": "Delirium",
+      "source": "PADIS Delirium Guidelines (SCCM 2018)"
+    },
+    {
+      "id": "struct_gcs_acute_mental_status_change",
+      "type": "structured_indicator",
+      "domain": "symptom",
+      "label": "gcs Acute mental-status change proxy: GCS < 14",
+      "feature": "gcs",
+      "threshold": 14,
+      "direction": "below",
+      "unit": "score",
+      "severity": "moderate",
+      "source": "Delirium screening proxy in ICU"
+    },
+    {
+      "id": "pattern_acute_mental_status_change",
+      "type": "pattern_event",
+      "domain": "symptom",
+      "label": "acute_mental_status_change",
+      "severity": "moderate",
+      "source": "Delirium screening proxy in ICU"
+    },
+    {
+      "id": "text_acute_mental_status_change",
+      "type": "text_evidence",
+      "domain": "text_evidence",
+      "label": "text evidence for acute_mental_status_change",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_heart_rate_delirium_autonomic_stress",
+      "type": "structured_indicator",
+      "domain": "vital_sign",
+      "label": "heart_rate Autonomic stress during possible delirium: heart rate > 100 bpm",
+      "feature": "heart_rate",
+      "threshold": 100,
+      "direction": "above",
+      "unit": "bpm",
+      "severity": "mild",
+      "source": "ICU delirium precipitating physiology"
+    },
+    {
+      "id": "pattern_delirium_autonomic_stress",
+      "type": "pattern_event",
+      "domain": "vital_sign",
+      "label": "delirium_autonomic_stress",
+      "severity": "mild",
+      "source": "ICU delirium precipitating physiology"
+    },
+    {
+      "id": "text_delirium_autonomic_stress",
+      "type": "text_evidence",
+      "domain": "text_evidence",
+      "label": "text evidence for delirium_autonomic_stress",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_spo2_delirium_hypoxemia",
+      "type": "structured_indicator",
+      "domain": "vital_sign",
+      "label": "spo2 Hypoxemia as delirium precipitant: SpO2 < 92%",
+      "feature": "spo2",
+      "threshold": 92,
+      "direction": "below",
+      "unit": "%",
+      "severity": "moderate",
+      "source": "Delirium risk-factor physiology in ICU"
+    },
+    {
+      "id": "pattern_delirium_hypoxemia",
+      "type": "pattern_event",
+      "domain": "vital_sign",
+      "label": "delirium_hypoxemia",
+      "severity": "moderate",
+      "source": "Delirium risk-factor physiology in ICU"
+    },
+    {
+      "id": "text_delirium_hypoxemia",
+      "type": "text_evidence",
+      "domain": "text_evidence",
+      "label": "text evidence for delirium_hypoxemia",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_temperature_delirium_fever_trigger",
+      "type": "structured_indicator",
+      "domain": "vital_sign",
+      "label": "temperature Infectious trigger proxy for delirium: temperature > 38.0\u00b0C",
+      "feature": "temperature",
+      "threshold": 38.0,
+      "direction": "above",
+      "unit": "\u00b0C",
+      "severity": "mild",
+      "source": "Delirium precipitating factors in critical care"
+    },
+    {
+      "id": "pattern_delirium_fever_trigger",
+      "type": "pattern_event",
+      "domain": "vital_sign",
+      "label": "delirium_fever_trigger",
+      "severity": "mild",
+      "source": "Delirium precipitating factors in critical care"
+    },
+    {
+      "id": "text_delirium_fever_trigger",
+      "type": "text_evidence",
+      "domain": "text_evidence",
+      "label": "text evidence for delirium_fever_trigger",
+      "source": "temporal_textual_alignment"
+    }
+  ],
+  "edges": [
+    {
+      "source": "struct_gcs_acute_mental_status_change",
+      "target": "pattern_acute_mental_status_change",
+      "relation": "triggers",
+      "evidence": "gcs threshold/criterion"
+    },
+    {
+      "source": "text_acute_mental_status_change",
+      "target": "pattern_acute_mental_status_change",
+      "relation": "supports",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "text_acute_mental_status_change",
+      "target": "pattern_acute_mental_status_change",
+      "relation": "contradicts",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "pattern_acute_mental_status_change",
+      "target": "condition_delirium",
+      "relation": "aggregates",
+      "evidence": "PADIS Delirium Guidelines (SCCM 2018)"
+    },
+    {
+      "source": "struct_heart_rate_delirium_autonomic_stress",
+      "target": "pattern_delirium_autonomic_stress",
+      "relation": "triggers",
+      "evidence": "heart_rate threshold/criterion"
+    },
+    {
+      "source": "text_delirium_autonomic_stress",
+      "target": "pattern_delirium_autonomic_stress",
+      "relation": "supports",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "text_delirium_autonomic_stress",
+      "target": "pattern_delirium_autonomic_stress",
+      "relation": "contradicts",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "pattern_delirium_autonomic_stress",
+      "target": "condition_delirium",
+      "relation": "aggregates",
+      "evidence": "PADIS Delirium Guidelines (SCCM 2018)"
+    },
+    {
+      "source": "struct_spo2_delirium_hypoxemia",
+      "target": "pattern_delirium_hypoxemia",
+      "relation": "triggers",
+      "evidence": "spo2 threshold/criterion"
+    },
+    {
+      "source": "text_delirium_hypoxemia",
+      "target": "pattern_delirium_hypoxemia",
+      "relation": "supports",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "text_delirium_hypoxemia",
+      "target": "pattern_delirium_hypoxemia",
+      "relation": "contradicts",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "pattern_delirium_hypoxemia",
+      "target": "condition_delirium",
+      "relation": "aggregates",
+      "evidence": "PADIS Delirium Guidelines (SCCM 2018)"
+    },
+    {
+      "source": "struct_temperature_delirium_fever_trigger",
+      "target": "pattern_delirium_fever_trigger",
+      "relation": "triggers",
+      "evidence": "temperature threshold/criterion"
+    },
+    {
+      "source": "text_delirium_fever_trigger",
+      "target": "pattern_delirium_fever_trigger",
+      "relation": "supports",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "text_delirium_fever_trigger",
+      "target": "pattern_delirium_fever_trigger",
+      "relation": "contradicts",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "pattern_delirium_fever_trigger",
+      "target": "condition_delirium",
+      "relation": "aggregates",
+      "evidence": "PADIS Delirium Guidelines (SCCM 2018)"
+    }
+  ],
+  "sources": [
+    {
+      "name": "PADIS Delirium Guidelines (SCCM 2018)",
+      "reference": "Acute mental-status change proxies and precipitating physiology in ICU; PMID: 30113379"
+    }
+  ],
+  "metadata": {
+    "generated_by": "build_condition_graphs.py",
+    "generated_at": "2026-02-08T20:24:16"
+  }
+}

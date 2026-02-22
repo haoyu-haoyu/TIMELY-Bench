@@ -20,9 +20,9 @@
     "SUPPORTIVE": 7
   },
   "dedup_key": "stay_id+pattern_hour+pattern_name+note_id",
-  "metadata_path": "/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/results/llm_annotations/ANNOTATION_METADATA.json",
+  "metadata_path": "${PROJECT_ROOT}/results/llm_annotations/ANNOTATION_METADATA.json",
   "annotation_files": [
-    "/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final/results/llm_annotations/annotations_rule_based_20260127_141707.jsonl"
+    "${PROJECT_ROOT}/results/llm_annotations/annotations_rule_based_20260207_012207.jsonl"
   ],
   "annotation_total_rows": 900
 }

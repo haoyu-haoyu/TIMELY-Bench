@@ -25,6 +25,12 @@ OUTPUT_FILE = OUTPUT_DIR / 'cohort_with_conditions.csv'
 # ==========================================
 print("Loading data...")
 
+# Backward-compatible fallback for environments where cohort.csv is under raw/v1_data.
+if not COHORT_FILE.exists():
+    fallback = RAW_DATA_DIR / 'v1_data' / 'cohort.csv'
+    if fallback.exists():
+        COHORT_FILE = fallback
+
 df_cohort = pd.read_csv(COHORT_FILE)
 df_clinical = pd.read_csv(CLINICAL_LABELS_FILE)
 
@@ -88,7 +94,20 @@ CONDITION_MAPPING = {
     ],
     'respiratory_failure': [
         'J96',      # Respiratory failure
-    ]
+    ],
+    'stroke': [
+        'I60',      # Subarachnoid hemorrhage
+        'I61',      # Intracerebral hemorrhage
+        'I62',      # Other nontraumatic intracranial hemorrhage
+        'I63',      # Cerebral infarction
+        'I64',      # Stroke, not specified
+        'G45',      # Transient cerebral ischemic attacks
+    ],
+    'delirium': [
+        'F05',      # Delirium due to known physiological condition
+        'R41.0',    # Disorientation
+        'R41.82',   # Altered mental status
+    ],
 }
 
 def classify_conditions_from_icd(icd_codes_str):
@@ -133,6 +152,8 @@ df_merged['aki_stage'] = df_merged['aki_stage_max'].fillna(0).astype(int)
 # 综合标签: ICD码 OR 临床标准
 df_merged['has_sepsis_final'] = ((df_merged['has_sepsis'] == 1) | (df_merged['sepsis3_clinical'] == 1)).astype(int)
 df_merged['has_aki_final'] = ((df_merged['has_aki'] == 1) | (df_merged['aki_clinical'] == 1)).astype(int)
+df_merged['has_stroke_final'] = df_merged['has_stroke'].astype(int)
+df_merged['has_delirium_final'] = df_merged['has_delirium'].astype(int)
 
 # ==========================================
 # 5. 统计分析
@@ -154,6 +175,8 @@ print(f"   AKI (KDIGO): {df_merged['aki_clinical'].sum()} ({df_merged['aki_clini
 print("\n[Final Labels (ICD OR Clinical)]")
 print(f"   Sepsis: {df_merged['has_sepsis_final'].sum()} ({df_merged['has_sepsis_final'].mean()*100:.1f}%)")
 print(f"   AKI: {df_merged['has_aki_final'].sum()} ({df_merged['has_aki_final'].mean()*100:.1f}%)")
+print(f"   Stroke: {df_merged['has_stroke_final'].sum()} ({df_merged['has_stroke_final'].mean()*100:.1f}%)")
+print(f"   Delirium: {df_merged['has_delirium_final'].sum()} ({df_merged['has_delirium_final'].mean()*100:.1f}%)")
 
 # AKI分期分布
 print("\n[AKI Stage Distribution]")
@@ -166,11 +189,13 @@ print("\n[Multimorbidity Analysis]")
 df_merged['num_conditions'] = (
     df_merged['has_sepsis_final'] + 
     df_merged['has_aki_final'] + 
+    df_merged['has_stroke_final'] +
+    df_merged['has_delirium_final'] +
     df_merged['has_ards'] + 
     df_merged['has_shock']
 )
 
-for n in range(5):
+for n in range(7):
     count = (df_merged['num_conditions'] == n).sum()
     print(f"   {n} conditions: {count} ({count/len(df_merged)*100:.1f}%)")
 
@@ -198,13 +223,13 @@ output_cols = [
     
     # 疾病标签
     'has_sepsis', 'has_aki', 'has_ards', 'has_shock', 
-    'has_pneumonia', 'has_heart_failure', 'has_respiratory_failure',
+    'has_pneumonia', 'has_heart_failure', 'has_respiratory_failure', 'has_stroke', 'has_delirium',
     
     # 临床标准标签
     'sepsis3_clinical', 'aki_clinical', 'aki_stage',
     
     # 最终标签
-    'has_sepsis_final', 'has_aki_final',
+    'has_sepsis_final', 'has_aki_final', 'has_stroke_final', 'has_delirium_final',
     
     # 多病种
     'conditions_from_icd', 'num_conditions'
@@ -236,6 +261,16 @@ print(f"   AKI cohort: {len(df_aki)} patients")
 df_ards = df_merged[df_merged['has_ards'] == 1]
 df_ards.to_csv(OUTPUT_DIR / 'cohort_ards.csv', index=False)
 print(f"   ARDS cohort: {len(df_ards)} patients")
+
+# Stroke队列
+df_stroke = df_merged[df_merged['has_stroke_final'] == 1]
+df_stroke.to_csv(OUTPUT_DIR / 'cohort_stroke.csv', index=False)
+print(f"   Stroke cohort: {len(df_stroke)} patients")
+
+# Delirium队列
+df_delirium = df_merged[df_merged['has_delirium_final'] == 1]
+df_delirium.to_csv(OUTPUT_DIR / 'cohort_delirium.csv', index=False)
+print(f"   Delirium cohort: {len(df_delirium)} patients")
 
 # Sepsis + AKI 共存队列
 df_sepsis_aki = df_merged[(df_merged['has_sepsis_final'] == 1) & (df_merged['has_aki_final'] == 1)]

@@ -1,35 +1,41 @@
 {
-  "timestamp": "2026-01-26T23:01:48",
-  "n_trend": 500,
-  "n_grounding": 500,
+  "timestamp": "2026-02-18T06:28:51",
+  "n_trend": 900,
+  "n_grounding": 900,
+  "n_diagnostic": 900,
+  "n_contrastive": 900,
   "seed": 42,
-  "max_rows": 50000,
+  "max_rows": 0,
   "inputs": [
     {
-      "path": "/Users/wanghaoyu/Downloads/\u4e34\u5e8a\u65f6\u5e8f \u00d7 \u6587\u672c\u5bf9\u9f50\u878d\u5408\u57fa\u51c6/\u8bad\u7ec3\u57fa\u7ebf\u6a21\u578b/TIMELY-Bench_Final/data/processed/temporal_alignment/temporal_textual_alignment.csv",
-      "sha256": "17cef7170ffefafb1906fc4a022b3580962840c9816a97d5870732b4459455f0"
-    },
-    {
-      "path": "/Users/wanghaoyu/Downloads/\u4e34\u5e8a\u65f6\u5e8f \u00d7 \u6587\u672c\u5bf9\u9f50\u878d\u5408\u57fa\u51c6/\u8bad\u7ec3\u57fa\u7ebf\u6a21\u578b/TIMELY-Bench_Final/episodes_enhanced.tar.gz",
-      "sha256": "3e818b63f81ef2ff7f58e9cf6edc65d1d0a214e09daee2a33de880287154d555"
+      "path": "${PROJECT_ROOT}/data/processed/temporal_alignment/temporal_textual_alignment.csv",
+      "sha256": "1c3ab79220bf8957c255bacd375351f5d4df3d5bc3ab25db0c4f31672f1842bb"
     }
   ],
   "outputs": [
     {
-      "path": "/Users/wanghaoyu/Downloads/\u4e34\u5e8a\u65f6\u5e8f \u00d7 \u6587\u672c\u5bf9\u9f50\u878d\u5408\u57fa\u51c6/\u8bad\u7ec3\u57fa\u7ebf\u6a21\u578b/TIMELY-Bench_Final/results/cres/trend_threshold.jsonl",
-      "sha256": "7ab9b87d767e142ce2961a6f2441d598b523d81df39835be70129a436c683aba"
+      "path": "${PROJECT_ROOT}/results/cres/trend_threshold.jsonl",
+      "sha256": "19dad3b44d697c4b33eff925a53f285d6f41c7ba8220ecd9b39b90d14ff2d560"
     },
     {
-      "path": "/Users/wanghaoyu/Downloads/\u4e34\u5e8a\u65f6\u5e8f \u00d7 \u6587\u672c\u5bf9\u9f50\u878d\u5408\u57fa\u51c6/\u8bad\u7ec3\u57fa\u7ebf\u6a21\u578b/TIMELY-Bench_Final/results/cres/temporal_grounding.jsonl",
-      "sha256": "97dc91a02e55e51d8decd6ba19da5ee95b5aa0b00ff120dccebd0a91cf23ffa4"
+      "path": "${PROJECT_ROOT}/results/cres/temporal_grounding.jsonl",
+      "sha256": "ce087d5e5fdb2cda4185cd48d5a72037a7a3fb3784c9c3cc52c71773afae3d46"
     },
     {
-      "path": "/Users/wanghaoyu/Downloads/\u4e34\u5e8a\u65f6\u5e8f \u00d7 \u6587\u672c\u5bf9\u9f50\u878d\u5408\u57fa\u51c6/\u8bad\u7ec3\u57fa\u7ebf\u6a21\u578b/TIMELY-Bench_Final/results/cres/temporal_grounding_index.jsonl",
-      "sha256": "8d5ace8c721a47830b4b0c1f484827a97afa26f16308910cd3214cf33508b8d8"
+      "path": "${PROJECT_ROOT}/results/cres/temporal_grounding_index.jsonl",
+      "sha256": "4a85c3c83d024e4092a2ec2932ebf166dfdff8dcdc517ed8cda7e70c589f51af"
     },
     {
-      "path": "/Users/wanghaoyu/Downloads/\u4e34\u5e8a\u65f6\u5e8f \u00d7 \u6587\u672c\u5bf9\u9f50\u878d\u5408\u57fa\u51c6/\u8bad\u7ec3\u57fa\u7ebf\u6a21\u578b/TIMELY-Bench_Final/results/cres/cres_build_meta.json",
-      "sha256": "0a7a01d03653c0f57f3831f5163ca2f1969d7de3cc125ccffb18f1e3ee61c71d"
+      "path": "${PROJECT_ROOT}/results/cres/diagnostic_consistency.jsonl",
+      "sha256": "3d2fbf1de7c4a13d1b67e21cc6a50a52c717658b00f33176732822e8a0e25233"
+    },
+    {
+      "path": "${PROJECT_ROOT}/results/cres/contrastive_inference.jsonl",
+      "sha256": "63f312f4e5032c82fd5e8983ca889e4bcb8d61de48a35f37e65bb6e1faa2bcba"
+    },
+    {
+      "path": "${PROJECT_ROOT}/results/cres/cres_build_meta.json",
+      "sha256": "a9434a2445e25d3f320919d00ba5e0a152ee29c481841ad0b30ef700cdd1f1b0"
     }
   ]
 }

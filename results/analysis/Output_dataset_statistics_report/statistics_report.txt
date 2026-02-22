@@ -1,0 +1,29 @@
+DATASET STATISTICS REPORT
+==================================================
+Total Patients: 74829
+Mortality Rate: 11.93%
+Gender Distribution:
+gender
+M    0.567481
+F    0.432519
+
+Tabular Data Missingness (>20%)
+------------------------------
+lactate_min    56.603723
+lactate_max    56.603723
+pco2_min       49.078566
+pco2_max       49.078566
+ph_min         49.070548
+ph_max         49.070548
+po2_min        49.067875
+po2_max        49.067875
+
+Text Data Analysis
+------------------------------
+Patients with Radiology Report: 46241 (61.80%)
+Patients without Report: 28588
+
+Mortality Rate (With Report): 12.63%
+Mortality Rate (No Report):   10.81%
+
+Avg Word Count (for existing reports): 316.6 words

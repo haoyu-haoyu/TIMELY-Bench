@@ -36,19 +36,28 @@ BENCHMARK_RESULTS_DIR = RESULTS_DIR / 'benchmark_results'
 
 # Data files
 # 原始数据
-_SORTED_TIMESERIES = RAW_DATA_DIR / 'timeseries_sorted.csv'
-TIMESERIES_FILE = _SORTED_TIMESERIES if _SORTED_TIMESERIES.exists() else RAW_DATA_DIR / 'timeseries.csv'
+_SORTED_TIMESERIES = RAW_DATA_DIR / "timeseries_sorted.csv"
+_SORTED_TIMESERIES_EXT = RAW_DATA_DIR / "timeseries_sorted_extended.csv"
+# Prefer the extended timeseries when present (adds bilirubin_total/vasopressors/rrt).
+if _SORTED_TIMESERIES_EXT.exists():
+    TIMESERIES_FILE = _SORTED_TIMESERIES_EXT
+else:
+    TIMESERIES_FILE = _SORTED_TIMESERIES if _SORTED_TIMESERIES.exists() else RAW_DATA_DIR / "timeseries.csv"
 NOTE_TIME_FILE = RAW_DATA_DIR / 'note_time.csv'
 CLINICAL_LABELS_FILE = RAW_DATA_DIR / 'clinical_labels.csv'
 
 # 处理后数据
-COHORT_FILE = MERGE_OUTPUT_DIR / 'cohort_final.csv'
+_COHORT_FINAL = MERGE_OUTPUT_DIR / "cohort_final.csv"
+_COHORT_FINAL_EXT = MERGE_OUTPUT_DIR / "cohort_final_extended.csv"
+# Prefer the extended cohort when present (adds external_static CKD flag).
+COHORT_FILE = _COHORT_FINAL_EXT if _COHORT_FINAL_EXT.exists() else _COHORT_FINAL
 LLM_FEATURES_FILE = DATA_DIR / 'llm_features' / 'llm_features_deepseek.csv'
 
 # 数据分割
-TRAIN_SPLIT_FILE = SPLITS_DIR / 'train.csv'
-VAL_SPLIT_FILE = SPLITS_DIR / 'val.csv'
-TEST_SPLIT_FILE = SPLITS_DIR / 'test.csv'
+# Canonical split file (holdout test + CV fold assignment) produced by:
+#   python3 code/data_processing/generate_predefined_splits.py
+PREDEFINED_SPLITS_FILE = SPLITS_DIR / 'predefined_splits.csv'
+
 
 # Model hyperparameters
 # GRU模型
@@ -79,7 +88,8 @@ RANDOM_STATE = 42
 
 # Feature config
 LLM_COLS = ['pneumonia', 'edema', 'pleural_effusion', 'pneumothorax', 'tubes_lines']
-WINDOWS = ['6h', '12h', '24h']
+# Canonical windows include D0 daily aligner.
+WINDOWS = ['6h', '12h', '24h', 'D0']
 
 # 任务配置
 CORE_TASKS = ['mortality', 'prolonged_los']
@@ -117,7 +127,7 @@ def validate_data():
     files = {
         'cohort': COHORT_FILE,
         'llm_features': LLM_FEATURES_FILE,
-        'train_split': TRAIN_SPLIT_FILE,
+        'predefined_splits': PREDEFINED_SPLITS_FILE,
     }
     missing = [k for k, v in files.items() if not v.exists()]
     return len(missing) == 0, missing

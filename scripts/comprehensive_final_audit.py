@@ -627,9 +627,9 @@ def generate_final_summary():
 
 ---
 
-## (4) DeepSeek Canonical Run 关键指标
+## (4) CRES Canonical Run (Gemini) / Legacy LLM Audit 指标
 
-- **DeepSeek 标注文件数**: {len(deepseek.get('deepseek_annotation_files', []))}
+- **Legacy LLM 标注文件数**: {len(deepseek.get('deepseek_annotation_files', []))}
 - **总标注数**: {deepseek.get('total_annotations', 0):,}
 - **唯一 Stay IDs**: {deepseek.get('unique_stay_id_count', 0):,}
 - **Note Type 种类**: {len(deepseek.get('note_type_distribution', {}))}

@@ -7,12 +7,14 @@
     {
       "id": "condition_sepsis",
       "type": "condition",
+      "domain": "condition",
       "label": "Sepsis",
       "source": "Sepsis-3 (Singer et al., JAMA 2016)"
     },
     {
       "id": "struct_temperature_fever",
       "type": "structured_indicator",
+      "domain": "vital_sign",
       "label": "temperature Fever: temperature > 38.3\u00b0C",
       "feature": "temperature",
       "threshold": 38.3,
@@ -24,6 +26,7 @@
     {
       "id": "pattern_fever",
       "type": "pattern_event",
+      "domain": "vital_sign",
       "label": "fever",
       "severity": "moderate",
       "source": "SIRS criteria (Bone et al., 1992)"
@@ -31,12 +34,14 @@
     {
       "id": "text_fever",
       "type": "text_evidence",
+      "domain": "text_evidence",
       "label": "text evidence for fever",
       "source": "temporal_textual_alignment"
     },
     {
       "id": "struct_temperature_hypothermia",
       "type": "structured_indicator",
+      "domain": "vital_sign",
       "label": "temperature Hypothermia: temperature < 36\u00b0C",
       "feature": "temperature",
       "threshold": 36.0,
@@ -48,6 +53,7 @@
     {
       "id": "pattern_hypothermia",
       "type": "pattern_event",
+      "domain": "vital_sign",
       "label": "hypothermia",
       "severity": "moderate",
       "source": "SIRS criteria (Bone et al., 1992)"
@@ -55,12 +61,14 @@
     {
       "id": "text_hypothermia",
       "type": "text_evidence",
+      "domain": "text_evidence",
       "label": "text evidence for hypothermia",
       "source": "temporal_textual_alignment"
     },
     {
       "id": "struct_heart_rate_tachycardia",
       "type": "structured_indicator",
+      "domain": "vital_sign",
       "label": "heart_rate Tachycardia: heart rate > 90 bpm",
       "feature": "heart_rate",
       "threshold": 90,
@@ -72,6 +80,7 @@
     {
       "id": "pattern_tachycardia",
       "type": "pattern_event",
+      "domain": "vital_sign",
       "label": "tachycardia",
       "severity": "mild",
       "source": "SIRS criteria (Bone et al., 1992)"
@@ -79,12 +88,14 @@
     {
       "id": "text_tachycardia",
       "type": "text_evidence",
+      "domain": "text_evidence",
       "label": "text evidence for tachycardia",
       "source": "temporal_textual_alignment"
     },
     {
       "id": "struct_resp_rate_tachypnea",
       "type": "structured_indicator",
+      "domain": "vital_sign",
       "label": "resp_rate Tachypnea: respiratory rate > 20/min",
       "feature": "resp_rate",
       "threshold": 20,
@@ -96,6 +107,7 @@
     {
       "id": "pattern_tachypnea",
       "type": "pattern_event",
+      "domain": "vital_sign",
       "label": "tachypnea",
       "severity": "mild",
       "source": "SIRS criteria (Bone et al., 1992)"
@@ -103,12 +115,14 @@
     {
       "id": "text_tachypnea",
       "type": "text_evidence",
+      "domain": "text_evidence",
       "label": "text evidence for tachypnea",
       "source": "temporal_textual_alignment"
     },
     {
       "id": "struct_sbp_hypotension",
       "type": "structured_indicator",
+      "domain": "vital_sign",
       "label": "sbp Hypotension: SBP < 90 mmHg",
       "feature": "sbp",
       "threshold": 90,
@@ -120,6 +134,7 @@
     {
       "id": "pattern_hypotension",
       "type": "pattern_event",
+      "domain": "vital_sign",
       "label": "hypotension",
       "severity": "severe",
       "source": "SOFA cardiovascular (Sepsis-3)"
@@ -127,12 +142,14 @@
     {
       "id": "text_hypotension",
       "type": "text_evidence",
+      "domain": "text_evidence",
       "label": "text evidence for hypotension",
       "source": "temporal_textual_alignment"
     },
     {
       "id": "struct_mbp_map_low",
       "type": "structured_indicator",
+      "domain": "vital_sign",
       "label": "mbp Low MAP: mean arterial pressure < 70 mmHg",
       "feature": "mbp",
       "threshold": 70,
@@ -144,6 +161,7 @@
     {
       "id": "pattern_map_low",
       "type": "pattern_event",
+      "domain": "vital_sign",
       "label": "map_low",
       "severity": "moderate",
       "source": "SOFA cardiovascular (Sepsis-3)"
@@ -151,12 +169,14 @@
     {
       "id": "text_map_low",
       "type": "text_evidence",
+      "domain": "text_evidence",
       "label": "text evidence for map_low",
       "source": "temporal_textual_alignment"
     },
     {
       "id": "struct_spo2_hypoxemia",
       "type": "structured_indicator",
+      "domain": "vital_sign",
       "label": "spo2 Hypoxemia: SpO2 < 94%",
       "feature": "spo2",
       "threshold": 94,
@@ -168,6 +188,7 @@
     {
       "id": "pattern_hypoxemia",
       "type": "pattern_event",
+      "domain": "vital_sign",
       "label": "hypoxemia",
       "severity": "moderate",
       "source": "SOFA respiratory (Sepsis-3)"
@@ -175,12 +196,14 @@
     {
       "id": "text_hypoxemia",
       "type": "text_evidence",
+      "domain": "text_evidence",
       "label": "text evidence for hypoxemia",
       "source": "temporal_textual_alignment"
     },
     {
       "id": "struct_lactate_lactate_elevated",
       "type": "structured_indicator",
+      "domain": "lab_marker",
       "label": "lactate Elevated lactate: > 2 mmol/L (septic shock indicator)",
       "feature": "lactate",
       "threshold": 2.0,
@@ -192,6 +215,7 @@
     {
       "id": "pattern_lactate_elevated",
       "type": "pattern_event",
+      "domain": "lab_marker",
       "label": "lactate_elevated",
       "severity": "severe",
       "source": "Sepsis-3 Septic Shock (Singer et al., 2016)"
@@ -199,12 +223,14 @@
     {
       "id": "text_lactate_elevated",
       "type": "text_evidence",
+      "domain": "text_evidence",
       "label": "text evidence for lactate_elevated",
       "source": "temporal_textual_alignment"
     },
     {
       "id": "struct_platelet_thrombocytopenia",
       "type": "structured_indicator",
+      "domain": "lab_marker",
       "label": "platelet Thrombocytopenia: platelet < 150 \u00d710\u00b3/\u00b5L",
       "feature": "platelet",
       "threshold": 150,
@@ -216,6 +242,7 @@
     {
       "id": "pattern_thrombocytopenia",
       "type": "pattern_event",
+      "domain": "lab_marker",
       "label": "thrombocytopenia",
       "severity": "moderate",
       "source": "SOFA coagulation (Sepsis-3)"
@@ -223,12 +250,14 @@
     {
       "id": "text_thrombocytopenia",
       "type": "text_evidence",
+      "domain": "text_evidence",
       "label": "text evidence for thrombocytopenia",
       "source": "temporal_textual_alignment"
     },
     {
       "id": "struct_bilirubin_total_hyperbilirubinemia",
       "type": "structured_indicator",
+      "domain": "lab_marker",
       "label": "bilirubin_total Hyperbilirubinemia: bilirubin > 1.2 mg/dL",
       "feature": "bilirubin_total",
       "threshold": 1.2,
@@ -240,6 +269,7 @@
     {
       "id": "pattern_hyperbilirubinemia",
       "type": "pattern_event",
+      "domain": "lab_marker",
       "label": "hyperbilirubinemia",
       "severity": "moderate",
       "source": "SOFA liver (Sepsis-3)"
@@ -247,12 +277,14 @@
     {
       "id": "text_hyperbilirubinemia",
       "type": "text_evidence",
+      "domain": "text_evidence",
       "label": "text evidence for hyperbilirubinemia",
       "source": "temporal_textual_alignment"
     },
     {
       "id": "struct_wbc_leukocytosis",
       "type": "structured_indicator",
+      "domain": "lab_marker",
       "label": "wbc Leukocytosis: WBC > 12 \u00d710\u00b3/\u00b5L",
       "feature": "wbc",
       "threshold": 12.0,
@@ -264,6 +296,7 @@
     {
       "id": "pattern_leukocytosis",
       "type": "pattern_event",
+      "domain": "lab_marker",
       "label": "leukocytosis",
       "severity": "mild",
       "source": "SIRS criteria (Bone et al., 1992)"
@@ -271,12 +304,14 @@
     {
       "id": "text_leukocytosis",
       "type": "text_evidence",
+      "domain": "text_evidence",
       "label": "text evidence for leukocytosis",
       "source": "temporal_textual_alignment"
     },
     {
       "id": "struct_wbc_leukopenia",
       "type": "structured_indicator",
+      "domain": "lab_marker",
       "label": "wbc Leukopenia: WBC < 4 \u00d710\u00b3/\u00b5L",
       "feature": "wbc",
       "threshold": 4.0,
@@ -288,6 +323,7 @@
     {
       "id": "pattern_leukopenia",
       "type": "pattern_event",
+      "domain": "lab_marker",
       "label": "leukopenia",
       "severity": "moderate",
       "source": "SIRS criteria (Bone et al., 1992)"
@@ -295,8 +331,75 @@
     {
       "id": "text_leukopenia",
       "type": "text_evidence",
+      "domain": "text_evidence",
       "label": "text evidence for leukopenia",
       "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_vasopressors_required",
+      "type": "structured_indicator",
+      "domain": "medication",
+      "label": "Vasopressors required to maintain MAP >= 65 mmHg",
+      "feature": "vasopressors",
+      "threshold": 1,
+      "direction": "above",
+      "unit": "binary",
+      "severity": "severe",
+      "source": "Sepsis-3 Septic Shock criteria (Singer et al., JAMA 2016)"
+    },
+    {
+      "id": "pattern_on_vasopressors",
+      "type": "pattern_event",
+      "domain": "medication",
+      "label": "on_vasopressors",
+      "severity": "severe",
+      "source": "Sepsis-3 Septic Shock criteria (Singer et al., JAMA 2016)"
+    },
+    {
+      "id": "text_on_vasopressors",
+      "type": "text_evidence",
+      "domain": "text_evidence",
+      "label": "text evidence for vasopressor use",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "struct_gcs_altered_mental_status",
+      "type": "structured_indicator",
+      "domain": "symptom",
+      "label": "gcs Altered mental status: GCS < 15 (SOFA neurological component proxy)",
+      "feature": "gcs",
+      "threshold": 15,
+      "direction": "below",
+      "unit": "score",
+      "severity": "moderate",
+      "source": "Sepsis-3 / SOFA (neurologic dysfunction)"
+    },
+    {
+      "id": "pattern_altered_mental_status",
+      "type": "pattern_event",
+      "domain": "symptom",
+      "label": "altered_mental_status",
+      "severity": "moderate",
+      "source": "Sepsis-3 / SOFA (neurologic dysfunction)"
+    },
+    {
+      "id": "text_altered_mental_status",
+      "type": "text_evidence",
+      "domain": "text_evidence",
+      "label": "text evidence for altered mental status",
+      "source": "temporal_textual_alignment"
+    },
+    {
+      "id": "multi_ckd",
+      "type": "structured_indicator",
+      "domain": "multimorbidity",
+      "label": "Chronic kidney disease (CKD) comorbidity",
+      "feature": "ckd",
+      "threshold": 1,
+      "direction": "above",
+      "unit": "binary",
+      "severity": "moderate",
+      "source": "Comorbidity risk factor (multimorbidity interaction)"
     }
   ],
   "edges": [
@@ -587,6 +690,54 @@
       "target": "condition_sepsis",
       "relation": "aggregates",
       "evidence": "Sepsis-3 (Singer et al., JAMA 2016)"
+    },
+    {
+      "source": "struct_vasopressors_required",
+      "target": "pattern_on_vasopressors",
+      "relation": "triggers",
+      "evidence": "septic shock criterion"
+    },
+    {
+      "source": "text_on_vasopressors",
+      "target": "pattern_on_vasopressors",
+      "relation": "supports",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "pattern_on_vasopressors",
+      "target": "condition_sepsis",
+      "relation": "aggregates",
+      "evidence": "Sepsis-3 Septic Shock"
+    },
+    {
+      "source": "struct_gcs_altered_mental_status",
+      "target": "pattern_altered_mental_status",
+      "relation": "triggers",
+      "evidence": "GCS threshold/criterion"
+    },
+    {
+      "source": "text_altered_mental_status",
+      "target": "pattern_altered_mental_status",
+      "relation": "supports",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "text_altered_mental_status",
+      "target": "pattern_altered_mental_status",
+      "relation": "contradicts",
+      "evidence": "note_id/note_hour alignment"
+    },
+    {
+      "source": "pattern_altered_mental_status",
+      "target": "condition_sepsis",
+      "relation": "aggregates",
+      "evidence": "SOFA neurological component"
+    },
+    {
+      "source": "multi_ckd",
+      "target": "condition_sepsis",
+      "relation": "contributes_to",
+      "evidence": "Reduced physiologic reserve / higher susceptibility"
     }
   ],
   "sources": [
@@ -597,6 +748,6 @@
   ],
   "metadata": {
     "generated_by": "build_condition_graphs.py",
-    "generated_at": "2026-01-26T21:15:53"
+    "generated_at": "2026-02-08T20:24:15"
   }
 }

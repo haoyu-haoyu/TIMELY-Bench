@@ -1,0 +1,24 @@
+{
+  "audit_timestamp": "2026-02-20T18:24:44.882647",
+  "total_episode_files": 74829,
+  "total_episodes": 74829,
+  "note_hour_stats": {
+    "min": Infinity,
+    "max": -Infinity
+  },
+  "discharge_notes_count": 0,
+  "note_type_distribution": {},
+  "text_field_coverage": {},
+  "labels_coverage": {
+    "outcome": 74829,
+    "process": 74829,
+    "has_sepsis": 74829,
+    "has_aki": 74829,
+    "has_ards": 74829,
+    "icd_codes": 74829,
+    "diagnoses_text": 74829
+  },
+  "parse_errors": [],
+  "unique_stay_id_count": 74829,
+  "unique_subject_id_count": 0
+}

@@ -1,8 +1,12 @@
 # MASTER AUDIT ADDENDUM
 
+> Historical note: this addendum documents a 2026-01-28 audit closure step.
+> Current release-level claims must use `MASTER_DELIVERY_AUDIT.md` and
+> `evidence/final_qa_32045137.*`.
+
 **审计附录 ID**: 20260128_addendum
 **时间戳**: 2026-01-28T21:21:19 UTC
-**项目路径**: /scratch/users/k25113331/TIMELY-Bench_Final
+**项目路径**: `${PROJECT_ROOT}`
 
 ---
 
@@ -21,7 +25,7 @@
 
 | 字段 | 值 |
 |------|----|
-| project_root | /cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final |
+| project_root | `${PROJECT_ROOT}` |
 | run_id | 20260128_211307 |
 | python_version | 3.10.12 |
 | requirements_hash | `5df1790817a06221...` |
@@ -140,15 +144,15 @@ final_release/
 ## 补齐项 4: 路径口径统一 (Path Normalization)
 
 **问题**: 审计产物中 `project_root` 出现两套路径——
-`/scratch/users/k25113331/TIMELY-Bench_Final`（用户工作路径）和
-`/cephfs/volumes/hpc_data_usr/k25113331/.../TIMELY-Bench_Final`（CephFS 挂载原始路径）。
+`${PROJECT_ROOT}`（用户工作路径）和
+`${PROJECT_ROOT_ALIAS_CEPHFS}`（CephFS 挂载原始路径）。
 
 **探测结果**: 两个路径的 `device:inode` 完全一致 (`52:9895663149215`)，
 `manifest.json` 的 SHA256 相同 (`f50583f790e7f2db...`)。
-`/scratch` 是 CephFS 的用户态符号链接/挂载点。
+底层存储一致，仅为同一 CephFS 存储的不同用户态路径别名。
 
-**处理**: 规范路径统一为 `/scratch/users/k25113331/TIMELY-Bench_Final`，
-`/cephfs` 路径作为 `path_aliases` 记录在 `PROVENANCE.json` 中。
+**处理**: 规范路径统一为 `${PROJECT_ROOT}`，
+`${PROJECT_ROOT_ALIAS_CEPHFS}` 作为 `path_aliases` 记录在 `PROVENANCE.json` 中。
 证据文件: `final_release/evidence/path_mapping_check.json`
 
 ---

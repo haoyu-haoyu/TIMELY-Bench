@@ -13,7 +13,7 @@
   "candidates_found": 2,
   "files": [
     {
-      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/final_release/llm_annotations/llm_annotation_set.csv",
+      "path": "${PROJECT_ROOT}/final_release/llm_annotations/llm_annotation_set.csv",
       "relative_path": "final_release/llm_annotations/llm_annotation_set.csv",
       "n_rows": 900,
       "columns": [
@@ -34,7 +34,7 @@
       "missing_columns": []
     },
     {
-      "path": "/scratch/users/k25113331/TIMELY-Bench_Final/results/llm_annotations/llm_annotation_set.csv",
+      "path": "${PROJECT_ROOT}/results/llm_annotations/llm_annotation_set.csv",
       "relative_path": "results/llm_annotations/llm_annotation_set.csv",
       "n_rows": 900,
       "columns": [

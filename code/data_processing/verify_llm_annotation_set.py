@@ -46,12 +46,18 @@ def iter_annotation_files(meta: Dict[str, object]) -> List[Path]:
     if isinstance(outputs, list) and outputs:
         for item in outputs:
             if isinstance(item, dict) and item.get("path"):
-                paths.append(Path(item["path"]))
+                paths.append(Path(str(item["path"])))
     else:
         ann_path = meta.get("annotations_path")
         if ann_path:
             paths.append(Path(str(ann_path)))
-    return [p for p in paths if p.exists()]
+    resolved: List[Path] = []
+    for p in paths:
+        if not p.is_absolute():
+            p = (ROOT_DIR / p).resolve()
+        if p.exists():
+            resolved.append(p)
+    return resolved
 
 
 def check_alignment_hash(meta: Dict[str, object], compute_hash: bool) -> None:
@@ -66,6 +72,8 @@ def check_alignment_hash(meta: Dict[str, object], compute_hash: bool) -> None:
 
     if compute_hash:
         align_path = Path(meta_align_path or (TEMPORAL_ALIGNMENT_DIR / "temporal_textual_alignment.csv"))
+        if not align_path.is_absolute():
+            align_path = (ROOT_DIR / align_path).resolve()
         if not align_path.exists():
             raise FileNotFoundError(f"Alignment file missing: {align_path}")
         align_hash = sha256_file(align_path)

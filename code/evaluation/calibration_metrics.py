@@ -1,6 +1,6 @@
 """
 Calibration Metrics Module for TIMELY-Bench
-计算模型校准指标: ECE, MCE, Brier Score
+计算模型校准指标: ECE, MCE, Brier Score, Hosmer-Lemeshow (HL)
 生成可靠性图 (Reliability Diagrams)
 """
 
@@ -92,6 +92,79 @@ def compute_brier_score(y_true: np.ndarray, y_prob: np.ndarray) -> float:
         Brier Score
     """
     return np.mean((y_prob - y_true) ** 2)
+
+
+def compute_hosmer_lemeshow(
+    y_true: np.ndarray,
+    y_prob: np.ndarray,
+    n_groups: int = 10,
+    eps: float = 1e-12,
+) -> Tuple[float, float, int, int]:
+    """
+    Hosmer-Lemeshow goodness-of-fit test for binary outcomes.
+
+    We sort by predicted probability and split into `n_groups` contiguous groups
+    (approximately equal size). For each group g:
+      O_g = sum(y_true), E_g = sum(y_prob), N_g = group size
+
+    HL = sum_g (O_g - E_g)^2 * (1/E_g + 1/(N_g - E_g))
+
+    Degrees of freedom is conventionally (G - 2).
+
+    Returns:
+      (hl_statistic, p_value, n_used_groups, df)
+
+    Notes:
+    - p_value requires SciPy; if unavailable, p_value is NaN.
+    - We skip degenerate groups where E_g or (N_g - E_g) is ~0 to avoid
+      division-by-zero.
+    """
+    y_true = np.asarray(y_true, dtype=float)
+    y_prob = np.asarray(y_prob, dtype=float)
+    y_prob = np.clip(y_prob, 0.0, 1.0)
+
+    n = int(len(y_true))
+    if n == 0:
+        return float("nan"), float("nan"), 0, 0
+
+    g = int(max(1, min(n_groups, n)))
+    order = np.argsort(y_prob)
+    y_true_s = y_true[order]
+    y_prob_s = y_prob[order]
+
+    # Use contiguous equal-sized groups (quantile-style split).
+    idx_groups = np.array_split(np.arange(n), g)
+
+    hl = 0.0
+    used = 0
+    for idx in idx_groups:
+        if len(idx) == 0:
+            continue
+        o = float(np.sum(y_true_s[idx]))
+        e = float(np.sum(y_prob_s[idx]))
+        n_g = float(len(idx))
+        e_neg = n_g - e
+        if e <= eps or e_neg <= eps:
+            continue
+        diff = o - e
+        hl += (diff * diff) * (1.0 / (e + eps) + 1.0 / (e_neg + eps))
+        used += 1
+
+    if used <= 0:
+        return float("nan"), float("nan"), 0, 0
+
+    df = max(used - 2, 1)
+
+    p_value = float("nan")
+    try:
+        from scipy.stats import chi2  # type: ignore
+
+        p_value = float(chi2.sf(hl, df))
+    except Exception:
+        # Keep NaN if SciPy is unavailable.
+        pass
+
+    return float(hl), float(p_value), int(used), int(df)
 
 
 def get_calibration_curve_data(y_true: np.ndarray, y_prob: np.ndarray, n_bins: int = 10) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
@@ -258,10 +331,15 @@ def evaluate_calibration(
     Returns:
         包含所有校准指标的字典
     """
+    hl, hl_p, hl_groups, hl_df = compute_hosmer_lemeshow(y_true, y_prob, n_groups=n_bins)
     return {
         'ece': compute_ece(y_true, y_prob, n_bins),
         'mce': compute_mce(y_true, y_prob, n_bins),
         'brier_score': compute_brier_score(y_true, y_prob),
+        'hl_statistic': hl,
+        'hl_p_value': hl_p,
+        'hl_groups': hl_groups,
+        'hl_df': hl_df,
         'n_samples': len(y_true),
         'positive_rate': y_true.mean(),
         'mean_predicted_prob': y_prob.mean(),

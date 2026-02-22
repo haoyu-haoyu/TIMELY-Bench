@@ -1,0 +1,58 @@
+{
+  "n_episodes_processed": 74829,
+  "n_episodes_failed": 0,
+  "state_counts": {
+    "baseline": 74829,
+    "active": 1307225,
+    "recovering": 1003223,
+    "severe": 355233,
+    "at_risk": 491741
+  },
+  "transition_counts": {
+    "baseline->active": 43452,
+    "active->recovering": 652949,
+    "recovering->severe": 94217,
+    "severe->recovering": 350274,
+    "recovering->at_risk": 365239,
+    "at_risk->active": 295740,
+    "recovering->active": 488774,
+    "active->active": 479259,
+    "active->severe": 175017,
+    "baseline->at_risk": 19726,
+    "at_risk->at_risk": 106776,
+    "at_risk->severe": 69406,
+    "baseline->severe": 11634,
+    "severe->severe": 4959
+  },
+  "final_state_counts": {
+    "recovering": 54993,
+    "at_risk": 19819,
+    "baseline": 17
+  },
+  "disease_state_counts": {
+    "AKI": {
+      "active": 545693,
+      "recovering": 114924,
+      "at_risk": 46067,
+      "severe": 48729
+    },
+    "Sepsis": {
+      "recovering": 851870,
+      "severe": 144579,
+      "at_risk": 445674,
+      "active": 534640
+    },
+    "Critical Illness": {
+      "active": 226892,
+      "severe": 80469,
+      "recovering": 5702
+    },
+    "ARDS": {
+      "severe": 81456
+    }
+  },
+  "outputs": {
+    "trajectory_jsonl": "${PROJECT_ROOT}/results/state_space/episode_state_trajectory.jsonl",
+    "schema_json": "${PROJECT_ROOT}/results/state_space/state_space_schema.json"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "canonical_input_path": "results/llm_annotations/llm_annotation_set.csv",
-  "canonical_input_path_absolute": "/scratch/users/k25113331/TIMELY-Bench_Final/results/llm_annotations/llm_annotation_set.csv",
+  "canonical_input_path_absolute": "${PROJECT_ROOT}/results/llm_annotations/llm_annotation_set.csv",
   "canonical_input_sha256": "bd9bee6934c391db73896d269c277f54007f027dc5b53013628e065448021b86",
   "n_records": 900,
   "columns": [

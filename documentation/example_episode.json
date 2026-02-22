@@ -425,35 +425,38 @@
     "condition_graph": {
       "nodes": [
         {
-          "condition": "Sepsis",
-          "icd_codes": [],
-          "is_present": true,
+          "id": "pattern_fever_12",
+          "name": "fever",
+          "level": "pattern",
           "onset_hour": 12,
-          "confidence": 0.0,
-          "source": ""
+          "value": 38.5,
+          "severity": "moderate",
+          "source": "Sepsis-3 (suspected infection + organ dysfunction)"
         },
         {
-          "condition": "Pneumonia",
-          "icd_codes": [],
-          "is_present": true,
-          "onset_hour": 4,
-          "confidence": 0.0,
-          "source": ""
+          "id": "condition_sepsis",
+          "name": "Sepsis",
+          "level": "condition",
+          "onset_hour": 12,
+          "value": null,
+          "severity": "critical",
+          "source": "Sepsis-3 Guidelines"
         }
       ],
       "edges": [
         {
-          "source": "Pneumonia",
-          "target": "Sepsis",
-          "relationship": "causes",
-          "temporal_order": "before",
-          "time_delta_hours": 8,
-          "evidence_type": "",
-          "evidence_pmid": null
+          "source_id": "pattern_fever_12",
+          "target_id": "condition_sepsis",
+          "relationship": "indicates",
+          "confidence": 0.9,
+          "time_delta_hours": null,
+          "clinical_rule": "fever_threshold"
         }
       ],
       "primary_condition": "Sepsis",
-      "complexity_score": 0.0
+      "n_pattern_nodes": 1,
+      "n_condition_nodes": 1,
+      "n_edges": 1
     },
     "physiology_templates": [],
     "detected_patterns": [
@@ -468,7 +471,11 @@
         "description": "Fever: temperature > 38.3°C",
         "start_hour": null,
         "end_hour": null,
-        "duration_hours": null
+        "duration_hours": null,
+        "clinical_source": null,
+        "reference_pmid": null,
+        "evidence_level": null,
+        "unit": null
       }
     ],
     "pattern_annotations": [
@@ -515,9 +522,9 @@
   },
   "metadata": {
     "schema_version": "2.0",
-    "created_at": "2025-12-24T15:21:50.495835",
+    "created_at": "2026-02-06T03:52:02.477106",
     "source_database": "MIMIC-IV",
-    "source_version": "2.2",
+    "source_version": "3.1",
     "observation_window_hours": 24,
     "data_quality_score": 0.85,
     "completeness": {},

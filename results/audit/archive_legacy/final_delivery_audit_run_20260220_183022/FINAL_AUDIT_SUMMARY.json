@@ -1,0 +1,31 @@
+{
+  "audit_timestamp": "2026-02-20T18:30:22.260452",
+  "audit_version": "final_delivery_v1",
+  "sections": {
+    "canonical_anchors": {
+      "total_files": 25,
+      "existing_files": 21,
+      "episode_files_count": 74829
+    },
+    "episodes_integrity": {
+      "total_episodes": 74829,
+      "unique_stay_ids": 74829,
+      "unique_subject_ids": 0,
+      "discharge_notes": 0,
+      "note_hour_range": [
+        Infinity,
+        -Infinity
+      ]
+    },
+    "nursing_duplicates": {
+      "total_nursing_notes": 0,
+      "unique_nursing_notes": 0,
+      "duplicate_rate_percent": 0
+    },
+    "deepseek_canonical_run": {
+      "annotation_files": 2,
+      "total_annotations": 1800,
+      "unique_stay_ids": 426
+    }
+  }
+}

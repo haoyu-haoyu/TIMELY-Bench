@@ -1,41 +1,49 @@
 {
   "name": "TIMELY-Bench Alignment Protocols",
-  "version": "1.0",
+  "version": "2.0",
   "protocols": [
     {
       "id": "D0_daily",
-      "window_before_hours": 24,
-      "window_after_hours": 24,
-      "description": "Same calendar day alignment (D0)",
-      "use_case": "Aggregated daily features, daily summaries"
+      "type": "calendar_day",
+      "status": "implemented",
+      "description": "Same calendar day alignment (D0), operationalized as ICU admission to end-of-day (hours-to-midnight cutoff).",
+      "use_case": "Canonical daily aligner comparison against charttime windows"
     },
     {
-      "id": "±6h",
+      "id": "obs_6h",
+      "type": "observation_horizon",
+      "status": "implemented",
+      "start_hour": 0,
+      "end_hour": 6,
+      "description": "Observation window from ICU admission (intime) covering hours [0h, 6h).",
+      "use_case": "Structured feature extraction; early prediction"
+    },
+    {
+      "id": "obs_12h",
+      "type": "observation_horizon",
+      "status": "implemented",
+      "start_hour": 0,
+      "end_hour": 12,
+      "description": "Observation window from ICU admission (intime) covering hours [0h, 12h).",
+      "use_case": "Structured feature extraction; mid-horizon prediction"
+    },
+    {
+      "id": "obs_24h",
+      "type": "observation_horizon",
+      "status": "implemented",
+      "start_hour": 0,
+      "end_hour": 24,
+      "description": "Observation window from ICU admission (intime) covering hours [0h, 24h).",
+      "use_case": "Primary benchmark window (used in the paper/poster)"
+    },
+    {
+      "id": "pattern_note_lookback_6h",
+      "type": "pattern_note_alignment",
+      "status": "implemented",
       "window_before_hours": 6,
-      "window_after_hours": 6,
-      "description": "±6 hour window around pattern detection",
-      "use_case": "Tight temporal alignment for acute changes"
-    },
-    {
-      "id": "±12h",
-      "window_before_hours": 12,
-      "window_after_hours": 12,
-      "description": "±12 hour window around pattern detection",
-      "use_case": "Medium temporal alignment for shift-based notes"
-    },
-    {
-      "id": "±24h",
-      "window_before_hours": 24,
-      "window_after_hours": 24,
-      "description": "±24 hour window around pattern detection",
-      "use_case": "Broad alignment for comprehensive context"
-    },
-    {
-      "id": "asymmetric",
-      "window_before_hours": 6,
-      "window_after_hours": 2,
-      "description": "Asymmetric window (-6h, +2h) - default",
-      "use_case": "Predictive modeling, causal alignment"
+      "window_after_hours": 0,
+      "description": "Causal lookback window for aligning notes to detected pattern events: notes in [t-6h, t] relative to pattern hour t (no lookahead).",
+      "use_case": "Pattern-text evidence extraction and optional LLM annotation (SUPPORTIVE/CONTRADICTORY/UNRELATED)"
     }
   ]
 }

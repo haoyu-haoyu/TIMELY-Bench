@@ -1,7 +1,7 @@
 # POST_FIX_CLOSURE_REPORT
 
-**Date**: 2026-02-01T21:04:24.499268+00:00
-**Run ID**: closure_20260201_191928
+**Date**: 2026-02-20T02:20:00+00:00
+**Run ID**: closure_20260220_release_sync
 **Verdict**: PASS
 
 ## 1. Canonical Anchor Files
@@ -16,26 +16,27 @@
 - **Real Size**: 27.7 MB
 - **Status**: EXISTS (symlink verified)
 
-## 2. DeepSeek Canonical Run
+## 2. CRES Canonical Run (Gemini)
 
 | Field | Value |
 |-------|-------|
-| Run ID | 20260127_151413 |
-| Model | deepseek-chat |
-| Records | 900 |
-| Quote Valid Rate | 0.8078 |
-| JSONL Lines | 900 |
-| Audited Lines | 900 |
+| Run ID | cres_gemini3_full_32008668 |
+| Model | gemini-3-flash-preview |
+| Backend | openai-compatible |
+| Records | 3600 (900 per task x 4 tasks) |
+| Predictions Path | `${PROJECT_ROOT}/final_release/cres/model_runs/cres_gemini3_full_32008668/predictions.jsonl` |
+| Evidence Validity Rate | 1.0000 |
 
-### Archived Non-Canonical Runs
-- annotations_deepseek_20260127_151413_part0001.jsonl (900 records)
-- annotations_deepseek_20260127_151413_part0001.jsonl (intermediate run)
+### Retained Multi-Model Baselines
+- `cres_deepseek_full_20260218_063924` (deepseek-chat, 3600 records)
+- `cres_gpt51_full_32004532` (gpt-5.1, 3600 records)
+- `cres_gemini3_full_32008668` (gemini-3-flash-preview, 3600 records)
 
 ## 3. All Checks
 
 - Canonical anchors exist: YES (symlinks)
-- DeepSeek canonical run: 900 records
-- Non-canonical runs archived: YES
+- CRES canonical run: gemini-3-flash-preview (3600 records)
+- Multi-model baselines retained: YES (3 complete runs)
 - Stale references fixed: YES
 - QA Gate: PASS
 - Subject Leakage: PASS
@@ -46,6 +47,8 @@
 All audit evidence in final_release/evidence/:
 - FINAL_AUDIT_SUMMARY.json
 - FINAL_AUDIT_SUMMARY.md
+- final_qa_32045137.json
+- final_qa_32045137.md
 - anchor_fingerprint_strong.json
 - evidence_validity_deepseek_v2_20260127_151413.json
-- llm_reference_scan.txt
+- reference_scan_full.txt

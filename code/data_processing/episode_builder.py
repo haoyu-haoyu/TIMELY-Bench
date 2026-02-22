@@ -62,7 +62,7 @@ from config import (
 # 导入Episode Schema
 from episode_schema import (
     Episode, EpisodeMetadata, PatientDemographics,
-    TimeSeriesData, VitalSign, LabValue,
+    TimeSeriesData, VitalSign, LabValue, Intervention,
     ClinicalText, NoteSpan, LLMExtractedFeatures,
     ReasoningArtefacts, DetectedPattern, PatternTextAlignment,
     ConditionGraph, ConditionGraphNode, ConditionGraphEdge,
@@ -358,7 +358,12 @@ class EpisodeBuilder:
         # 化验列
         lab_cols = ['creatinine', 'bun', 'sodium', 'potassium', 'bicarbonate',
                     'chloride', 'ph', 'lactate', 'wbc', 'hemoglobin',
-                    'hematocrit', 'platelet', 'glucose_lab', 'albumin']
+                    'hematocrit', 'platelet', 'glucose_lab', 'albumin',
+                    'bilirubin_total']
+
+        # 干预/治疗列（可选：扩展时序文件才会包含）
+        intervention_cols = ['vasopressors', 'rrt']
+        has_interventions = any(c in patient_ts.columns for c in intervention_cols)
 
         # 处理每个时间点
         for _, row in patient_ts.iterrows():
@@ -389,12 +394,27 @@ class EpisodeBuilder:
                             setattr(lab, attr_name, to_python_type(row[col]))
                 ts_data.labs.append(lab)
 
+            # 干预/治疗（binary indicators）
+            if has_interventions:
+                interv = Intervention(hour=hour)
+                if 'charttime' in row and pd.notna(row['charttime']):
+                    interv.timestamp = str(row['charttime'])
+                for col in intervention_cols:
+                    if col in row and pd.notna(row[col]) and hasattr(interv, col):
+                        v = to_python_type(row[col])
+                        try:
+                            v = int(v)
+                        except Exception:
+                            pass
+                        setattr(interv, col, v)
+                ts_data.interventions.append(interv)
+
         ts_data.n_timepoints = len(patient_ts)
         ts_data.start_hour = 0
         ts_data.end_hour = OBSERVATION_WINDOW_HOURS
 
         # 计算缺失率
-        for col in vital_cols + lab_cols:
+        for col in vital_cols + lab_cols + (intervention_cols if has_interventions else []):
             if col in patient_ts.columns:
                 missing_rate = patient_ts[col].isna().mean()
                 ts_data.missing_rate[col] = round(float(missing_rate), 3)
@@ -835,7 +855,7 @@ class EpisodeBuilder:
             schema_version="2.0",
             created_at=datetime.now().isoformat(),
             source_database="MIMIC-IV",
-            source_version="2.2",
+            source_version="3.1",
             observation_window_hours=OBSERVATION_WINDOW_HOURS,
             data_quality_score=self._calculate_quality_score(episode)
         )

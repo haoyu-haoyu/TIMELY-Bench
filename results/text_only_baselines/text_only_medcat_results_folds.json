@@ -1,0 +1,170 @@
+{
+  "timestamp": "2026-02-18T03:04:00",
+  "seed": 42,
+  "input_paths": {
+    "cohort_file": "${PROJECT_ROOT}/data/processed/merge_output/cohort_final_extended.csv",
+    "medcat_features_file": "${PROJECT_ROOT}/data/processed/medcat_full/medcat_has_concepts_24h.csv"
+  },
+  "results": [
+    {
+      "task": "mortality",
+      "model": "XGBoost (MedCAT)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.5571238974361171,
+      "cv_auroc_std": 0.003189296116724321,
+      "cv_auprc_mean": 0.14973193290852424,
+      "cv_auprc_std": 0.004129782560705027,
+      "test_auroc": 0.5520211063414434,
+      "test_auprc": 0.1505857566720703,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5525206631198335,
+          "auprc": 0.1572234377391557
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5597283812215869,
+          "auprc": 0.15062948894534595
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5545481782901684,
+          "auprc": 0.14849319750104117
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5611122688226275,
+          "auprc": 0.1469470948034267
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5577099957263694,
+          "auprc": 0.14536644555365175
+        }
+      ],
+      "split_source": "predefined_splits.csv"
+    },
+    {
+      "task": "mortality",
+      "model": "LogisticRegression (MedCAT)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.557478215954065,
+      "cv_auroc_std": 0.003064425280549875,
+      "cv_auprc_mean": 0.14646419677606276,
+      "cv_auprc_std": 0.004944734024962267,
+      "test_auroc": 0.551939384972331,
+      "test_auprc": 0.15007412088940106,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5537237009957561,
+          "auprc": 0.15526203543528844
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5603475425270235,
+          "auprc": 0.14737171849099576
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5541922724136662,
+          "auprc": 0.14539569974903677
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5611649530858381,
+          "auprc": 0.14381714507365348
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5579626107480414,
+          "auprc": 0.14047438513133922
+        }
+      ],
+      "split_source": "predefined_splits.csv"
+    },
+    {
+      "task": "prolonged_los",
+      "model": "XGBoost (MedCAT)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.5553953101046152,
+      "cv_auroc_std": 0.0026890180784084113,
+      "cv_auprc_mean": 0.19753106778880694,
+      "cv_auprc_std": 0.003994873651383839,
+      "test_auroc": 0.5495267601379571,
+      "test_auprc": 0.19455983193260565,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.55486421312074,
+          "auprc": 0.19748358426409232
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5605028880734068,
+          "auprc": 0.19816626357025255
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5536880109349369,
+          "auprc": 0.19350683380266315
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5527873262923731,
+          "auprc": 0.20460143333826683
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5551341121016188,
+          "auprc": 0.19389722396875983
+        }
+      ],
+      "split_source": "predefined_splits.csv"
+    },
+    {
+      "task": "prolonged_los",
+      "model": "LogisticRegression (MedCAT)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.5552349415314777,
+      "cv_auroc_std": 0.002993303985432243,
+      "cv_auprc_mean": 0.19670336284451065,
+      "cv_auprc_std": 0.0038090735448741285,
+      "test_auroc": 0.5490531544763728,
+      "test_auprc": 0.1922298079828476,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5552876247565726,
+          "auprc": 0.197550797296917
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5607767175954164,
+          "auprc": 0.1990076263054144
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5538630385143274,
+          "auprc": 0.19095560211260362
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5518414431223583,
+          "auprc": 0.20188152998549527
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5544058836687138,
+          "auprc": 0.19412125852212297
+        }
+      ],
+      "split_source": "predefined_splits.csv"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-01-28T14:29:20.878753+00:00",
-  "source_file": "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final/results/llm_annotations/annotations_deepseek_20260127_131903_part0001.jsonl",
+  "source_file": "${PROJECT_ROOT}/results/llm_annotations/annotations_deepseek_20260127_131903_part0001.jsonl",
   "source_file_name": "annotations_deepseek_20260127_131903_part0001.jsonl",
   "metadata_run_id": "20260127_131903",
   "record_count": 26,

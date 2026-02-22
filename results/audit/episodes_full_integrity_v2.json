@@ -1,13 +1,13 @@
 {
-  "audit_timestamp": "2026-02-01T16:30:45.713195",
+  "audit_timestamp": "2026-02-20T19:30:34.152577",
   "total_episode_files": 74829,
   "sampled_episodes": 3000,
   "discharge_notes_count": 0,
-  "total_notes": 279043,
+  "total_notes": 280460,
   "note_type_distribution": {
-    "radiology": 3359,
-    "nursing": 271685,
-    "lab_comment": 3999
+    "radiology": 3379,
+    "nursing": 273087,
+    "lab_comment": 3994
   },
   "note_hour_stats": {
     "min": 0,
@@ -16,17 +16,17 @@
   "labels_coverage": {
     "outcome.mortality": 3000,
     "outcome.prolonged_los": 3000,
-    "outcome.readmission_30d": 2631,
-    "process.sepsis_onset_hour": 2991,
-    "process.aki_onset_hour": 2951,
-    "process.aki_stage_max": 2951,
-    "process.first_severe_pattern_hour": 2355,
+    "outcome.readmission_30d": 2659,
+    "process.sepsis_onset_hour": 2989,
+    "process.aki_onset_hour": 2941,
+    "process.aki_stage_max": 2941,
+    "process.first_severe_pattern_hour": 2342,
     "has_sepsis": 3000,
     "has_aki": 3000,
     "has_ards": 3000,
-    "process.ards_onset_hour": 1063
+    "process.ards_onset_hour": 1044
   },
   "parse_errors": [],
   "unique_stay_id_count": 3000,
-  "unique_subject_id_count": 2939
+  "unique_subject_id_count": 2930
 }

@@ -13,7 +13,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
-from sklearn.model_selection import GroupKFold, GroupShuffleSplit
+from sklearn.model_selection import GroupKFold
 from sklearn.metrics import roc_auc_score, average_precision_score
 from sklearn.preprocessing import StandardScaler
 import os
@@ -30,6 +30,7 @@ from config import (
     LR_SCHEDULER_PATIENCE, LR_SCHEDULER_FACTOR, LR_SCHEDULER_MIN_LR,
     TEST_SIZE, USE_HOLDOUT_TEST, N_FOLDS, RANDOM_STATE, LLM_COLS
 )
+from utils.predefined_split import resolve_predefined_partition
 
 # 输出目录
 RESULT_DIR = RESULTS_DIR / 'Output_temporal_gru'
@@ -250,7 +251,14 @@ def load_and_process_data():
         print(f"张量构建失败: {e}")
         raise
 
-    return X_tensor, obs_mask, df_clean['label'].values, df_clean['subject_id'].values, D
+    return (
+        X_tensor,
+        obs_mask,
+        df_clean['label'].values,
+        df_clean['subject_id'].values,
+        df_clean['stay_id'].astype(int).values,
+        D,
+    )
 
 # Model definitions
 class ClinicalGRU(nn.Module):
@@ -350,7 +358,7 @@ def main():
 
     # 加载数据
     try:
-        X_values, X_mask, y, subjects, base_dim = load_and_process_data()
+        X_values, X_mask, y, subjects, stay_ids, base_dim = load_and_process_data()
         input_dim = base_dim * 2
         print(f"\n数据准备完成: X={X_values.shape}, mask={X_mask.shape}, y={y.shape}")
     except Exception as e:
@@ -377,17 +385,19 @@ def main():
     print(f"   - LR调度器耐心值: {LR_SCHEDULER_PATIENCE}")
 
     # 分离测试集
+    split_info = {"source": "runtime_groupkfold"}
     if USE_HOLDOUT_TEST:
         print(f"\n分离独立测试集 ({TEST_SIZE*100:.0f}%)...")
-        gss = GroupShuffleSplit(n_splits=1, test_size=TEST_SIZE, random_state=RANDOM_STATE)
-        train_val_idx, test_idx = next(gss.split(X_values, y, groups=subjects))
+        train_val_idx, test_idx, fold_ids, split_info = resolve_predefined_partition(stay_ids)
 
         X_train_val, X_test = X_values[train_val_idx], X_values[test_idx]
         X_train_val_mask, X_test_mask = X_mask[train_val_idx], X_mask[test_idx]
         y_train_val, y_test = y[train_val_idx], y[test_idx]
         subjects_train_val = subjects[train_val_idx]
+        fold_train_val = fold_ids[train_val_idx]
 
         print(f"   训练+验证集: {len(X_train_val)}, 测试集: {len(X_test)}")
+        print(f"   split source: {split_info['source']}")
     else:
         X_train_val, y_train_val, subjects_train_val = X_values, y, subjects
         X_train_val_mask = X_mask
@@ -395,7 +405,22 @@ def main():
 
     # 交叉验证
     print(f"\n[3/5] 开始 {N_FOLDS} 折交叉验证...")
-    gkf = GroupKFold(n_splits=N_FOLDS)
+    if USE_HOLDOUT_TEST:
+        fold_iter = []
+        for fold in range(1, N_FOLDS + 1):
+            train_idx = np.where(fold_train_val != fold)[0]
+            val_idx = np.where(fold_train_val == fold)[0]
+            if len(train_idx) == 0 or len(val_idx) == 0:
+                continue
+            fold_iter.append((fold, train_idx, val_idx))
+    else:
+        gkf = GroupKFold(n_splits=N_FOLDS)
+        fold_iter = []
+        for fold, (train_idx, val_idx) in enumerate(
+            gkf.split(X_train_val, y_train_val, groups=subjects_train_val),
+            start=1,
+        ):
+            fold_iter.append((fold, train_idx, val_idx))
 
     fold_results = []
     best_model_state = None
@@ -403,10 +428,9 @@ def main():
     best_auc = -1
     best_fold = -1
 
-    for fold, (train_idx, val_idx) in enumerate(gkf.split(X_train_val, y_train_val,
-                                                           groups=subjects_train_val)):
+    for fold, train_idx, val_idx in fold_iter:
         print(f"\n{'='*60}")
-        print(f"Fold {fold+1}/{N_FOLDS}")
+        print(f"Fold {fold}/{N_FOLDS}")
         print(f"{'='*60}")
 
         X_train, X_val = X_train_val[train_idx], X_train_val[val_idx]
@@ -511,7 +535,7 @@ def main():
 
         # 记录Fold结果
         fold_result = {
-            'fold': fold + 1,
+            'fold': fold,
             'val_auroc': best_val_auc,
             'val_auprc': best_epoch_model['val_auprc'],
             'best_epoch': best_epoch_model['epoch'],
@@ -519,22 +543,22 @@ def main():
         }
         fold_results.append(fold_result)
 
-        print(f"\n   Fold {fold+1} 完成:")
+        print(f"\n   Fold {fold} 完成:")
         print(f"      最佳 AUROC: {best_val_auc:.4f} (Epoch {best_epoch_model['epoch']})")
         print(f"      最佳 AUPRC: {best_epoch_model['val_auprc']:.4f}")
 
         # 更新全局最佳模型
         if best_val_auc > best_auc:
             best_auc = best_val_auc
-            best_fold = fold + 1
+            best_fold = fold
             best_model_state = best_epoch_model['model_state']
             best_scaler_params = (scaler.mean_, scaler.scale_)
 
             # 保存最佳模型
             if SAVE_BEST_MODEL:
-                model_path = MODEL_SAVE_DIR / f'best_model_fold{fold+1}.pt'
+                model_path = MODEL_SAVE_DIR / f'best_model_fold{fold}.pt'
                 torch.save({
-                    'fold': fold + 1,
+                    'fold': fold,
                     'epoch': best_epoch_model['epoch'],
                     'model_state_dict': best_model_state,
                     'val_auroc': best_auc,
@@ -624,6 +648,7 @@ def main():
             'train_val_samples': len(X_train_val) if USE_HOLDOUT_TEST else len(X_values),
             'test_samples': len(X_test) if X_test is not None else 0,
             'input_dim': input_dim,
+            'split_source': split_info.get('source', 'unknown'),
         },
         'cross_validation': {
             'n_folds': N_FOLDS,

@@ -1,0 +1,41 @@
+{
+  "evaluation_mode": "external_predictions",
+  "run_id": "cres_gemini3_full_32008668",
+  "timestamp": "2026-02-19T21:48:37",
+  "predictions_file": "${PROJECT_ROOT}/results/cres/model_runs/cres_gemini3_full_32008668/predictions.jsonl",
+  "prediction_metadata": {
+    "n_rows_raw": 3600,
+    "n_rows_valid": 3600,
+    "model_names": [
+      "gemini-3-flash-preview"
+    ],
+    "model_versions": [],
+    "prompt_shas": [
+      "3ef2c7d2cf15f7ec8f6e47750b29e7f18dfd6d778d2977cb5b8452b4c5303e6a",
+      "7dfe601ee94f91de28ff1f33952dd123ba362cbb9009e28101b4ba5d489fa379"
+    ]
+  },
+  "trend_threshold_accuracy": 0.9777777777777777,
+  "temporal_grounding_accuracy": 0.47555555555555556,
+  "temporal_grounding_macro_f1": 0.42201294171417575,
+  "temporal_grounding_balanced_accuracy": 0.528395061728395,
+  "diagnostic_consistency_accuracy": 0.31,
+  "diagnostic_consistency_macro_f1": 0.2949582888912113,
+  "contrastive_inference_accuracy": 0.6722222222222223,
+  "contrastive_inference_macro_f1": 0.6668809981355835,
+  "contrastive_tie_rate": 0.3,
+  "evidence_validity_rate": 1.0,
+  "n_trend": 900,
+  "n_grounding": 900,
+  "n_diagnostic": 900,
+  "n_contrastive": 900,
+  "n_trend_scored": 900,
+  "n_grounding_scored": 900,
+  "n_diagnostic_scored": 900,
+  "n_contrastive_scored": 900,
+  "label_unique_count": 3,
+  "label_entropy": 1.5709505944546684,
+  "dominant_label_ratio": 0.4,
+  "dominant_note_type_ratio": 0.3333333333333333,
+  "warning_flags": []
+}

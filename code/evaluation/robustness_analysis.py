@@ -51,8 +51,12 @@ def load_cohort() -> pd.DataFrame:
 
     if 'label_mortality' in df.columns and 'mortality' not in df.columns:
         df['mortality'] = df['label_mortality']
-    if 'prolonged_los_3d' in df.columns and 'prolonged_los' not in df.columns:
-        df['prolonged_los'] = df['prolonged_los_3d']
+    # Keep prolonged LOS label consistent with the benchmark definition (>7 days).
+    if 'prolonged_los' not in df.columns:
+        if 'prolonged_los_7d' in df.columns:
+            df['prolonged_los'] = df['prolonged_los_7d']
+        elif 'prolonged_los_3d' in df.columns:
+            df['prolonged_los'] = df['prolonged_los_3d']
     if 'has_sepsis_final' in df.columns:
         df['has_sepsis'] = df['has_sepsis_final']
     if 'has_aki_final' in df.columns:

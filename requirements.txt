@@ -21,5 +21,8 @@ seaborn>=0.12.0
 tqdm>=4.64.0
 joblib>=1.2.0
 
+# Optional: CRES foundation-model evaluation
+openai>=2.0.0
+
 # Optional: Workflow Management
 # snakemake>=7.0.0  # Install separately: pip install snakemake

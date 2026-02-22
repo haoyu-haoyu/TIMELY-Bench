@@ -221,29 +221,29 @@
   ],
   "outputs": [
     {
-      "source": "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final/results/llm_annotations/annotations_deepseek_20260126_233913_part0001.jsonl",
-      "output": "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final/results/llm_annotations/annotations_deepseek_20260126_233913_evidence2.jsonl",
+      "source": "${PROJECT_ROOT}/results/llm_annotations/annotations_deepseek_20260126_233913_part0001.jsonl",
+      "output": "${PROJECT_ROOT}/results/llm_annotations/annotations_deepseek_20260126_233913_evidence2.jsonl",
       "output_name": "annotations_deepseek_20260126_233913_evidence2.jsonl",
       "sha256": "9b459e4a505e60a65884bec10183354db99c81fa09620e0b4e4db06a29b2a260",
       "rows": 10
     },
     {
-      "source": "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final/results/llm_annotations/annotations_deepseek_20260126_233913_part0002.jsonl",
-      "output": "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final/results/llm_annotations/annotations_deepseek_20260126_233913_evidence2.jsonl",
+      "source": "${PROJECT_ROOT}/results/llm_annotations/annotations_deepseek_20260126_233913_part0002.jsonl",
+      "output": "${PROJECT_ROOT}/results/llm_annotations/annotations_deepseek_20260126_233913_evidence2.jsonl",
       "output_name": "annotations_deepseek_20260126_233913_evidence2.jsonl",
       "sha256": "57a6fc0867b774765bbf0a04d4c47a474cae8391cb151109fe3e0ade4d0474e2",
       "rows": 10
     },
     {
-      "source": "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final/results/llm_annotations/annotations_deepseek_20260127_131219_part0001.jsonl",
-      "output": "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final/results/llm_annotations/annotations_deepseek_20260127_131219_evidence2.jsonl",
+      "source": "${PROJECT_ROOT}/results/llm_annotations/annotations_deepseek_20260127_131219_part0001.jsonl",
+      "output": "${PROJECT_ROOT}/results/llm_annotations/annotations_deepseek_20260127_131219_evidence2.jsonl",
       "output_name": "annotations_deepseek_20260127_131219_evidence2.jsonl",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "rows": 0
     },
     {
-      "source": "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final/results/llm_annotations/annotations_deepseek_20260127_131903_part0001.jsonl",
-      "output": "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final/results/llm_annotations/annotations_deepseek_20260127_131903_evidence2.jsonl",
+      "source": "${PROJECT_ROOT}/results/llm_annotations/annotations_deepseek_20260127_131903_part0001.jsonl",
+      "output": "${PROJECT_ROOT}/results/llm_annotations/annotations_deepseek_20260127_131903_evidence2.jsonl",
       "output_name": "annotations_deepseek_20260127_131903_evidence2.jsonl",
       "sha256": "93b4daacf6e3a1eda3b252f7b40e68cdea302514e6bcd584704f74166b51a384",
       "rows": 26

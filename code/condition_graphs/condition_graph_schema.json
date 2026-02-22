@@ -19,6 +19,20 @@
             "enum": ["structured_indicator", "pattern_event", "text_evidence", "condition"]
           },
           "label": { "type": "string" },
+          "domain": {
+            "type": "string",
+            "description": "Clinical domain category for the node (used to align with guideline concepts such as labs/vitals/symptoms/medications/multimorbidity).",
+            "enum": [
+              "lab_marker",
+              "vital_sign",
+              "symptom",
+              "medication",
+              "multimorbidity",
+              "condition",
+              "text_evidence",
+              "other"
+            ]
+          },
           "feature": { "type": "string" },
           "threshold": { "type": ["number", "string"] },
           "direction": { "type": "string" },
@@ -39,7 +53,7 @@
           "target": { "type": "string" },
           "relation": {
             "type": "string",
-            "enum": ["triggers", "supports", "contradicts", "temporal_precedes", "aggregates"]
+            "enum": ["triggers", "supports", "contradicts", "temporal_precedes", "contributes_to", "aggregates"]
           },
           "evidence": { "type": "string" }
         },

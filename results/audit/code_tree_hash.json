@@ -1,7 +1,7 @@
 {
   "check_name": "CODE_TREE_HASH",
   "timestamp": "2026-01-28T21:36:27.736117+00:00",
-  "code_directory": "/scratch/users/k25113331/TIMELY-Bench_Final/code",
+  "code_directory": "${PROJECT_ROOT}/code",
   "code_tree_hash": "3eb5d44bb72dc29d308318049ea8708dad4cb84d40a8ea4f4b250ff1f8998677",
   "n_files": 111,
   "hash_method": "sha256 of each file, then sha256 of sorted (relpath + hash) concatenation",

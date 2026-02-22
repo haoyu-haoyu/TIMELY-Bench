@@ -1,0 +1,219 @@
+{
+  "summary": {
+    "evaluation_mode": "external_predictions",
+    "run_id": "cres_gemini3_full_32008668",
+    "timestamp": "2026-02-19T21:48:37",
+    "predictions_file": "${PROJECT_ROOT}/results/cres/model_runs/cres_gemini3_full_32008668/predictions.jsonl",
+    "prediction_metadata": {
+      "n_rows_raw": 3600,
+      "n_rows_valid": 3600,
+      "model_names": [
+        "gemini-3-flash-preview"
+      ],
+      "model_versions": [],
+      "prompt_shas": [
+        "3ef2c7d2cf15f7ec8f6e47750b29e7f18dfd6d778d2977cb5b8452b4c5303e6a",
+        "7dfe601ee94f91de28ff1f33952dd123ba362cbb9009e28101b4ba5d489fa379"
+      ]
+    },
+    "trend_threshold_accuracy": 0.9777777777777777,
+    "temporal_grounding_accuracy": 0.47555555555555556,
+    "temporal_grounding_macro_f1": 0.42201294171417575,
+    "temporal_grounding_balanced_accuracy": 0.528395061728395,
+    "diagnostic_consistency_accuracy": 0.31,
+    "diagnostic_consistency_macro_f1": 0.2949582888912113,
+    "contrastive_inference_accuracy": 0.6722222222222223,
+    "contrastive_inference_macro_f1": 0.6668809981355835,
+    "contrastive_tie_rate": 0.3,
+    "evidence_validity_rate": 1.0,
+    "n_trend": 900,
+    "n_grounding": 900,
+    "n_diagnostic": 900,
+    "n_contrastive": 900,
+    "n_trend_scored": 900,
+    "n_grounding_scored": 900,
+    "n_diagnostic_scored": 900,
+    "n_contrastive_scored": 900,
+    "label_unique_count": 3,
+    "label_entropy": 1.5709505944546684,
+    "dominant_label_ratio": 0.4,
+    "dominant_note_type_ratio": 0.3333333333333333,
+    "warning_flags": []
+  },
+  "task_results": {
+    "trend_threshold": {
+      "accuracy": 0.9777777777777777,
+      "macro_f1": 0.9777619640633339,
+      "balanced_accuracy": 0.9777619640633339,
+      "confusion_matrix": {
+        "labels": [
+          "no",
+          "yes"
+        ],
+        "matrix": [
+          [
+            428,
+            10
+          ],
+          [
+            10,
+            452
+          ]
+        ]
+      },
+      "n_gold": 900,
+      "n_scored": 900,
+      "coverage": 1.0,
+      "n_missing_predictions": 0,
+      "n_task_mismatch": 0,
+      "missing_id_examples": [],
+      "task_mismatch_examples": [],
+      "gold_label_distribution": {
+        "no": 438,
+        "yes": 462
+      },
+      "pred_label_distribution": {
+        "no": 438,
+        "yes": 462
+      }
+    },
+    "temporal_grounding": {
+      "accuracy": 0.47555555555555556,
+      "macro_f1": 0.42201294171417575,
+      "balanced_accuracy": 0.528395061728395,
+      "confusion_matrix": {
+        "labels": [
+          "high",
+          "low",
+          "medium"
+        ],
+        "matrix": [
+          [
+            164,
+            106,
+            0
+          ],
+          [
+            5,
+            264,
+            1
+          ],
+          [
+            8,
+            352,
+            0
+          ]
+        ]
+      },
+      "n_gold": 900,
+      "n_scored": 900,
+      "coverage": 1.0,
+      "n_missing_predictions": 0,
+      "n_task_mismatch": 0,
+      "missing_id_examples": [],
+      "task_mismatch_examples": [],
+      "gold_label_distribution": {
+        "high": 270,
+        "medium": 360,
+        "low": 270
+      },
+      "pred_label_distribution": {
+        "low": 722,
+        "high": 177,
+        "medium": 1
+      }
+    },
+    "diagnostic_consistency": {
+      "accuracy": 0.31,
+      "macro_f1": 0.2949582888912113,
+      "balanced_accuracy": 0.35813520780180214,
+      "confusion_matrix": {
+        "labels": [
+          "ambiguous",
+          "consistent",
+          "inconsistent"
+        ],
+        "matrix": [
+          [
+            101,
+            52,
+            11
+          ],
+          [
+            229,
+            136,
+            50
+          ],
+          [
+            176,
+            103,
+            42
+          ]
+        ]
+      },
+      "n_gold": 900,
+      "n_scored": 900,
+      "coverage": 1.0,
+      "n_missing_predictions": 0,
+      "n_task_mismatch": 0,
+      "missing_id_examples": [],
+      "task_mismatch_examples": [],
+      "gold_label_distribution": {
+        "ambiguous": 164,
+        "inconsistent": 321,
+        "consistent": 415
+      },
+      "pred_label_distribution": {
+        "consistent": 291,
+        "ambiguous": 506,
+        "inconsistent": 103
+      }
+    },
+    "contrastive_inference": {
+      "accuracy": 0.6722222222222223,
+      "macro_f1": 0.6668809981355835,
+      "balanced_accuracy": 0.6691358024691357,
+      "confusion_matrix": {
+        "labels": [
+          "A_more_plausible",
+          "B_more_plausible",
+          "tie"
+        ],
+        "matrix": [
+          [
+            289,
+            11,
+            15
+          ],
+          [
+            148,
+            152,
+            15
+          ],
+          [
+            67,
+            39,
+            164
+          ]
+        ]
+      },
+      "n_gold": 900,
+      "n_scored": 900,
+      "coverage": 1.0,
+      "n_missing_predictions": 0,
+      "n_task_mismatch": 0,
+      "missing_id_examples": [],
+      "task_mismatch_examples": [],
+      "gold_label_distribution": {
+        "B_more_plausible": 315,
+        "A_more_plausible": 315,
+        "tie": 270
+      },
+      "pred_label_distribution": {
+        "A_more_plausible": 504,
+        "B_more_plausible": 202,
+        "tie": 194
+      }
+    }
+  }
+}

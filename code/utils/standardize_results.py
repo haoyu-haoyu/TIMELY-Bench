@@ -30,6 +30,39 @@ STANDARD_DIR = RESULTS_DIR / "standardized"
 FUSION_LATE_XGB_JSON = RESULTS_DIR / "fusion_baselines" / "fusion_results_late_xgb.json"
 
 
+def _normalize_path_text(value: str) -> str:
+    prefixes = [
+        str(ROOT_DIR),
+        "/scratch/users/k25113331/TIMELY-Bench_Final",
+        "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final",
+    ]
+    normalized = value
+    for prefix in prefixes:
+        clean = prefix.rstrip("/")
+        if normalized == clean:
+            normalized = "${PROJECT_ROOT}"
+            continue
+        normalized = normalized.replace(clean + "/", "${PROJECT_ROOT}/")
+
+    # Some CREATE runs store paths under /cephfs/.../TIMELY-Bench_Final/.
+    marker = "TIMELY-Bench_Final"
+    if "/cephfs/" in normalized and marker in normalized:
+        left, _, right = normalized.partition(marker)
+        normalized = "${PROJECT_ROOT}" + ("/" + right.lstrip("/") if right else "")
+
+    return normalized
+
+
+def _sanitize_json_object(obj):
+    if isinstance(obj, dict):
+        return {k: _sanitize_json_object(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_sanitize_json_object(v) for v in obj]
+    if isinstance(obj, str):
+        return _normalize_path_text(obj)
+    return obj
+
+
 def _dump_json(path: Path, payload: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w") as f:
@@ -55,10 +88,10 @@ def standardize_structured():
     results = []
     for _, row in df.iterrows():
         window = row.get("window")
-        input_paths = {
+        input_paths = _sanitize_json_object({
             "features_file": str(get_features_file(str(window))),
             "cohort_file": str(COHORT_FILE),
-        }
+        })
         results.append({
             "step": "structured",
             "task": row.get("task"),
@@ -81,9 +114,9 @@ def standardize_structured():
         "step": "structured",
         "timestamp": _now_iso(),
         "seed": RANDOM_STATE,
-        "inputs": {
+        "inputs": _sanitize_json_object({
             "cohort_file": str(COHORT_FILE),
-        },
+        }),
         "results": results,
     }
 
@@ -92,37 +125,48 @@ def standardize_structured():
 
 
 def standardize_text():
-    input_path = RESULTS_DIR / "text_only_baselines" / "text_only_results_folds.json"
-    if not input_path.exists():
-        raise FileNotFoundError(f"Missing text results: {input_path}")
-
-    with open(input_path) as f:
-        payload = json.load(f)
+    input_dir = RESULTS_DIR / "text_only_baselines"
+    json_paths = sorted(input_dir.glob("text_only*_results_folds.json"))
+    if not json_paths:
+        raise FileNotFoundError(f"Missing text results under: {input_dir}")
 
     results = []
-    for row in payload.get("results", []):
-        results.append({
-            "step": "text",
-            "task": row.get("task"),
-            "model": row.get("model"),
-            "n_samples": row.get("n_samples"),
-            "positive_rate": row.get("positive_rate"),
-            "auroc_mean": row.get("cv_auroc_mean"),
-            "auroc_std": row.get("cv_auroc_std"),
-            "auprc_mean": row.get("cv_auprc_mean"),
-            "auprc_std": row.get("cv_auprc_std"),
-            "test_auroc": row.get("test_auroc"),
-            "test_auprc": row.get("test_auprc"),
-            "fold_details": json.dumps(row.get("fold_details", []), ensure_ascii=True),
-            "seed": RANDOM_STATE,
-            "input_paths": json.dumps(payload.get("input_paths", {}), ensure_ascii=True),
-        })
+    all_inputs = []
+    for input_path in json_paths:
+        with open(input_path) as f:
+            payload = json.load(f)
+        all_inputs.append(
+            {
+                "source_json": input_path.name,
+                "inputs": _sanitize_json_object(payload.get("input_paths", {})),
+            }
+        )
+        for row in payload.get("results", []):
+            results.append({
+                "step": "text",
+                "task": row.get("task"),
+                "model": row.get("model"),
+                "cohort": "all",
+                "window": "24h",
+                "n_samples": row.get("n_samples"),
+                "positive_rate": row.get("positive_rate"),
+                "auroc_mean": row.get("cv_auroc_mean"),
+                "auroc_std": row.get("cv_auroc_std"),
+                "auprc_mean": row.get("cv_auprc_mean"),
+                "auprc_std": row.get("cv_auprc_std"),
+                "test_auroc": row.get("test_auroc"),
+                "test_auprc": row.get("test_auprc"),
+                "fold_details": json.dumps(row.get("fold_details", []), ensure_ascii=True),
+                "seed": RANDOM_STATE,
+                "input_paths": json.dumps(_sanitize_json_object(payload.get("input_paths", {})), ensure_ascii=True),
+                "source_json": input_path.name,
+            })
 
     output_payload = {
         "step": "text",
         "timestamp": _now_iso(),
         "seed": RANDOM_STATE,
-        "inputs": payload.get("input_paths", {}),
+        "inputs": _sanitize_json_object(all_inputs),
         "results": results,
     }
 
@@ -144,6 +188,8 @@ def standardize_fusion():
             "step": "fusion",
             "task": row.get("task"),
             "model": row.get("model"),
+            "cohort": row.get("cohort"),
+            "window": row.get("window"),
             "n_samples": row.get("n_samples"),
             "positive_rate": row.get("positive_rate"),
             "auroc_mean": row.get("cv_auroc_mean"),
@@ -161,7 +207,7 @@ def standardize_fusion():
         "step": "fusion",
         "timestamp": _now_iso(),
         "seed": RANDOM_STATE,
-        "inputs": payload.get("input_paths", {}),
+        "inputs": _sanitize_json_object(payload.get("input_paths", {})),
         "results": results,
     }
 
@@ -192,6 +238,7 @@ def standardize_fusion_late_xgb():
             "auprc_std": row.get("cv_auprc_std"),
             "test_auroc": row.get("test_auroc"),
             "test_auprc": row.get("test_auprc"),
+            "alpha_final": row.get("alpha_final"),
             "fold_details": json.dumps(row.get("fold_details", []), ensure_ascii=True),
             "seed": RANDOM_STATE,
             "input_paths": json.dumps(payload.get("input_paths", {}), ensure_ascii=True),
@@ -201,7 +248,7 @@ def standardize_fusion_late_xgb():
         "step": "fusion",
         "timestamp": _now_iso(),
         "seed": RANDOM_STATE,
-        "inputs": payload.get("input_paths", {}),
+        "inputs": _sanitize_json_object(payload.get("input_paths", {})),
         "results": results,
     }
 
@@ -232,6 +279,8 @@ def standardize_gru():
         "step": "gru",
         "task": "mortality",
         "model": "temporal_gru_v2",
+        "cohort": "all",
+        "window": "24h",
         "n_samples": raw.get("data", {}).get("total_samples"),
         "auroc_mean": cv.get("mean_auroc"),
         "auroc_std": cv.get("std_auroc"),
@@ -241,19 +290,68 @@ def standardize_gru():
         "test_auprc": test.get("test_auprc"),
         "fold_details": json.dumps(fold_details, ensure_ascii=True),
         "seed": RANDOM_STATE,
-        "input_paths": json.dumps(input_paths, ensure_ascii=True),
+        "input_paths": json.dumps(_sanitize_json_object(input_paths), ensure_ascii=True),
     }]
 
     output_payload = {
         "step": "gru",
         "timestamp": _now_iso(),
         "seed": RANDOM_STATE,
-        "inputs": input_paths,
+        "inputs": _sanitize_json_object(input_paths),
         "results": results,
     }
 
     _dump_json(STANDARD_DIR / "gru_results.json", output_payload)
     _dump_csv(STANDARD_DIR / "gru_results.csv", results)
+
+
+def standardize_readmission():
+    input_path = RESULTS_DIR / "readmission_baselines" / "readmission_results.csv"
+    if not input_path.exists():
+        raise FileNotFoundError(f"Missing readmission results: {input_path}")
+
+    df = pd.read_csv(input_path)
+    results = []
+    for _, row in df.iterrows():
+        # Backward-compatible with both old and new column names.
+        auroc_mean = row.get("cv_auroc_mean", row.get("auroc_mean"))
+        auroc_std = row.get("cv_auroc_std", row.get("auroc_std"))
+        auprc_mean = row.get("cv_auprc_mean", row.get("auprc_mean"))
+        auprc_std = row.get("cv_auprc_std", row.get("auprc_std"))
+        results.append({
+            "step": "readmission",
+            "task": row.get("task", "readmission_30d"),
+            "model": row.get("model"),
+            "cohort": row.get("cohort", "all"),
+            "window": row.get("window", "24h"),
+            "feature_set": row.get("feature_set"),
+            "description": row.get("description"),
+            "n_samples": row.get("n_samples"),
+            "positive_rate": row.get("positive_rate"),
+            "n_features": row.get("n_features"),
+            "auroc_mean": auroc_mean,
+            "auroc_std": auroc_std,
+            "auprc_mean": auprc_mean,
+            "auprc_std": auprc_std,
+            "test_auroc": row.get("test_auroc"),
+            "test_auprc": row.get("test_auprc"),
+            "seed": RANDOM_STATE,
+            "input_paths": json.dumps(
+                _sanitize_json_object({"readmission_results_csv": str(input_path)}),
+                ensure_ascii=True,
+            ),
+        })
+
+    payload = {
+        "step": "readmission",
+        "timestamp": _now_iso(),
+        "seed": RANDOM_STATE,
+        "inputs": _sanitize_json_object({"readmission_results_csv": str(input_path)}),
+        "results": results,
+    }
+
+    _dump_json(STANDARD_DIR / "readmission_results.json", payload)
+    _dump_csv(STANDARD_DIR / "readmission_results.csv", results)
 
 
 def build_results_summary():
@@ -263,6 +361,7 @@ def build_results_summary():
         "fusion_results.csv",
         "fusion_results_late_xgb.csv",
         "gru_results.csv",
+        "readmission_results.csv",
     ]
     frames = []
     for fname in standard_files:
@@ -289,6 +388,23 @@ def build_results_summary():
             return f"{float(x):.4f}"
         except Exception:
             return "NA"
+
+    # Ensure missing cohort/window fields are explicit for text/GRU rows.
+    text_or_gru = summary["step"].astype(str).isin(["text", "gru"])
+    if "cohort" in summary.columns:
+        summary.loc[text_or_gru, "cohort"] = (
+            summary.loc[text_or_gru, "cohort"].fillna("").replace("", "all")
+        )
+    else:
+        summary["cohort"] = "NA"
+        summary.loc[text_or_gru, "cohort"] = "all"
+    if "window" in summary.columns:
+        summary.loc[text_or_gru, "window"] = (
+            summary.loc[text_or_gru, "window"].fillna("").replace("", "24h")
+        )
+    else:
+        summary["window"] = "NA"
+        summary.loc[text_or_gru, "window"] = "24h"
 
     summary["auroc_mean_std"] = summary.apply(
         lambda r: f"{fmt(r.get('auroc_mean'))} +/- {fmt(r.get('auroc_std'))}", axis=1
@@ -321,12 +437,21 @@ def build_results_summary():
     md = summary[md_cols].copy()
     md["test_auroc"] = md["test_auroc"].apply(fmt)
     md["test_auprc"] = md["test_auprc"].apply(fmt)
-    (STANDARD_DIR / "results_summary.md").write_text(md.to_markdown(index=False))
+
+    # `DataFrame.to_markdown()` requires `tabulate>=0.9.0`. CREATE images may ship
+    # an older version; generate a simple Markdown table ourselves for portability.
+    cols = list(md.columns)
+    lines = []
+    lines.append("| " + " | ".join(cols) + " |")
+    lines.append("| " + " | ".join(["---"] * len(cols)) + " |")
+    for _, row in md.iterrows():
+        lines.append("| " + " | ".join(str(row[c]) for c in cols) + " |")
+    (STANDARD_DIR / "results_summary.md").write_text("\n".join(lines) + "\n")
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--step", required=True, choices=["structured", "text", "fusion", "gru"])
+    parser.add_argument("--step", required=True, choices=["structured", "text", "fusion", "gru", "readmission"])
     args = parser.parse_args()
 
     if args.step == "structured":
@@ -338,6 +463,8 @@ def main():
         standardize_fusion_late_xgb()
     elif args.step == "gru":
         standardize_gru()
+    elif args.step == "readmission":
+        standardize_readmission()
 
     build_results_summary()
     print(f"Standardized results saved to: {STANDARD_DIR}")

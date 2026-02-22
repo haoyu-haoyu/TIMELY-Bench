@@ -47,6 +47,8 @@ venv/
 # Large dataset files
 dataset/timely_bench_samples.jsonl
 dataset/timely_bench_episodes.jsonl
+results/state_space/episode_state_trajectory.jsonl
+final_release/state_space/episode_state_trajectory.jsonl
 
 # Exclude MSc project summary
 docs/MSc_Project_Summary.html

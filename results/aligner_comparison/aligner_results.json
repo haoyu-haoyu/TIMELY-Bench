@@ -1,0 +1,666 @@
+{
+  "timestamp": "2026-02-06T20:07:42",
+  "seed": 42,
+  "input_paths": {
+    "cohort_file": "${PROJECT_ROOT}/data/processed/merge_output/cohort_final.csv",
+    "splits_file": "${PROJECT_ROOT}/data/splits/predefined_splits.csv",
+    "medcat_note_concepts": "${PROJECT_ROOT}/data/processed/medcat_full/medcat_note_concepts_24h.csv"
+  },
+  "note_types_included": [
+    "nursing",
+    "radiology",
+    "lab_comment"
+  ],
+  "windows": [
+    "6h",
+    "12h",
+    "24h",
+    "D0"
+  ],
+  "tasks": [
+    "mortality",
+    "prolonged_los"
+  ],
+  "results": [
+    {
+      "window": "6h",
+      "task": "mortality",
+      "model": "XGBoost (MedCAT)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.5282938618048582,
+      "cv_auroc_std": 0.006348623925351353,
+      "cv_auprc_mean": 0.1306833409776055,
+      "cv_auprc_std": 0.0046654845020679524,
+      "test_auroc": 0.5162324381288536,
+      "test_auprc": 0.1289618402766745,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5276343450788545,
+          "auprc": 0.1309113413319175
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5220198984803046,
+          "auprc": 0.12395960238409164
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5365908175866175,
+          "auprc": 0.13795988213045696
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5208313222779954,
+          "auprc": 0.12802135355326982
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5343929256005188,
+          "auprc": 0.1325645254882915
+        }
+      ]
+    },
+    {
+      "window": "6h",
+      "task": "mortality",
+      "model": "LogisticRegression (MedCAT)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.5285061504859445,
+      "cv_auroc_std": 0.0061107458946904405,
+      "cv_auprc_mean": 0.12970608000621558,
+      "cv_auprc_std": 0.0037212556817490545,
+      "test_auroc": 0.5161809128056282,
+      "test_auprc": 0.12940218853664545,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5274499363131157,
+          "auprc": 0.12967250004475986
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5233657170066429,
+          "auprc": 0.1247672012493464
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5366138989283433,
+          "auprc": 0.1357400109042624
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5207828569554338,
+          "auprc": 0.12719123396737034
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5343183432261865,
+          "auprc": 0.13115945386533898
+        }
+      ]
+    },
+    {
+      "window": "6h",
+      "task": "prolonged_los",
+      "model": "XGBoost (MedCAT)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.5264779434413801,
+      "cv_auroc_std": 0.00273570114042047,
+      "cv_auprc_mean": 0.1768801522116406,
+      "cv_auprc_std": 0.0017799959066314751,
+      "test_auroc": 0.527339309821028,
+      "test_auprc": 0.17890670390915725,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5292470932579967,
+          "auprc": 0.1780181446324492
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5281702562072856,
+          "auprc": 0.1763890399614299
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5286218143067809,
+          "auprc": 0.17961392471532592
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5236635354486945,
+          "auprc": 0.17444223280603716
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5226870179861426,
+          "auprc": 0.17593741894296092
+        }
+      ]
+    },
+    {
+      "window": "6h",
+      "task": "prolonged_los",
+      "model": "LogisticRegression (MedCAT)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.5263918658859944,
+      "cv_auroc_std": 0.0027118271096308235,
+      "cv_auprc_mean": 0.17690151827900577,
+      "cv_auprc_std": 0.002602582479377885,
+      "test_auroc": 0.5272380784237475,
+      "test_auprc": 0.1783170300577589,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5293015031909147,
+          "auprc": 0.177890292309446
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5279156620269791,
+          "auprc": 0.1760174614607749
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5284632248203309,
+          "auprc": 0.18133739741310667
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5236568658918865,
+          "auprc": 0.1736010706054684
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5226220734998605,
+          "auprc": 0.17566136960623296
+        }
+      ]
+    },
+    {
+      "window": "12h",
+      "task": "mortality",
+      "model": "XGBoost (MedCAT)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.5430002926139585,
+      "cv_auroc_std": 0.006896457215839471,
+      "cv_auprc_mean": 0.13967500984383122,
+      "cv_auprc_std": 0.004055251433794709,
+      "test_auroc": 0.5299695551125441,
+      "test_auprc": 0.13577872161771876,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.542505726550779,
+          "auprc": 0.13832803446857483
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5346957536420586,
+          "auprc": 0.13298927636375624
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5515394318296919,
+          "auprc": 0.14516675278567034
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5362148956402275,
+          "auprc": 0.1398674270089109
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5500456554070355,
+          "auprc": 0.14202355859224383
+        }
+      ]
+    },
+    {
+      "window": "12h",
+      "task": "mortality",
+      "model": "LogisticRegression (MedCAT)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.5433908513350048,
+      "cv_auroc_std": 0.006844788309706677,
+      "cv_auprc_mean": 0.13735630373116514,
+      "cv_auprc_std": 0.0037472882348897492,
+      "test_auroc": 0.5298593129856113,
+      "test_auprc": 0.13472655666666697,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5428907457095326,
+          "auprc": 0.13794572738512384
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5357345547676621,
+          "auprc": 0.13073269320330033
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5515635167080145,
+          "auprc": 0.14184809893851474
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5360140678765175,
+          "auprc": 0.13660672694884177
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5507513716132969,
+          "auprc": 0.13964827218004505
+        }
+      ]
+    },
+    {
+      "window": "12h",
+      "task": "prolonged_los",
+      "model": "XGBoost (MedCAT)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.539015354210744,
+      "cv_auroc_std": 0.005146341424634041,
+      "cv_auprc_mean": 0.18404342912478672,
+      "cv_auprc_std": 0.0032535018226384385,
+      "test_auroc": 0.5350750354769155,
+      "test_auprc": 0.1847421335721823,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5433185021317278,
+          "auprc": 0.18462185587285285
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5352214080705576,
+          "auprc": 0.17961924542480737
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5467292327990122,
+          "auprc": 0.1895586400145652
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5331431901740753,
+          "auprc": 0.18243175226961345
+        },
+        {
+          "fold": 5,
+          "auroc": 0.536664437878347,
+          "auprc": 0.1839856520420948
+        }
+      ]
+    },
+    {
+      "window": "12h",
+      "task": "prolonged_los",
+      "model": "LogisticRegression (MedCAT)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.5386997705885459,
+      "cv_auroc_std": 0.005024126438700196,
+      "cv_auprc_mean": 0.18403430049082609,
+      "cv_auprc_std": 0.0040927913177025,
+      "test_auroc": 0.5341145135625095,
+      "test_auprc": 0.18184362504670376,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5425135074360417,
+          "auprc": 0.18311216643595946
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5352740002955975,
+          "auprc": 0.1797669963804841
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5463798643634458,
+          "auprc": 0.1918133138227935
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5326165817687664,
+          "auprc": 0.1820958942024106
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5367148990788783,
+          "auprc": 0.18338313161248287
+        }
+      ]
+    },
+    {
+      "window": "24h",
+      "task": "mortality",
+      "model": "XGBoost (MedCAT)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.5566214086059699,
+      "cv_auroc_std": 0.00628407332494758,
+      "cv_auprc_mean": 0.1483702313054704,
+      "cv_auprc_std": 0.0038634597359585173,
+      "test_auroc": 0.5520798231451507,
+      "test_auprc": 0.1509089227831414,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.556461320919989,
+          "auprc": 0.14477606763076997
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5494172244104123,
+          "auprc": 0.1443708346324991
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5634154177207703,
+          "auprc": 0.15508928932461136
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5498637837777299,
+          "auprc": 0.1484990172669428
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5639492962009476,
+          "auprc": 0.1491159476725287
+        }
+      ]
+    },
+    {
+      "window": "24h",
+      "task": "mortality",
+      "model": "LogisticRegression (MedCAT)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.5573604183855188,
+      "cv_auroc_std": 0.005869016165085677,
+      "cv_auprc_mean": 0.14655280649988922,
+      "cv_auprc_std": 0.0033413723942172925,
+      "test_auroc": 0.551939384972331,
+      "test_auprc": 0.15007412088940106,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5566544891021006,
+          "auprc": 0.14488695788393208
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5525374349117673,
+          "auprc": 0.14367967800378828
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5638127513106522,
+          "auprc": 0.1527584082125677
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5496045909660106,
+          "auprc": 0.1441549468174747
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5641928256370635,
+          "auprc": 0.14728404158168326
+        }
+      ]
+    },
+    {
+      "window": "24h",
+      "task": "prolonged_los",
+      "model": "XGBoost (MedCAT)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.5552788992338018,
+      "cv_auroc_std": 0.004743025178520785,
+      "cv_auprc_mean": 0.19775882222719468,
+      "cv_auprc_std": 0.004096306753173878,
+      "test_auroc": 0.5495251809152678,
+      "test_auprc": 0.19456233248807617,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5604979016827699,
+          "auprc": 0.19702586776760225
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5533797832160956,
+          "auprc": 0.1922301641483275
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5609209671805875,
+          "auprc": 0.2023752018025429
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5529940057358189,
+          "auprc": 0.20246286927958917
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5486018383537367,
+          "auprc": 0.19470000813791166
+        }
+      ]
+    },
+    {
+      "window": "24h",
+      "task": "prolonged_los",
+      "model": "LogisticRegression (MedCAT)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.5553415556856155,
+      "cv_auroc_std": 0.004753637825151439,
+      "cv_auprc_mean": 0.19655372428201076,
+      "cv_auprc_std": 0.004244518061283162,
+      "test_auroc": 0.5490531544763728,
+      "test_auprc": 0.1922298079828476,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5601724370695973,
+          "auprc": 0.19547727777843496
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5547943685575824,
+          "auprc": 0.19206404853511228
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5612691054456062,
+          "auprc": 0.20428990522908178
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5512552314336213,
+          "auprc": 0.19727986437033118
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5492166359216705,
+          "auprc": 0.19365752549709367
+        }
+      ]
+    },
+    {
+      "window": "D0",
+      "task": "mortality",
+      "model": "XGBoost (MedCAT)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.5349964632794173,
+      "cv_auroc_std": 0.006341590054290618,
+      "cv_auprc_mean": 0.13641558920951555,
+      "cv_auprc_std": 0.0037150243982131486,
+      "test_auroc": 0.5231040203113559,
+      "test_auprc": 0.13379059082479103,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5315090037579872,
+          "auprc": 0.1349409766330468
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5297844610036232,
+          "auprc": 0.13136515881138747
+        },
+        {
+          "fold": 3,
+          "auroc": 0.541200663297549,
+          "auprc": 0.13940723034480226
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5284934097827688,
+          "auprc": 0.1345675065271953
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5439947785551583,
+          "auprc": 0.14179707373114592
+        }
+      ]
+    },
+    {
+      "window": "D0",
+      "task": "mortality",
+      "model": "LogisticRegression (MedCAT)",
+      "n_samples": 74829,
+      "positive_rate": 0.11933875903727165,
+      "cv_auroc_mean": 0.5355435159394561,
+      "cv_auroc_std": 0.00579907509514046,
+      "cv_auprc_mean": 0.13450805649640202,
+      "cv_auprc_std": 0.0025841485689860866,
+      "test_auroc": 0.5230154343472381,
+      "test_auprc": 0.1333462822671812,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5320386191471622,
+          "auprc": 0.1342931324226458
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5317865326232502,
+          "auprc": 0.13032059437750598
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5411630641263899,
+          "auprc": 0.13700824542020662
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5289883960551494,
+          "auprc": 0.13349091151038991
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5437409677453288,
+          "auprc": 0.13742739875126186
+        }
+      ]
+    },
+    {
+      "window": "D0",
+      "task": "prolonged_los",
+      "model": "XGBoost (MedCAT)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.5279998978203153,
+      "cv_auroc_std": 0.0030521724865535753,
+      "cv_auprc_mean": 0.17934859262227146,
+      "cv_auprc_std": 0.0016286685202539309,
+      "test_auroc": 0.5278922311364509,
+      "test_auprc": 0.18174029884484458,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.532046246034071,
+          "auprc": 0.18056665010424966
+        },
+        {
+          "fold": 2,
+          "auroc": 0.5292834236582279,
+          "auprc": 0.17736505735397634
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5276346793278552,
+          "auprc": 0.18090758810957883
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5226802187197785,
+          "auprc": 0.1773550514675751
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5283549213616439,
+          "auprc": 0.18054861607597733
+        }
+      ]
+    },
+    {
+      "window": "D0",
+      "task": "prolonged_los",
+      "model": "LogisticRegression (MedCAT)",
+      "n_samples": 74829,
+      "positive_rate": 0.1616351949110639,
+      "cv_auroc_mean": 0.5283816377132864,
+      "cv_auroc_std": 0.003097866586354933,
+      "cv_auprc_mean": 0.17932336313187736,
+      "cv_auprc_std": 0.0030187308045832076,
+      "test_auroc": 0.5274521436707189,
+      "test_auprc": 0.18022909497533007,
+      "fold_details": [
+        {
+          "fold": 1,
+          "auroc": 0.5316366790606804,
+          "auprc": 0.179000575548667
+        },
+        {
+          "fold": 2,
+          "auroc": 0.529283059878015,
+          "auprc": 0.17677355673176423
+        },
+        {
+          "fold": 3,
+          "auroc": 0.5300632410175765,
+          "auprc": 0.18491092470727588
+        },
+        {
+          "fold": 4,
+          "auroc": 0.5225723855337312,
+          "auprc": 0.17654257245064495
+        },
+        {
+          "fold": 5,
+          "auroc": 0.5283528230764291,
+          "auprc": 0.17938918622103467
+        }
+      ]
+    }
+  ]
+}

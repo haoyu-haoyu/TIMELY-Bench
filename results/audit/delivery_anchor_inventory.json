@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-02-01T13:31:54.859779+00:00",
-  "canonical_root": "/scratch/users/k25113331/TIMELY-Bench_Final",
+  "canonical_root": "${PROJECT_ROOT}",
   "anchors": {
     "MASTER_DELIVERY_AUDIT": {
       "canonical_path": "final_release/MASTER_DELIVERY_AUDIT.md",

@@ -16,4 +16,6 @@ source /scratch/users/k25113331/venvs/timer/bin/activate
 export PYTHONPATH=/scratch/users/k25113331/TIMELY-Bench_Final/code
 
 python code/baselines/train_text_only.py
+python code/baselines/train_text_only_embeddings.py
+python code/baselines/train_text_only_medcat.py
 python code/utils/standardize_results.py --step text

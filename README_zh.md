@@ -1,149 +1,138 @@
 # TIMELY-Bench
 
-多模态临床时序数据融合基准
-
-[![Python](https://img.shields.io/badge/Python-3.12+-green.svg)](https://python.org)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org)
+用于 ICU 多模态（结构化时序 + 临床笔记）时间对齐与融合的基准数据与评估框架。
 
 [English](README.md) | 中文
 
-## 项目进展
+## 当前状态
 
-总Episodes数: **74,829** | 增强版: **74,711** | LLM时间线: **74,711**
+| 指标 | 数值 |
+|------|------|
+| Episodes（ICU stays） | **74,829** |
+| 患者数（约） | ~50,000 |
+| 时间窗口 | 6h, 12h, 24h（含 D0） |
+| 生理特征（结构化） | 25 |
+| 文本表示 | 标注统计特征、ClinicalBERT embedding（可选 MedCAT concepts） |
 
-最近更新: 2026年1月
+最近更新：2026 年 2 月 | 版本：2.0 Final
 
-## 这个项目做什么
+## 项目做什么
 
-简单来说，TIMELY-Bench是一个做临床多模态数据融合的benchmark。我们把MIMIC-IV的时序指标和临床笔记对齐起来，然后用大模型生成疾病发展时间线，最后在死亡率预测、住院时长预测这些任务上跑baseline。
+TIMELY-Bench 关注一个核心问题：临床笔记与结构化时序信号如何在时间上对齐，并在统一协议下公平比较不同融合策略（early/late）与不同时间窗口（6h/12h/24h + D0）。
 
-主要贡献：
-- 从MIMIC-IV整理了可直接用的队列数据，对齐方式都是透明的
-- 用LLM生成了疾病演变时间线和推理链
-- 提供了完整的评估框架和baseline实现
-- 代码、数据schema、文档全开源
+它包含：
+- 多窗口（6h/12h/24h + D0）结构化特征提取与可复现实验划分
+- Episode JSON（结构化时序 + 对齐后的笔记 + pattern 检测 + 推理/标注统计特征）
+- 条件图（Condition Graph）与典型时间演变模板（Physiology Templates）
+- 轻量级基线（structured / text-only / early fusion / late fusion / temporal）
+- 校准与跨窗口鲁棒性评估（含统计检验）
 
-## 实验结果
+## 关键结果（24h，All cohort）
 
-**预测任务**
+### 院内死亡（Mortality）
 
-| 任务 | AUROC |
-|------|-------|
-| 死亡率预测 | 0.844 |
-| 住院>7天 | 0.844 |
-| 30天再入院 | 0.632 |
+| 模型 | AUROC | AUPRC | ECE | Brier |
+|------|-------|-------|-----|-------|
+| Early Fusion XGBoost（Structured + ClinicalBERT embedding） | **0.885** | **0.584** | 0.0086 | 0.0740 |
+| Late Fusion（tuned $\alpha$，ClinicalBERT） | 0.881 | 0.551 | 0.1078 | 0.0915 |
+| Early Fusion XGBoost（Structured + 标注统计特征） | 0.873 | 0.557 | 0.0066 | 0.0770 |
+| Late Fusion（tuned $\alpha$，标注统计特征） | 0.869 | 0.535 | 0.1813 | 0.1234 |
+| XGBoost（Structured） | 0.868 | 0.541 | 0.1974 | 0.1327 |
+| Logistic Regression（Structured） | 0.848 | 0.508 | 0.0083 | 0.0823 |
+| Clinical GRU（Temporal） | 0.842 | 0.483 | 0.0336 | 0.0871 |
+| Logistic Regression（Text-Only，ClinicalBERT embedding） | 0.832 | 0.444 | --- | --- |
+| XGBoost（Text-Only，ClinicalBERT embedding） | 0.817 | 0.444 | 0.0089 | 0.0881 |
+| XGBoost（Text-Only，标注统计特征） | 0.755 | 0.327 | 0.0062 | 0.0965 |
+| Logistic Regression（Text-Only，MedCAT concepts） | 0.552 | 0.150 | --- | --- |
+| XGBoost（Text-Only，MedCAT concepts） | 0.552 | 0.151 | --- | --- |
 
-**按疾病分层**
+### 延长 ICU 住院（Prolonged LOS）
 
-| 疾病 | AUROC |
-|------|-------|
-| AKI | 0.820 |
-| Sepsis | 0.807 |
-| ARDS | 0.676 |
+| 模型 | AUROC | AUPRC |
+|------|-------|-------|
+| Early Fusion XGBoost（Structured + ClinicalBERT embedding） | **0.835** | **0.509** |
+| Late Fusion（tuned $\alpha$，ClinicalBERT） | 0.834 | 0.506 |
+| Early Fusion XGBoost（Structured + 标注统计特征） | 0.818 | 0.468 |
+| XGBoost（Structured） | 0.815 | 0.460 |
+| Logistic Regression（Structured） | 0.797 | 0.422 |
+| Late Fusion（tuned $\alpha$，标注统计特征） | 0.815 | 0.458 |
+| XGBoost（Text-Only，ClinicalBERT embedding） | 0.800 | 0.456 |
+| Logistic Regression（Text-Only，ClinicalBERT embedding） | 0.800 | 0.452 |
+| XGBoost（Text-Only，标注统计特征） | 0.701 | 0.311 |
+| Logistic Regression（Text-Only，MedCAT concepts） | 0.549 | 0.192 |
+| XGBoost（Text-Only，MedCAT concepts） | 0.550 | 0.195 |
 
-时间窗口±24h效果最好（AUROC 0.833）。
+### 跨窗口鲁棒性（Cross-window Robustness）
 
-## 新功能
+Mortality AUROC（结构化基线，All cohort）：
 
-**LLM疾病时间线**
+| 模型 | 6h | 12h | 24h | CV (%) |
+|------|----|-----|-----|--------|
+| XGBoost | 0.805 | 0.839 | 0.868 | 3.05 |
+| Logistic Regression | 0.783 | 0.818 | 0.852 | 3.13 |
 
-用DeepSeek API处理了74,711条episode，给每个病人生成了疾病发展的概率时间线，包括发病时间估计和预后评估。
+统计检验：Friedman $\chi^2$=12.0，p=0.0025；两两 Wilcoxon 检验 p=0.0313（每组对比）。
 
-**推理链**
+## `final_release/` 中包含的产物
 
-做了syndrome detection（Sepsis F1: 85.3%，AKI F1: 68.4%），基于规则的诊断推理，还有48小时的病人状态空间重建。
+- `final_release/` 是一个轻量、可校验（checksummed）的交付包，包含关键 artefacts（图谱、模板、QC、CRES、证据等）。完整的 episode JSON 位于 `episodes/episodes_enhanced/`，为避免体积过大不在 `final_release/` 内重复打包。
+- `condition_graphs/`：Sepsis/SIRS、AKI/KDIGO、Delirium/ICU、Stroke/Neuro 的 guideline-anchored 条件图（节点带 domain tag，如 `lab_marker`/`vital_sign`/`symptom`/`medication`/`multimorbidity`）
+- `physiology_templates/`：典型时间演变模板（canonical trajectories / physiology templates）
+- `llm_annotations/`：用于质检与评估的标注子集（例如约 900 条）
+- `evidence/`, `qc/`, `cres/`：可复现实验与评估支架
 
-**增强的Episode结构**
+## 重要名词说明（避免混淆）
 
-每个episode里现在都有：
-- `patient_state_space`: 逐小时的状态向量
-- `reasoning.syndrome_detection`: 临床诊断标准检测
-- `reasoning.reasoning_chain`: 诊断证据链
-- `reasoning.disease_timeline`: LLM生成的疾病进展
+- `Early Fusion (AnnotFeatures)`：structured 聚合特征与 annotation-derived 文本特征拼接后，训练单一表格模型（见 `results/fusion_baselines/`）。
+- `Early Fusion (ClinicalBERT)`：structured 聚合特征与 stay-level ClinicalBERT 向量拼接后训练。
+- `EarlyFusion_XGBoost`（部分 robustness/calibration 脚本中的命名）：历史命名下的结构化 XGBoost 基线，不代表 multimodal fusion。
 
-## 目录结构
+## 目录结构（简要）
 
 ```
 TIMELY-Bench_Final/
 ├── code/
-│   ├── baselines/              # 模型训练脚本
-│   ├── data_processing/        # 数据处理流程
+│   ├── baselines/                  # 基线训练脚本
+│   ├── evaluation/                 # 评估脚本（校准/鲁棒性/统计检验）
 │   └── config.py
 ├── data/
 │   └── processed/
-│       ├── disease_timelines/   # LLM生成的时间线
-│       ├── hidden_features/     # 隐特征
-│       └── medcat_umls/         # UMLS概念抽取
-├── episodes/
-│   └── episodes_enhanced/       # 74,829个增强Episodes
-├── results/                     # 训练结果
-└── docs/                        # 文档
+│       ├── data_windows/           # 6h/12h/24h + D0 结构化特征
+│       └── merge_output/
+│           └── cohort_final.csv
+├── final_release/                  # 可交付数据包
+├── results/                        # 输出（standardized/robustness/calibration/...）
+└── docs/                           # Data card / Model card / checklist
 ```
 
-## 快速开始
-
-### 环境配置
+## 快速开始（本地或 CREATE）
 
 ```bash
-python -m venv venv
-source venv/bin/activate
-pip install pandas numpy scikit-learn xgboost torch tqdm openai aiohttp
+cd TIMELY-Bench_Final
+
+# Structured-only baselines
+python code/baselines/train_tabular_baselines.py
+
+# Text-only baselines（标注统计特征）
+python code/baselines/train_text_only.py
+
+# Text-only baselines（ClinicalBERT embedding）
+python code/baselines/train_text_only_embeddings.py
+
+# Fusion baselines（early concat + late weighted）
+python code/baselines/train_fusion.py
 ```
 
-### 跑Baseline
+评估：
 
 ```bash
-cd code/baselines
-
-# 死亡率预测
-python train_los_baselines.py
-
-# 再入院预测
-python train_readmission_baselines.py
-
-# 差分诊断
-python train_differential_diagnosis.py
+python code/evaluation/run_calibration_evaluation.py
+python code/evaluation/update_robustness_final.py
 ```
-
-### 生成疾病时间线（需要API key）
-
-```bash
-export DEEPSEEK_API_KEY='your-api-key'
-python code/data_processing/generate_timeline_concurrent.py
-```
-
-## Benchmark任务定义
-
-| 任务 | 定义 | 阳性率 |
-|------|------|--------|
-| 院内死亡 | 住院期间死亡 | ~12.4% |
-| 延长住院 | ICU住院>7天 | ~15.2% |
-| 30天再入院 | 30天内再次入院 | ~8.5% |
 
 ## 文档
 
-- [数据卡](docs/DATA_CARD.md) - 数据集描述和统计
-- [对齐协议](docs/ALIGNMENT_PROTOCOL_CARD.md) - 时间对齐细节
-- [模型卡](docs/MODEL_CARD.md) - Baseline模型说明
-- [结果汇总](docs/RESULTS_SUMMARY.md) - 完整结果
-
-## 引用
-
-```bibtex
-@misc{timely-bench-2026,
-  title={TIMELY-Bench: A Unified Framework for Multimodal 
-         Clinical Reasoning at Scale},
-  author={[Author Name]},
-  year={2026},
-  institution={King's College London}
-}
-```
-
-## 许可
-
-本项目使用MIMIC-IV数据，需要PhysioNet认证访问权限。
-
-## 致谢
-
-- MIMIC-IV数据库 (PhysioNet)
-- King's College London LOPPN组
+- 数据卡：`docs/DATA_CARD.md`
+- 对齐协议卡：`docs/ALIGNMENT_PROTOCOL_CARD.md`
+- 模型卡：`docs/MODEL_CARD.md`
+- 结果汇总：`results/standardized/results_summary.csv`

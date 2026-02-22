@@ -1,183 +1,106 @@
-# TIMELY-Bench Data Card
+# TIMELY-Bench Data Card (v2.0)
+
+This data card documents the released artefacts in `TIMELY-Bench_Final/` and the episode-level JSON interface.
 
 ## Dataset Overview
 
 | Field | Value |
 |-------|-------|
-| **Name** | TIMELY-Bench v2.0 |
-| **Source** | MIMIC-IV v2.2 |
-| **Access** | PhysioNet Credentialed Access |
-| **License** | PhysioNet Credentialed Health Data License |
-| **Last Updated** | January 2026 |
+| Name | TIMELY-Bench v2.0 |
+| Source | MIMIC-IV v3.1 |
+| Access | PhysioNet credentialed access |
+| License | PhysioNet credentialed health data license |
+| Observation window | First 24 hours of ICU stay (fixed), plus D0 calendar-day aligner |
+| Supported structured windows | 6h, 12h, 24h, D0 (`code/config.py`) |
 
-## Cohort Statistics
+## Cohort Statistics (Current Episodes)
+
+Source of truth:
+- Cohort labels: `data/processed/merge_output/cohort_final.csv`
+- Episode JSONs: `episodes/episodes_enhanced/`
 
 | Metric | Value |
-|--------|-------|
-| **Total ICU Stays** | 74,829 |
-| **Enhanced Episodes** | 74,711 |
-| **Unique Patients** | 52,417 |
-| **Observation Window** | First 24 hours of ICU stay |
-| **Time Period** | 2008-2019 |
+|--------|------:|
+| Total ICU stays / Episodes | 74,829 |
+| Unique patients (`subject_id`) | 54,551 |
+| Mortality positive rate | 11.93% |
+| Prolonged LOS positive rate | 16.16% |
+| Sepsis (binary label) | 34,152 |
+| AKI (binary label) | 57,263 |
+| ARDS (binary label) | 822 |
+
+Episode-derived volume stats (computed from `episodes/episodes_enhanced/*.json`):
+
+| Metric | Value |
+|--------|------:|
+| Total note objects (within 24h window) | 6,975,132 |
+| Avg notes per episode | 93.21 |
+| Total detected pattern events | 3,760,396 |
+| Avg pattern events per episode | 50.25 |
+| Total pattern-text alignment objects | 6,974,406 |
+| Avg alignments per episode | 93.20 |
+| Total SUPPORTIVE annotations | 9,585 |
+| Total CONTRADICTORY annotations | 8,730 |
+
+Important nuance: most alignment objects have `annotation_category = null` (labels are sparse; see `final_release/llm_annotations/` for audited samples).
 
 ## Prediction Tasks
 
-### Task 1: In-Hospital Mortality
+1. In-hospital mortality (`label_mortality` in `cohort_final.csv`).
+2. Prolonged LOS (`prolonged_los_7d` in `cohort_final.csv`).
+3. Optional label present: `readmission_30d` (not used in the canonical paper tables unless explicitly stated).
 
-| Metric | Value |
-|--------|-------|
-| **Definition** | Death during hospital admission |
-| **Positive Rate** | ~12.4% |
-| **Best AUROC** | 0.844 |
+## Modalities
 
-### Task 2: Prolonged Length of Stay (LOS)
+### 1. Time-series (Structured)
 
-| Metric | Value |
-|--------|-------|
-| **Definition** | ICU stay > 7 days |
-| **Positive Rate** | ~15.2% |
-| **Best AUROC** | 0.844 |
+- Stored in each episode: `timeseries.vitals` (hourly) and `timeseries.labs` (event-based).
+- Aggregated windows for baselines are released as tabular features:
+  - `data/processed/data_windows/window_6h/features_aggregated.csv`
+  - `data/processed/data_windows/window_12h/features_aggregated.csv`
+  - `data/processed/data_windows/window_24h/features_aggregated.csv`
+  - `data/processed/data_windows/window_D0/features_aggregated.csv`
 
-### Task 3: 30-Day Readmission
+### 2. Clinical text
 
-| Metric | Value |
-|--------|-------|
-| **Definition** | Readmission within 30 days |
-| **Positive Rate** | ~8.5% |
-| **Best AUROC** | 0.632 |
+- Episode field: `clinical_text.notes` (note objects within the 24h window), plus `clinical_text.note_types`, `clinical_text.coverage_hours`.
+- Precomputed optional embedding artefacts:
+  - `data/processed/text_embeddings/clinical_bert_embeddings.npy`
+  - `data/processed/text_embeddings/embedding_stay_ids.csv`
 
-## Data Modalities
+### 3. Alignment artefacts (Pattern-text)
 
-### 1. Time-Series Data
+- Episode field: `reasoning.pattern_annotations` and summary counters (`n_alignments`, `n_supportive`, `n_contradictory`).
+- Large alignment matrix (not required for training baselines, but used for audit/reconstruction):
+  - `data/processed/temporal_alignment/temporal_textual_alignment.csv`
 
-| Feature Type | Variables | Frequency |
-|--------------|-----------|-----------|
-| **Vitals** | heart_rate, sbp, dbp, mbp, resp_rate, temperature, spo2 | Hourly |
-| **Labs** | glucose, lactate, creatinine, etc. | Event-based |
+### 4. Knowledge scaffolding
 
-### 2. Clinical Notes
-
-| Note Type | Description | Avg Count/Stay |
-|-----------|-------------|----------------|
-| **Nursing** | Nursing progress notes | ~15 |
-| **Radiology** | Imaging reports | ~3 |
-| **Lab Comments** | Laboratory comments | ~5 |
-| **Discharge Summary** | Summary at discharge | 1 |
-
-### 3. Alignment Annotations
-
-| Annotation Type | Description |
-|-----------------|-------------|
-| **SUPPORTIVE** | Text evidence supports physiological pattern |
-| **CONTRADICTORY** | Text evidence contradicts pattern |
-| **UNRELATED** | No meaningful relationship |
-
-### 4. Enhanced Reasoning Features (NEW in v2.0)
-
-| Feature | Description |
-|---------|-------------|
-| **syndrome_detection** | Sepsis/AKI/ARDS detection based on clinical criteria |
-| **reasoning_chain** | Diagnostic evidence chain with confidence |
-| **disease_timeline** | LLM-generated disease progression timeline |
-| **patient_state_space** | 48-hour state vectors for each patient |
+The final release bundle contains clinician-facing scaffolds:
+- Condition graphs: `final_release/condition_graphs/`
+- Physiology templates (canonical trajectories): `final_release/physiology_templates/`
 
 ## Data Splits
 
-| Split | Subjects | Episodes | Ratio |
-|-------|----------|----------|-------|
-| **Train** | 36,693 | 52,380 | 70% |
-| **Validation** | 5,241 | 7,483 | 10% |
-| **Test** | 10,483 | 14,966 | 20% |
+Patient-level canonical split file (no `subject_id` overlap between dev/test):
 
-**Note**: Splits are by patient (subject_id) to prevent data leakage.
+- `data/splits/predefined_splits.csv`
+  - `split`: `dev` or `test` (20% holdout test)
+  - `fold_id`: 1..5 for GroupKFold within `dev`
+- Summary metadata:
+  - `data/splits/split_summary.json`
 
-## Episode JSON Schema (v2.0)
+## Episode JSON Interface
 
-```json
-{
-  "episode_id": "TIMELY_v2_{stay_id}",
-  "stay_id": 12345678,
-  "patient": {
-    "subject_id": 12345,
-    "gender": "M",
-    "age": 65
-  },
-  "timeseries": {
-    "vitals": [...],
-    "labs": [...]
-  },
-  "clinical_text": {
-    "notes": [...],
-    "n_notes": 15
-  },
-  "conditions": ["sepsis", "aki"],
-  "patient_state_space": [...],
-  "reasoning": {
-    "detected_patterns": [...],
-    "pattern_annotations": [...],
-    "n_supportive": 10,
-    "n_contradictory": 2,
-    "syndrome_detection": {
-      "sepsis": {"detected": true, "sirs_count": 3},
-      "aki": {"detected": true, "stage": 2},
-      "ards": {"detected": false}
-    },
-    "reasoning_chain": {
-      "evidence": [...],
-      "confidence": 0.85
-    },
-    "disease_timeline": {
-      "primary_disease": "sepsis",
-      "onset_hour": 4,
-      "phases": [...],
-      "prognosis": "deteriorating"
-    }
-  },
-  "labels": {
-    "outcome": {
-      "mortality": 0,
-      "prolonged_los": 1
-    },
-    "has_sepsis": true,
-    "has_aki": true,
-    "has_ards": false
-  }
-}
-```
+Canonical schema and example:
 
-## Disease Distribution
+- `documentation/episode_schema.json`
+- `documentation/example_episode.json`
 
-| Disease | Count | Percentage |
-|---------|-------|------------|
-| **AKI** | 28,344 | 37.9% |
-| **Sepsis** | 18,759 | 25.1% |
-| **Sepsis + AKI** | 15,338 | 20.5% |
-| **None** | 12,241 | 16.4% |
-
-## Syndrome Detection Performance
-
-| Disease | Precision | Recall | F1 Score |
-|---------|-----------|--------|----------|
-| **Sepsis** | 75.8% | 97.4% | 85.3% |
-| **AKI** | 97.7% | 52.6% | 68.4% |
-
-## Known Limitations
-
-1. **Temporal Coverage**: Limited to first 24 hours
-2. **Missing Data**: ~15% missing rate for some vitals
-3. **Annotation Quality**: 96% rule-based, 4% LLM-verified
-4. **Population Bias**: Single-center data (Beth Israel Deaconess)
-5. **Syndrome Detection**: High Sepsis Recall, Lower AKI Recall
+Core top-level keys (all episodes):
+- `episode_id`, `stay_id`, `patient`, `timeseries`, `clinical_text`, `reasoning`, `labels`, `metadata`
 
 ## Ethical Considerations
 
-- Data is de-identified according to HIPAA Safe Harbor
-- PhysioNet Credentialed Access required
-- No individual patient re-identification possible
-
-## Version History
-
-| Version | Date | Changes |
-|---------|------|---------|
-| v1.0 | 2025-12 | Initial release |
-| **v2.0** | **2026-01** | Added syndrome_detection, reasoning_chain, disease_timeline, patient_state_space |
+- Data are de-identified; access requires PhysioNet credentialing.
+- TIMELY-Bench artefacts are for research benchmarking only and are not validated for clinical use.

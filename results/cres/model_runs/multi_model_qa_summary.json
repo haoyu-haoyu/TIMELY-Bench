@@ -1,0 +1,72 @@
+[
+  {
+    "run_id": "cres_deepseek_full_20260218_063924",
+    "backend_manifest": "deepseek",
+    "model_manifest": "deepseek-chat",
+    "n_predictions_manifest": 3600,
+    "n_predictions_file": 3600,
+    "task_counts": {
+      "trend_threshold": 900,
+      "temporal_grounding": 900,
+      "diagnostic_consistency": 900,
+      "contrastive_inference": 900
+    },
+    "invalid_label_count": 0,
+    "missing_record_count": 0,
+    "warning_flags": [],
+    "unique_prompt_sha": 1,
+    "unique_backends_in_rows": [
+      "deepseek"
+    ],
+    "unique_models_in_rows": [
+      "deepseek-chat"
+    ]
+  },
+  {
+    "run_id": "cres_gemini3_full_32008668",
+    "backend_manifest": "openai",
+    "model_manifest": "gemini-3-flash-preview",
+    "n_predictions_manifest": 3600,
+    "n_predictions_file": 3600,
+    "task_counts": {
+      "trend_threshold": 900,
+      "temporal_grounding": 900,
+      "diagnostic_consistency": 900,
+      "contrastive_inference": 900
+    },
+    "invalid_label_count": 0,
+    "missing_record_count": 0,
+    "warning_flags": [],
+    "unique_prompt_sha": 2,
+    "unique_backends_in_rows": [
+      "gemini_native",
+      "openai"
+    ],
+    "unique_models_in_rows": [
+      "gemini-3-flash-preview"
+    ]
+  },
+  {
+    "run_id": "cres_gpt51_full_32004532",
+    "backend_manifest": "openai",
+    "model_manifest": "gpt-5.1",
+    "n_predictions_manifest": 3600,
+    "n_predictions_file": 3600,
+    "task_counts": {
+      "trend_threshold": 900,
+      "temporal_grounding": 900,
+      "diagnostic_consistency": 900,
+      "contrastive_inference": 900
+    },
+    "invalid_label_count": 0,
+    "missing_record_count": 0,
+    "warning_flags": [],
+    "unique_prompt_sha": 1,
+    "unique_backends_in_rows": [
+      "openai"
+    ],
+    "unique_models_in_rows": [
+      "gpt-5.1"
+    ]
+  }
+]

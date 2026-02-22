@@ -1,92 +1,174 @@
 """
-TIMELY-Bench v2.0 Snakemake Pipeline
-====================================
+TIMELY-Bench canonical Snakemake workflow.
 
-可复现的自动化工作流
-
-使用方法:
-    # 安装Snakemake
-    pip install snakemake
-
-    # 运行完整pipeline
-    snakemake --cores 4 all
-
-    # 只运行基线实验
-    snakemake --cores 4 baselines
-
-    # 干运行（查看将执行的步骤）
-    snakemake -n all
+This workflow points only to scripts and artefacts that exist in the current
+repository layout (v2.0 canonical holdout + GroupKFold split policy).
 """
 
-# 配置
 configfile: "config.yaml"
 
-# 默认目标
+
 rule all:
     input:
-        "results/benchmark_results/fusion_results.csv",
+        "results/standardized/results_summary.csv",
+        "results/standardized/readmission_results.csv",
+        "results/calibration/calibration_summary.csv",
+        "results/calibration/calibration_fusion_summary.csv",
+        "results/aligner_comparison/aligner_results.csv",
+        "results/note_ablation/note_ablation_results.csv"
+
+
+rule splits:
+    input:
+        "data/processed/merge_output/cohort_final.csv"
+    output:
+        "data/splits/predefined_splits.csv",
+        "data/splits/split_summary.json"
+    shell:
+        "python code/data_processing/generate_predefined_splits.py"
+
+
+rule windows:
+    input:
+        "data/raw/timeseries.csv",
+        "data/processed/merge_output/cohort_final.csv"
+    output:
+        "data/processed/data_windows/window_6h/features_aggregated.csv",
+        "data/processed/data_windows/window_12h/features_aggregated.csv",
+        "data/processed/data_windows/window_24h/features_aggregated.csv",
+        "data/processed/data_windows/window_D0/features_aggregated.csv"
+    shell:
+        "python code/data_processing/create_multi_window_data.py"
+
+
+rule structured:
+    input:
+        "data/splits/predefined_splits.csv",
+        "data/processed/data_windows/window_6h/features_aggregated.csv",
+        "data/processed/data_windows/window_12h/features_aggregated.csv",
+        "data/processed/data_windows/window_24h/features_aggregated.csv",
+        "data/processed/data_windows/window_D0/features_aggregated.csv",
+        "data/processed/merge_output/cohort_final.csv"
+    output:
         "results/benchmark_results/benchmark_results_full.csv"
-
-# ==========================================
-# Step 1: 数据分割
-# ==========================================
-rule generate_splits:
-    input:
-        cohort="data/processed/merge_output/cohort_final.csv"
-    output:
-        train="data/splits/train.csv",
-        val="data/splits/val.csv",
-        test="data/splits/test.csv"
     shell:
-        "python code/data_processing/generate_data_splits.py"
+        "python code/baselines/run_baselines.py"
 
-# ==========================================
-# Step 2: XGBoost 基线
-# ==========================================
-rule run_xgboost_baselines:
+
+rule text:
     input:
-        features_6h="data/processed/data_windows/window_6h/features_aggregated.csv",
-        features_12h="data/processed/data_windows/window_12h/features_aggregated.csv",
-        features_24h="data/processed/data_windows/window_24h/features_aggregated.csv",
-        cohort="data/processed/merge_output/cohort_final.csv"
+        "episodes/episodes_enhanced"
     output:
-        "results/benchmark_results/benchmark_results_full.csv"
+        "results/text_only_baselines/text_only_results.csv",
+        "results/text_only_baselines/text_only_results_folds.json"
     shell:
-        "python code/baselines/run_xgboost_baselines.py"
+        "python code/baselines/train_text_only.py"
 
-# ==========================================
-# Step 3: Fusion 基线
-# ==========================================
-rule run_fusion_baselines:
-    input:
-        features_24h="data/processed/data_windows/window_24h/features_aggregated.csv",
-        llm_features="data/llm_features/llm_features_deepseek.csv",
-        cohort="data/processed/merge_output/cohort_final.csv"
-    output:
-        "results/benchmark_results/fusion_results.csv"
-    shell:
-        "python code/baselines/run_fusion_baselines.py"
 
-# ==========================================
-# Step 4: GRU 时序模型 (可选)
-# ==========================================
-rule run_gru_baselines:
-    input:
-        temporal="data/processed/data_windows/window_24h/features_temporal.npy",
-        cohort="data/processed/merge_output/cohort_final.csv"
-    output:
-        "results/benchmark_results/gru_results.csv"
-    shell:
-        "python code/baselines/run_temporal_gru.py"
-
-# ==========================================
-# 汇总规则
-# ==========================================
-rule baselines:
+rule fusion:
     input:
         "results/benchmark_results/benchmark_results_full.csv",
-        "results/benchmark_results/fusion_results.csv"
+        "results/text_only_baselines/text_only_results_folds.json"
+    output:
+        "results/fusion_baselines/fusion_results.csv",
+        "results/fusion_baselines/fusion_results_folds.json",
+        "results/fusion_baselines/fusion_results_late_xgb.csv",
+        "results/fusion_baselines/fusion_results_late_xgb.json"
+    shell:
+        "python code/baselines/train_fusion.py"
+
+
+rule readmission:
+    input:
+        "episodes/episodes_enhanced",
+        "data/processed/merge_output/cohort_final.csv"
+    output:
+        "results/readmission_baselines/readmission_results.csv"
+    shell:
+        "python code/baselines/train_readmission_baselines.py"
+
+
+rule standardize_structured:
+    input:
+        "results/benchmark_results/benchmark_results_full.csv"
+    output:
+        "results/standardized/structured_results.csv"
+    shell:
+        "python code/utils/standardize_results.py --step structured"
+
+
+rule standardize_text:
+    input:
+        "results/text_only_baselines/text_only_results_folds.json"
+    output:
+        "results/standardized/text_results.csv"
+    shell:
+        "python code/utils/standardize_results.py --step text"
+
+
+rule standardize_fusion:
+    input:
+        "results/fusion_baselines/fusion_results_folds.json"
+    output:
+        "results/standardized/fusion_results.csv",
+        "results/standardized/fusion_results_late_xgb.csv",
+        "results/standardized/results_summary.csv"
+    shell:
+        "python code/utils/standardize_results.py --step fusion"
+
+
+rule standardize_gru:
+    input:
+        "results/Output_temporal_gru/training_results.json"
+    output:
+        "results/standardized/gru_results.csv"
+    shell:
+        "python code/utils/standardize_results.py --step gru"
+
+
+rule standardize_readmission:
+    input:
+        "results/readmission_baselines/readmission_results.csv"
+    output:
+        "results/standardized/readmission_results.csv"
+    shell:
+        "python code/utils/standardize_results.py --step readmission"
+
+
+rule aligner:
+    input:
+        "data/splits/predefined_splits.csv",
+        "data/processed/merge_output/cohort_final.csv",
+        "data/processed/temporal_alignment/temporal_textual_alignment.csv"
+    output:
+        "results/aligner_comparison/aligner_results.csv"
+    shell:
+        "python code/baselines/train_aligner_comparison.py"
+
+
+rule ablation:
+    input:
+        "data/splits/predefined_splits.csv",
+        "data/processed/merge_output/cohort_final.csv",
+        "data/processed/temporal_alignment/temporal_textual_alignment.csv"
+    output:
+        "results/note_ablation/note_ablation_results.csv",
+        "results/note_ablation/note_ablation_results.json"
+    shell:
+        "python code/baselines/eval_note_ablation.py"
+
+
+rule calibration:
+    input:
+        "results/standardized/results_summary.csv"
+    output:
+        "results/calibration/calibration_summary.csv",
+        "results/calibration/calibration_fusion_summary.csv"
+    shell:
+        "python code/evaluation/run_calibration_evaluation.py && "
+        "python code/evaluation/compute_fusion_calibration.py --no-plots"
+
 
 rule clean:
     shell:
-        "rm -rf results/benchmark_results/*.csv"
+        "rm -f results/standardized/*.csv results/standardized/*.json"

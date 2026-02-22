@@ -474,11 +474,19 @@ def create_alignment_dataset(
 
     print("Loading data...")
     patterns_df = load_pattern_detections(patterns_path)
+    # Enforce 24h window for pattern events
+    if 'hour' in patterns_df.columns:
+        patterns_df = patterns_df[(patterns_df['hour'] >= 0) & (patterns_df['hour'] < 24)]
     notes_df = load_notes(
         notes_path,
         use_multi_notes=use_multi_notes,
         include_discharge=INCLUDE_DISCHARGE_NOTES,
     )
+    # Enforce 24h window and discharge exclusion at the source
+    if 'hour_offset' in notes_df.columns:
+        notes_df = notes_df[(notes_df['hour_offset'] >= 0) & (notes_df['hour_offset'] < 24)]
+    if not INCLUDE_DISCHARGE_NOTES and 'note_type' in notes_df.columns:
+        notes_df = notes_df[notes_df['note_type'].astype(str).str.lower() != 'discharge']
 
     # 打印笔记摘要
     if use_multi_notes and len(notes_df) > 0:
@@ -761,7 +769,7 @@ def create_llm_annotation_samples(
     )
 
     # 保存
-    output_path = os.path.join(output_dir, 'llm_annotation_samples.csv')
+    output_path = os.path.join(output_dir, 'llm_annotation_debug_samples.csv')
     sample_df.to_csv(output_path, index=False)
     print(f"Saved {len(sample_df)} annotation samples: {output_path}")
 
@@ -880,7 +888,7 @@ def main():
     print(f"\nOutput files in: {OUTPUT_DIR}/")
     print("   - temporal_textual_alignment.csv")
     print("   - alignment_stats.json")
-    print("   - llm_annotation_samples.csv")
+    print("   - llm_annotation_debug_samples.csv")
     print("   - annotation_prompt_template.txt")
 
     # 打印改进摘要
