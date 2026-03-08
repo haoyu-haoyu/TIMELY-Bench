@@ -1,0 +1,76 @@
+{
+  "task": "mortality",
+  "model": "xgb",
+  "modality": "fusion",
+  "window": "leaked",
+  "text_method": "original",
+  "fusion_strategy": "early",
+  "n_samples": 74829,
+  "n_positive": 8930,
+  "n_features": 1196,
+  "timestamp": "2026-03-05T17:54:34.030688",
+  "resolution": "window=leaked -> structured=leaked text=W24 method=original",
+  "alpha": 0.5,
+  "requested_window": "leaked",
+  "requested_text_method": "original",
+  "resolved_structured_window": "leaked",
+  "resolved_text_window": "W24",
+  "resolved_text_method": "original",
+  "structured_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/data/processed/note_centered/stay_level/structured_leaked.parquet",
+  "text_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/data/processed/note_centered/stay_level/text_W24_original.parquet",
+  "split_source": "predefined_splits.csv",
+  "fold_results": [
+    {
+      "fold": 1,
+      "n_train": 47834,
+      "n_val": 11959,
+      "auroc": 0.9206227304990555,
+      "auprc": 0.7073287910077284,
+      "ece": 0.12127706092634431
+    },
+    {
+      "fold": 2,
+      "n_train": 47834,
+      "n_val": 11959,
+      "auroc": 0.9234437281951827,
+      "auprc": 0.6951066854545368,
+      "ece": 0.12043658603839089
+    },
+    {
+      "fold": 3,
+      "n_train": 47834,
+      "n_val": 11959,
+      "auroc": 0.92589533918192,
+      "auprc": 0.7127723850988897,
+      "ece": 0.12457483569839964
+    },
+    {
+      "fold": 4,
+      "n_train": 47835,
+      "n_val": 11958,
+      "auroc": 0.9189787284297106,
+      "auprc": 0.67341991600367,
+      "ece": 0.1258844137378691
+    },
+    {
+      "fold": 5,
+      "n_train": 47835,
+      "n_val": 11958,
+      "auroc": 0.9272966390557893,
+      "auprc": 0.7254938274479374,
+      "ece": 0.12240818376975486
+    }
+  ],
+  "mean_auroc": 0.9232474330723317,
+  "std_auroc": 0.0031163090527422457,
+  "mean_auprc": 0.7028243210025524,
+  "std_auprc": 0.017648465562535534,
+  "mean_ece": 0.12291621603415175,
+  "std_ece": 0.00203247179385,
+  "test_metrics": {
+    "n_test": 15036,
+    "auroc": 0.9207575668982363,
+    "auprc": 0.7124219454283522,
+    "ece": 0.12817153788312186
+  }
+}

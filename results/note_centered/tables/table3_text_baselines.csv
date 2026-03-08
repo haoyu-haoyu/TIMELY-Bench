@@ -1,0 +1,5 @@
+task,text_type,D0,W6,W12,W24,leaked,clean
+mortality,mean,0.8433,0.8326,0.8436,0.8502,0.8502,0.8501
+mortality,typed,0.8315,0.8158,0.8322,0.839,0.839,0.8388
+prolonged_los,mean,0.8497,0.8431,0.8429,0.8355,0.8355,0.8356
+prolonged_los,typed,0.8358,0.8281,0.8291,0.823,0.823,0.8234

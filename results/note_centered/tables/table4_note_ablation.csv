@@ -1,0 +1,7 @@
+condition,mortality_auroc,delta_vs_tabular
+No text (tabular only),0.9042,-
+Nursing only,0.9079,+0.0037
+Radiology only,0.9018,-0.0024
+Lab only,0.9037,-0.0005
+All notes (typed pool),0.9073,+0.0031
+All notes (mean pool),0.9079,+0.0036

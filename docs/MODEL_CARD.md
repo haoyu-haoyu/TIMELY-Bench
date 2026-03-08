@@ -1,153 +1,67 @@
-# Model Card: TIMELY-Bench Core Baselines (v2.0)
+# Model Card: TIMELY-Bench v2.0 (Note-Centered Baselines)
 
-This model card describes the baseline models that are used as the **canonical benchmark** in TIMELY-Bench.
+## Scope
+This card summarizes the Phase 4 fixed baselines (post weighted fix + typed-clean fix) used in Phase 5 analysis.
 
-Key design choice: TIMELY-Bench includes three complementary ``text'' representations:
-- **Annotation-derived alignment features** (counts/ratios from pattern-text alignment + simple note statistics). These are transparent and fast, but they are not raw semantic embeddings.
-- **ClinicalBERT embeddings** (stay-level CLS embeddings from raw notes within the first 24 hours, mean pooled). This baseline captures ``what the note says'' semantics.
-- **MedCAT/UMLS concepts** (stay-level bag-of-concepts features from concept extraction within the first 24 hours). This provides a structured text representation, but discards most context.
+- Tasks: `mortality`, `prolonged_los`
+- Structured feature count: 42
+- Time-series horizon: 72h extraction, note-centered windows for modeling
+- Text horizon: 48h notes (stay-level note-centered aggregation)
+- Splits: `predefined_splits.csv` holdout + 5-fold CV
 
-## Tasks
+## Core Baseline Results
 
-- `mortality`: in-hospital mortality (binary label).
-- `prolonged_los`: ICU length-of-stay > 7 days (binary label).
+### Structured-Only (Table 1)
 
-## Inputs
+| Task | Model | D0 | W6 | W12 | W24 |
+|---|---|---:|---:|---:|---:|
+| mortality | LR | 0.8775 | 0.8663 | 0.8758 | 0.8839 |
+| mortality | XGBoost | 0.9007 | 0.8863 | 0.8960 | 0.9042 |
+| prolonged_los | LR | 0.8858 | 0.8641 | 0.8619 | 0.8646 |
+| prolonged_los | XGBoost | 0.8972 | 0.8802 | 0.8814 | 0.8817 |
 
-- Structured features: windowed aggregated features in `data/processed/data_windows/window_{6h,12h,24h,D0}/features_aggregated.csv`.
-- Text (annotation-derived) features: extracted per episode from `episodes/episodes_enhanced/*.json`:
-  - note statistics (`n_notes`, total/avg text length)
-  - alignment statistics (`n_alignments`, `n_supportive`, `n_contradictory`, `supportive_ratio`, `annotation_density`)
-- Text (ClinicalBERT) embeddings: precomputed stay-level embeddings under `data/processed/text_embeddings/`:
-  - `clinical_bert_embeddings.npy`
-  - `embedding_stay_ids.csv`
-- Text (MedCAT) concepts: stay-level bag-of-concepts features under `data/processed/medcat_full/`:
-  - `medcat_has_concepts_24h.csv`
+### 2x2 Leakage Decomposition (Early Fusion XGBoost, Table 2)
 
-## Canonical Results (24h, All Cohort; Test Set)
+| Task | A full leaked | B struct-only leak | C text-only leak | D clean |
+|---|---:|---:|---:|---:|
+| mortality | 0.9232 | 0.9231 | 0.9079 | 0.9079 |
+| prolonged_los | 0.9368 | 0.9370 | 0.8856 | 0.8860 |
 
-These values are generated from `results/standardized/results_summary.csv`.
+Decomposition summary:
+- Mortality premium total: +0.0154
+- Prolonged LOS premium total: +0.0508
+- Structural leakage dominates (~99%-100% of premium)
+- Text leakage contribution is ~0 with note-level ClinicalBERT pooling
 
-### Mortality
+### Text-Only Baselines (Table 3)
 
-| Model | AUROC | AUPRC | Notes |
-|------|------:|------:|------|
-| Structured XGBoost | 0.8677 | 0.5414 | `structured_results.csv` |
-| Structured Logistic Regression | 0.8481 | 0.5076 | `structured_results.csv` |
-| ClinicalGRU | 0.8419 | 0.4832 | `gru_results.csv` |
-| Text-only XGBoost (AnnotFeatures) | 0.7551 | 0.3266 | `text_results.csv` |
-| Text-only Logistic Regression (MedCAT) | 0.5519 | 0.1501 | `text_results.csv` |
-| Text-only XGBoost (MedCAT) | 0.5520 | 0.1506 | `text_results.csv` |
-| Text-only Logistic Regression (ClinicalBERT) | 0.8318 | 0.4439 | `text_results.csv` |
-| Text-only XGBoost (ClinicalBERT) | 0.8168 | 0.4437 | `text_results.csv` |
-| Early Fusion XGBoost (AnnotFeatures) | 0.8725 | 0.5568 | `fusion_results.csv` |
-| Early Fusion XGBoost (ClinicalBERT) | 0.8848 | 0.5844 | `fusion_results.csv` |
-| Late Fusion (tuned alpha; AnnotFeatures) | 0.8688 | 0.5354 | `fusion_results_late_xgb.csv` |
-| Late Fusion (stacking; AnnotFeatures) | 0.8689 | 0.5348 | `fusion_results_late_xgb.csv` |
-| Late Fusion (tuned alpha; ClinicalBERT) | 0.8805 | 0.5508 | `fusion_results_late_xgb.csv` |
-| Late Fusion (stacking; ClinicalBERT) | 0.8803 | 0.5524 | `fusion_results_late_xgb.csv` |
+| Task | Text Type | D0 | W6 | W12 | W24 | leaked | clean |
+|---|---|---:|---:|---:|---:|---:|---:|
+| mortality | mean | 0.8433 | 0.8326 | 0.8436 | 0.8502 | 0.8502 | 0.8501 |
+| mortality | typed | 0.8315 | 0.8158 | 0.8322 | 0.8390 | 0.8390 | 0.8388 |
+| prolonged_los | mean | 0.8497 | 0.8431 | 0.8429 | 0.8355 | 0.8355 | 0.8356 |
+| prolonged_los | typed | 0.8358 | 0.8281 | 0.8291 | 0.8230 | 0.8230 | 0.8234 |
 
-### Prolonged LOS
+### Note-Type Ablation (Mortality, W24, Early Fusion XGB, Table 4)
 
-| Model | AUROC | AUPRC | Notes |
-|------|------:|------:|------|
-| Structured XGBoost | 0.8145 | 0.4604 | `structured_results.csv` |
-| Structured Logistic Regression | 0.7966 | 0.4219 | `structured_results.csv` |
-| Text-only XGBoost (AnnotFeatures) | 0.7007 | 0.3107 | `text_results.csv` |
-| Text-only Logistic Regression (MedCAT) | 0.5491 | 0.1922 | `text_results.csv` |
-| Text-only XGBoost (MedCAT) | 0.5495 | 0.1946 | `text_results.csv` |
-| Text-only Logistic Regression (ClinicalBERT) | 0.8000 | 0.4521 | `text_results.csv` |
-| Text-only XGBoost (ClinicalBERT) | 0.7997 | 0.4559 | `text_results.csv` |
-| Early Fusion XGBoost (AnnotFeatures) | 0.8182 | 0.4677 | `fusion_results.csv` |
-| Early Fusion XGBoost (ClinicalBERT) | 0.8353 | 0.5089 | `fusion_results.csv` |
-| Late Fusion (tuned alpha; AnnotFeatures) | 0.8146 | 0.4579 | `fusion_results_late_xgb.csv` |
-| Late Fusion (stacking; AnnotFeatures) | 0.8146 | 0.4582 | `fusion_results_late_xgb.csv` |
-| Late Fusion (tuned alpha; ClinicalBERT) | 0.8338 | 0.5062 | `fusion_results_late_xgb.csv` |
-| Late Fusion (stacking; ClinicalBERT) | 0.8336 | 0.5063 | `fusion_results_late_xgb.csv` |
+| Condition | AUROC | Delta vs tabular |
+|---|---:|---:|
+| No text (tabular only) | 0.9042 | - |
+| Nursing only | 0.9079 | +0.0037 |
+| Radiology only | 0.9018 | -0.0024 |
+| Lab only | 0.9037 | -0.0005 |
+| All notes (typed pool) | 0.9073 | +0.0031 |
+| All notes (mean pool) | 0.9079 | +0.0036 |
 
-## Cross-Window Structured Baselines (Mortality, All Cohort; CV Mean AUROC)
+## Key Findings
+1. Leakage Premium is substantial for structured leakage, especially prolonged LOS (+0.0508).
+2. Text-side AFTER filtering contributes near-zero AUROC change in this setup.
+3. Text adds limited marginal value over the 42-feature structured baseline.
+4. Mean pooling is consistently >= typed pooling in this release.
+5. D0 is unexpectedly strong for prolonged LOS in structured models.
 
-| Model | 6h | 12h | 24h | D0 |
-|------|---:|----:|----:|---:|
-| XGBoost | 0.8052 | 0.8385 | 0.8679 | 0.8111 |
-| Logistic Regression | 0.7833 | 0.8177 | 0.8517 | 0.7969 |
-
-## Late Fusion Definition
-
-- Late fusion includes two implementations:
-  - weighted blending: `p_fused = alpha * p_structured + (1-alpha) * p_text`
-  - stacking: logistic meta-learner trained on out-of-fold structured/text probabilities
-- Tuned alpha (AnnotFeatures) is reported in:
-  - `results/standardized/late_fusion_sanity_xgb_24h_all_mortality.json`
-  - `results/standardized/late_fusion_sanity_xgb_24h_all_prolonged_los.json`
-- Tuned alpha (ClinicalBERT) is reported in:
-  - `results/standardized/late_fusion_sanity_xgb_clinicalbert_24h_all_mortality.json`
-  - `results/standardized/late_fusion_sanity_xgb_clinicalbert_24h_all_prolonged_los.json`
-
-## Calibration (24h, Mortality, All Cohort)
-
-Computed from:
-- `results/calibration/calibration_fusion_summary.csv` (structured/text/fusion XGBoost families)
-- `results/calibration/calibration_summary.csv` (structured Logistic Regression)
-- `results/calibration/calibration_dl_summary.json` (ClinicalGRU)
-
-| Model | ECE | Brier |
-|------|----:|------:|
-| Structured XGBoost | 0.1974 | 0.1327 |
-| Structured Logistic Regression | 0.0083 | 0.0823 |
-| ClinicalGRU | 0.0336 | 0.0871 |
-| TextOnly XGBoost (annotation-derived) | 0.0062 | 0.0965 |
-| TextOnly XGBoost (ClinicalBERT) | 0.0089 | 0.0881 |
-| Early Fusion XGBoost (annotation-derived) | 0.0066 | 0.0770 |
-| Early Fusion XGBoost (ClinicalBERT) | 0.0086 | 0.0740 |
-| Late Fusion XGBoost (annotation-derived) | 0.1813 | 0.1234 |
-| Late Fusion XGBoost (ClinicalBERT) | 0.1078 | 0.0915 |
-
-## Training Protocol (Core Baselines)
-
-- Split: patient-level (grouped by `subject_id`), holdout test size = 0.20, seed = 42.
-- CV: 5-fold `GroupKFold` on train/val partition (by `subject_id`).
-- Metrics: AUROC, AUPRC; calibration metrics (ECE/Brier, and HL where available).
-
-## Reproduction (Core)
-
-```bash
-cd TIMELY-Bench_Final
-
-# Structured baselines (multi-window)
-python3 code/baselines/run_baselines.py
-
-# ClinicalGRU (mortality)
-python3 code/baselines/train_temporal_gru_v2.py
-
-# Text-only baseline (annotation-derived)
-python3 code/baselines/train_text_only.py
-
-# Text-only baseline (ClinicalBERT embeddings)
-python3 code/baselines/train_text_only_embeddings.py
-
-# Text-only baseline (MedCAT concepts)
-python3 code/baselines/train_text_only_medcat.py
-
-# Early / Late fusion (AnnotFeatures + ClinicalBERT variants)
-python3 code/baselines/train_fusion.py
-
-# Canonical aligner comparison (D0/6h/12h/24h; MedCAT baseline)
-python3 code/baselines/train_aligner_comparison.py
-
-# Note-category ablation (alignment-derived note-type features)
-python3 code/baselines/eval_note_ablation.py
-
-# Canonical aggregation for reporting
-python3 code/utils/standardize_results.py --step fusion
-```
-
-## Known Risks / Common Confusions
-
-1. Naming: `EarlyFusion_XGBoost` in some robustness/calibration scripts is a **structured-only** label used for multi-window comparisons. The multimodal early-fusion baseline lives in `results/fusion_baselines/`.
-2. "Text-only" in this repo can refer to either annotation-derived alignment features or ClinicalBERT embeddings; check the model label and `source_json` in `results/standardized/text_results.csv`.
-
-## Optional / Experimental Scripts (Not Part Of Canonical Tables)
-
-- Delta-feature ablations: `code/baselines/train_with_delta_features.py`
-- Concept / embedding feature extraction: `code/data_processing/extract_bert_embeddings.py`, `code/data_processing/extract_concepts_medcat_full.py`
+## Reproducibility Artifacts
+- Core JSONs: `results/note_centered/core_experiments/`
+- Tables: `results/note_centered/tables/`
+- Figures: `results/note_centered/figures/`
+- Analysis markdown: `results/note_centered/analysis/analysis_findings.md`

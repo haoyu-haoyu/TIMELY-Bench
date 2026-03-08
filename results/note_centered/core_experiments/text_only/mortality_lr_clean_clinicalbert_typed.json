@@ -1,0 +1,97 @@
+{
+  "task": "mortality",
+  "model": "lr",
+  "modality": "text_only",
+  "window": "clean",
+  "text_method": "original_typed",
+  "fusion_strategy": "none",
+  "n_samples": 74826,
+  "n_positive": 8928,
+  "n_features": 2308,
+  "feature_columns_preview": [
+    "text_has_notes",
+    "text_has_nursing",
+    "text_has_radiology",
+    "text_has_lab",
+    "emb_0000",
+    "emb_0001",
+    "emb_0002",
+    "emb_0003",
+    "emb_0004",
+    "emb_0005",
+    "emb_0006",
+    "emb_0007",
+    "emb_0008",
+    "emb_0009",
+    "emb_0010",
+    "emb_0011",
+    "emb_0012",
+    "emb_0013",
+    "emb_0014",
+    "emb_0015"
+  ],
+  "timestamp": "2026-03-07T19:43:07.669269",
+  "requested_window": "clean",
+  "requested_text_method": "original_typed",
+  "resolved_structured_window": "W24",
+  "resolved_text_window": "W24",
+  "resolved_text_method": "weighted_typed_no_after",
+  "text_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/data/processed/note_centered/stay_level/text_W24_weighted_typed_no_after.parquet",
+  "rows_before_no_note_filter": 74829,
+  "rows_after_no_note_filter": 74826,
+  "split_source": "predefined_splits.csv",
+  "fold_results": [
+    {
+      "fold": 1,
+      "n_train": 47831,
+      "n_val": 11959,
+      "auroc": 0.8319017218576509,
+      "auprc": 0.45908485167869206,
+      "ece": 0.21277124691252783
+    },
+    {
+      "fold": 2,
+      "n_train": 47831,
+      "n_val": 11959,
+      "auroc": 0.8427365912642019,
+      "auprc": 0.46450910272914536,
+      "ece": 0.20968806457509448
+    },
+    {
+      "fold": 3,
+      "n_train": 47831,
+      "n_val": 11959,
+      "auroc": 0.836281537724569,
+      "auprc": 0.43088377649142356,
+      "ece": 0.20955056429284905
+    },
+    {
+      "fold": 4,
+      "n_train": 47832,
+      "n_val": 11958,
+      "auroc": 0.8394199294189569,
+      "auprc": 0.44280967335810945,
+      "ece": 0.21872747696432732
+    },
+    {
+      "fold": 5,
+      "n_train": 47835,
+      "n_val": 11955,
+      "auroc": 0.8435621730860676,
+      "auprc": 0.4842238004254404,
+      "ece": 0.21355641827863966
+    }
+  ],
+  "mean_auroc": 0.8387803906702892,
+  "std_auroc": 0.004300844724015681,
+  "mean_auprc": 0.45630224093656213,
+  "std_auprc": 0.018345880747043096,
+  "mean_ece": 0.21285875420468764,
+  "std_ece": 0.0033446582108125032,
+  "test_metrics": {
+    "n_test": 15036,
+    "auroc": 0.8408620983358956,
+    "auprc": 0.46920243201549316,
+    "ece": 0.2133793704065771
+  }
+}

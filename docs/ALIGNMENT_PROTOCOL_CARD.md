@@ -1,143 +1,57 @@
-# Alignment Protocol Card
+# Alignment Protocol Card (Note-Centered v2.0)
 
-## Overview
+## 1. Protocol Overview
+TIMELY-Bench v2.0 aligns structured time-series and text around each note anchor using note-centered windows, then aggregates to stay-level (anchor strategy: `last_note`).
 
-This document describes the time-alignment protocols used in TIMELY-Bench to align clinical time-series data with textual notes.
+Core goals:
+- Enforce strict lookback semantics for clean evaluation.
+- Provide an explicit leaked condition for controlled leakage stress tests.
+- Quantify leakage sources with a 2x2 decomposition.
 
----
+## 2. Window Semantics
 
-## Alignment Windows
+| Window | Structured Window | Text Selection | Intended Use |
+|---|---|---|---|
+| D0 | `[day_start, T]` | same-day notes with `chart_hour <= T` | calendar-day boundary sensitivity |
+| W6 | `[T-6, T]` | notes in `[T-6, T]` | short lookback |
+| W12 | `[T-12, T]` | notes in `[T-12, T]` | medium lookback |
+| W24 | `[T-24, T]` | notes in `[T-24, T]` | canonical clean lookback |
+| leaked | `[T-24, T+24]` | all notes incl. AFTER | intentional leakage stress condition |
+| clean | same structured as W24 | BEFORE+OVERLAP only | strict no-AFTER text condition |
 
-| Window ID | Description | Time Offset | Use Case |
-|-----------|-------------|-------------|----------|
-| **6h** | 6-hour observation horizon | ICU `intime` + [0h, 6h) | Earliest prediction, minimal data |
-| **12h** | 12-hour observation horizon | ICU `intime` + [0h, 12h) | Balanced precision/coverage |
-| **24h** | 24-hour observation horizon | ICU `intime` + [0h, 24h) | Primary benchmark window |
-| **D0** | Calendar-day (admission day) aligner | ICU `intime` + [0h, hours-to-midnight) | Canonical daily aligner (chartdate-style) |
+`T` denotes anchor note chart hour. For stay-level release, anchor is the last note in 0-48h.
 
-Note: 6h/12h/24h/D0 are all generated in the canonical feature pipeline (`code/data_processing/create_multi_window_data.py`) and consumed by structured baselines (`code/baselines/run_baselines.py`). D0 is also stress-tested in the dedicated aligner comparison (`code/baselines/train_aligner_comparison.py`).
+## 3. D0 Boundary Truncation
+D0 uses calendar-day-up-to-T semantics. If anchor note is close to day start, available window duration can be short.
 
----
+Phase 5 analysis output (`results/note_centered/analysis/d0_boundary_analysis.csv`) confirms a non-trivial short-window mass in `[0,2h)`, but D0 remains competitive and is strongest for prolonged LOS structured baselines.
 
-## Alignment Algorithm
+## 4. Clean vs Leaked Definitions
+- `leaked`: bidirectional structured window (+24h future), text includes AFTER content.
+- `clean`: W24 lookback structured window, text excludes AFTER via DocTimeRel weighting.
 
-```
-Structured observation windowing (prediction features):
-    For each ICU stay:
-        1. Compute hour_offset relative to ICU admission (intime)
-        2. Keep time-series rows with 0 <= hour_offset < window_hours (6/12/24), or
-           use D0 cutoff 0 <= hour_offset < hours_to_midnight (calendar-day aligner)
-        3. Aggregate per-feature statistics (min/max/mean/first/last/std) + missingness + counts
+Important implementation detail:
+- Text note pool for leaked and W24 is identical under `last_note` anchor (`T` is last note hour).
+- Text leakage signal therefore comes from sentence-level DocTimeRel inclusion/exclusion, not from adding future notes.
 
-Pattern-text alignment (evidence extraction; causal):
-    For each detected pattern event at hour t:
-        1. Select notes with hour_offset in [t - 6h, t + 0h] (no lookahead)
-        2. Mark as temporally aligned (pattern-hour, note-hour)
-        3. Optionally annotate alignment as SUPPORTIVE / CONTRADICTORY / UNRELATED
-```
+## 5. 2x2 Leakage Decomposition
+We decompose leakage using early fusion XGBoost:
 
----
+| Structured \ Text | original (AFTER included) | weighted_no_after (AFTER excluded) |
+|---|---:|---:|
+| leaked (±24h) | A (full leaked) | B (struct-only leak) |
+| W24 lookback | C (text-only leak) | D (clean) |
 
-## Performance by Window Size (Structured Baselines)
+Premium components:
+- `premium_total = A - D`
+- `premium_struct = B - D`
+- `premium_text = C - D`
+- `premium_interaction = premium_total - premium_struct - premium_text`
 
-These are the canonical structured-only baselines evaluated on the same patient-level split. Source: `results/standardized/structured_results.csv`.
+Observed (Phase 4 fixed runs):
+- Mortality: total +0.0154, structural share ~99%
+- Prolonged LOS: total +0.0508, structural share ~100%
+- Text premium approximately 0 in both tasks with note-level ClinicalBERT pooling
 
-### Mortality (All cohort; test set)
-
-| Window | Logistic Regression AUROC | XGBoost AUROC |
-|--------|---------------------------:|--------------:|
-| 6h | 0.7812 | 0.8091 |
-| 12h | 0.8141 | 0.8355 |
-| 24h | 0.8483 | 0.8693 |
-| D0 | 0.7908 | 0.8104 |
-
-**Conclusion**: within fixed-hour windows, longer context provides stronger performance (6h < 12h < 24h). D0 is a calendar-day protocol and is expected to fall between early and longer fixed-hour windows.
-
-### Canonical aligner comparison (MedCAT concept baseline; holdout test AUROC)
-
-| Aligner | Mortality | Prolonged LOS |
-|--------|----------:|--------------:|
-| 6h | 0.516 | 0.527 |
-| 12h | 0.530 | 0.535 |
-| 24h | 0.552 | 0.550 |
-| D0 | 0.523 | 0.528 |
-
----
-
-## Pattern Detection
-
-Patterns are detected from time-series data using clinical thresholds:
-
-| Pattern | Detection Rule | Clinical Significance |
-|---------|----------------|----------------------|
-| Tachycardia | HR > 100 bpm for ≥2 hours | Stress, infection, hypovolemia |
-| Hypotension | SBP < 90 mmHg | Shock, sepsis |
-| Fever | Temp > 38.0°C | Infection |
-| Tachypnea | RR > 20/min | Respiratory distress |
-| Hypoxia | SpO2 < 92% | Respiratory failure |
-
----
-
-## Text-Pattern Alignment
-
-### Annotation Categories
-
-| Category | Definition | Example |
-|----------|------------|---------|
-| **SUPPORTIVE** | Text confirms or explains the pattern | "Patient developed fever overnight" aligns with temp > 38°C |
-| **CONTRADICTORY** | Text contradicts the pattern | "Afebrile" when temp > 38°C detected |
-| **UNRELATED** | No semantic relationship | Generic text near pattern time |
-
-### Annotation Sources
-
-| Source | Method | Coverage | Precision |
-|--------|--------|----------|-----------|
-| **Sparse audited subset** | Manual/LLM-assisted auditing of sampled items | Small curated set | Used for QC |
-
----
-
-## Implementation Details
-
-### Key Files
-
-| Component | File |
-|-----------|------|
-| Alignment Generation | `temporal_textual_alignment.py` |
-| Pattern Detection | `pattern_detector.py` |
-| Smart Rule Matcher | `smart_rule_matcher_full.py` |
-| Episode Builder | `episode_builder.py` |
-
-### Data Files
-
-| File | Size | Description |
-|------|------|-------------|
-| `data/processed/temporal_alignment/temporal_textual_alignment.csv` | ~1.1 GB | Canonical alignment matrix (0-24h, discharge-excluded) |
-| `episodes/episodes_enhanced/` | large | 74,829 Episode JSONs |
-
----
-
-## Reproducibility
-
-To regenerate alignments:
-
-```bash
-# 1. Run pattern detection
-python code/data_processing/pattern_detector.py
-
-# 2. Generate alignments
-python code/data_processing/temporal_textual_alignment.py
-
-# 3. Apply smart annotation rules
-python code/data_processing/smart_rule_matcher_full.py
-
-# 4. Build episodes
-python code/data_processing/batch_build_all_episodes.py
-```
-
----
-
-## Limitations
-
-1. **Window granularity**: released benchmark windows are (6h, 12h, 24h, D0).
-2. **Note timestamp accuracy**: documentation time may lag observation time; this motivates explicit time-window alignment.
-3. **Annotation sparsity**: SUPPORTIVE/CONTRADICTORY labels are sparse in the released episodes; most alignments are unlabeled (null category).
+## 6. Key Practical Takeaway
+For this benchmark setup, AUROC inflation is dominated by structured temporal leakage rather than DocTimeRel AFTER sentence inclusion. Strict lookback on structured data is therefore the primary anti-leakage control.

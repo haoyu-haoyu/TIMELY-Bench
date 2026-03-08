@@ -1,0 +1,7 @@
+model,old_auroc,new_auroc,explanation,delta
+Structured LR,0.8481,0.8839196836205323,Change reflects stronger 42-feature set and note-centered alignment protocol.,0.03581968362053234
+Structured XGBoost,0.8677,0.9042217391385634,"+0.036 largely attributable to expanded 42-feature set (SOFA, blood gas, ventilator, vasopressor dose, sedatives).",0.03652173913856338
+Text ClinicalBERT LR,0.8318,0.8501734781247705,Text baseline is now note-centered lookback W24; direct comparability remains partial.,0.018373478124770526
+Early Fusion XGBoost,0.8848,0.9078669981766982,+0.023 from combined effects of feature expansion and alignment redesign.,0.023066998176698217
+Late Fusion (stacking),0.8805,0.8952207342914587,Late stacking improves under note-centered setup but gains are smaller than early fusion.,0.014720734291458704
+GRU,0.8419,,Not re-run in note-centered Phase 4; no directly matched new value in this release.,

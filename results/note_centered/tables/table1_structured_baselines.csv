@@ -1,0 +1,5 @@
+task,model,D0,W6,W12,W24
+mortality,LR,0.8775,0.8663,0.8758,0.8839
+mortality,XGBoost,0.9007,0.8863,0.896,0.9042
+prolonged_los,LR,0.8858,0.8641,0.8619,0.8646
+prolonged_los,XGBoost,0.8972,0.8802,0.8814,0.8817

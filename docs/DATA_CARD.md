@@ -1,106 +1,64 @@
-# TIMELY-Bench Data Card (v2.0)
+# TIMELY-Bench Data Card (v2.0 - Note-Centered)
 
-This data card documents the released artefacts in `TIMELY-Bench_Final/` and the episode-level JSON interface.
+## Data Extraction (v2.0 - Note-Centered)
 
-## Dataset Overview
+### Time-Series
+- Source: MIMIC-IV `chartevents`, `labevents`, `inputevents`, mimic-code SOFA SQL
+- Temporal range: 0-72h post ICU admission
+- Variables: 42 clinical features
+  - Vitals (8): `heart_rate`, `sbp`, `dbp`, `mbp`, `resp_rate`, `temperature`, `spo2`, `gcs_min`
+  - Labs (17): `glucose_chart`, `albumin`, `bun`, `creatinine`, `glucose_lab`, `sodium`, `potassium`, `bicarbonate`, `chloride`, `aniongap`, `wbc`, `hemoglobin`, `hematocrit`, `platelet`, `lactate`, `ph`, `bilirubin_total`
+  - Blood Gas (3): `pao2`, `paco2`, `pao2_fio2_ratio`
+  - Ventilator (4): `fio2`, `peep`, `tidal_volume`, `minute_volume`
+  - Scores (3): `sofa_total`, `sofa_respiration`, `sofa_5`
+  - Interventions (2): `vasopressors` (binary), `rrt` (binary)
+  - Medication Dose (4): `vasopressor_dose_norepi_equiv`, `propofol_rate`, `midazolam_rate`, `fentanyl_rate`
+  - Other (1): `urineoutput`
+- Rows: 5,387,688 (hourly, 74,829 stays x up to 72 hours)
 
-| Field | Value |
-|-------|-------|
-| Name | TIMELY-Bench v2.0 |
-| Source | MIMIC-IV v3.1 |
-| Access | PhysioNet credentialed access |
-| License | PhysioNet credentialed health data license |
-| Observation window | First 24 hours of ICU stay (fixed), plus D0 calendar-day aligner |
-| Supported structured windows | 6h, 12h, 24h, D0 (`code/config.py`) |
+### Clinical Notes
+- Source: MIMIC-IV `noteevents` (nursing, radiology) + `labevents` (lab comments)
+- Temporal range: 0-48h post ICU admission
+- Total notes: 12,005,731
+- Discharge notes excluded by default
 
-## Cohort Statistics (Current Episodes)
+### Known Limitations
+- Vasopressor dose uses simplified norepinephrine-equivalent conversion (not weight-adjusted)
+- PaO2/FiO2 ratio coverage: row-level 3.6%, stay-level 47.6%; sparse for non-ventilated patients
+- 3 stays (`30635125`, `39438562`, `39443966`) have no notes in 0-48h; retained in structured baselines with zero text vectors
+- D0 boundary effect: ~9.6% of notes have D0 window < 2h due to calendar-day truncation
 
-Source of truth:
-- Cohort labels: `data/processed/merge_output/cohort_final.csv`
-- Episode JSONs: `episodes/episodes_enhanced/`
+## Alignment Protocol
 
-| Metric | Value |
-|--------|------:|
-| Total ICU stays / Episodes | 74,829 |
-| Unique patients (`subject_id`) | 54,551 |
-| Mortality positive rate | 11.93% |
-| Prolonged LOS positive rate | 16.16% |
-| Sepsis (binary label) | 34,152 |
-| AKI (binary label) | 57,263 |
-| ARDS (binary label) | 822 |
+### Window Definitions
 
-Episode-derived volume stats (computed from `episodes/episodes_enhanced/*.json`):
+| Window | Structured Range | Note Selection | Type |
+|---|---|---|---|
+| D0 | `[day_start, T]` | Same calendar day, `chart_hour <= T` | Calendar day, no future |
+| W6 | `[T-6, T]` | `chart_hour in [T-6, T]` | Lookback |
+| W12 | `[T-12, T]` | `chart_hour in [T-12, T]` | Lookback |
+| W24 | `[T-24, T]` | `chart_hour in [T-24, T]` | Lookback |
+| leaked | `[T-24, T+24]` | All notes including AFTER sentences | Bidirectional (intentional) |
+| clean | Same as W24 | BEFORE + OVERLAP only (AFTER excluded) | Lookback + DocTimeRel |
 
-| Metric | Value |
-|--------|------:|
-| Total note objects (within 24h window) | 6,975,132 |
-| Avg notes per episode | 93.21 |
-| Total detected pattern events | 3,760,396 |
-| Avg pattern events per episode | 50.25 |
-| Total pattern-text alignment objects | 6,974,406 |
-| Avg alignments per episode | 93.20 |
-| Total SUPPORTIVE annotations | 9,585 |
-| Total CONTRADICTORY annotations | 8,730 |
+Where `T` is the anchor note's `chart_hour` (stay-level uses `last_note` strategy).
 
-Important nuance: most alignment objects have `annotation_category = null` (labels are sparse; see `final_release/llm_annotations/` for audited samples).
+### Leaked Text = W24 Text (By Design)
+Since `T = chart_hour(last_note)`, no note exists after `T` at note-level selection time. Therefore, leaked and W24 note pools are identical on text-side note selection.
 
-## Prediction Tasks
+Text leakage is modeled via DocTimeRel sentence filtering (`original` vs `weighted_no_after` / `weighted_typed_no_after`), while structural leakage is introduced by the symmetric `±24h` structured window.
 
-1. In-hospital mortality (`label_mortality` in `cohort_final.csv`).
-2. Prolonged LOS (`prolonged_los_7d` in `cohort_final.csv`).
-3. Optional label present: `readmission_30d` (not used in the canonical paper tables unless explicitly stated).
+## Tasks
+- In-hospital mortality (`mortality`)
+- Prolonged ICU LOS (`prolonged_los`)
 
-## Modalities
+## Split Protocol
+- Canonical split source: `data/splits/predefined_splits.csv`
+- Holdout test + 5-fold CV on development cohort
+- All Phase 4/5 core experiments use the same predefined splits
 
-### 1. Time-series (Structured)
-
-- Stored in each episode: `timeseries.vitals` (hourly) and `timeseries.labs` (event-based).
-- Aggregated windows for baselines are released as tabular features:
-  - `data/processed/data_windows/window_6h/features_aggregated.csv`
-  - `data/processed/data_windows/window_12h/features_aggregated.csv`
-  - `data/processed/data_windows/window_24h/features_aggregated.csv`
-  - `data/processed/data_windows/window_D0/features_aggregated.csv`
-
-### 2. Clinical text
-
-- Episode field: `clinical_text.notes` (note objects within the 24h window), plus `clinical_text.note_types`, `clinical_text.coverage_hours`.
-- Precomputed optional embedding artefacts:
-  - `data/processed/text_embeddings/clinical_bert_embeddings.npy`
-  - `data/processed/text_embeddings/embedding_stay_ids.csv`
-
-### 3. Alignment artefacts (Pattern-text)
-
-- Episode field: `reasoning.pattern_annotations` and summary counters (`n_alignments`, `n_supportive`, `n_contradictory`).
-- Large alignment matrix (not required for training baselines, but used for audit/reconstruction):
-  - `data/processed/temporal_alignment/temporal_textual_alignment.csv`
-
-### 4. Knowledge scaffolding
-
-The final release bundle contains clinician-facing scaffolds:
-- Condition graphs: `final_release/condition_graphs/`
-- Physiology templates (canonical trajectories): `final_release/physiology_templates/`
-
-## Data Splits
-
-Patient-level canonical split file (no `subject_id` overlap between dev/test):
-
-- `data/splits/predefined_splits.csv`
-  - `split`: `dev` or `test` (20% holdout test)
-  - `fold_id`: 1..5 for GroupKFold within `dev`
-- Summary metadata:
-  - `data/splits/split_summary.json`
-
-## Episode JSON Interface
-
-Canonical schema and example:
-
-- `documentation/episode_schema.json`
-- `documentation/example_episode.json`
-
-Core top-level keys (all episodes):
-- `episode_id`, `stay_id`, `patient`, `timeseries`, `clinical_text`, `reasoning`, `labels`, `metadata`
-
-## Ethical Considerations
-
-- Data are de-identified; access requires PhysioNet credentialing.
-- TIMELY-Bench artefacts are for research benchmarking only and are not validated for clinical use.
+## Reproducibility Pointers
+- Core experiment JSONs: `results/note_centered/core_experiments/`
+- Tables: `results/note_centered/tables/`
+- Figures: `results/note_centered/figures/`
+- Analysis notes: `results/note_centered/analysis/analysis_findings.md`
