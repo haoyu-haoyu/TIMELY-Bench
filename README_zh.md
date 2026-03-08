@@ -1,138 +1,118 @@
 # TIMELY-Bench
 
-用于 ICU 多模态（结构化时序 + 临床笔记）时间对齐与融合的基准数据与评估框架。
+**用于 ICU 多模态（结构化时序 + 临床文本）预测的时间对齐基准（MIMIC-IV）**
 
 [English](README.md) | 中文
 
-## 当前状态
+## 发布快照（v2.0 Note-Centered）
 
-| 指标 | 数值 |
-|------|------|
-| Episodes（ICU stays） | **74,829** |
-| 患者数（约） | ~50,000 |
-| 时间窗口 | 6h, 12h, 24h（含 D0） |
-| 生理特征（结构化） | 25 |
-| 文本表示 | 标注统计特征、ClinicalBERT embedding（可选 MedCAT concepts） |
+| 项目 | 数值 |
+|---|---|
+| ICU stays | **74,829** |
+| 结构化特征数 | **42** |
+| 时序提取范围 | 入 ICU 后 **0-72h** |
+| 文本提取范围 | 入 ICU 后 **0-48h** |
+| 总笔记数 | **12,005,731** |
+| 任务 | `mortality`、`prolonged_los` |
+| 窗口 | `D0`、`W6`、`W12`、`W24`、`leaked`、`clean` |
+| Canonical 核心实验 | **91 个 JSON** |
 
-最近更新：2026 年 2 月 | 版本：2.0 Final
+**最近更新：** 2026 年 3 月
 
-## 项目做什么
+## 相比旧版流程的更新
 
-TIMELY-Bench 关注一个核心问题：临床笔记与结构化时序信号如何在时间上对齐，并在统一协议下公平比较不同融合策略（early/late）与不同时间窗口（6h/12h/24h + D0）。
+- 时间对齐从 admission-anchored 改为 **note-centered lookback**。
+- 结构化特征从 **25 扩展到 42**。
+- 增加了显式泄漏控制和 2x2 分解（`leaked` vs `clean`）。
+- 新版 canonical 结果统一放在 `results/note_centered/`。
 
-它包含：
-- 多窗口（6h/12h/24h + D0）结构化特征提取与可复现实验划分
-- Episode JSON（结构化时序 + 对齐后的笔记 + pattern 检测 + 推理/标注统计特征）
-- 条件图（Condition Graph）与典型时间演变模板（Physiology Templates）
-- 轻量级基线（structured / text-only / early fusion / late fusion / temporal）
-- 校准与跨窗口鲁棒性评估（含统计检验）
+## 关键结果（Phase 4 修复后，canonical 91）
 
-## 关键结果（24h，All cohort）
+### 1）Structured-only 基线（AUROC）
 
-### 院内死亡（Mortality）
+| 任务 | 模型 | D0 | W6 | W12 | W24 |
+|---|---:|---:|---:|---:|---:|
+| mortality | LR | 0.8775 | 0.8663 | 0.8758 | 0.8839 |
+| mortality | XGBoost | 0.9007 | 0.8863 | 0.8960 | 0.9042 |
+| prolonged_los | LR | 0.8858 | 0.8641 | 0.8619 | 0.8646 |
+| prolonged_los | XGBoost | 0.8972 | 0.8802 | 0.8814 | 0.8817 |
 
-| 模型 | AUROC | AUPRC | ECE | Brier |
-|------|-------|-------|-----|-------|
-| Early Fusion XGBoost（Structured + ClinicalBERT embedding） | **0.885** | **0.584** | 0.0086 | 0.0740 |
-| Late Fusion（tuned $\alpha$，ClinicalBERT） | 0.881 | 0.551 | 0.1078 | 0.0915 |
-| Early Fusion XGBoost（Structured + 标注统计特征） | 0.873 | 0.557 | 0.0066 | 0.0770 |
-| Late Fusion（tuned $\alpha$，标注统计特征） | 0.869 | 0.535 | 0.1813 | 0.1234 |
-| XGBoost（Structured） | 0.868 | 0.541 | 0.1974 | 0.1327 |
-| Logistic Regression（Structured） | 0.848 | 0.508 | 0.0083 | 0.0823 |
-| Clinical GRU（Temporal） | 0.842 | 0.483 | 0.0336 | 0.0871 |
-| Logistic Regression（Text-Only，ClinicalBERT embedding） | 0.832 | 0.444 | --- | --- |
-| XGBoost（Text-Only，ClinicalBERT embedding） | 0.817 | 0.444 | 0.0089 | 0.0881 |
-| XGBoost（Text-Only，标注统计特征） | 0.755 | 0.327 | 0.0062 | 0.0965 |
-| Logistic Regression（Text-Only，MedCAT concepts） | 0.552 | 0.150 | --- | --- |
-| XGBoost（Text-Only，MedCAT concepts） | 0.552 | 0.151 | --- | --- |
+### 2）2x2 泄漏分解（Early Fusion XGBoost）
 
-### 延长 ICU 住院（Prolonged LOS）
+| 任务 | A 全泄漏 | B 仅结构化泄漏 | C 仅文本泄漏 | D clean |
+|---|---:|---:|---:|---:|
+| mortality | 0.9232 | 0.9231 | 0.9079 | 0.9079 |
+| prolonged_los | 0.9368 | 0.9370 | 0.8856 | 0.8860 |
 
-| 模型 | AUROC | AUPRC |
-|------|-------|-------|
-| Early Fusion XGBoost（Structured + ClinicalBERT embedding） | **0.835** | **0.509** |
-| Late Fusion（tuned $\alpha$，ClinicalBERT） | 0.834 | 0.506 |
-| Early Fusion XGBoost（Structured + 标注统计特征） | 0.818 | 0.468 |
-| XGBoost（Structured） | 0.815 | 0.460 |
-| Logistic Regression（Structured） | 0.797 | 0.422 |
-| Late Fusion（tuned $\alpha$，标注统计特征） | 0.815 | 0.458 |
-| XGBoost（Text-Only，ClinicalBERT embedding） | 0.800 | 0.456 |
-| Logistic Regression（Text-Only，ClinicalBERT embedding） | 0.800 | 0.452 |
-| XGBoost（Text-Only，标注统计特征） | 0.701 | 0.311 |
-| Logistic Regression（Text-Only，MedCAT concepts） | 0.549 | 0.192 |
-| XGBoost（Text-Only，MedCAT concepts） | 0.550 | 0.195 |
+泄漏溢价（Leakage Premium）总结：
+- Mortality：`A-D = +0.0154`
+- Prolonged LOS：`A-D = +0.0508`
+- 结构化泄漏贡献占绝对主导（约 99%-100%），在当前 note-level ClinicalBERT 设定下文本泄漏近似为 0。
 
-### 跨窗口鲁棒性（Cross-window Robustness）
+### 3）Text-only 基线（AUROC）
 
-Mortality AUROC（结构化基线，All cohort）：
+| 任务 | 文本类型 | W24 | leaked | clean |
+|---|---|---:|---:|---:|
+| mortality | mean | 0.8502 | 0.8502 | 0.8501 |
+| mortality | typed | 0.8390 | 0.8390 | 0.8388 |
+| prolonged_los | mean | 0.8355 | 0.8355 | 0.8356 |
+| prolonged_los | typed | 0.8230 | 0.8230 | 0.8234 |
 
-| 模型 | 6h | 12h | 24h | CV (%) |
-|------|----|-----|-----|--------|
-| XGBoost | 0.805 | 0.839 | 0.868 | 3.05 |
-| Logistic Regression | 0.783 | 0.818 | 0.852 | 3.13 |
+### 4）Note-type 消融（mortality, W24, early fusion XGBoost）
 
-统计检验：Friedman $\chi^2$=12.0，p=0.0025；两两 Wilcoxon 检验 p=0.0313（每组对比）。
+| 条件 | AUROC | 相对 tabular 增量 |
+|---|---:|---:|
+| No text (tabular only) | 0.9042 | - |
+| Nursing only | 0.9079 | +0.0037 |
+| Radiology only | 0.9018 | -0.0024 |
+| Lab only | 0.9037 | -0.0005 |
+| All notes (typed pool) | 0.9073 | +0.0031 |
+| All notes (mean pool) | 0.9079 | +0.0036 |
 
-## `final_release/` 中包含的产物
+## 产物路径
 
-- `final_release/` 是一个轻量、可校验（checksummed）的交付包，包含关键 artefacts（图谱、模板、QC、CRES、证据等）。完整的 episode JSON 位于 `episodes/episodes_enhanced/`，为避免体积过大不在 `final_release/` 内重复打包。
-- `condition_graphs/`：Sepsis/SIRS、AKI/KDIGO、Delirium/ICU、Stroke/Neuro 的 guideline-anchored 条件图（节点带 domain tag，如 `lab_marker`/`vital_sign`/`symptom`/`medication`/`multimorbidity`）
-- `physiology_templates/`：典型时间演变模板（canonical trajectories / physiology templates）
-- `llm_annotations/`：用于质检与评估的标注子集（例如约 900 条）
-- `evidence/`, `qc/`, `cres/`：可复现实验与评估支架
+- 核心结果：`results/note_centered/core_experiments/`
+- 表格：`results/note_centered/tables/`
+- 图：`results/note_centered/figures/`
+- 分析结论：`results/note_centered/analysis/analysis_findings.md`
+- 文档卡片：`docs/DATA_CARD.md`、`docs/MODEL_CARD.md`、`docs/ALIGNMENT_PROTOCOL_CARD.md`
 
-## 重要名词说明（避免混淆）
+## 快速开始
 
-- `Early Fusion (AnnotFeatures)`：structured 聚合特征与 annotation-derived 文本特征拼接后，训练单一表格模型（见 `results/fusion_baselines/`）。
-- `Early Fusion (ClinicalBERT)`：structured 聚合特征与 stay-level ClinicalBERT 向量拼接后训练。
-- `EarlyFusion_XGBoost`（部分 robustness/calibration 脚本中的命名）：历史命名下的结构化 XGBoost 基线，不代表 multimodal fusion。
+### 环境
 
-## 目录结构（简要）
-
-```
-TIMELY-Bench_Final/
-├── code/
-│   ├── baselines/                  # 基线训练脚本
-│   ├── evaluation/                 # 评估脚本（校准/鲁棒性/统计检验）
-│   └── config.py
-├── data/
-│   └── processed/
-│       ├── data_windows/           # 6h/12h/24h + D0 结构化特征
-│       └── merge_output/
-│           └── cohort_final.csv
-├── final_release/                  # 可交付数据包
-├── results/                        # 输出（standardized/robustness/calibration/...）
-└── docs/                           # Data card / Model card / checklist
+```bash
+conda create -n timely python=3.10
+conda activate timely
+pip install torch numpy pandas scikit-learn xgboost matplotlib seaborn scipy tqdm
 ```
 
-## 快速开始（本地或 CREATE）
+### 训练基线
 
 ```bash
 cd TIMELY-Bench_Final
-
-# Structured-only baselines
 python code/baselines/train_tabular_baselines.py
-
-# Text-only baselines（标注统计特征）
 python code/baselines/train_text_only.py
-
-# Text-only baselines（ClinicalBERT embedding）
 python code/baselines/train_text_only_embeddings.py
-
-# Fusion baselines（early concat + late weighted）
 python code/baselines/train_fusion.py
 ```
 
-评估：
+### 生成 Phase 5 分析产物
 
 ```bash
-python code/evaluation/run_calibration_evaluation.py
-python code/evaluation/update_robustness_final.py
+python code/analysis/generate_core_tables.py
+python code/analysis/compare_old_vs_new.py
+python code/analysis/answer_analysis_questions.py
+MPLBACKEND=Agg python code/analysis/generate_figures.py
 ```
 
-## 文档
+## 任务定义
 
-- 数据卡：`docs/DATA_CARD.md`
-- 对齐协议卡：`docs/ALIGNMENT_PROTOCOL_CARD.md`
-- 模型卡：`docs/MODEL_CARD.md`
-- 结果汇总：`results/standardized/results_summary.csv`
+| 任务 | 定义 |
+|---|---|
+| In-hospital mortality | 住院期间死亡 |
+| Prolonged LOS | ICU 住院时长 > 7 天 |
+
+## 许可与数据访问
+
+本项目使用 MIMIC-IV 数据。原始数据提取需 PhysioNet credentialed access。
