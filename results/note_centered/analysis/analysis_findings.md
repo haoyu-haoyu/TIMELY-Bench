@@ -61,3 +61,13 @@ bucket  n_notes  pct_notes  mean_feature_completeness  mean_n_measurements
 12-24h  5577072  46.453415                   0.339164             6.232492
 
 Interpretation: severe D0 truncation (<2h) accounts for 9.62% of notes in this calculation and does not prevent D0 from being competitive (or best on LOS structured baselines).
+
+## Q8. Cross-Task Leakage Decomposition (Progression Tasks)
+- AKI progression (24h lookahead): A=0.9176, B=0.9172, C=0.8709, D=0.8714; premium_total=+0.0463, premium_struct=+0.0459, premium_text(C-D)=-0.0004.
+- Sepsis to shock (12h lookahead): A=0.9845, B=0.9844, C=0.9446, D=0.9446; premium_total=+0.0399, premium_struct=+0.0399, premium_text(C-D)=+0.0000.
+
+Key finding: contrary to the initial hypothesis, text leakage premium (C-D) remains negligible across all four tasks (mortality, prolonged LOS, AKI progression, sepsis-shock).
+
+Mechanistic interpretation: the near-zero text leakage across task types is consistent with note-level ClinicalBERT pooling behavior rather than task acuity. Future-note content is diluted when embeddings are mean-pooled across all notes in the window, making leakage signal inaccessible to downstream classifiers.
+
+Implication for benchmark design: structural leakage remains the dominant and consistent source across tasks (approximately all measurable leakage premium). To test task-dependent text leakage effects, future work should evaluate sentence-level or span-level representations instead of stay-level pooled document embeddings.
