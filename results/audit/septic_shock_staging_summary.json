@@ -1,0 +1,11 @@
+{
+  "n_rows": 2067408,
+  "n_stays": 28714,
+  "hours_with_septic_shock": 53211,
+  "pct_hours_with_septic_shock": 0.025738025585660886,
+  "stays_with_any_septic_shock": 7211,
+  "lactate_rule_used": true,
+  "input_timeseries": "data/processed/timeseries_sorted_72h.csv",
+  "input_sepsis_cohort": "data/processed/sepsis/sepsis3_cohort.csv",
+  "output_parquet": "data/processed/sepsis/septic_shock_hourly.parquet"
+}

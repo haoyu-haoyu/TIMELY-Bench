@@ -1,0 +1,19 @@
+{
+  "n_stays": 48349,
+  "n_timepoints": 592031,
+  "rows_written": {
+    "original": 592031,
+    "weighted_no_after": 592031,
+    "leaked": 592031
+  },
+  "rows_with_notes_lookback": 549028,
+  "rows_with_notes_leaked": 549049,
+  "leaked_vs_original_diff_rows": 325418,
+  "leaked_vs_original_diff_pct": 0.5496637844977712,
+  "outputs": {
+    "original": "data/processed/progression_features/text_W24_original.parquet",
+    "weighted_no_after": "data/processed/progression_features/text_W24_weighted_no_after.parquet",
+    "leaked": "data/processed/progression_features/text_W24_leaked.parquet"
+  },
+  "elapsed_seconds": 904.1548626422882
+}
