@@ -1,0 +1,35 @@
+{
+  "q01": {
+    "ok": false,
+    "error": "404 Not found: Dataset timely-bench-mimic:mimiciv_3_1_derived was not found in location US; reason: notFound, message: Not found: Dataset timely-bench-mimic:mimiciv_3_1_derived was not found in location US\n\nLocation: US\nJob ID: 11e70160-c3ec-467f-b08c-700547bb5c86\n"
+  },
+  "q02": {
+    "ok": false,
+    "error": "404 Not found: Dataset timely-bench-mimic:mimiciv_3_1_derived was not found in location US; reason: notFound, message: Not found: Dataset timely-bench-mimic:mimiciv_3_1_derived was not found in location US\n\nLocation: US\nJob ID: 378cb18c-25a3-49a5-9064-5fbc6d0f4a31\n"
+  },
+  "q03": {
+    "ok": false,
+    "error": "could_not_infer_stage_or_time_or_stay_id",
+    "columns": []
+  },
+  "q04": {
+    "ok": false,
+    "error": "404 Not found: Dataset timely-bench-mimic:mimiciv_3_1_derived was not found in location US; reason: notFound, message: Not found: Dataset timely-bench-mimic:mimiciv_3_1_derived was not found in location US\n\nLocation: US\nJob ID: ea37b47a-c501-41f8-ae59-0e93f24c443e\n"
+  },
+  "q05": {
+    "ok": true,
+    "file": "/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final/data/processed/timeseries_sorted_72h.csv",
+    "columns_present": [
+      "mbp",
+      "vasopressors",
+      "vasopressor_dose_norepi_equiv"
+    ],
+    "columns_missing": [],
+    "coverage_sample_n": 50000,
+    "coverage": {
+      "mbp": 0.7045,
+      "vasopressors": 1.0,
+      "vasopressor_dose_norepi_equiv": 0.04098
+    }
+  }
+}

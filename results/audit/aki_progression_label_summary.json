@@ -1,0 +1,20 @@
+{
+  "kdigo_rows": 2521716,
+  "kdigo_stays": 74784,
+  "aki_stage1_stays_onset_lte_48h": 45634,
+  "aki_stage2plus_stays_any": 36677,
+  "label_rows": 238090,
+  "label_stays": 36473,
+  "positive_rate": 0.20655634423957328,
+  "stays_with_any_positive": 22236,
+  "outputs": {
+    "kdigo_parquet": "data/processed/aki/kdigo_staged.parquet",
+    "labels_csv": "data/processed/labels_aki_progression.csv"
+  },
+  "settings": {
+    "prediction_interval": 4,
+    "lookahead_hours": 24,
+    "max_hour": 72,
+    "stage1_onset_max_hour": 48
+  }
+}

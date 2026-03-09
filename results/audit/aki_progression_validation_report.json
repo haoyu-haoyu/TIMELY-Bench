@@ -1,0 +1,26 @@
+{
+  "tests": {
+    "no_post_progression_rows": {
+      "pass": true,
+      "bad_stays": 0
+    },
+    "positive_window_correct": {
+      "pass": true,
+      "bad_rows": 0
+    },
+    "positive_rate_range": {
+      "pass": true,
+      "value": 0.20655634423957328,
+      "min": 0.05,
+      "max": 0.45
+    },
+    "min_stays": {
+      "pass": true,
+      "value": 36473,
+      "min": 3000
+    }
+  },
+  "n_rows": 238090,
+  "n_stays": 36473,
+  "positive_rate": 0.20655634423957328
+}

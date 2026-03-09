@@ -1,0 +1,16 @@
+{
+  "sepsis_stays": 28714,
+  "stays_with_any_shock_after_onset": 6860,
+  "label_rows": 372647,
+  "label_stays": 25806,
+  "positive_rate": 0.025498662272874867,
+  "stays_with_any_positive": 3952,
+  "settings": {
+    "prediction_interval": 4,
+    "lookahead_hours": 12,
+    "max_hour": 72
+  },
+  "outputs": {
+    "labels_csv": "data/processed/labels_sepsis_shock.csv"
+  }
+}

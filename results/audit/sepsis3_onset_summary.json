@@ -1,0 +1,23 @@
+{
+  "sepsis_table": "physionet-data.mimiciv_3_1_derived.sepsis3",
+  "icustays_table": "physionet-data.mimiciv_3_1_icu.icustays",
+  "onset_column": "sofa_time",
+  "n_rows_onset_raw": 32042,
+  "n_rows_in_cohort": 28714,
+  "cohort_size": 74829,
+  "prevalence": 0.3837282337061834,
+  "onset_describe": {
+    "count": 28714.0,
+    "mean": 4.917531517726545,
+    "std": 6.356826817866842,
+    "min": 0.0,
+    "25%": 1.0,
+    "50%": 3.0,
+    "75%": 6.0,
+    "max": 48.0
+  },
+  "outputs": {
+    "onset_csv": "data/processed/sepsis/sepsis3_onset.csv",
+    "cohort_csv": "data/processed/sepsis/sepsis3_cohort.csv"
+  }
+}
