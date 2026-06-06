@@ -1,0 +1,22 @@
+{
+  "judge_role": "crosscheck",
+  "judge_provider": "gemini31pro",
+  "judge_label": "gemini31pro_repair_v1",
+  "model": "gemini-3.1-pro-preview",
+  "base_url": "https://api.ikuncode.cc",
+  "messages_path": "/v1beta/models/gemini-3.1-pro-preview:generateContent",
+  "api_format": "gemini_generate_content",
+  "user_agent": "curl/8.7.1",
+  "compact_json_output": true,
+  "brief_rationale_max_words": 32,
+  "total_expected_rows": 248,
+  "completed_ok_rows": 167,
+  "status_counts": {
+    "ok": 167,
+    "parse_error": 41
+  },
+  "usage_input_tokens": 1400228,
+  "usage_output_tokens": 20397,
+  "avg_latency_seconds": 11.721088396815153,
+  "output_jsonl": "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_judge_crosscheck_gemini31pro_repair_v1_outputs.jsonl"
+}

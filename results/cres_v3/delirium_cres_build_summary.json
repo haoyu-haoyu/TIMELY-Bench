@@ -1,0 +1,37 @@
+{
+  "condition": "delirium",
+  "instances": 1512502,
+  "unique_stays": 21628,
+  "tasks": [
+    {
+      "task_id": "DEL-S1",
+      "task_mode": "temporal",
+      "layer": "single_layer",
+      "instances": 756251,
+      "unique_stays": 21628
+    },
+    {
+      "task_id": "DEL-T1",
+      "task_mode": "temporal",
+      "layer": "single_layer",
+      "instances": 756251,
+      "unique_stays": 21628
+    }
+  ],
+  "representations": {
+    "A_rows": 1512502,
+    "B1_rows": 1512502,
+    "B2_original_rows": 1512502,
+    "B3_rows": 1512502
+  },
+  "trajectory_tier": {
+    "atypical_supported": 909314,
+    "typical_supported": 570214,
+    "low_template_support": 17668,
+    "atypical_low_support": 15306
+  },
+  "left_censored": {
+    "True": 989480,
+    "False": 523022
+  }
+}

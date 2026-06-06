@@ -1,0 +1,17 @@
+{
+  "repair_rows": 52,
+  "max_tokens_override": 4096,
+  "manifest_path": "/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_medgemma_vllm_b200_repair1/phase65e_medgemma_vllm_b200_repair1_manifest.jsonl",
+  "sample_prompt_ids": [
+    "AKI-T1::30015933::h49::D4::full_multimodal",
+    "DEL-T1::30008635::h5::D4::full_multimodal",
+    "DEL-T1::30024130::h49::D6::full_multimodal",
+    "AKI-T1::30014404::h47::D4::full_multimodal",
+    "DEL-T1::30030111::h156::D4::full_multimodal",
+    "S-R3::30117793::D6::full_multimodal",
+    "S-R3::30088920::D6::full_multimodal",
+    "S-R3::30189274::D6::full_multimodal",
+    "DEL-T1::30008635::h5::D6::full_multimodal",
+    "DEL-T1::30024130::h49::D3::full_multimodal"
+  ]
+}

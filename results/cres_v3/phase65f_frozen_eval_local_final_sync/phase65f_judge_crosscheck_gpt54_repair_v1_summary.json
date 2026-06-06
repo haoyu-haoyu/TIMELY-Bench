@@ -1,0 +1,19 @@
+{
+  "judge_role": "crosscheck",
+  "judge_provider": "gpt54",
+  "judge_label": "gpt54_repair_v1",
+  "model": "gpt-5.4",
+  "base_url": "https://api.ikuncode.cc",
+  "messages_path": "/v1/chat/completions",
+  "api_format": "openai_chat",
+  "user_agent": "curl/8.7.1",
+  "total_expected_rows": 5,
+  "completed_ok_rows": 5,
+  "status_counts": {
+    "ok": 5
+  },
+  "usage_input_tokens": 33411,
+  "usage_output_tokens": 875,
+  "avg_latency_seconds": 5.548383474349976,
+  "output_jsonl": "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_judge_crosscheck_gpt54_repair_v1_outputs.jsonl"
+}

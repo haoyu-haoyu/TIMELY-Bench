@@ -1,0 +1,12 @@
+{
+  "manifest_path": "/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_medgemma_vllm_b200_smoke/phase65e_medgemma_vllm_b200_smoke_manifest_v1.jsonl",
+  "rows": 120,
+  "counts_by_task": {
+    "AKI-T1": 20,
+    "DEL-T1": 20,
+    "SEP-T1": 20,
+    "S-R3": 20,
+    "S-R4": 20,
+    "S-T1": 20
+  }
+}

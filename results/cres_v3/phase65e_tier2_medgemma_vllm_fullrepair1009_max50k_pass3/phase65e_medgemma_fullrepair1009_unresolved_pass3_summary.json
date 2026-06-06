@@ -1,0 +1,6 @@
+{
+  "source_manifest": "/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_medgemma_vllm_fullrepair1009_max40k_pass2/phase65e_medgemma_fullrepair1009_unresolved_manifest.jsonl",
+  "source_output_dir": "/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_medgemma_vllm_fullrepair1009_max40k_pass2",
+  "output_manifest": "/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_medgemma_vllm_fullrepair1009_max50k_pass3/phase65e_medgemma_fullrepair1009_unresolved_pass3_manifest.jsonl",
+  "remaining": 674
+}

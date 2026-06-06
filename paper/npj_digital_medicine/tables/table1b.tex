@@ -1,0 +1,28 @@
+\scriptsize
+\begin{longtable}{@{}ll>{\raggedright\arraybackslash}p{2.8cm}rr>{\raggedright\arraybackslash}p{1.8cm}>{\raggedright\arraybackslash}p{3.2cm}@{}}
+\caption{Dataset statistics. Panel B summarizes task-level instance counts, unique stays, label summary, and representation availability. Disease prefixes denote AKI, delirium (DEL), sepsis (SEP), and stroke (S); task-family letters after the hyphen denote temporal or prospective tasks (T), secondary state or trajectory tasks (S), and retrospective stroke extraction or synthesis tasks (R).}\label{tab:dataset_task}\\
+\toprule
+Task & Condition & Layer / mode & Instances & Unique stays & Label summary & Representations \\
+\midrule
+\endfirsthead
+\toprule
+Task & Condition & Layer / mode & Instances & Unique stays & Label summary & Representations \\
+\midrule
+\endhead
+AKI-S1 & AKI & single-layer temporal & 1,764,883 & 48,461 & 0.98\% & A/B1/B2/B3 \\
+AKI-T1 & AKI & single-layer temporal & 692,013 & 40,915 & 8.46\% & A/B1/B2/B3 \\
+DEL-S1 & Delirium & single-layer temporal & 756,251 & 21,628 & 22.03\% & A/B1/B2/B3 \\
+DEL-T1 & Delirium & single-layer temporal & 756,251 & 21,628 & 21.10\% & A/B1/B2/B3 \\
+SEP-S1 & Sepsis & single-layer temporal & 27,003 & 11,715 & 21.11\% & A/B1/B2/B3 \\
+SEP-T1 & Sepsis & single-layer temporal & 871,557 & 26,517 & 1.66\% & A/B1/B2/B3 \\
+S-R1 & Stroke & Layer 2 retrospective & 3,912 & 3,912 & 5 classes & B2 \\
+S-R2 & Stroke & Layer 2 retrospective & 3,912 & 3,912 & 4 classes & B2 \\
+S-R3 & Stroke & Layer 2 retrospective & 277 & 277 & median=2.5 & B2 \\
+S-R4 & Stroke & Layer 2 retrospective & 3,912 & 3,912 & 8.79\% & B2 \\
+S-T1 & Stroke & Layer 1 temporal & 36,519 & 4,792 & 14.25\% & A/B1/B2 \\
+S-T2 & Stroke & Layer 1 temporal & 4,952 & 4,952 & 5 classes & A/B1/B2 \\
+S-T3 & Stroke & Layer 1 temporal & 2,651 & 2,651 & 3 classes & A/B1/B2 \\
+S-T4 & Stroke & Layer 1 temporal & 4,976 & 4,976 & 16 classes & A/B1/B2 \\
+\botrule
+\end{longtable}
+\normalsize

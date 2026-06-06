@@ -1,0 +1,19 @@
+\begin{table*}[t]
+\caption{Operational definition of the six Clinical Reasoning Evaluation Suite (CRES) dimensions. Supported auto-scored pairs are evaluated in Phase 6.5F; D6 attribution remains judge-deferred in the primary results.}
+\label{tab:cres_dimensions}
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.09\textwidth} >{\raggedright\arraybackslash}p{0.25\textwidth} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}p{0.15\textwidth} >{\raggedright\arraybackslash}p{0.12\textwidth}}
+\toprule
+Dimension & Clinical question type & Truth construction in TIMELY Bench & Primary score & Formal status \\
+\midrule
+D1 Temporal localization & When did the earliest sign of the target event become visible? & Earliest post-anchor onset hour from task tables, such as Stage 2+ onset, delirium onset, sepsis onset, or first neurological worsening hour. & Binary accuracy on event-time detection & Auto-scored \\
+D2 Threshold reasoning & Has a clinically meaningful threshold been crossed, and if so when? & Guideline-linked or task-linked threshold hour, such as KDIGO stage crossing, RRT proxy timing, septic shock onset, or peak NIHSS value. & Binary accuracy or exact match, depending on task & Auto-scored \\
+D3 Trend interpretation & Is the relevant physiological signal improving, stable, or worsening? & Future trajectory label derived from structured follow-up windows, most prominently stroke motor-strength worsening and related temporal tasks. & Binary accuracy & Auto-scored where supported \\
+D4 Diagnostic discrimination & Which clinical explanation best fits the observed evidence? & Categorical truth from stay-level labels such as affected side, imaging-consistency class, stroke mechanism, treatment strategy, or complication presence. & Macro F1 & Auto-scored \\
+D5 Contrastive reasoning & Which competing trajectory archetype best matches the case? & Condition-specific contrast labels, including AKI typical versus atypical trajectory class and sepsis onset-confidence class. & Macro F1 & Auto-scored where supported \\
+D6 Attribution & Which evidence items most strongly support the answer? & Judge-facing evidence grounding over the submitted timestamped evidence triples and free-text rationale. & Rubric-based judge scoring & Deferred from primary auto-scoring \\
+\bottomrule
+\end{tabularx}
+\end{table*}

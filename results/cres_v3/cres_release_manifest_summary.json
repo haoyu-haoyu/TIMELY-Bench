@@ -1,0 +1,223 @@
+{
+  "phase6_scope": "phase6d_release_manifests",
+  "branches": {
+    "A": {
+      "representation_branch": "A",
+      "rows": 4917056,
+      "unique_stays": 66397,
+      "path": "data/processed/v3/cres/cres_A_manifest.parquet",
+      "by_condition": [
+        {
+          "condition": "aki",
+          "rows": 2456896,
+          "unique_stays": 49920
+        },
+        {
+          "condition": "delirium",
+          "rows": 1512502,
+          "unique_stays": 21628
+        },
+        {
+          "condition": "sepsis",
+          "rows": 898560,
+          "unique_stays": 29713
+        },
+        {
+          "condition": "stroke",
+          "rows": 49098,
+          "unique_stays": 4976
+        }
+      ],
+      "by_task_mode": [
+        {
+          "condition": "aki",
+          "task_mode": "temporal",
+          "rows": 2456896,
+          "unique_stays": 49920
+        },
+        {
+          "condition": "delirium",
+          "task_mode": "temporal",
+          "rows": 1512502,
+          "unique_stays": 21628
+        },
+        {
+          "condition": "sepsis",
+          "task_mode": "temporal",
+          "rows": 898560,
+          "unique_stays": 29713
+        },
+        {
+          "condition": "stroke",
+          "task_mode": "temporal",
+          "rows": 49098,
+          "unique_stays": 4976
+        }
+      ]
+    },
+    "B1": {
+      "representation_branch": "B1",
+      "rows": 4917056,
+      "unique_stays": 66397,
+      "path": "data/processed/v3/cres/cres_B1_manifest.parquet",
+      "by_condition": [
+        {
+          "condition": "aki",
+          "rows": 2456896,
+          "unique_stays": 49920
+        },
+        {
+          "condition": "delirium",
+          "rows": 1512502,
+          "unique_stays": 21628
+        },
+        {
+          "condition": "sepsis",
+          "rows": 898560,
+          "unique_stays": 29713
+        },
+        {
+          "condition": "stroke",
+          "rows": 49098,
+          "unique_stays": 4976
+        }
+      ],
+      "by_task_mode": [
+        {
+          "condition": "aki",
+          "task_mode": "temporal",
+          "rows": 2456896,
+          "unique_stays": 49920
+        },
+        {
+          "condition": "delirium",
+          "task_mode": "temporal",
+          "rows": 1512502,
+          "unique_stays": 21628
+        },
+        {
+          "condition": "sepsis",
+          "task_mode": "temporal",
+          "rows": 898560,
+          "unique_stays": 29713
+        },
+        {
+          "condition": "stroke",
+          "task_mode": "temporal",
+          "rows": 49098,
+          "unique_stays": 4976
+        }
+      ]
+    },
+    "B2_original": {
+      "representation_branch": "B2_original",
+      "rows": 4929069,
+      "unique_stays": 66485,
+      "path": "data/processed/v3/cres/cres_B2_original_manifest.parquet",
+      "by_condition": [
+        {
+          "condition": "aki",
+          "rows": 2456896,
+          "unique_stays": 49920
+        },
+        {
+          "condition": "delirium",
+          "rows": 1512502,
+          "unique_stays": 21628
+        },
+        {
+          "condition": "sepsis",
+          "rows": 898560,
+          "unique_stays": 29713
+        },
+        {
+          "condition": "stroke",
+          "rows": 61111,
+          "unique_stays": 5318
+        }
+      ],
+      "by_task_mode": [
+        {
+          "condition": "aki",
+          "task_mode": "temporal",
+          "rows": 2456896,
+          "unique_stays": 49920
+        },
+        {
+          "condition": "delirium",
+          "task_mode": "temporal",
+          "rows": 1512502,
+          "unique_stays": 21628
+        },
+        {
+          "condition": "sepsis",
+          "task_mode": "temporal",
+          "rows": 898560,
+          "unique_stays": 29713
+        },
+        {
+          "condition": "stroke",
+          "task_mode": "retrospective",
+          "rows": 12013,
+          "unique_stays": 3912
+        },
+        {
+          "condition": "stroke",
+          "task_mode": "temporal",
+          "rows": 49098,
+          "unique_stays": 4976
+        }
+      ]
+    },
+    "B3": {
+      "representation_branch": "B3",
+      "rows": 4867958,
+      "unique_stays": 64975,
+      "path": "data/processed/v3/cres/cres_B3_manifest.parquet",
+      "by_condition": [
+        {
+          "condition": "aki",
+          "rows": 2456896,
+          "unique_stays": 49920
+        },
+        {
+          "condition": "delirium",
+          "rows": 1512502,
+          "unique_stays": 21628
+        },
+        {
+          "condition": "sepsis",
+          "rows": 898560,
+          "unique_stays": 29713
+        }
+      ],
+      "by_task_mode": [
+        {
+          "condition": "aki",
+          "task_mode": "temporal",
+          "rows": 2456896,
+          "unique_stays": 49920
+        },
+        {
+          "condition": "delirium",
+          "task_mode": "temporal",
+          "rows": 1512502,
+          "unique_stays": 21628
+        },
+        {
+          "condition": "sepsis",
+          "task_mode": "temporal",
+          "rows": 898560,
+          "unique_stays": 29713
+        }
+      ]
+    }
+  },
+  "outputs": {
+    "A_manifest": "data/processed/v3/cres/cres_A_manifest.parquet",
+    "B1_manifest": "data/processed/v3/cres/cres_B1_manifest.parquet",
+    "B2_original_manifest": "data/processed/v3/cres/cres_B2_original_manifest.parquet",
+    "B3_manifest": "data/processed/v3/cres/cres_B3_manifest.parquet"
+  },
+  "flags": []
+}

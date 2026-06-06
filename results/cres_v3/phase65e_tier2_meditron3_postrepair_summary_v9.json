@@ -1,0 +1,104 @@
+{
+  "counts": {
+    "parse_true": 53067,
+    "parse_false_ok": 3,
+    "total": 53070
+  },
+  "top_remaining_tasks": [
+    [
+      "S-R2",
+      2
+    ],
+    [
+      "S-R3",
+      1
+    ]
+  ],
+  "top_parse_errors": [
+    [
+      "JSONDecodeError: Expecting ',' delimiter: line 28 column 6 (char 803)",
+      1
+    ],
+    [
+      "JSONDecodeError: Unterminated string starting at: line 1 column 112 (char 111)",
+      1
+    ],
+    [
+      "JSONDecodeError: Unterminated string starting at: line 1 column 98 (char 97)",
+      1
+    ]
+  ],
+  "source_counts": [
+    [
+      "phase65e_tier2_full_meditron3_8b",
+      51649
+    ],
+    [
+      "phase65e_tier2_meditron3_promptcompact_fullrepair",
+      599
+    ],
+    [
+      "phase65e_tier2_meditron3_tailrepair_v2",
+      496
+    ],
+    [
+      "phase65e_tier2_meditron3_tailrepair_v3",
+      138
+    ],
+    [
+      "phase65e_tier2_meditron3_tailrepair_v5",
+      74
+    ],
+    [
+      "phase65e_tier2_meditron3_tailrepair_v4",
+      51
+    ],
+    [
+      "phase65e_tier2_meditron3_tailrepair_v6",
+      27
+    ],
+    [
+      "phase65e_tier2_meditron3_repairpilot24_promptcompact",
+      11
+    ],
+    [
+      "phase65e_tier2_meditron3_tailrepair_v8",
+      11
+    ],
+    [
+      "phase65e_tier2_meditron3_tailrepair_v7",
+      9
+    ],
+    [
+      "phase65e_tier2_meditron3_tailrepair_v9",
+      4
+    ],
+    [
+      "phase65e_tier2_meditron3_repairpilot40",
+      1
+    ]
+  ],
+  "remaining_examples": [
+    {
+      "prompt_id": "S-R2::33111477::D6::full_multimodal",
+      "task_id": "S-R2",
+      "parse_error": "JSONDecodeError: Expecting ',' delimiter: line 28 column 6 (char 803)",
+      "requested_max_tokens": 512,
+      "usage_completion_tokens": 512
+    },
+    {
+      "prompt_id": "S-R2::36209273::D6::full_multimodal",
+      "task_id": "S-R2",
+      "parse_error": "JSONDecodeError: Unterminated string starting at: line 1 column 112 (char 111)",
+      "requested_max_tokens": 512,
+      "usage_completion_tokens": 512
+    },
+    {
+      "prompt_id": "S-R3::32945001::D6::full_multimodal",
+      "task_id": "S-R3",
+      "parse_error": "JSONDecodeError: Unterminated string starting at: line 1 column 98 (char 97)",
+      "requested_max_tokens": 512,
+      "usage_completion_tokens": 512
+    }
+  ]
+}

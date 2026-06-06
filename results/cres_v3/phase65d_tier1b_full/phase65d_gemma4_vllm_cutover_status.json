@@ -1,0 +1,5 @@
+{
+  "phase": "pilot_server",
+  "state": "running",
+  "note": "starting vLLM server"
+}

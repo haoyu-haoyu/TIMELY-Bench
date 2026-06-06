@@ -1,0 +1,54 @@
+{
+  "provider": "aloe7b",
+  "tier": "tier2",
+  "rows": 53070,
+  "unique_prompt_ids": 53070,
+  "ok_rows": 53070,
+  "parse_success_rows": 53070,
+  "rows_expected": 53070,
+  "parse_success_expected": 53070,
+  "matches_rows_expected": true,
+  "matches_parse_success_expected": true,
+  "status_counts": {
+    "ok": 53070
+  },
+  "avg_latency_seconds": 2.7593214999057842,
+  "usage_total_tokens": 282111131,
+  "model_name_counts": {
+    "qwen25-aloe-beta-7b": 53070
+  },
+  "primary_model_name": "qwen25-aloe-beta-7b",
+  "parse_error_top": [],
+  "source_mode": "overlay_repair_chain",
+  "source_file_count": 7,
+  "source_files": [
+    {
+      "path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_full_aloe7b/aloe7b_responses_shard01_of_02.jsonl",
+      "n_rows": 26535
+    },
+    {
+      "path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_full_aloe7b/aloe7b_responses_shard00_of_02.jsonl",
+      "n_rows": 26535
+    },
+    {
+      "path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_aloe7b_repair_jsonstrict_v1/aloe7b_responses_shard00_of_01.jsonl",
+      "n_rows": 2689
+    },
+    {
+      "path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_aloe7b_repair_compact_v2/aloe7b_responses_shard00_of_01.jsonl",
+      "n_rows": 551
+    },
+    {
+      "path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_aloe7b_repair_ultracompact_v3/aloe7b_responses_shard00_of_01.jsonl",
+      "n_rows": 133
+    },
+    {
+      "path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_aloe7b_repair_reformat_v4/aloe7b_responses_shard00_of_01.jsonl",
+      "n_rows": 64
+    },
+    {
+      "path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_aloe7b_repair_micro_v5/aloe7b_responses_shard00_of_01.jsonl",
+      "n_rows": 3
+    }
+  ]
+}

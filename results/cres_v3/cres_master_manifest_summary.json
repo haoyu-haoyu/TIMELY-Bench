@@ -1,0 +1,180 @@
+{
+  "phase6_scope": "assembly_a_b_only",
+  "manifest_rows": 4929069,
+  "unique_stays": 66485,
+  "conditions": [
+    {
+      "condition": "aki",
+      "instances": 2456896,
+      "unique_stays": 49920
+    },
+    {
+      "condition": "delirium",
+      "instances": 1512502,
+      "unique_stays": 21628
+    },
+    {
+      "condition": "sepsis",
+      "instances": 898560,
+      "unique_stays": 29713
+    },
+    {
+      "condition": "stroke",
+      "instances": 61111,
+      "unique_stays": 5318
+    }
+  ],
+  "tasks": [
+    {
+      "condition": "aki",
+      "task_id": "AKI-S1",
+      "task_mode": "temporal",
+      "layer": "single_layer",
+      "instances": 1764883,
+      "unique_stays": 48461
+    },
+    {
+      "condition": "aki",
+      "task_id": "AKI-T1",
+      "task_mode": "temporal",
+      "layer": "single_layer",
+      "instances": 692013,
+      "unique_stays": 40915
+    },
+    {
+      "condition": "delirium",
+      "task_id": "DEL-S1",
+      "task_mode": "temporal",
+      "layer": "single_layer",
+      "instances": 756251,
+      "unique_stays": 21628
+    },
+    {
+      "condition": "delirium",
+      "task_id": "DEL-T1",
+      "task_mode": "temporal",
+      "layer": "single_layer",
+      "instances": 756251,
+      "unique_stays": 21628
+    },
+    {
+      "condition": "sepsis",
+      "task_id": "SEP-S1",
+      "task_mode": "temporal",
+      "layer": "single_layer",
+      "instances": 27003,
+      "unique_stays": 11715
+    },
+    {
+      "condition": "sepsis",
+      "task_id": "SEP-T1",
+      "task_mode": "temporal",
+      "layer": "single_layer",
+      "instances": 871557,
+      "unique_stays": 26517
+    },
+    {
+      "condition": "stroke",
+      "task_id": "S-R1",
+      "task_mode": "retrospective",
+      "layer": "Layer2",
+      "instances": 3912,
+      "unique_stays": 3912
+    },
+    {
+      "condition": "stroke",
+      "task_id": "S-R2",
+      "task_mode": "retrospective",
+      "layer": "Layer2",
+      "instances": 3912,
+      "unique_stays": 3912
+    },
+    {
+      "condition": "stroke",
+      "task_id": "S-R3",
+      "task_mode": "retrospective",
+      "layer": "Layer2",
+      "instances": 277,
+      "unique_stays": 277
+    },
+    {
+      "condition": "stroke",
+      "task_id": "S-R4",
+      "task_mode": "retrospective",
+      "layer": "Layer2",
+      "instances": 3912,
+      "unique_stays": 3912
+    },
+    {
+      "condition": "stroke",
+      "task_id": "S-T1",
+      "task_mode": "temporal",
+      "layer": "Layer1",
+      "instances": 36519,
+      "unique_stays": 4792
+    },
+    {
+      "condition": "stroke",
+      "task_id": "S-T2",
+      "task_mode": "temporal",
+      "layer": "Layer1",
+      "instances": 4952,
+      "unique_stays": 4952
+    },
+    {
+      "condition": "stroke",
+      "task_id": "S-T3",
+      "task_mode": "temporal",
+      "layer": "Layer1",
+      "instances": 2651,
+      "unique_stays": 2651
+    },
+    {
+      "condition": "stroke",
+      "task_id": "S-T4",
+      "task_mode": "temporal",
+      "layer": "Layer1",
+      "instances": 4976,
+      "unique_stays": 4976
+    }
+  ],
+  "representation_profiles": [
+    {
+      "representation_profile": "full_ab1b2b3",
+      "condition": "aki",
+      "instances": 2456896,
+      "unique_stays": 49920
+    },
+    {
+      "representation_profile": "full_ab1b2b3",
+      "condition": "delirium",
+      "instances": 1512502,
+      "unique_stays": 21628
+    },
+    {
+      "representation_profile": "full_ab1b2b3",
+      "condition": "sepsis",
+      "instances": 898560,
+      "unique_stays": 29713
+    },
+    {
+      "representation_profile": "stroke_retrospective_b2_only",
+      "condition": "stroke",
+      "instances": 12013,
+      "unique_stays": 3912
+    },
+    {
+      "representation_profile": "stroke_temporal_ab1b2",
+      "condition": "stroke",
+      "instances": 49098,
+      "unique_stays": 4976
+    }
+  ],
+  "outputs": {
+    "manifest": "data/processed/v3/cres/master_instance_manifest.parquet",
+    "schema_json": "results/cres_v3/cres_schema_v3.json",
+    "schema_md": "results/cres_v3/cres_schema_v3.md",
+    "summary": "results/cres_v3/cres_master_manifest_summary.json"
+  },
+  "flags": []
+}

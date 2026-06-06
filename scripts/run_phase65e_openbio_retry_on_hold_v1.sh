@@ -1,0 +1,99 @@
+#!/bin/bash
+set -euo pipefail
+
+if [ $# -lt 2 ]; then
+  echo "usage: $0 HOLD_JOB_ID MANIFEST_PATH [OUTPUT_DIR]" >&2
+  exit 1
+fi
+
+HOLD_JOB_ID="$1"
+MANIFEST_PATH="$2"
+OUTPUT_DIR="${3:-results/cres_v3/phase65e_tier2_full}"
+
+ROOT=/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final
+LOG_DIR="${ROOT}/logs/v3"
+PORT="${PORT:-8037}"
+MAX_WORKERS="${MAX_WORKERS:-12}"
+MAX_TOKENS="${MAX_TOKENS:-1000}"
+READINESS_POLL_SECONDS="${READINESS_POLL_SECONDS:-5}"
+READINESS_MAX_WAIT_SECONDS="${READINESS_MAX_WAIT_SECONDS:-2400}"
+SERVER_LOG="${LOG_DIR}/phase65e_openbio_retry_server_${HOLD_JOB_ID}.out"
+CLIENT_LOG="${LOG_DIR}/phase65e_openbio_retry_client_${HOLD_JOB_ID}.out"
+MANIFEST_SUMMARY_PATH="${OUTPUT_DIR}/openbiollm70b_retry_manifest_summary.json"
+
+cd "${ROOT}"
+mkdir -p "${LOG_DIR}" "${OUTPUT_DIR}"
+
+echo "[$(date)] openbio retry started on hold ${HOLD_JOB_ID}"
+echo "[$(date)] manifest=${MANIFEST_PATH}"
+echo "[$(date)] output_dir=${OUTPUT_DIR}"
+echo "[$(date)] port=${PORT} max_workers=${MAX_WORKERS} max_tokens=${MAX_TOKENS}"
+echo "[$(date)] readiness_poll_seconds=${READINESS_POLL_SECONDS} readiness_max_wait_seconds=${READINESS_MAX_WAIT_SECONDS}"
+
+probe_server_in_hold() {
+  srun \
+    --overlap \
+    --jobid="${HOLD_JOB_ID}" \
+    --ntasks=1 \
+    --cpus-per-task=1 \
+    --mem=1G \
+    --export=ALL \
+    bash -lc "curl -fsS 'http://127.0.0.1:${PORT}/v1/models' >/dev/null"
+}
+
+PHASE65E_OPENBIO_TP_SIZE=2 \
+PHASE65E_OPENBIO_GPU_COUNT=2 \
+PHASE65E_OPENBIO_MAX_MODEL_LEN=8192 \
+PORT="${PORT}" \
+bash scripts/run_phase65e_openbio_vllm_server_v1.sh "${HOLD_JOB_ID}" >"${SERVER_LOG}" 2>&1 &
+SERVER_PID=$!
+
+cleanup() {
+  kill "${SERVER_PID}" >/dev/null 2>&1 || true
+}
+trap cleanup EXIT
+
+ready=0
+max_attempts=$(( (READINESS_MAX_WAIT_SECONDS + READINESS_POLL_SECONDS - 1) / READINESS_POLL_SECONDS ))
+for attempt in $(seq 1 "${max_attempts}"); do
+  if probe_server_in_hold >/dev/null 2>&1; then
+    ready=1
+    echo "[$(date)] OpenBio retry server ready after ${attempt} polls"
+    break
+  fi
+  if ! kill -0 "${SERVER_PID}" >/dev/null 2>&1; then
+    echo "[$(date)] OpenBio retry server exited before readiness"
+    tail -n 120 "${SERVER_LOG}" || true
+    exit 1
+  fi
+  sleep "${READINESS_POLL_SECONDS}"
+done
+
+if [ "${ready}" != "1" ]; then
+  echo "[$(date)] OpenBio retry server readiness timeout"
+  tail -n 120 "${SERVER_LOG}" || true
+  exit 1
+fi
+
+echo "[$(date)] OpenBio retry server ready"
+
+PORT="${PORT}" \
+MAX_TOKENS="${MAX_TOKENS}" \
+bash scripts/run_phase65e_openbio_vllm_client_v1.sh "${HOLD_JOB_ID}" "${MANIFEST_PATH}" "${OUTPUT_DIR}" "${MAX_WORKERS}" >"${CLIENT_LOG}" 2>&1
+
+python3 code/v3/run_phase65e_tier2_v1.py \
+  --mode summarize_manifest_subset \
+  --root . \
+  --output-dir "${OUTPUT_DIR}" \
+  --provider openbiollm70b \
+  --model-name openbio-70b \
+  --manifest-path "${MANIFEST_PATH}" \
+  --summary-path "${MANIFEST_SUMMARY_PATH}"
+
+python3 code/v3/run_phase65e_tier2_v1.py \
+  --mode summarize \
+  --root . \
+  --output-dir "${OUTPUT_DIR}" \
+  --providers openbiollm70b
+
+echo "[$(date)] openbio retry completed"

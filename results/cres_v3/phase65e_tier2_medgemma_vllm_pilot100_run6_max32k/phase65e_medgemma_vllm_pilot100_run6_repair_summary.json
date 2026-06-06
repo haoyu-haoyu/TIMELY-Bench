@@ -1,0 +1,10 @@
+{
+  "manifest_rows": 100,
+  "seen_prompt_ids_in_run5": 100,
+  "resolved_prompt_ids": 27,
+  "unresolved_prompt_ids": 73,
+  "unresolved_finish_reason_counts": {
+    "length": 73
+  },
+  "out_manifest": "results/cres_v3/phase65e_tier2_medgemma_vllm_pilot100_run6_max32k/phase65e_medgemma_vllm_pilot100_run6_repair_manifest.jsonl"
+}

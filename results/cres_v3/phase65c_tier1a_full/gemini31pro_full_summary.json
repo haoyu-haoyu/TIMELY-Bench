@@ -1,0 +1,52 @@
+{
+  "provider": "gemini31pro",
+  "rows": 53070,
+  "ok_rows": 53070,
+  "parse_success_rows": 53070,
+  "parse_success_rate": 1.0,
+  "avg_latency_seconds": 15.937897738835439,
+  "usage_total_tokens": 343643633,
+  "tasks": {
+    "AKI-S1": 4690,
+    "AKI-T1": 11256,
+    "DEL-S1": 3752,
+    "DEL-T1": 11250,
+    "S-R1": 938,
+    "S-R2": 938,
+    "S-R3": 554,
+    "S-R4": 938,
+    "S-T1": 3752,
+    "S-T2": 469,
+    "S-T3": 469,
+    "S-T4": 938,
+    "SEP-S1": 1876,
+    "SEP-T1": 11250
+  },
+  "task_parse_success_rate": {
+    "AKI-S1": 1.0,
+    "AKI-T1": 1.0,
+    "DEL-S1": 1.0,
+    "DEL-T1": 1.0,
+    "S-R1": 1.0,
+    "S-R2": 1.0,
+    "S-R3": 1.0,
+    "S-R4": 1.0,
+    "S-T1": 1.0,
+    "S-T2": 1.0,
+    "S-T3": 1.0,
+    "S-T4": 1.0,
+    "SEP-S1": 1.0,
+    "SEP-T1": 1.0
+  },
+  "confidence_distribution": {
+    "high": 52635,
+    "low": 53,
+    "medium": 382
+  },
+  "confidence_distribution_rate": {
+    "high": 0.9918032786885246,
+    "low": 0.000998680987375165,
+    "medium": 0.007198040324100245
+  },
+  "merged_output_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65c_tier1a_full/gemini31pro_full_responses.jsonl"
+}

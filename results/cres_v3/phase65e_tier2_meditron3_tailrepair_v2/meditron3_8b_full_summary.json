@@ -1,0 +1,50 @@
+{
+  "provider": "meditron3_8b",
+  "rows": 810,
+  "ok_rows": 810,
+  "parse_success_rows": 496,
+  "parse_success_rate": 0.6123456790123457,
+  "avg_latency_seconds": 2.686740740740742,
+  "usage_total_tokens": 5799141,
+  "tasks": {
+    "AKI-S1": 22,
+    "AKI-T1": 10,
+    "DEL-S1": 72,
+    "DEL-T1": 206,
+    "S-R1": 85,
+    "S-R2": 145,
+    "S-R3": 9,
+    "S-R4": 102,
+    "S-T1": 27,
+    "S-T2": 3,
+    "S-T3": 4,
+    "S-T4": 5,
+    "SEP-S1": 10,
+    "SEP-T1": 110
+  },
+  "task_parse_success_rate": {
+    "AKI-S1": 0.8636363636363636,
+    "AKI-T1": 1.0,
+    "DEL-S1": 0.7777777777777778,
+    "DEL-T1": 0.7912621359223301,
+    "S-R1": 0.4235294117647059,
+    "S-R2": 0.31724137931034485,
+    "S-R3": 0.3333333333333333,
+    "S-R4": 0.45098039215686275,
+    "S-T1": 0.5925925925925926,
+    "S-T2": 0.6666666666666666,
+    "S-T3": 0.75,
+    "S-T4": 0.6,
+    "SEP-S1": 0.8,
+    "SEP-T1": 0.7727272727272727
+  },
+  "confidence_distribution": {
+    "high": 493,
+    "low": 3
+  },
+  "confidence_distribution_rate": {
+    "high": 0.9939516129032258,
+    "low": 0.006048387096774193
+  },
+  "merged_output_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_meditron3_tailrepair_v2/meditron3_8b_full_responses.jsonl"
+}

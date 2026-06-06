@@ -1,0 +1,26 @@
+{
+  "tasks": [
+    "AKI-S1",
+    "AKI-T1",
+    "DEL-S1",
+    "DEL-T1",
+    "S-T1",
+    "SEP-S1",
+    "SEP-T1"
+  ],
+  "models": [
+    "bilstm_attention",
+    "temporal_transformer",
+    "xgboost"
+  ],
+  "branches": [
+    "A",
+    "B1"
+  ],
+  "n_fold_rows": 105,
+  "n_task_rows": 21,
+  "outputs": {
+    "fold_metrics": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65a_baselines/phase65a_fold_metrics.csv",
+    "per_task_metrics": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65a_baselines/phase65a_per_task_metrics.csv"
+  }
+}

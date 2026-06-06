@@ -1,0 +1,215 @@
+{
+  "counts": {
+    "parse_true": 53019,
+    "parse_false_ok": 51,
+    "total": 53070
+  },
+  "top_remaining_tasks": [
+    [
+      "S-R2",
+      17
+    ],
+    [
+      "S-R4",
+      13
+    ],
+    [
+      "S-R1",
+      10
+    ],
+    [
+      "DEL-T1",
+      4
+    ],
+    [
+      "S-R3",
+      3
+    ],
+    [
+      "S-T1",
+      1
+    ],
+    [
+      "DEL-S1",
+      1
+    ],
+    [
+      "S-T3",
+      1
+    ],
+    [
+      "S-T4",
+      1
+    ]
+  ],
+  "top_parse_errors": [
+    [
+      "JSONDecodeError: Expecting ',' delimiter: line 12 column 6 (char 252)",
+      4
+    ],
+    [
+      "JSONDecodeError: Expecting ',' delimiter: line 12 column 6 (char 232)",
+      3
+    ],
+    [
+      "JSONDecodeError: Expecting ',' delimiter: line 8 column 6 (char 191)",
+      3
+    ],
+    [
+      "JSONDecodeError: Unterminated string starting at: line 1 column 104 (char 103)",
+      2
+    ],
+    [
+      "JSONDecodeError: Expecting ',' delimiter: line 8 column 6 (char 204)",
+      2
+    ],
+    [
+      "JSONDecodeError: Unterminated string starting at: line 1 column 117 (char 116)",
+      2
+    ],
+    [
+      "JSONDecodeError: Expecting ',' delimiter: line 1 column 267 (char 266)",
+      2
+    ],
+    [
+      "JSONDecodeError: Expecting ',' delimiter: line 12 column 6 (char 240)",
+      2
+    ],
+    [
+      "JSONDecodeError: Expecting ',' delimiter: line 12 column 6 (char 262)",
+      2
+    ],
+    [
+      "JSONDecodeError: Unterminated string starting at: line 7 column 17 (char 134)",
+      2
+    ],
+    [
+      "JSONDecodeError: Unterminated string starting at: line 1 column 96 (char 95)",
+      1
+    ],
+    [
+      "JSONDecodeError: Unterminated string starting at: line 6 column 15 (char 127)",
+      1
+    ]
+  ],
+  "source_counts": [
+    [
+      "phase65e_tier2_full_meditron3_8b",
+      51649
+    ],
+    [
+      "phase65e_tier2_meditron3_promptcompact_fullrepair",
+      599
+    ],
+    [
+      "phase65e_tier2_meditron3_tailrepair_v2",
+      496
+    ],
+    [
+      "phase65e_tier2_meditron3_tailrepair_v3",
+      138
+    ],
+    [
+      "phase65e_tier2_meditron3_tailrepair_v5",
+      125
+    ],
+    [
+      "phase65e_tier2_meditron3_tailrepair_v4",
+      51
+    ],
+    [
+      "phase65e_tier2_meditron3_repairpilot24_promptcompact",
+      11
+    ],
+    [
+      "phase65e_tier2_meditron3_repairpilot40",
+      1
+    ]
+  ],
+  "remaining_examples": [
+    {
+      "prompt_id": "S-R2::31920220::D4::full_multimodal",
+      "task_id": "S-R2",
+      "parse_error": "JSONDecodeError: Unterminated string starting at: line 1 column 96 (char 95)",
+      "requested_max_tokens": 96,
+      "usage_completion_tokens": 96
+    },
+    {
+      "prompt_id": "S-R2::34259186::D4::full_multimodal",
+      "task_id": "S-R2",
+      "parse_error": "JSONDecodeError: Unterminated string starting at: line 1 column 104 (char 103)",
+      "requested_max_tokens": 96,
+      "usage_completion_tokens": 96
+    },
+    {
+      "prompt_id": "S-T1::30139901::h48::D4::full_multimodal",
+      "task_id": "S-T1",
+      "parse_error": "JSONDecodeError: Unterminated string starting at: line 6 column 15 (char 127)",
+      "requested_max_tokens": 96,
+      "usage_completion_tokens": 96
+    },
+    {
+      "prompt_id": "DEL-S1::34244423::h75::D6::full_multimodal",
+      "task_id": "DEL-S1",
+      "parse_error": "JSONDecodeError: Expecting ',' delimiter: line 12 column 6 (char 254)",
+      "requested_max_tokens": 96,
+      "usage_completion_tokens": 96
+    },
+    {
+      "prompt_id": "DEL-T1::33346797::h144::D4::full_multimodal",
+      "task_id": "DEL-T1",
+      "parse_error": "JSONDecodeError: Expecting ',' delimiter: line 12 column 6 (char 232)",
+      "requested_max_tokens": 96,
+      "usage_completion_tokens": 96
+    },
+    {
+      "prompt_id": "DEL-T1::36577850::h160::D6::full_multimodal",
+      "task_id": "DEL-T1",
+      "parse_error": "JSONDecodeError: Expecting ',' delimiter: line 8 column 6 (char 191)",
+      "requested_max_tokens": 96,
+      "usage_completion_tokens": 96
+    },
+    {
+      "prompt_id": "DEL-T1::36608455::h160::D4::full_multimodal",
+      "task_id": "DEL-T1",
+      "parse_error": "JSONDecodeError: Unterminated string starting at: line 7 column 17 (char 122)",
+      "requested_max_tokens": 96,
+      "usage_completion_tokens": 96
+    },
+    {
+      "prompt_id": "DEL-T1::37278783::h46::D6::full_multimodal",
+      "task_id": "DEL-T1",
+      "parse_error": "JSONDecodeError: Expecting ',' delimiter: line 12 column 6 (char 257)",
+      "requested_max_tokens": 96,
+      "usage_completion_tokens": 96
+    },
+    {
+      "prompt_id": "S-R1::31267582::D6::full_multimodal",
+      "task_id": "S-R1",
+      "parse_error": "JSONDecodeError: Expecting ',' delimiter: line 12 column 6 (char 268)",
+      "requested_max_tokens": 96,
+      "usage_completion_tokens": 96
+    },
+    {
+      "prompt_id": "S-R1::31917306::D6::full_multimodal",
+      "task_id": "S-R1",
+      "parse_error": "JSONDecodeError: Expecting ',' delimiter: line 12 column 6 (char 252)",
+      "requested_max_tokens": 96,
+      "usage_completion_tokens": 96
+    },
+    {
+      "prompt_id": "S-R1::32748004::D6::full_multimodal",
+      "task_id": "S-R1",
+      "parse_error": "JSONDecodeError: Expecting ',' delimiter: line 1 column 252 (char 251)",
+      "requested_max_tokens": 96,
+      "usage_completion_tokens": 96
+    },
+    {
+      "prompt_id": "S-R1::32961419::D6::full_multimodal",
+      "task_id": "S-R1",
+      "parse_error": "JSONDecodeError: Expecting ',' delimiter: line 12 column 6 (char 232)",
+      "requested_max_tokens": 96,
+      "usage_completion_tokens": 96
+    }
+  ]
+}

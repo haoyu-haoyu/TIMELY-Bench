@@ -1,0 +1,60 @@
+{
+  "sample_rows": 12000,
+  "unique_stays": 9587,
+  "prompt_rows": 265350,
+  "variants": {
+    "full_multimodal": 53070,
+    "structured_only": 53070,
+    "text_only": 53070,
+    "no_temporal_markers": 53070,
+    "shuffled_timeline": 53070
+  },
+  "dimensions": {
+    "D1": 44545,
+    "D2": 36550,
+    "D3": 46890,
+    "D4": 53925,
+    "D6": 55310,
+    "D5": 28130
+  },
+  "tasks": {
+    "AKI-S1": 938,
+    "AKI-T1": 1876,
+    "DEL-S1": 938,
+    "DEL-T1": 1875,
+    "S-R1": 469,
+    "S-R2": 469,
+    "S-R3": 277,
+    "S-R4": 469,
+    "S-T1": 938,
+    "S-T2": 469,
+    "S-T3": 469,
+    "S-T4": 469,
+    "SEP-S1": 469,
+    "SEP-T1": 1875
+  },
+  "task_sample_targets": {
+    "AKI-T1": 1876,
+    "AKI-S1": 938,
+    "DEL-T1": 1875,
+    "DEL-S1": 938,
+    "SEP-T1": 1875,
+    "SEP-S1": 469,
+    "S-T1": 938,
+    "S-T2": 469,
+    "S-T3": 469,
+    "S-T4": 469,
+    "S-R1": 469,
+    "S-R2": 469,
+    "S-R3": 277,
+    "S-R4": 469
+  },
+  "outputs": {
+    "sample_path": "data/processed/v3/cres/cres_eval_sample_12k.parquet",
+    "prompt_path": "data/processed/v3/cres/cres_eval_prompts_12k.jsonl"
+  },
+  "rules": {
+    "stay_level_cap": "max 2 anchors per stay per task: one early <=12h and one late >=24h",
+    "retrospective_rule": "stroke retrospective tasks serialize full-stay B2 context only"
+  }
+}

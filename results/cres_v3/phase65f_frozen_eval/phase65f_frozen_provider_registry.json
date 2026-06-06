@@ -1,0 +1,188 @@
+[
+  {
+    "provider": "gpt54",
+    "tier": "tier1a",
+    "source_mode": "direct_merged",
+    "canonical_response_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/canonical/gpt54_canonical_responses.jsonl",
+    "summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65c_tier1a_full/gpt54_full_summary.json",
+    "canonical_summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/gpt54_canonical_summary.json",
+    "rows_expected": 53070,
+    "parse_success_expected": 53070,
+    "rows_actual": 53070,
+    "parse_success_actual": 53070,
+    "ok_rows_actual": 53070,
+    "avg_latency_seconds": 11.400645411720369,
+    "usage_total_tokens": 264064840,
+    "primary_model_name": "gpt-5.4",
+    "model_name_counts": {
+      "gpt-5.4": 53070
+    }
+  },
+  {
+    "provider": "gemini31pro",
+    "tier": "tier1a",
+    "source_mode": "direct_merged",
+    "canonical_response_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/canonical/gemini31pro_canonical_responses.jsonl",
+    "summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65c_tier1a_full/gemini31pro_full_summary.json",
+    "canonical_summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/gemini31pro_canonical_summary.json",
+    "rows_expected": 53070,
+    "parse_success_expected": 53070,
+    "rows_actual": 53070,
+    "parse_success_actual": 53070,
+    "ok_rows_actual": 53070,
+    "avg_latency_seconds": 15.9378977388355,
+    "usage_total_tokens": 343643633,
+    "primary_model_name": "gemini-3.1-pro",
+    "model_name_counts": {
+      "gemini-3.1-pro": 53063,
+      "gemini-3.1-pro-high": 1,
+      "gemini-3.1-pro-preview": 1,
+      "manual_gemini_parsefix": 1,
+      "manual_gemini_tail4_fallback": 4
+    }
+  },
+  {
+    "provider": "deepseek_chat",
+    "tier": "tier1b",
+    "source_mode": "direct_merged",
+    "canonical_response_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/canonical/deepseek_chat_canonical_responses.jsonl",
+    "summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65d_tier1b_full/deepseek_chat_full_summary.json",
+    "canonical_summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/deepseek_chat_canonical_summary.json",
+    "rows_expected": 53070,
+    "parse_success_expected": 53070,
+    "rows_actual": 53070,
+    "parse_success_actual": 53070,
+    "ok_rows_actual": 53070,
+    "avg_latency_seconds": 12.710874957603165,
+    "usage_total_tokens": 261196668,
+    "primary_model_name": "deepseek-chat",
+    "model_name_counts": {
+      "deepseek-chat": 53070
+    }
+  },
+  {
+    "provider": "qwen35",
+    "tier": "tier1b",
+    "source_mode": "direct_merged",
+    "canonical_response_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/canonical/qwen35_canonical_responses.jsonl",
+    "summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65d_tier1b_full/qwen35_full_summary.json",
+    "canonical_summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/qwen35_canonical_summary.json",
+    "rows_expected": 53070,
+    "parse_success_expected": 53070,
+    "rows_actual": 53070,
+    "parse_success_actual": 53070,
+    "ok_rows_actual": 53070,
+    "avg_latency_seconds": 4.843182174486527,
+    "usage_total_tokens": 285969716,
+    "primary_model_name": "qwen3.5-flash",
+    "model_name_counts": {
+      "qwen3.5-flash": 53070
+    }
+  },
+  {
+    "provider": "gemma4_26b",
+    "tier": "tier1b",
+    "source_mode": "direct_merged",
+    "canonical_response_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/canonical/gemma4_26b_canonical_responses.jsonl",
+    "summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65d_tier1b_full/gemma4_26b_full_summary.json",
+    "canonical_summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/gemma4_26b_canonical_summary.json",
+    "rows_expected": 53070,
+    "parse_success_expected": 53070,
+    "rows_actual": 53070,
+    "parse_success_actual": 53070,
+    "ok_rows_actual": 53070,
+    "avg_latency_seconds": 30.03763834558131,
+    "usage_total_tokens": 277833535,
+    "primary_model_name": "arc:lite",
+    "model_name_counts": {
+      "arc:lite": 53070
+    }
+  },
+  {
+    "provider": "aloe70b",
+    "tier": "tier2",
+    "source_mode": "overlay_repair_chain",
+    "canonical_response_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/canonical/aloe70b_canonical_responses.jsonl",
+    "summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_full_aloe70b/aloe70b_full_summary.json",
+    "canonical_summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/aloe70b_canonical_summary.json",
+    "rows_expected": 53070,
+    "parse_success_expected": 53070,
+    "rows_actual": 53070,
+    "parse_success_actual": 53070,
+    "ok_rows_actual": 53070,
+    "avg_latency_seconds": 5.709786056152252,
+    "usage_total_tokens": 258039766,
+    "primary_model_name": "llama31-aloe-beta-70b",
+    "model_name_counts": {
+      "llama31-aloe-beta-70b": 53070
+    },
+    "supporting_summary_paths": [
+      "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_formal_summary.md"
+    ]
+  },
+  {
+    "provider": "aloe7b",
+    "tier": "tier2",
+    "source_mode": "overlay_repair_chain",
+    "canonical_response_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/canonical/aloe7b_canonical_responses.jsonl",
+    "summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_aloe7b_repair_final_summary.json",
+    "canonical_summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/aloe7b_canonical_summary.json",
+    "rows_expected": 53070,
+    "parse_success_expected": 53070,
+    "rows_actual": 53070,
+    "parse_success_actual": 53070,
+    "ok_rows_actual": 53070,
+    "avg_latency_seconds": 2.7593214999057842,
+    "usage_total_tokens": 282111131,
+    "primary_model_name": "qwen25-aloe-beta-7b",
+    "model_name_counts": {
+      "qwen25-aloe-beta-7b": 53070
+    }
+  },
+  {
+    "provider": "meditron3_8b",
+    "tier": "tier2",
+    "source_mode": "overlay_repair_chain",
+    "canonical_response_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/canonical/meditron3_8b_canonical_responses.jsonl",
+    "summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_meditron3_postrepair_summary_v10.json",
+    "canonical_summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/meditron3_8b_canonical_summary.json",
+    "rows_expected": 53070,
+    "parse_success_expected": 53070,
+    "rows_actual": 53070,
+    "parse_success_actual": 53070,
+    "ok_rows_actual": 53070,
+    "avg_latency_seconds": 3.1979134350857357,
+    "usage_total_tokens": 259948539,
+    "primary_model_name": "meditron3-8b",
+    "model_name_counts": {
+      "meditron3-8b": 53070
+    }
+  },
+  {
+    "provider": "medgemma15_4b_it",
+    "tier": "tier2",
+    "source_mode": "overlay_repair_chain",
+    "canonical_response_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/canonical/medgemma15_4b_it_canonical_responses.jsonl",
+    "summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_medgemma_final151_twostage_20260417/summary.json",
+    "canonical_summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/medgemma15_4b_it_canonical_summary.json",
+    "rows_expected": 53070,
+    "parse_success_expected": 53070,
+    "rows_actual": 53070,
+    "parse_success_actual": 53070,
+    "ok_rows_actual": 53070,
+    "avg_latency_seconds": 71.57247964951951,
+    "usage_total_tokens": 285394344,
+    "primary_model_name": "medgemma-1.5-4b-it",
+    "model_name_counts": {
+      "medgemma-1.5-4b-it": 52385,
+      "medgemma-1.5-4b-it-vllm": 685
+    },
+    "supporting_summary_paths": [
+      "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_formal_summary.md",
+      "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_medgemma_dualrepair_v1/phase65e_medgemma_dualrepair_v1_summary.json",
+      "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_medgemma_vllm_fullrepair1009_max32k/phase65e_medgemma_fullrepair1009_summary.json",
+      "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_medgemma_vllm_fullrepair1009_max40k_pass2/phase65e_medgemma_fullrepair1009_unresolved_summary.json",
+      "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_medgemma_vllm_fullrepair1009_max50k_pass3/phase65e_medgemma_fullrepair1009_unresolved_pass3_summary.json"
+    ]
+  }
+]

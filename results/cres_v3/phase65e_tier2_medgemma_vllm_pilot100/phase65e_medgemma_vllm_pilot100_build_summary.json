@@ -1,0 +1,32 @@
+{
+  "pilot_rows": 100,
+  "source_full_manifest": "/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final/results/cres_v3/phase65d_tier1b_full/phase65d_full_manifest_full_multimodal.jsonl",
+  "output_manifest": "/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_medgemma_vllm_pilot100/phase65e_medgemma_vllm_pilot100_manifest.jsonl",
+  "category_available": {
+    "missing": 119,
+    "long_parse_fail": 364,
+    "other_parse_fail": 86
+  },
+  "category_selected": {
+    "missing": 40,
+    "long_parse_fail": 40,
+    "other_parse_fail": 20
+  },
+  "sample_prompt_ids": [
+    "DEL-T1::36179130::h111::D6::full_multimodal",
+    "S-R1::30204754::D4::full_multimodal",
+    "S-R1::30560223::D6::full_multimodal",
+    "S-R1::30845846::D6::full_multimodal",
+    "S-R1::31005869::D4::full_multimodal",
+    "S-R1::31350191::D4::full_multimodal",
+    "S-R1::32723705::D6::full_multimodal",
+    "S-R1::32803587::D4::full_multimodal",
+    "S-R1::33150688::D4::full_multimodal",
+    "S-R1::33150688::D6::full_multimodal",
+    "S-R1::33321724::D4::full_multimodal",
+    "S-R1::33321724::D6::full_multimodal",
+    "S-R1::34004563::D4::full_multimodal",
+    "S-R1::34004563::D6::full_multimodal",
+    "S-R1::34188353::D6::full_multimodal"
+  ]
+}

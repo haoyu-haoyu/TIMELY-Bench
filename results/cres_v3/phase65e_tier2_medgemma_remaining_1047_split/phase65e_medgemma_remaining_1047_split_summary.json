@@ -1,0 +1,15 @@
+{
+  "manifest_path": "results/cres_v3/phase65c_tier1a_full/phase65c_full_manifest_full_multimodal.jsonl",
+  "total_manifest": 53070,
+  "parse_success_done": 52022,
+  "remaining_missing": 163,
+  "remaining_parsefail": 885,
+  "remaining_combined": 1048,
+  "output_dir": "results/cres_v3/phase65e_tier2_medgemma_remaining_1047_split",
+  "files": {
+    "missing": "results/cres_v3/phase65e_tier2_medgemma_remaining_1047_split/phase65e_medgemma_remaining_missing_163_manifest.jsonl",
+    "parsefail": "results/cres_v3/phase65e_tier2_medgemma_remaining_1047_split/phase65e_medgemma_remaining_parsefail_885_manifest.jsonl",
+    "combined": "results/cres_v3/phase65e_tier2_medgemma_remaining_1047_split/phase65e_medgemma_remaining_1048_manifest.jsonl",
+    "summary": "results/cres_v3/phase65e_tier2_medgemma_remaining_1047_split/phase65e_medgemma_remaining_1047_split_summary.json"
+  }
+}

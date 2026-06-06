@@ -1,0 +1,29 @@
+{
+  "provider": "meditron3_8b",
+  "model_name": "meditron3-8b",
+  "manifest_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_meditron3_tailrepair_v3_manifest.jsonl",
+  "rows_requested": 314,
+  "rows_found": 314,
+  "missing_rows": 0,
+  "ok_rows": 314,
+  "parse_success_rows": 138,
+  "ok_rate": 1.0,
+  "parse_success_rate": 0.4394904458598726,
+  "avg_latency_seconds": 2.220668789808916,
+  "usage_total_tokens": 1892846,
+  "status_counts": {
+    "ok": 314
+  },
+  "top_parse_errors": {
+    "JSONDecodeError: Unterminated string starting at: line 2 column 16 (char 17)": 15,
+    "JSONDecodeError: Unterminated string starting at: line 6 column 15 (char 129)": 4,
+    "JSONDecodeError: Unterminated string starting at: line 6 column 15 (char 135)": 3,
+    "JSONDecodeError: Unterminated string starting at: line 6 column 15 (char 219)": 3,
+    "JSONDecodeError: Unterminated string starting at: line 6 column 15 (char 254)": 3,
+    "JSONDecodeError: Expecting ',' delimiter: line 8 column 6 (char 255)": 3,
+    "JSONDecodeError: Expecting ',' delimiter: line 12 column 6 (char 234)": 3,
+    "JSONDecodeError: Unterminated string starting at: line 3 column 13 (char 321)": 3,
+    "JSONDecodeError: Unterminated string starting at: line 3 column 13 (char 288)": 3,
+    "JSONDecodeError: Unterminated string starting at: line 6 column 15 (char 136)": 2
+  }
+}

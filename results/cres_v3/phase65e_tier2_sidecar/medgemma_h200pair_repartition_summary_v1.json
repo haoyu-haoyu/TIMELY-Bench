@@ -1,0 +1,12 @@
+{
+  "full_manifest_rows": 53070,
+  "done_main_rows": 4330,
+  "reserved_b200_rows": 20000,
+  "remaining_for_h200_pairs": 28740,
+  "h200pair_a_rows": 14370,
+  "h200pair_b_rows": 14370,
+  "output_manifests": [
+    "results/cres_v3/phase65e_tier2_sidecar/medgemma_h200pair_a_manifest_v1.jsonl",
+    "results/cres_v3/phase65e_tier2_sidecar/medgemma_h200pair_b_manifest_v1.jsonl"
+  ]
+}

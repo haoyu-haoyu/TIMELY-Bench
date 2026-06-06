@@ -1,0 +1,386 @@
+{
+  "phase6_scope": "assembly_mvp",
+  "description": "CRES benchmark assembly schema for TIMELY-Bench v3. Baseline evaluation runs are intentionally out of scope at this stage.",
+  "manifest_path": "data/processed/v3/cres/master_instance_manifest.parquet",
+  "summary_path": "results/cres_v3/cres_master_manifest_summary.json",
+  "fields": [
+    {
+      "name": "instance_id",
+      "dtype": "string",
+      "description": "Unique CRES instance identifier."
+    },
+    {
+      "name": "condition",
+      "dtype": "string",
+      "description": "Condition family: aki, delirium, sepsis, stroke."
+    },
+    {
+      "name": "task_id",
+      "dtype": "string",
+      "description": "Condition-specific task identifier."
+    },
+    {
+      "name": "task_family",
+      "dtype": "string",
+      "description": "High-level task family used in CRES reporting."
+    },
+    {
+      "name": "task_mode",
+      "dtype": "string",
+      "description": "temporal or retrospective."
+    },
+    {
+      "name": "layer",
+      "dtype": "string",
+      "description": "single_layer, Layer1, or Layer2."
+    },
+    {
+      "name": "stay_id",
+      "dtype": "int64",
+      "description": "ICU stay identifier."
+    },
+    {
+      "name": "subject_id",
+      "dtype": "Int64",
+      "description": "Patient identifier from cohort_v3."
+    },
+    {
+      "name": "hadm_id",
+      "dtype": "Int64",
+      "description": "Hospital admission identifier."
+    },
+    {
+      "name": "anchor_hour",
+      "dtype": "Float64",
+      "description": "Prediction anchor hour when applicable."
+    },
+    {
+      "name": "horizon_hours",
+      "dtype": "Int64",
+      "description": "Prediction horizon when applicable."
+    },
+    {
+      "name": "primary_label_key",
+      "dtype": "string",
+      "description": "Column name used as primary task target."
+    },
+    {
+      "name": "primary_label_type",
+      "dtype": "string",
+      "description": "binary, categorical, or numeric."
+    },
+    {
+      "name": "primary_label_binary",
+      "dtype": "Int64",
+      "description": "Binary target value if task is binary."
+    },
+    {
+      "name": "primary_label_numeric",
+      "dtype": "Float64",
+      "description": "Numeric target value if task is numeric."
+    },
+    {
+      "name": "primary_label_text",
+      "dtype": "string",
+      "description": "Categorical/text target value if task is categorical."
+    },
+    {
+      "name": "representation_profile",
+      "dtype": "string",
+      "description": "Named availability profile for A/B1/B2/B3 branches."
+    },
+    {
+      "name": "available_representations",
+      "dtype": "string",
+      "description": "Pipe-delimited list of representations available to the instance."
+    },
+    {
+      "name": "has_A",
+      "dtype": "bool",
+      "description": "A baseline summary available."
+    },
+    {
+      "name": "has_B1",
+      "dtype": "bool",
+      "description": "B1 hourly sequence available."
+    },
+    {
+      "name": "has_B2_original",
+      "dtype": "bool",
+      "description": "B2 original context available."
+    },
+    {
+      "name": "has_B3",
+      "dtype": "bool",
+      "description": "B3 state-space representation available."
+    },
+    {
+      "name": "phase5_available",
+      "dtype": "bool",
+      "description": "Whether Phase 5 state-space is in scope for this instance."
+    },
+    {
+      "name": "trajectory_tier",
+      "dtype": "string",
+      "description": "Phase 5 trajectory tier for AKI/Delirium/Sepsis."
+    },
+    {
+      "name": "mean_template_executable_support_score",
+      "dtype": "Float64",
+      "description": "Mean executable template support score for the stay trajectory."
+    },
+    {
+      "name": "n_supported_atypical_flags",
+      "dtype": "Int64",
+      "description": "Count of supported atypical variants flagged for the stay."
+    },
+    {
+      "name": "left_censored",
+      "dtype": "Int64",
+      "description": "Delirium-specific left-censoring flag."
+    },
+    {
+      "name": "onset_confidence",
+      "dtype": "string",
+      "description": "Sepsis onset confidence: high or low."
+    },
+    {
+      "name": "shock_before_sepsis_onset",
+      "dtype": "Int64",
+      "description": "Sepsis metadata stratifier."
+    },
+    {
+      "name": "shock_at_sepsis_onset",
+      "dtype": "Int64",
+      "description": "Sepsis metadata stratifier."
+    },
+    {
+      "name": "shock_onset_hour",
+      "dtype": "Float64",
+      "description": "First shock-after-sepsis-onset hour when applicable."
+    },
+    {
+      "name": "stroke_layer",
+      "dtype": "string",
+      "description": "Stroke Layer1/Layer2 reporting field."
+    },
+    {
+      "name": "stroke_tier",
+      "dtype": "string",
+      "description": "Stroke tier A/B/C used in CRES reporting."
+    },
+    {
+      "name": "stroke_subtype_priority",
+      "dtype": "string",
+      "description": "Priority-based stroke subtype assignment."
+    },
+    {
+      "name": "stroke_subtype_mixed",
+      "dtype": "string",
+      "description": "Mixed-aware stroke subtype assignment."
+    },
+    {
+      "name": "stroke_sensitivity_subset",
+      "dtype": "bool",
+      "description": "Whether instance belongs to pure-ischaemic sensitivity subset. Currently false in master manifest."
+    },
+    {
+      "name": "task_source_file",
+      "dtype": "string",
+      "description": "Relative path to the source task parquet."
+    }
+  ],
+  "representation_profiles": {
+    "full_ab1b2b3": {
+      "available_representations": [
+        "A",
+        "B1",
+        "B2_original",
+        "B3"
+      ],
+      "has_A": true,
+      "has_B1": true,
+      "has_B2_original": true,
+      "has_B3": true,
+      "phase5_available": true
+    },
+    "stroke_temporal_ab1b2": {
+      "available_representations": [
+        "A",
+        "B1",
+        "B2_original"
+      ],
+      "has_A": true,
+      "has_B1": true,
+      "has_B2_original": true,
+      "has_B3": false,
+      "phase5_available": false
+    },
+    "stroke_retrospective_b2_only": {
+      "available_representations": [
+        "B2_original"
+      ],
+      "has_A": false,
+      "has_B1": false,
+      "has_B2_original": true,
+      "has_B3": false,
+      "phase5_available": false
+    }
+  },
+  "task_catalog": [
+    {
+      "task_id": "AKI-T1",
+      "condition": "aki",
+      "task_family": "temporal_progression",
+      "task_mode": "temporal",
+      "layer": "single_layer",
+      "primary_label_key": "label",
+      "primary_label_type": "binary",
+      "representation_profile": "full_ab1b2b3",
+      "source_path": "data/processed/v3/aki/tasks/aki_stage2plus_instances.parquet"
+    },
+    {
+      "task_id": "AKI-S1",
+      "condition": "aki",
+      "task_family": "support_escalation_proxy",
+      "task_mode": "temporal",
+      "layer": "single_layer",
+      "primary_label_key": "label",
+      "primary_label_type": "binary",
+      "representation_profile": "full_ab1b2b3",
+      "source_path": "data/processed/v3/aki/tasks/aki_rrt_proxy_instances.parquet"
+    },
+    {
+      "task_id": "DEL-T1",
+      "condition": "delirium",
+      "task_family": "persistence",
+      "task_mode": "temporal",
+      "layer": "single_layer",
+      "primary_label_key": "label",
+      "primary_label_type": "binary",
+      "representation_profile": "full_ab1b2b3",
+      "source_path": "data/processed/v3/delirium/tasks/delirium_persistence_instances.parquet"
+    },
+    {
+      "task_id": "DEL-S1",
+      "condition": "delirium",
+      "task_family": "resolution",
+      "task_mode": "temporal",
+      "layer": "single_layer",
+      "primary_label_key": "label",
+      "primary_label_type": "binary",
+      "representation_profile": "full_ab1b2b3",
+      "source_path": "data/processed/v3/delirium/tasks/delirium_resolution_instances.parquet"
+    },
+    {
+      "task_id": "SEP-T1",
+      "condition": "sepsis",
+      "task_family": "shock_progression",
+      "task_mode": "temporal",
+      "layer": "single_layer",
+      "primary_label_key": "label",
+      "primary_label_type": "binary",
+      "representation_profile": "full_ab1b2b3",
+      "source_path": "data/processed/v3/sepsis/tasks/sepsis_shock_instances.parquet"
+    },
+    {
+      "task_id": "SEP-S1",
+      "condition": "sepsis",
+      "task_family": "lactate_clearance",
+      "task_mode": "temporal",
+      "layer": "single_layer",
+      "primary_label_key": "label",
+      "primary_label_type": "binary",
+      "representation_profile": "full_ab1b2b3",
+      "source_path": "data/processed/v3/sepsis/tasks/sepsis_lactate_clearance_instances.parquet"
+    },
+    {
+      "task_id": "S-T1",
+      "condition": "stroke",
+      "task_family": "strength_worsening",
+      "task_mode": "temporal",
+      "layer": "Layer1",
+      "primary_label_key": "label_strength_worsening",
+      "primary_label_type": "binary",
+      "representation_profile": "stroke_temporal_ab1b2",
+      "source_path": "data/processed/v3/stroke/tasks/stroke_S-T1_instances.parquet"
+    },
+    {
+      "task_id": "S-T2",
+      "condition": "stroke",
+      "task_family": "laterality_reasoning",
+      "task_mode": "temporal",
+      "layer": "Layer1",
+      "primary_label_key": "label_affected_side",
+      "primary_label_type": "categorical",
+      "representation_profile": "stroke_temporal_ab1b2",
+      "source_path": "data/processed/v3/stroke/tasks/stroke_S-T2_instances.parquet"
+    },
+    {
+      "task_id": "S-T3",
+      "condition": "stroke",
+      "task_family": "imaging_clinical_consistency",
+      "task_mode": "temporal",
+      "layer": "Layer1",
+      "primary_label_key": "label_consistency",
+      "primary_label_type": "categorical",
+      "representation_profile": "stroke_temporal_ab1b2",
+      "source_path": "data/processed/v3/stroke/tasks/stroke_S-T3_instances.parquet"
+    },
+    {
+      "task_id": "S-T4",
+      "condition": "stroke",
+      "task_family": "sequence_signature",
+      "task_mode": "temporal",
+      "layer": "Layer1",
+      "primary_label_key": "label_sequence_signature",
+      "primary_label_type": "categorical",
+      "representation_profile": "stroke_temporal_ab1b2",
+      "source_path": "data/processed/v3/stroke/tasks/stroke_S-T4_instances.parquet"
+    },
+    {
+      "task_id": "S-R1",
+      "condition": "stroke",
+      "task_family": "mechanism_attribution",
+      "task_mode": "retrospective",
+      "layer": "Layer2",
+      "primary_label_key": "label_mechanism",
+      "primary_label_type": "categorical",
+      "representation_profile": "stroke_retrospective_b2_only",
+      "source_path": "data/processed/v3/stroke/tasks/stroke_S-R1_instances.parquet"
+    },
+    {
+      "task_id": "S-R2",
+      "condition": "stroke",
+      "task_family": "secondary_prevention_strategy",
+      "task_mode": "retrospective",
+      "layer": "Layer2",
+      "primary_label_key": "label_strategy",
+      "primary_label_type": "categorical",
+      "representation_profile": "stroke_retrospective_b2_only",
+      "source_path": "data/processed/v3/stroke/tasks/stroke_S-R2_instances.parquet"
+    },
+    {
+      "task_id": "S-R3",
+      "condition": "stroke",
+      "task_family": "nihss_retrospective_extraction",
+      "task_mode": "retrospective",
+      "layer": "Layer2",
+      "primary_label_key": "label_nihss_peak",
+      "primary_label_type": "numeric",
+      "representation_profile": "stroke_retrospective_b2_only",
+      "source_path": "data/processed/v3/stroke/tasks/stroke_S-R3_instances.parquet"
+    },
+    {
+      "task_id": "S-R4",
+      "condition": "stroke",
+      "task_family": "complication_understanding",
+      "task_mode": "retrospective",
+      "layer": "Layer2",
+      "primary_label_key": "label_any_complication",
+      "primary_label_type": "binary",
+      "representation_profile": "stroke_retrospective_b2_only",
+      "source_path": "data/processed/v3/stroke/tasks/stroke_S-R4_instances.parquet"
+    }
+  ]
+}

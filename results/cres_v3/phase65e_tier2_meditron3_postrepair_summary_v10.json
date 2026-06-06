@@ -1,0 +1,59 @@
+{
+  "counts": {
+    "parse_true": 53070,
+    "total": 53070
+  },
+  "top_remaining_tasks": [],
+  "top_parse_errors": [],
+  "source_counts": [
+    [
+      "phase65e_tier2_full_meditron3_8b",
+      51649
+    ],
+    [
+      "phase65e_tier2_meditron3_promptcompact_fullrepair",
+      599
+    ],
+    [
+      "phase65e_tier2_meditron3_tailrepair_v2",
+      496
+    ],
+    [
+      "phase65e_tier2_meditron3_tailrepair_v3",
+      138
+    ],
+    [
+      "phase65e_tier2_meditron3_tailrepair_v5",
+      74
+    ],
+    [
+      "phase65e_tier2_meditron3_tailrepair_v4",
+      51
+    ],
+    [
+      "phase65e_tier2_meditron3_tailrepair_v6",
+      27
+    ],
+    [
+      "phase65e_tier2_meditron3_repairpilot24_promptcompact",
+      11
+    ],
+    [
+      "phase65e_tier2_meditron3_tailrepair_v8",
+      11
+    ],
+    [
+      "phase65e_tier2_meditron3_tailrepair_v7",
+      9
+    ],
+    [
+      "phase65e_tier2_meditron3_tailrepair_v10",
+      3
+    ],
+    [
+      "phase65e_tier2_meditron3_repairpilot40",
+      1
+    ]
+  ],
+  "remaining_examples": []
+}

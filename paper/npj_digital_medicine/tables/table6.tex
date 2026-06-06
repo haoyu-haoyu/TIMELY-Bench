@@ -1,0 +1,19 @@
+\begin{table*}[t]
+\caption{Judge agreement summary across the shared 2,000-row judge packet.}
+\label{tab:judge_agreement}
+\centering
+\scriptsize
+\begin{tabular}{@{}lllrrr@{}}
+\toprule
+Judge A & Judge B & Score & Rows & Spearman $\rho$ & Exact match rate \\
+\midrule
+Claude Opus 4.6 & Gemini 3.1 Pro & overall quality & 2000 & 0.783 & 0.283 \\
+Claude Opus 4.6 & Gemini 3.1 Pro & clinical correctness & 2000 & 0.759 & 0.286 \\
+Claude Opus 4.6 & GPT-5.4 & overall quality & 2000 & 0.814 & 0.527 \\
+Claude Opus 4.6 & GPT-5.4 & clinical correctness & 2000 & 0.808 & 0.511 \\
+Gemini 3.1 Pro & GPT-5.4 & overall quality & 2000 & 0.739 & 0.410 \\
+Gemini 3.1 Pro & GPT-5.4 & clinical correctness & 2000 & 0.719 & 0.411 \\
+\botrule
+\end{tabular}
+\normalsize
+\end{table*}

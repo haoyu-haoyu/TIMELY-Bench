@@ -1,0 +1,48 @@
+{
+  "providers": {
+    "medgemma15_4b": {
+      "provider": "medgemma15_4b",
+      "rows": 85,
+      "ok_rows": 75,
+      "parse_success_rows": 5,
+      "parse_success_rate": 0.058823529411764705,
+      "avg_latency_seconds": 315.6689294117647,
+      "usage_total_tokens": 4330611,
+      "tasks": {
+        "AKI-S1": 1,
+        "DEL-S1": 7,
+        "DEL-T1": 20,
+        "S-R1": 13,
+        "S-R2": 24,
+        "S-R3": 3,
+        "S-R4": 10,
+        "S-T1": 3,
+        "S-T4": 1,
+        "SEP-S1": 1,
+        "SEP-T1": 2
+      },
+      "task_parse_success_rate": {
+        "AKI-S1": 0.0,
+        "DEL-S1": 0.0,
+        "DEL-T1": 0.05,
+        "S-R1": 0.0,
+        "S-R2": 0.041666666666666664,
+        "S-R3": 0.3333333333333333,
+        "S-R4": 0.1,
+        "S-T1": 0.3333333333333333,
+        "S-T4": 0.0,
+        "SEP-S1": 0.0,
+        "SEP-T1": 0.0
+      },
+      "confidence_distribution": {
+        "high": 4,
+        "missing": 1
+      },
+      "confidence_distribution_rate": {
+        "high": 0.8,
+        "missing": 0.2
+      },
+      "merged_output_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_medgemma_vllm_fullrepair1009_max50k_pass3_sharded/shard00/medgemma15_4b_full_responses.jsonl"
+    }
+  }
+}

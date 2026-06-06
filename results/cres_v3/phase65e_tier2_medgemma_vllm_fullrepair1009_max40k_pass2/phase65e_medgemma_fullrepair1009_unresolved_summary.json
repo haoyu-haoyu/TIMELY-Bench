@@ -1,0 +1,7 @@
+{
+  "source_manifest": "results/cres_v3/phase65e_tier2_medgemma_vllm_fullrepair1009_max32k/phase65e_medgemma_fullrepair1009_manifest.jsonl",
+  "source_output_dir": "results/cres_v3/phase65e_tier2_medgemma_vllm_fullrepair1009_max32k",
+  "unresolved_count": 722,
+  "output_manifest": "results/cres_v3/phase65e_tier2_medgemma_vllm_fullrepair1009_max40k_pass2/phase65e_medgemma_fullrepair1009_unresolved_manifest.jsonl",
+  "response_file": "results/cres_v3/phase65e_tier2_medgemma_vllm_fullrepair1009_max32k/medgemma15_4b_responses_shard00_of_01.jsonl"
+}

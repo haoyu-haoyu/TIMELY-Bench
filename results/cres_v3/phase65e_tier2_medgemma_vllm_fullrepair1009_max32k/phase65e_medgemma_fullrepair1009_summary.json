@@ -1,0 +1,6 @@
+{
+  "combined_rows": 1009,
+  "fast_rows": 974,
+  "hard_rows": 35,
+  "output_manifest": "results/cres_v3/phase65e_tier2_medgemma_vllm_fullrepair1009_max32k/phase65e_medgemma_fullrepair1009_manifest.jsonl"
+}

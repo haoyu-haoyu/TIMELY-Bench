@@ -1,0 +1,268 @@
+{
+  "supported_pairs": [
+    {
+      "task_id": "AKI-S1",
+      "dimension_id": "D1",
+      "n_rows": 938
+    },
+    {
+      "task_id": "AKI-S1",
+      "dimension_id": "D2",
+      "n_rows": 938
+    },
+    {
+      "task_id": "AKI-T1",
+      "dimension_id": "D1",
+      "n_rows": 1876
+    },
+    {
+      "task_id": "AKI-T1",
+      "dimension_id": "D2",
+      "n_rows": 1876
+    },
+    {
+      "task_id": "AKI-T1",
+      "dimension_id": "D5",
+      "n_rows": 1876
+    },
+    {
+      "task_id": "DEL-S1",
+      "dimension_id": "D1",
+      "n_rows": 938
+    },
+    {
+      "task_id": "DEL-T1",
+      "dimension_id": "D1",
+      "n_rows": 1875
+    },
+    {
+      "task_id": "DEL-T1",
+      "dimension_id": "D2",
+      "n_rows": 1875
+    },
+    {
+      "task_id": "S-R1",
+      "dimension_id": "D4",
+      "n_rows": 469
+    },
+    {
+      "task_id": "S-R2",
+      "dimension_id": "D4",
+      "n_rows": 469
+    },
+    {
+      "task_id": "S-R3",
+      "dimension_id": "D2",
+      "n_rows": 277
+    },
+    {
+      "task_id": "S-R4",
+      "dimension_id": "D4",
+      "n_rows": 469
+    },
+    {
+      "task_id": "S-T1",
+      "dimension_id": "D1",
+      "n_rows": 938
+    },
+    {
+      "task_id": "S-T1",
+      "dimension_id": "D3",
+      "n_rows": 938
+    },
+    {
+      "task_id": "S-T2",
+      "dimension_id": "D4",
+      "n_rows": 469
+    },
+    {
+      "task_id": "S-T3",
+      "dimension_id": "D4",
+      "n_rows": 469
+    },
+    {
+      "task_id": "SEP-S1",
+      "dimension_id": "D1",
+      "n_rows": 469
+    },
+    {
+      "task_id": "SEP-T1",
+      "dimension_id": "D1",
+      "n_rows": 1875
+    },
+    {
+      "task_id": "SEP-T1",
+      "dimension_id": "D2",
+      "n_rows": 1875
+    },
+    {
+      "task_id": "SEP-T1",
+      "dimension_id": "D5",
+      "n_rows": 1875
+    }
+  ],
+  "deferred_pairs": [
+    {
+      "task_id": "AKI-S1",
+      "dimension_id": "D3",
+      "n_rows": 938,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "AKI-S1",
+      "dimension_id": "D4",
+      "n_rows": 938,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "AKI-S1",
+      "dimension_id": "D6",
+      "n_rows": 938,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "AKI-T1",
+      "dimension_id": "D3",
+      "n_rows": 1876,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "AKI-T1",
+      "dimension_id": "D4",
+      "n_rows": 1876,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "AKI-T1",
+      "dimension_id": "D6",
+      "n_rows": 1876,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "DEL-S1",
+      "dimension_id": "D3",
+      "n_rows": 938,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "DEL-S1",
+      "dimension_id": "D4",
+      "n_rows": 938,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "DEL-S1",
+      "dimension_id": "D6",
+      "n_rows": 938,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "DEL-T1",
+      "dimension_id": "D3",
+      "n_rows": 1875,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "DEL-T1",
+      "dimension_id": "D4",
+      "n_rows": 1875,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "DEL-T1",
+      "dimension_id": "D5",
+      "n_rows": 1875,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "DEL-T1",
+      "dimension_id": "D6",
+      "n_rows": 1875,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "S-R1",
+      "dimension_id": "D6",
+      "n_rows": 469,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "S-R2",
+      "dimension_id": "D6",
+      "n_rows": 469,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "S-R3",
+      "dimension_id": "D6",
+      "n_rows": 277,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "S-R4",
+      "dimension_id": "D6",
+      "n_rows": 469,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "S-T1",
+      "dimension_id": "D4",
+      "n_rows": 938,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "S-T1",
+      "dimension_id": "D6",
+      "n_rows": 938,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "S-T4",
+      "dimension_id": "D3",
+      "n_rows": 469,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "S-T4",
+      "dimension_id": "D6",
+      "n_rows": 469,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "SEP-S1",
+      "dimension_id": "D2",
+      "n_rows": 469,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "SEP-S1",
+      "dimension_id": "D3",
+      "n_rows": 469,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "SEP-S1",
+      "dimension_id": "D6",
+      "n_rows": 469,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "SEP-T1",
+      "dimension_id": "D3",
+      "n_rows": 1875,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "SEP-T1",
+      "dimension_id": "D4",
+      "n_rows": 1875,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "SEP-T1",
+      "dimension_id": "D6",
+      "n_rows": 1875,
+      "reason": "judge_only_or_no_direct_ground_truth"
+    }
+  ]
+}

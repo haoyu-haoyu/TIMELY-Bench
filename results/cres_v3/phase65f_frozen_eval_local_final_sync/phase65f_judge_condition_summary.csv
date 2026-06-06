@@ -1,0 +1,13 @@
+judge_label,judge_provider,condition,rows,overall_quality_mean,clinical_correctness_mean,evidence_grounding_mean,confidence_calibration_mean
+claude_opus_4_6,claude,aki,500,3.112,3.094,3.342,3.18
+claude_opus_4_6,claude,delirium,500,3.378,3.382,3.58,3.37
+claude_opus_4_6,claude,sepsis,500,3.042,3.014,3.232,2.942
+claude_opus_4_6,claude,stroke,500,3.154,3.142,3.262,3.216
+gemini31pro,gemini31pro,aki,500,3.366,3.442,3.836,3.584
+gemini31pro,gemini31pro,delirium,500,3.59,3.66,4.102,3.748
+gemini31pro,gemini31pro,sepsis,500,3.064,3.124,3.876,3.294
+gemini31pro,gemini31pro,stroke,500,3.366,3.496,3.918,3.596
+gpt54,gpt54,aki,500,3.106,3.12,3.112,3.006
+gpt54,gpt54,delirium,500,3.6,3.602,3.582,3.36
+gpt54,gpt54,sepsis,500,2.954,2.948,3.016,2.702
+gpt54,gpt54,stroke,500,3.052,3.074,3.072,2.838

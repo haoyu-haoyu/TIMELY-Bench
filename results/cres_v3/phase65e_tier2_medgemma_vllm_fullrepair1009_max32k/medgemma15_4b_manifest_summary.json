@@ -1,0 +1,29 @@
+{
+  "provider": "medgemma15_4b",
+  "model_name": "medgemma-1.5-4b-it-vllm",
+  "manifest_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_medgemma_vllm_fullrepair1009_max32k/phase65e_medgemma_fullrepair1009_manifest.jsonl",
+  "rows_requested": 1009,
+  "rows_found": 1009,
+  "missing_rows": 0,
+  "ok_rows": 1009,
+  "parse_success_rows": 287,
+  "ok_rate": 1.0,
+  "parse_success_rate": 0.2844400396432111,
+  "avg_latency_seconds": 180.93893458870176,
+  "usage_total_tokens": 40040805,
+  "status_counts": {
+    "ok": 1009
+  },
+  "top_parse_errors": {
+    "JSONDecodeError: Unterminated string starting at: line 2 column 16 (char 17)": 549,
+    "JSONDecodeError: Expecting ',' delimiter: line 1187 column 73 (char 88452)": 2,
+    "JSONDecodeError: Expecting ',' delimiter: line 1087 column 75 (char 80364)": 2,
+    "JSONDecodeError: Expecting ',' delimiter: line 1154 column 69 (char 89468)": 1,
+    "JSONDecodeError: Expecting ',' delimiter: line 923 column 112 (char 103512)": 1,
+    "JSONDecodeError: Expecting ',' delimiter: line 345 column 171 (char 139909)": 1,
+    "JSONDecodeError: Expecting ',' delimiter: line 1205 column 75 (char 94066)": 1,
+    "JSONDecodeError: Expecting ',' delimiter: line 1265 column 71 (char 92625)": 1,
+    "JSONDecodeError: Expecting ',' delimiter: line 1215 column 80 (char 100602)": 1,
+    "JSONDecodeError: Expecting ',' delimiter: line 1155 column 73 (char 87813)": 1
+  }
+}

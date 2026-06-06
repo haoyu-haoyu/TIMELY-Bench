@@ -1,0 +1,54 @@
+{
+  "provider": "aloe70b",
+  "rows": 53070,
+  "ok_rows": 53070,
+  "parse_success_rows": 53067,
+  "parse_success_rate": 0.999943470887507,
+  "avg_latency_seconds": 5.70978605615226,
+  "usage_total_tokens": 258039766,
+  "tasks": {
+    "AKI-S1": 4690,
+    "AKI-T1": 11256,
+    "DEL-S1": 3752,
+    "DEL-T1": 11250,
+    "S-R1": 938,
+    "S-R2": 938,
+    "S-R3": 554,
+    "S-R4": 938,
+    "S-T1": 3752,
+    "S-T2": 469,
+    "S-T3": 469,
+    "S-T4": 938,
+    "SEP-S1": 1876,
+    "SEP-T1": 11250
+  },
+  "task_parse_success_rate": {
+    "AKI-S1": 1.0,
+    "AKI-T1": 1.0,
+    "DEL-S1": 1.0,
+    "DEL-T1": 1.0,
+    "S-R1": 1.0,
+    "S-R2": 1.0,
+    "S-R3": 1.0,
+    "S-R4": 1.0,
+    "S-T1": 1.0,
+    "S-T2": 1.0,
+    "S-T3": 1.0,
+    "S-T4": 1.0,
+    "SEP-S1": 1.0,
+    "SEP-T1": 0.9997333333333334
+  },
+  "confidence_distribution": {
+    "high": 35843,
+    "low": 1012,
+    "medium": 16195,
+    "missing": 17
+  },
+  "confidence_distribution_rate": {
+    "high": 0.6754291744398591,
+    "low": 0.019070231970904704,
+    "medium": 0.30518024384268944,
+    "missing": 0.00032034974654681817
+  },
+  "merged_output_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_full_aloe70b/aloe70b_full_responses.jsonl"
+}
