@@ -1,0 +1,15 @@
+{
+  "context_400": 205,
+  "length_total": 270,
+  "length_a": 135,
+  "length_b": 135,
+  "stats": {
+    "length_length": 270,
+    "context_400": 205
+  },
+  "paths": {
+    "context_400": "/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_medgemma_repair_split_20260416/context_400_manifest.jsonl",
+    "length_a": "/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_medgemma_repair_split_20260416/length_manifest_a.jsonl",
+    "length_b": "/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_medgemma_repair_split_20260416/length_manifest_b.jsonl"
+  }
+}

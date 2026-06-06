@@ -1,0 +1,19 @@
+{
+  "full_manifest_rows": 53070,
+  "source_raw_rows": {
+    "results/cres_v3/phase65e_tier2_full_b200a": 3910,
+    "results/cres_v3/phase65e_tier2_full_b200b": 3959,
+    "results/cres_v3/phase65e_tier2_full_h200pair_a": 6579,
+    "results/cres_v3/phase65e_tier2_full_h200pair_b": 5950
+  },
+  "source_dirs": [
+    "results/cres_v3/phase65e_tier2_full_b200a",
+    "results/cres_v3/phase65e_tier2_full_b200b",
+    "results/cres_v3/phase65e_tier2_full_h200pair_a",
+    "results/cres_v3/phase65e_tier2_full_h200pair_b"
+  ],
+  "unique_prompt_ids_seen": 9572,
+  "global_done_ok_parse_success": 9422,
+  "pending_rows": 43648,
+  "pending_manifest_path": "results/cres_v3/phase65e_tier2_medgemma_pending_global6.jsonl"
+}

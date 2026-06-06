@@ -1,0 +1,126 @@
+ALIGNMENT_WINDOWS:
+  D0:
+    type: calendar_day_up_to_T
+  W12:
+    hours: 12
+    type: lookback
+  W24:
+    hours: 24
+    type: lookback
+  W6:
+    hours: 6
+    type: lookback
+  leaked:
+    hours: 24
+    type: symmetric
+BATCH_SIZE: 256
+CLEAN_TEXT_METHOD:
+  typed: weighted_typed_no_after
+  untyped: weighted_no_after
+CLINICAL_LABELS_FILE: "/Users/wanghaoyu/Downloads/\u4E34\u5E8A\u65F6\u5E8F \xD7 \u6587\
+  \u672C\u5BF9\u9F50\u878D\u5408\u57FA\u51C6/\u8BAD\u7EC3\u57FA\u7EBF\u6A21\u578B\
+  /TIMELY-Bench_Final/data/raw/clinical_labels.csv"
+COHORTS:
+- all
+- sepsis
+- aki
+COHORT_FILE: "/Users/wanghaoyu/Downloads/\u4E34\u5E8A\u65F6\u5E8F \xD7 \u6587\u672C\
+  \u5BF9\u9F50\u878D\u5408\u57FA\u51C6/\u8BAD\u7EC3\u57FA\u7EBF\u6A21\u578B/TIMELY-Bench_Final/data/processed/merge_output/cohort_final_extended.csv"
+CANONICAL_RESULTS_DIR: "/Users/wanghaoyu/Downloads/\u4E34\u5E8A\u65F6\u5E8F \xD7\
+  \ \u6587\u672C\u5BF9\u9F50\u878D\u5408\u57FA\u51C6/\u8BAD\u7EC3\u57FA\u7EBF\u6A21\
+  \u578B/TIMELY-Bench_Final/results/note_centered"
+CORE_TASKS:
+- mortality
+- prolonged_los
+DATA_DIR: "/Users/wanghaoyu/Downloads/\u4E34\u5E8A\u65F6\u5E8F \xD7 \u6587\u672C\u5BF9\
+  \u9F50\u878D\u5408\u57FA\u51C6/\u8BAD\u7EC3\u57FA\u7EBF\u6A21\u578B/TIMELY-Bench_Final/data"
+DATA_WINDOWS_DIR: "/Users/wanghaoyu/Downloads/\u4E34\u5E8A\u65F6\u5E8F \xD7 \u6587\
+  \u672C\u5BF9\u9F50\u878D\u5408\u57FA\u51C6/\u8BAD\u7EC3\u57FA\u7EBF\u6A21\u578B\
+  /TIMELY-Bench_Final/data/processed/data_windows"
+DEVICE: null
+DROPOUT: 0.2
+EARLY_STOPPING_MIN_DELTA: 0.0001
+EARLY_STOPPING_PATIENCE: 10
+EPOCHS: 50
+FEATURE_COUNT: 42
+FEATURE_MASKS:
+  mortality: null
+  prolonged_los: null
+  ventilation_onset:
+  - fio2
+  - peep
+  - tidal_volume
+  - minute_volume
+  - sofa_total
+  - sofa_respiration
+  - propofol_rate
+  - midazolam_rate
+HIDDEN_DIM: 64
+LLM_COLS:
+- pneumonia
+- edema
+- pleural_effusion
+- pneumothorax
+- tubes_lines
+LLM_FEATURES_FILE: "/Users/wanghaoyu/Downloads/\u4E34\u5E8A\u65F6\u5E8F \xD7 \u6587\
+  \u672C\u5BF9\u9F50\u878D\u5408\u57FA\u51C6/\u8BAD\u7EC3\u57FA\u7EBF\u6A21\u578B\
+  /TIMELY-Bench_Final/data/llm_features/llm_features_deepseek.csv"
+LR: 0.001
+LR_SCHEDULER_FACTOR: 0.5
+LR_SCHEDULER_MIN_LR: 1.0e-06
+LR_SCHEDULER_PATIENCE: 5
+MERGE_OUTPUT_DIR: "/Users/wanghaoyu/Downloads/\u4E34\u5E8A\u65F6\u5E8F \xD7 \u6587\
+  \u672C\u5BF9\u9F50\u878D\u5408\u57FA\u51C6/\u8BAD\u7EC3\u57FA\u7EBF\u6A21\u578B\
+  /TIMELY-Bench_Final/data/processed/merge_output"
+NOTES_MAX_HOURS: 48
+NOTE_CENTERED_MODE: true
+NOTE_TIME_FILE: "/Users/wanghaoyu/Downloads/\u4E34\u5E8A\u65F6\u5E8F \xD7 \u6587\u672C\
+  \u5BF9\u9F50\u878D\u5408\u57FA\u51C6/\u8BAD\u7EC3\u57FA\u7EBF\u6A21\u578B/TIMELY-Bench_Final/data/raw/note_time.csv"
+NUM_LAYERS: 2
+N_FOLDS: 5
+PATTERN_DETECTION_DIR: "/Users/wanghaoyu/Downloads/\u4E34\u5E8A\u65F6\u5E8F \xD7 \u6587\
+  \u672C\u5BF9\u9F50\u878D\u5408\u57FA\u51C6/\u8BAD\u7EC3\u57FA\u7EBF\u6A21\u578B\
+  /TIMELY-Bench_Final/data/processed/pattern_detection"
+PREDEFINED_SPLITS_FILE: "/Users/wanghaoyu/Downloads/\u4E34\u5E8A\u65F6\u5E8F \xD7\
+  \ \u6587\u672C\u5BF9\u9F50\u878D\u5408\u57FA\u51C6/\u8BAD\u7EC3\u57FA\u7EBF\u6A21\
+  \u578B/TIMELY-Bench_Final/data/splits/predefined_splits.csv"
+PROCESSED_DIR: "/Users/wanghaoyu/Downloads/\u4E34\u5E8A\u65F6\u5E8F \xD7 \u6587\u672C\
+  \u5BF9\u9F50\u878D\u5408\u57FA\u51C6/\u8BAD\u7EC3\u57FA\u7EBF\u6A21\u578B/TIMELY-Bench_Final/data/processed"
+RANDOM_STATE: 42
+RAW_DATA_DIR: "/Users/wanghaoyu/Downloads/\u4E34\u5E8A\u65F6\u5E8F \xD7 \u6587\u672C\
+  \u5BF9\u9F50\u878D\u5408\u57FA\u51C6/\u8BAD\u7EC3\u57FA\u7EBF\u6A21\u578B/TIMELY-Bench_Final/data/raw"
+RESULTS_DIR: "/Users/wanghaoyu/Downloads/\u4E34\u5E8A\u65F6\u5E8F \xD7 \u6587\u672C\
+  \u5BF9\u9F50\u878D\u5408\u57FA\u51C6/\u8BAD\u7EC3\u57FA\u7EBF\u6A21\u578B/TIMELY-Bench_Final/results"
+ROOT_DIR: "/Users/wanghaoyu/Downloads/\u4E34\u5E8A\u65F6\u5E8F \xD7 \u6587\u672C\u5BF9\
+  \u9F50\u878D\u5408\u57FA\u51C6/\u8BAD\u7EC3\u57FA\u7EBF\u6A21\u578B/TIMELY-Bench_Final"
+SPLITS_DIR: "/Users/wanghaoyu/Downloads/\u4E34\u5E8A\u65F6\u5E8F \xD7 \u6587\u672C\
+  \u5BF9\u9F50\u878D\u5408\u57FA\u51C6/\u8BAD\u7EC3\u57FA\u7EBF\u6A21\u578B/TIMELY-Bench_Final/data/splits"
+TASKS:
+- mortality
+- prolonged_los
+TEMPORAL_ALIGNMENT_DIR: "/Users/wanghaoyu/Downloads/\u4E34\u5E8A\u65F6\u5E8F \xD7\
+  \ \u6587\u672C\u5BF9\u9F50\u878D\u5408\u57FA\u51C6/\u8BAD\u7EC3\u57FA\u7EBF\u6A21\
+  \u578B/TIMELY-Bench_Final/data/processed/temporal_alignment"
+TEST_SIZE: 0.2
+TIMESERIES_FILE: "/Users/wanghaoyu/Downloads/\u4E34\u5E8A\u65F6\u5E8F \xD7 \u6587\u672C\
+  \u5BF9\u9F50\u878D\u5408\u57FA\u51C6/\u8BAD\u7EC3\u57FA\u7EBF\u6A21\u578B/TIMELY-Bench_Final/data/raw/timeseries_sorted_extended.csv"
+TIMESERIES_MAX_HOURS: 72
+USE_HOLDOUT_TEST: true
+WINDOWS:
+- 6h
+- 12h
+- 24h
+- D0
+_COHORT_FINAL: "/Users/wanghaoyu/Downloads/\u4E34\u5E8A\u65F6\u5E8F \xD7 \u6587\u672C\
+  \u5BF9\u9F50\u878D\u5408\u57FA\u51C6/\u8BAD\u7EC3\u57FA\u7EBF\u6A21\u578B/TIMELY-Bench_Final/data/processed/merge_output/cohort_final.csv"
+_COHORT_FINAL_EXT: "/Users/wanghaoyu/Downloads/\u4E34\u5E8A\u65F6\u5E8F \xD7 \u6587\
+  \u672C\u5BF9\u9F50\u878D\u5408\u57FA\u51C6/\u8BAD\u7EC3\u57FA\u7EBF\u6A21\u578B\
+  /TIMELY-Bench_Final/data/processed/merge_output/cohort_final_extended.csv"
+_SCRIPT_DIR: "/Users/wanghaoyu/Downloads/\u4E34\u5E8A\u65F6\u5E8F \xD7 \u6587\u672C\
+  \u5BF9\u9F50\u878D\u5408\u57FA\u51C6/\u8BAD\u7EC3\u57FA\u7EBF\u6A21\u578B/TIMELY-Bench_Final/code"
+_SORTED_TIMESERIES: "/Users/wanghaoyu/Downloads/\u4E34\u5E8A\u65F6\u5E8F \xD7 \u6587\
+  \u672C\u5BF9\u9F50\u878D\u5408\u57FA\u51C6/\u8BAD\u7EC3\u57FA\u7EBF\u6A21\u578B\
+  /TIMELY-Bench_Final/data/raw/timeseries_sorted.csv"
+_SORTED_TIMESERIES_EXT: "/Users/wanghaoyu/Downloads/\u4E34\u5E8A\u65F6\u5E8F \xD7\
+  \ \u6587\u672C\u5BF9\u9F50\u878D\u5408\u57FA\u51C6/\u8BAD\u7EC3\u57FA\u7EBF\u6A21\
+  \u578B/TIMELY-Bench_Final/data/raw/timeseries_sorted_extended.csv"

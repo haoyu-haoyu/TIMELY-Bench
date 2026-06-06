@@ -1,0 +1,33 @@
+{
+  "phase6_scope": "phase6c_eval_metadata",
+  "rows": 4929069,
+  "unique_stays": 66485,
+  "path": "data/processed/v3/cres/cres_eval_metadata_manifest.parquet",
+  "by_condition": [
+    {
+      "condition": "aki",
+      "rows": 2456896,
+      "unique_stays": 49920
+    },
+    {
+      "condition": "delirium",
+      "rows": 1512502,
+      "unique_stays": 21628
+    },
+    {
+      "condition": "sepsis",
+      "rows": 898560,
+      "unique_stays": 29713
+    },
+    {
+      "condition": "stroke",
+      "rows": 61111,
+      "unique_stays": 5318
+    }
+  ],
+  "trajectory_tier_rows": 4867958,
+  "left_censored_rows": 1512502,
+  "onset_confidence_rows": 898560,
+  "stroke_layer_rows": 61111,
+  "flags": []
+}

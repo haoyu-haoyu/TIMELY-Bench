@@ -1,0 +1,18 @@
+{
+  "gpt54mini": {
+    "provider": "gpt54mini",
+    "rows": 50,
+    "ok_rows": 50,
+    "parse_success_rows": 50,
+    "parse_success_rate": 1.0,
+    "avg_latency_seconds": 10.33404
+  },
+  "gemini31pro": {
+    "provider": "gemini31pro",
+    "rows": 50,
+    "ok_rows": 50,
+    "parse_success_rows": 50,
+    "parse_success_rate": 1.0,
+    "avg_latency_seconds": 17.116699999999994
+  }
+}

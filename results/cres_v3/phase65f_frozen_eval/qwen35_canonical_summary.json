@@ -1,0 +1,30 @@
+{
+  "provider": "qwen35",
+  "tier": "tier1b",
+  "rows": 53070,
+  "unique_prompt_ids": 53070,
+  "ok_rows": 53070,
+  "parse_success_rows": 53070,
+  "rows_expected": 53070,
+  "parse_success_expected": 53070,
+  "matches_rows_expected": true,
+  "matches_parse_success_expected": true,
+  "status_counts": {
+    "ok": 53070
+  },
+  "avg_latency_seconds": 4.843182174486527,
+  "usage_total_tokens": 285969716,
+  "model_name_counts": {
+    "qwen3.5-flash": 53070
+  },
+  "primary_model_name": "qwen3.5-flash",
+  "parse_error_top": [],
+  "source_mode": "direct_merged",
+  "source_file_count": 1,
+  "source_files": [
+    {
+      "path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65d_tier1b_full/qwen35_full_responses.jsonl",
+      "n_rows": 53070
+    }
+  ]
+}

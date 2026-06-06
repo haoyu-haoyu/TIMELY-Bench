@@ -1,0 +1,33 @@
+{
+  "condition": "aki",
+  "instances": 2456896,
+  "unique_stays": 49920,
+  "tasks": [
+    {
+      "task_id": "AKI-S1",
+      "task_mode": "temporal",
+      "layer": "single_layer",
+      "instances": 1764883,
+      "unique_stays": 48461
+    },
+    {
+      "task_id": "AKI-T1",
+      "task_mode": "temporal",
+      "layer": "single_layer",
+      "instances": 692013,
+      "unique_stays": 40915
+    }
+  ],
+  "representations": {
+    "A_rows": 2456896,
+    "B1_rows": 2456896,
+    "B2_original_rows": 2456896,
+    "B3_rows": 2456896
+  },
+  "trajectory_tier": {
+    "atypical_low_support": 1261554,
+    "low_template_support": 1109073,
+    "atypical_supported": 71877,
+    "typical_supported": 14392
+  }
+}

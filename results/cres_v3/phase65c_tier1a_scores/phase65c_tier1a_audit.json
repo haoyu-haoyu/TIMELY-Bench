@@ -1,0 +1,273 @@
+{
+  "total_prompt_pairs": 47,
+  "auto_scored_prompt_pairs": 20,
+  "deferred_prompt_pairs": 27,
+  "supported_pairs": [
+    {
+      "task_id": "AKI-S1",
+      "dimension_id": "D1",
+      "n_rows": 938,
+      "n_scored_rows": 1820
+    },
+    {
+      "task_id": "AKI-S1",
+      "dimension_id": "D2",
+      "n_rows": 938,
+      "n_scored_rows": 1876
+    },
+    {
+      "task_id": "AKI-T1",
+      "dimension_id": "D1",
+      "n_rows": 1876,
+      "n_scored_rows": 3704
+    },
+    {
+      "task_id": "AKI-T1",
+      "dimension_id": "D2",
+      "n_rows": 1876,
+      "n_scored_rows": 3559
+    },
+    {
+      "task_id": "AKI-T1",
+      "dimension_id": "D5",
+      "n_rows": 1876,
+      "n_scored_rows": 2231
+    },
+    {
+      "task_id": "DEL-S1",
+      "dimension_id": "D1",
+      "n_rows": 938,
+      "n_scored_rows": 1827
+    },
+    {
+      "task_id": "DEL-T1",
+      "dimension_id": "D1",
+      "n_rows": 1875,
+      "n_scored_rows": 3680
+    },
+    {
+      "task_id": "DEL-T1",
+      "dimension_id": "D2",
+      "n_rows": 1875,
+      "n_scored_rows": 3750
+    },
+    {
+      "task_id": "S-R1",
+      "dimension_id": "D4",
+      "n_rows": 469,
+      "n_scored_rows": 709
+    },
+    {
+      "task_id": "S-R2",
+      "dimension_id": "D4",
+      "n_rows": 469,
+      "n_scored_rows": 325
+    },
+    {
+      "task_id": "S-R3",
+      "dimension_id": "D2",
+      "n_rows": 277,
+      "n_scored_rows": 8
+    },
+    {
+      "task_id": "S-R4",
+      "dimension_id": "D4",
+      "n_rows": 469,
+      "n_scored_rows": 830
+    },
+    {
+      "task_id": "S-T1",
+      "dimension_id": "D1",
+      "n_rows": 938,
+      "n_scored_rows": 1858
+    },
+    {
+      "task_id": "S-T1",
+      "dimension_id": "D3",
+      "n_rows": 938,
+      "n_scored_rows": 1848
+    },
+    {
+      "task_id": "S-T2",
+      "dimension_id": "D4",
+      "n_rows": 469,
+      "n_scored_rows": 588
+    },
+    {
+      "task_id": "S-T3",
+      "dimension_id": "D4",
+      "n_rows": 469,
+      "n_scored_rows": 651
+    },
+    {
+      "task_id": "SEP-S1",
+      "dimension_id": "D1",
+      "n_rows": 469,
+      "n_scored_rows": 911
+    },
+    {
+      "task_id": "SEP-T1",
+      "dimension_id": "D1",
+      "n_rows": 1875,
+      "n_scored_rows": 3657
+    },
+    {
+      "task_id": "SEP-T1",
+      "dimension_id": "D2",
+      "n_rows": 1875,
+      "n_scored_rows": 3743
+    },
+    {
+      "task_id": "SEP-T1",
+      "dimension_id": "D5",
+      "n_rows": 1875,
+      "n_scored_rows": 3750
+    }
+  ],
+  "deferred_pairs": [
+    {
+      "task_id": "AKI-S1",
+      "dimension_id": "D3",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "AKI-S1",
+      "dimension_id": "D4",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "AKI-S1",
+      "dimension_id": "D6",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "AKI-T1",
+      "dimension_id": "D3",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "AKI-T1",
+      "dimension_id": "D4",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "AKI-T1",
+      "dimension_id": "D6",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "DEL-S1",
+      "dimension_id": "D3",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "DEL-S1",
+      "dimension_id": "D4",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "DEL-S1",
+      "dimension_id": "D6",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "DEL-T1",
+      "dimension_id": "D3",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "DEL-T1",
+      "dimension_id": "D4",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "DEL-T1",
+      "dimension_id": "D5",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "DEL-T1",
+      "dimension_id": "D6",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "S-R1",
+      "dimension_id": "D6",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "S-R2",
+      "dimension_id": "D6",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "S-R3",
+      "dimension_id": "D6",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "S-R4",
+      "dimension_id": "D6",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "S-T1",
+      "dimension_id": "D4",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "S-T1",
+      "dimension_id": "D6",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "S-T4",
+      "dimension_id": "D3",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "S-T4",
+      "dimension_id": "D6",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "SEP-S1",
+      "dimension_id": "D2",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "SEP-S1",
+      "dimension_id": "D3",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "SEP-S1",
+      "dimension_id": "D6",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "SEP-T1",
+      "dimension_id": "D3",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "SEP-T1",
+      "dimension_id": "D4",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    },
+    {
+      "task_id": "SEP-T1",
+      "dimension_id": "D6",
+      "reason": "judge_only_or_no_direct_ground_truth"
+    }
+  ],
+  "gemini_manual_recovery": {
+    "manual_tail4_count": 4,
+    "manual_parsefix_count": 1
+  },
+  "notes": [
+    "Representation-branch comparisons are not computed in Tier 1A because this run uses only the full_multimodal prompt variant.",
+    "D6 evidence attribution remains deferred to later judge/evidence analyses.",
+    "Some task-dimension combinations are scored with conservative coarse mappings where only partial automatic ground truth is available (e.g. S-T1 D3 worsening vs non-worsening)."
+  ]
+}

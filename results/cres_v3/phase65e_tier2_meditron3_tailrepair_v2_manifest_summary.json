@@ -1,0 +1,8 @@
+{
+  "manifest_path": "results/cres_v3/phase65e_tier2_meditron3_tailrepair_v2_manifest.jsonl",
+  "remaining_rows": 810,
+  "breakdown": {
+    "prior_parse_false": 792,
+    "prior_non_ok": 18
+  }
+}

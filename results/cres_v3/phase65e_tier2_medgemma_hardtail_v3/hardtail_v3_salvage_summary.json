@@ -1,0 +1,7 @@
+{
+  "input_rows": 25,
+  "salvaged_rows": 0,
+  "remaining_rows": 25,
+  "salvaged_output_path": "results/cres_v3/phase65e_tier2_medgemma_hardtail_v3/hardtail_v3_salvaged_rows.jsonl",
+  "postsalvage_manifest_path": "results/cres_v3/phase65e_tier2_medgemma_hardtail_v3/hardtail_v3_singleton_postsalvage_manifest.jsonl"
+}

@@ -1,0 +1,34 @@
+\begin{table*}[t]
+\caption{Structured baselines on eligible binary tasks. Five-fold subject-level cross-validation results for Branch A and Branch B1, reported as mean AUROC and AUPRC.}
+\label{tab:structured_baselines}
+\centering
+\scriptsize
+\begin{tabular}{@{}llllrr@{}}
+\toprule
+Task & Condition & Branch & Model & AUROC & AUPRC \\
+\midrule
+AKI-S1 & AKI & A & xgboost & 0.977 & 0.372 \\
+AKI-S1 & AKI & B1 & temporal\_transformer & 0.978 & 0.346 \\
+AKI-S1 & AKI & B1 & bilstm\_attention & 0.977 & 0.339 \\
+AKI-T1 & AKI & A & xgboost & 0.941 & 0.595 \\
+AKI-T1 & AKI & B1 & bilstm\_attention & 0.949 & 0.603 \\
+AKI-T1 & AKI & B1 & temporal\_transformer & 0.941 & 0.562 \\
+DEL-S1 & Delirium & A & xgboost & 0.918 & 0.702 \\
+DEL-S1 & Delirium & B1 & temporal\_transformer & 0.911 & 0.689 \\
+DEL-S1 & Delirium & B1 & bilstm\_attention & 0.910 & 0.702 \\
+DEL-T1 & Delirium & A & xgboost & 0.916 & 0.692 \\
+DEL-T1 & Delirium & B1 & bilstm\_attention & 0.908 & 0.659 \\
+DEL-T1 & Delirium & B1 & temporal\_transformer & 0.894 & 0.615 \\
+SEP-S1 & Sepsis & A & xgboost & 0.751 & 0.465 \\
+SEP-S1 & Sepsis & B1 & bilstm\_attention & 0.704 & 0.408 \\
+SEP-S1 & Sepsis & B1 & temporal\_transformer & 0.643 & 0.338 \\
+SEP-T1 & Sepsis & A & xgboost & 0.950 & 0.329 \\
+SEP-T1 & Sepsis & B1 & bilstm\_attention & 0.953 & 0.275 \\
+SEP-T1 & Sepsis & B1 & temporal\_transformer & 0.948 & 0.258 \\
+S-T1 & Stroke & A & xgboost & 0.726 & 0.251 \\
+S-T1 & Stroke & B1 & bilstm\_attention & 0.707 & 0.247 \\
+S-T1 & Stroke & B1 & temporal\_transformer & 0.676 & 0.230 \\
+\botrule
+\end{tabular}
+\normalsize
+\end{table*}

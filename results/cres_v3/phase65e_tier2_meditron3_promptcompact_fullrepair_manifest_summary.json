@@ -1,0 +1,19 @@
+{
+  "manifest_path": "results/cres_v3/phase65e_tier2_meditron3_promptcompact_fullrepair_manifest.jsonl",
+  "source_manifest": "results/cres_v3/phase65d_tier1b_full/phase65d_full_manifest_full_multimodal.jsonl",
+  "remaining_rows": 1409,
+  "breakdown": {
+    "parse_false": 1376,
+    "overflow_or_nonok": 33
+  },
+  "sample_prompt_ids": [
+    "AKI-S1::30435030::h46::D4::full_multimodal",
+    "AKI-S1::31020682::h49::D4::full_multimodal",
+    "AKI-S1::31164400::h47::D4::full_multimodal",
+    "AKI-S1::31203838::h46::D4::full_multimodal",
+    "AKI-S1::31517892::h47::D4::full_multimodal",
+    "AKI-S1::31561949::h10::D4::full_multimodal",
+    "AKI-S1::31598080::h46::D3::full_multimodal",
+    "AKI-S1::31858060::h49::D4::full_multimodal"
+  ]
+}

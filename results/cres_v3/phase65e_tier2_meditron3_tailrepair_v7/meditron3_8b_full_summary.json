@@ -1,0 +1,30 @@
+{
+  "provider": "meditron3_8b",
+  "rows": 24,
+  "ok_rows": 24,
+  "parse_success_rows": 9,
+  "parse_success_rate": 0.375,
+  "avg_latency_seconds": 1.8009166666666667,
+  "usage_total_tokens": 78436,
+  "tasks": {
+    "DEL-T1": 2,
+    "S-R1": 3,
+    "S-R2": 12,
+    "S-R3": 2,
+    "S-R4": 5
+  },
+  "task_parse_success_rate": {
+    "DEL-T1": 0.0,
+    "S-R1": 0.3333333333333333,
+    "S-R2": 0.4166666666666667,
+    "S-R3": 0.0,
+    "S-R4": 0.6
+  },
+  "confidence_distribution": {
+    "high": 9
+  },
+  "confidence_distribution_rate": {
+    "high": 1.0
+  },
+  "merged_output_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_meditron3_tailrepair_v7/meditron3_8b_full_responses.jsonl"
+}

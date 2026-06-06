@@ -1,0 +1,17 @@
+{
+  "judge_role": "primary",
+  "judge_provider": "claude",
+  "judge_label": "claude_opus_4_6",
+  "model": "claude-opus-4-6",
+  "base_url": "https://api.ikuncode.cc",
+  "messages_path": "/v1/messages",
+  "total_expected_rows": 2000,
+  "completed_ok_rows": 0,
+  "status_counts": {
+    "http_error": 225
+  },
+  "usage_input_tokens": 0,
+  "usage_output_tokens": 0,
+  "avg_latency_seconds": 1.9766464159223769,
+  "output_jsonl": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_judge_primary_claude_opus_4_6_outputs.jsonl"
+}

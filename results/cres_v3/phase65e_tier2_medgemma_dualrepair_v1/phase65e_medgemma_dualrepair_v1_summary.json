@@ -1,0 +1,9 @@
+{
+  "done_parse_true": 52061,
+  "missing": 163,
+  "fast_remaining": 974,
+  "hard_remaining": 35,
+  "combined_remaining": 1009,
+  "fast_manifest": "results/cres_v3/phase65e_tier2_medgemma_dualrepair_v1/phase65e_medgemma_fast_remaining_974_manifest.jsonl",
+  "hard_manifest": "results/cres_v3/phase65e_tier2_medgemma_dualrepair_v1/phase65e_medgemma_hard_remaining_35_manifest.jsonl"
+}

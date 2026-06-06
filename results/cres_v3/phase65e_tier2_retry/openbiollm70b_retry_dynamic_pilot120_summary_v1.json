@@ -1,0 +1,38 @@
+{
+  "rows": 120,
+  "bucket_counts": {
+    "128_255_low_budget": 40,
+    "256_511_dynamic": 40,
+    "ge512_default512": 40
+  },
+  "task_counts": {
+    "AKI-S1": 12,
+    "AKI-T1": 11,
+    "DEL-S1": 11,
+    "DEL-T1": 11,
+    "S-R1": 9,
+    "S-R2": 9,
+    "S-R3": 9,
+    "S-R4": 9,
+    "S-T1": 9,
+    "S-T3": 3,
+    "S-T4": 9,
+    "SEP-S1": 9,
+    "SEP-T1": 9
+  },
+  "selection_meta": {
+    "ge512_default512": {
+      "target": 40,
+      "selected": 40
+    },
+    "256_511_dynamic": {
+      "target": 40,
+      "selected": 40
+    },
+    "128_255_low_budget": {
+      "target": 40,
+      "selected": 40
+    }
+  },
+  "output_path": "results/cres_v3/phase65e_tier2_retry/openbiollm70b_retry_dynamic_pilot120_v1.jsonl"
+}

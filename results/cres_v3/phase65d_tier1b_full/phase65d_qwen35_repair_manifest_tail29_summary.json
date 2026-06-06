@@ -1,0 +1,5 @@
+{
+  "repair_rows": 29,
+  "manifest_path": "/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final/results/cres_v3/phase65d_tier1b_full/phase65d_qwen35_repair_manifest_tail29.jsonl",
+  "failed_prompt_ids": 29
+}

@@ -1,0 +1,7 @@
+left_judge,right_judge,score_field,n_common_rows,spearman_rho,exact_match_rate,mean_absolute_difference
+claude_opus_4_6,gemini31pro,overall_quality_1to5,2000,0.7827091715807684,0.2835,0.919
+claude_opus_4_6,gemini31pro,clinical_correctness_1to5,2000,0.759452821920331,0.286,0.9515
+claude_opus_4_6,gpt54,overall_quality_1to5,2000,0.8138437327568383,0.5275,0.5215
+claude_opus_4_6,gpt54,clinical_correctness_1to5,2000,0.8075618009175773,0.5115,0.546
+gemini31pro,gpt54,overall_quality_1to5,2000,0.7391922838146653,0.41,0.8315
+gemini31pro,gpt54,clinical_correctness_1to5,2000,0.7187618256290731,0.4115,0.8655

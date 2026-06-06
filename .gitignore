@@ -1,0 +1,43 @@
+.DS_Store
+*.aux
+*.blg
+*.log
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bak*
+*.pyc
+__pycache__/
+.venv*/
+venv/
+node_modules/
+
+# Never commit raw MIMIC-derived extracts or credential material.
+data/
+*.env
+*key*
+*secret*
+*token*
+cohort_final*.csv
+discharge_notes.csv
+nursing_notes.csv
+lab_comments.csv
+note_time.csv
+timeseries*.csv
+patient_text_features.csv
+
+# Large prompt/response artifacts are kept on controlled storage, not GitHub.
+*.jsonl
+results/cres_v3/**/canonical/
+results/cres_v3/**/inputs/
+results/cres_v3/**/downloads/
+results/cres_v3/**/*manifest.jsonl
+results/cres_v3/**/*responses*.jsonl
+results/cres_v3/**/*outputs*.jsonl
+
+# Local duplicate manuscript/export folders not included in the GitHub sync branch.
+paper/KCL version/
+paper/KCL_version/
+paper/KCL_version_formatted_overleaf_package/
+paper/nila_ijcai_2026_workshop/

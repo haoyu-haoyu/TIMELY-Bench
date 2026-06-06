@@ -1,0 +1,13 @@
+tier,condition,macro_primary_score,n_providers
+tier1a,aki,0.7874021024072344,2
+tier1a,delirium,1.0,2
+tier1a,sepsis,0.7758719208042484,2
+tier1a,stroke,0.34611796099844405,2
+tier1b,aki,0.71343769113626,3
+tier1b,delirium,0.9964445707968096,3
+tier1b,sepsis,0.8163752390248132,3
+tier1b,stroke,0.36718438503846507,3
+tier2,aki,0.4237133569769111,4
+tier2,delirium,0.9512,4
+tier2,sepsis,0.6471329436127847,4
+tier2,stroke,0.33781718940104727,4

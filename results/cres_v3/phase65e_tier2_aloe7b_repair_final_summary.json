@@ -1,0 +1,13 @@
+{
+  "provider": "aloe7b",
+  "total_prompts": 53070,
+  "good_structured_rows": 53070,
+  "remaining_bad_rows": 0,
+  "repair_passes": {
+    "v1_jsonstrict": 2689,
+    "v2_compact": 551,
+    "v3_ultracompact": 133,
+    "v4_reformat": 64,
+    "v5_micro": 3
+  }
+}

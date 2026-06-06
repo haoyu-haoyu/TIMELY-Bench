@@ -1,0 +1,81 @@
+{
+  "condition": "stroke",
+  "instances": 61111,
+  "unique_stays": 5318,
+  "tasks": [
+    {
+      "task_id": "S-R1",
+      "task_mode": "retrospective",
+      "layer": "Layer2",
+      "instances": 3912,
+      "unique_stays": 3912
+    },
+    {
+      "task_id": "S-R2",
+      "task_mode": "retrospective",
+      "layer": "Layer2",
+      "instances": 3912,
+      "unique_stays": 3912
+    },
+    {
+      "task_id": "S-R3",
+      "task_mode": "retrospective",
+      "layer": "Layer2",
+      "instances": 277,
+      "unique_stays": 277
+    },
+    {
+      "task_id": "S-R4",
+      "task_mode": "retrospective",
+      "layer": "Layer2",
+      "instances": 3912,
+      "unique_stays": 3912
+    },
+    {
+      "task_id": "S-T1",
+      "task_mode": "temporal",
+      "layer": "Layer1",
+      "instances": 36519,
+      "unique_stays": 4792
+    },
+    {
+      "task_id": "S-T2",
+      "task_mode": "temporal",
+      "layer": "Layer1",
+      "instances": 4952,
+      "unique_stays": 4952
+    },
+    {
+      "task_id": "S-T3",
+      "task_mode": "temporal",
+      "layer": "Layer1",
+      "instances": 2651,
+      "unique_stays": 2651
+    },
+    {
+      "task_id": "S-T4",
+      "task_mode": "temporal",
+      "layer": "Layer1",
+      "instances": 4976,
+      "unique_stays": 4976
+    }
+  ],
+  "representations": {
+    "A_rows": 49098,
+    "B1_rows": 49098,
+    "B2_original_rows": 61111,
+    "B3_rows": 0
+  },
+  "stroke_layer": {
+    "Layer1": 49098,
+    "Layer2": 12013
+  },
+  "stroke_tier": {
+    "A": 46976,
+    "B": 13082,
+    "C": 1053
+  },
+  "stroke_subtype_priority": {
+    "ischaemic": 61111
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "judge_roster": [
+    {
+      "judge_label": "claude_opus_4_6",
+      "judge_role": "primary",
+      "judge_provider": "claude",
+      "judge_model": "claude-opus-4-6",
+      "completed_ok_rows": 2000,
+      "total_expected_rows": 2000,
+      "avg_latency_seconds": 8.853908898830413,
+      "usage_input_tokens": 5258395,
+      "usage_output_tokens": 564635,
+      "repair_applied": false
+    },
+    {
+      "judge_label": "gpt54",
+      "judge_role": "crosscheck",
+      "judge_provider": "gpt54",
+      "judge_model": "gpt-5.4",
+      "completed_ok_rows": 2000,
+      "total_expected_rows": 2000,
+      "avg_latency_seconds": 4.622547389984131,
+      "usage_input_tokens": 12055938,
+      "usage_output_tokens": 337464,
+      "repair_applied": true
+    },
+    {
+      "judge_label": "gemini31pro",
+      "judge_role": "crosscheck",
+      "judge_provider": "gemini31pro",
+      "judge_model": "gemini-3.1-pro-preview",
+      "completed_ok_rows": 2000,
+      "total_expected_rows": 2000,
+      "avg_latency_seconds": 12.99150656092167,
+      "usage_input_tokens": 13339991,
+      "usage_output_tokens": 281819,
+      "repair_applied": true
+    }
+  ],
+  "coverage": {
+    "judge_labels": [
+      "claude_opus_4_6",
+      "gemini31pro",
+      "gpt54"
+    ],
+    "rows_per_judge": {
+      "claude_opus_4_6": 2000,
+      "gemini31pro": 2000,
+      "gpt54": 2000
+    },
+    "common_judge_rows": 2000,
+    "expected_judge_rows_per_judge": 2000
+  },
+  "pairwise_agreement": [
+    {
+      "left_judge": "claude_opus_4_6",
+      "right_judge": "gemini31pro",
+      "score_field": "overall_quality_1to5",
+      "n_common_rows": 2000,
+      "spearman_rho": 0.7827091715807684,
+      "exact_match_rate": 0.2835,
+      "mean_absolute_difference": 0.919
+    },
+    {
+      "left_judge": "claude_opus_4_6",
+      "right_judge": "gemini31pro",
+      "score_field": "clinical_correctness_1to5",
+      "n_common_rows": 2000,
+      "spearman_rho": 0.759452821920331,
+      "exact_match_rate": 0.286,
+      "mean_absolute_difference": 0.9515
+    },
+    {
+      "left_judge": "claude_opus_4_6",
+      "right_judge": "gpt54",
+      "score_field": "overall_quality_1to5",
+      "n_common_rows": 2000,
+      "spearman_rho": 0.8138437327568383,
+      "exact_match_rate": 0.5275,
+      "mean_absolute_difference": 0.5215
+    },
+    {
+      "left_judge": "claude_opus_4_6",
+      "right_judge": "gpt54",
+      "score_field": "clinical_correctness_1to5",
+      "n_common_rows": 2000,
+      "spearman_rho": 0.8075618009175773,
+      "exact_match_rate": 0.5115,
+      "mean_absolute_difference": 0.546
+    },
+    {
+      "left_judge": "gemini31pro",
+      "right_judge": "gpt54",
+      "score_field": "overall_quality_1to5",
+      "n_common_rows": 2000,
+      "spearman_rho": 0.7391922838146653,
+      "exact_match_rate": 0.41,
+      "mean_absolute_difference": 0.8315
+    },
+    {
+      "left_judge": "gemini31pro",
+      "right_judge": "gpt54",
+      "score_field": "clinical_correctness_1to5",
+      "n_common_rows": 2000,
+      "spearman_rho": 0.7187618256290731,
+      "exact_match_rate": 0.4115,
+      "mean_absolute_difference": 0.8655
+    }
+  ],
+  "provider_summary_csv": "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_judge_provider_summary.csv",
+  "condition_summary_csv": "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_judge_condition_summary.csv",
+  "long_scores_csv": "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_judge_scores_long.csv",
+  "agreement_csv": "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_judge_pairwise_agreement.csv",
+  "agreement_json": "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_judge_pairwise_agreement.json",
+  "notes": [
+    "GPT-5.4 appears both as a contestant and as one cross-check judge; Claude Opus 4.6 remains the primary judge.",
+    "Gemini cross-check required a three-stage repair chain because the provider intermittently truncated structured outputs extremely early.",
+    "All three judge outputs are now finalized at 2000/2000 ok rows."
+  ]
+}

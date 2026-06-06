@@ -1,0 +1,23 @@
+{
+  "provider": "meditron3_8b",
+  "model_name": "meditron3-8b",
+  "manifest_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_meditron3_repairpilot40_manifest.jsonl",
+  "rows_requested": 40,
+  "rows_found": 40,
+  "missing_rows": 0,
+  "ok_rows": 40,
+  "parse_success_rows": 24,
+  "ok_rate": 1.0,
+  "parse_success_rate": 0.6,
+  "avg_latency_seconds": 17.01665,
+  "usage_total_tokens": 313588,
+  "status_counts": {
+    "ok": 40
+  },
+  "top_parse_errors": {
+    "JSONDecodeError: Unterminated string starting at: line 2 column 16 (char 17)": 13,
+    "JSONDecodeError: Expecting ',' delimiter: line 155 column 79 (char 13550)": 1,
+    "JSONDecodeError: Expecting ',' delimiter: line 164 column 79 (char 12941)": 1,
+    "JSONDecodeError: Expecting ',' delimiter: line 165 column 74 (char 12706)": 1
+  }
+}

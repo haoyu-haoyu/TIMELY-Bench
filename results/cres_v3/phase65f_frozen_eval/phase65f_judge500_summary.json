@@ -1,0 +1,127 @@
+{
+  "judge_seed": 65,
+  "prompt_instances": 500,
+  "judged_response_rows": 2000,
+  "contestant_roster_mode": "manual_fixed_vendor_diversity_and_parameter_range_coverage",
+  "contestant_roster_rationale": "vendor diversity + parameter range coverage",
+  "contestant_roster": [
+    {
+      "provider": "gpt54",
+      "tier": "tier1a",
+      "overall_macro_primary_score": 0.625743927760498,
+      "supported_pairs_scored": 20,
+      "primary_model_name": "gpt-5.4",
+      "avg_latency_seconds": 11.400645411720369,
+      "usage_total_tokens": 264064840,
+      "rows_actual": 53070,
+      "ok_rows_actual": 53070,
+      "parse_success_actual": 53070,
+      "pair_win_count": 9,
+      "judge_roster_order": 0,
+      "selection_rule": "manual_fixed_vendor_diversity_and_parameter_range_coverage",
+      "selection_rationale": "vendor diversity + parameter range coverage",
+      "judge_overlap_note": "GPT-5.4 is included both as a contestant and as one cross-check judge. Bias risk is documented as controlled because Claude Opus 4.6 remains the primary judge and GPT-5.4 contributes only one of two cross-check opinions."
+    },
+    {
+      "provider": "deepseek_chat",
+      "tier": "tier1b",
+      "overall_macro_primary_score": 0.634617923575605,
+      "supported_pairs_scored": 20,
+      "primary_model_name": "deepseek-chat",
+      "avg_latency_seconds": 12.710874957603163,
+      "usage_total_tokens": 261196668,
+      "rows_actual": 53070,
+      "ok_rows_actual": 53070,
+      "parse_success_actual": 53070,
+      "pair_win_count": 10,
+      "judge_roster_order": 1,
+      "selection_rule": "manual_fixed_vendor_diversity_and_parameter_range_coverage",
+      "selection_rationale": "vendor diversity + parameter range coverage",
+      "judge_overlap_note": ""
+    },
+    {
+      "provider": "aloe70b",
+      "tier": "tier2",
+      "overall_macro_primary_score": 0.5192572290958598,
+      "supported_pairs_scored": 20,
+      "primary_model_name": "llama31-aloe-beta-70b",
+      "avg_latency_seconds": 5.709786056152252,
+      "usage_total_tokens": 258039766,
+      "rows_actual": 53070,
+      "ok_rows_actual": 53070,
+      "parse_success_actual": 53070,
+      "pair_win_count": 11,
+      "judge_roster_order": 2,
+      "selection_rule": "manual_fixed_vendor_diversity_and_parameter_range_coverage",
+      "selection_rationale": "vendor diversity + parameter range coverage",
+      "judge_overlap_note": ""
+    },
+    {
+      "provider": "medgemma15_4b_it",
+      "tier": "tier2",
+      "overall_macro_primary_score": 0.5345341969532528,
+      "supported_pairs_scored": 20,
+      "primary_model_name": "medgemma-1.5-4b-it",
+      "avg_latency_seconds": 71.57247964951951,
+      "usage_total_tokens": 285394344,
+      "rows_actual": 53070,
+      "ok_rows_actual": 53070,
+      "parse_success_actual": 53070,
+      "pair_win_count": 8,
+      "judge_roster_order": 3,
+      "selection_rule": "manual_fixed_vendor_diversity_and_parameter_range_coverage",
+      "selection_rationale": "vendor diversity + parameter range coverage",
+      "judge_overlap_note": ""
+    }
+  ],
+  "judge_model_roster": {
+    "primary_judge": "Claude Opus 4.6",
+    "cross_check_judges": [
+      "GPT-5.4",
+      "Gemini 3.1 Pro"
+    ]
+  },
+  "contestant_judge_overlap_note": "GPT-5.4 is included both as a contestant and as one cross-check judge. Bias risk is documented as controlled because Claude Opus 4.6 remains the primary judge and GPT-5.4 contributes only one of two cross-check opinions.",
+  "composition_by_condition": [
+    {
+      "condition": "aki",
+      "target_total": 125,
+      "selected_total": 125,
+      "selected_deferred": 75,
+      "selected_prediction_disagreement": 50,
+      "selected_confidence_disagreement_secondary": 0
+    },
+    {
+      "condition": "delirium",
+      "target_total": 125,
+      "selected_total": 125,
+      "selected_deferred": 75,
+      "selected_prediction_disagreement": 50,
+      "selected_confidence_disagreement_secondary": 0
+    },
+    {
+      "condition": "sepsis",
+      "target_total": 125,
+      "selected_total": 125,
+      "selected_deferred": 75,
+      "selected_prediction_disagreement": 50,
+      "selected_confidence_disagreement_secondary": 0
+    },
+    {
+      "condition": "stroke",
+      "target_total": 125,
+      "selected_total": 125,
+      "selected_deferred": 75,
+      "selected_prediction_disagreement": 50,
+      "selected_confidence_disagreement_secondary": 0
+    }
+  ],
+  "outputs": {
+    "prompt_instances_manifest": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_judge500_prompt_instances.jsonl",
+    "judge_response_manifest": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_judge500_manifest.jsonl",
+    "judge_rubric": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_judge_rubric.md",
+    "judge_contestant_roster": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_judge_contestant_roster.json",
+    "legacy_tier_representatives_alias": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_tier_representatives.json"
+  },
+  "execution_status": "manifest_ready_judge_calls_not_executed"
+}

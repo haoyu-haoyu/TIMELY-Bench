@@ -1,0 +1,30 @@
+{
+  "provider": "meditron3_8b",
+  "model_name": "meditron3-8b",
+  "manifest_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_meditron3_repairpilot24_promptcompact_manifest.jsonl",
+  "rows_requested": 24,
+  "rows_found": 24,
+  "missing_rows": 0,
+  "ok_rows": 21,
+  "parse_success_rows": 11,
+  "ok_rate": 0.875,
+  "parse_success_rate": 0.4583333333333333,
+  "avg_latency_seconds": 4.0047500000000005,
+  "usage_total_tokens": 298245,
+  "status_counts": {
+    "http_error": 3,
+    "ok": 21
+  },
+  "top_parse_errors": {
+    "JSONDecodeError: Expecting ',' delimiter: line 19 column 6 (char 518)": 1,
+    "JSONDecodeError: Expecting ',' delimiter: line 25 column 8 (char 526)": 1,
+    "JSONDecodeError: Expecting ',' delimiter: line 7 column 4 (char 703)": 1,
+    "JSONDecodeError: Expecting ',' delimiter: line 8 column 6 (char 365)": 1,
+    "JSONDecodeError: Expecting ',' delimiter: line 16 column 6 (char 483)": 1,
+    "JSONDecodeError: Expecting ',' delimiter: line 20 column 6 (char 491)": 1,
+    "JSONDecodeError: Expecting ',' delimiter: line 9 column 6 (char 570)": 1,
+    "JSONDecodeError: Unterminated string starting at: line 8 column 22 (char 280)": 1,
+    "JSONDecodeError: Expecting ',' delimiter: line 24 column 6 (char 549)": 1,
+    "JSONDecodeError: Unterminated string starting at: line 7 column 15 (char 389)": 1
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "repair_manifest": "results/cres_v3/phase65e_tier2_medgemma_repair33210778_compact1800/phase65e_medgemma_remaining_1157_max1800.jsonl",
+  "repair_count": 1157,
+  "counts": {
+    "missing": 214,
+    "parse_fail": 943,
+    "non_ok": 0
+  }
+}

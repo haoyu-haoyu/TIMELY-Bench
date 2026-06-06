@@ -1,0 +1,56 @@
+[
+  {
+    "left_judge": "claude_opus_4_6",
+    "right_judge": "gemini31pro",
+    "score_field": "overall_quality_1to5",
+    "n_common_rows": 2000,
+    "spearman_rho": 0.7827091715807684,
+    "exact_match_rate": 0.2835,
+    "mean_absolute_difference": 0.919
+  },
+  {
+    "left_judge": "claude_opus_4_6",
+    "right_judge": "gemini31pro",
+    "score_field": "clinical_correctness_1to5",
+    "n_common_rows": 2000,
+    "spearman_rho": 0.759452821920331,
+    "exact_match_rate": 0.286,
+    "mean_absolute_difference": 0.9515
+  },
+  {
+    "left_judge": "claude_opus_4_6",
+    "right_judge": "gpt54",
+    "score_field": "overall_quality_1to5",
+    "n_common_rows": 2000,
+    "spearman_rho": 0.8138437327568383,
+    "exact_match_rate": 0.5275,
+    "mean_absolute_difference": 0.5215
+  },
+  {
+    "left_judge": "claude_opus_4_6",
+    "right_judge": "gpt54",
+    "score_field": "clinical_correctness_1to5",
+    "n_common_rows": 2000,
+    "spearman_rho": 0.8075618009175773,
+    "exact_match_rate": 0.5115,
+    "mean_absolute_difference": 0.546
+  },
+  {
+    "left_judge": "gemini31pro",
+    "right_judge": "gpt54",
+    "score_field": "overall_quality_1to5",
+    "n_common_rows": 2000,
+    "spearman_rho": 0.7391922838146653,
+    "exact_match_rate": 0.41,
+    "mean_absolute_difference": 0.8315
+  },
+  {
+    "left_judge": "gemini31pro",
+    "right_judge": "gpt54",
+    "score_field": "clinical_correctness_1to5",
+    "n_common_rows": 2000,
+    "spearman_rho": 0.7187618256290731,
+    "exact_match_rate": 0.4115,
+    "mean_absolute_difference": 0.8655
+  }
+]

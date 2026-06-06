@@ -1,0 +1,29 @@
+{
+  "provider": "openbiollm70b",
+  "model_name": "openbio-70b",
+  "manifest_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_retry/openbiollm70b_retry_dynamic_eligible2071_v1.jsonl",
+  "rows_requested": 2071,
+  "rows_found": 2071,
+  "missing_rows": 0,
+  "ok_rows": 2071,
+  "parse_success_rows": 1938,
+  "ok_rate": 1.0,
+  "parse_success_rate": 0.9357798165137615,
+  "avg_latency_seconds": 5.691106711733471,
+  "usage_total_tokens": 15768269,
+  "status_counts": {
+    "ok": 2071
+  },
+  "top_parse_errors": {
+    "JSONDecodeError: Unterminated string starting at: line 1 column 15 (char 14)": 14,
+    "JSONDecodeError: Expecting ',' delimiter: line 1 column 1761 (char 1760)": 2,
+    "JSONDecodeError: Expecting ',' delimiter: line 1 column 1734 (char 1733)": 2,
+    "JSONDecodeError: Expecting ',' delimiter: line 1 column 1731 (char 1730)": 2,
+    "JSONDecodeError: Expecting ',' delimiter: line 1 column 701 (char 700)": 1,
+    "JSONDecodeError: Unterminated string starting at: line 1 column 752 (char 751)": 1,
+    "JSONDecodeError: Expecting ',' delimiter: line 1 column 558 (char 557)": 1,
+    "JSONDecodeError: Expecting ',' delimiter: line 1 column 730 (char 729)": 1,
+    "JSONDecodeError: Expecting ',' delimiter: line 1 column 474 (char 473)": 1,
+    "JSONDecodeError: Unterminated string starting at: line 1 column 606 (char 605)": 1
+  }
+}
