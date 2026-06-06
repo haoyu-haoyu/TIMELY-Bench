@@ -38,6 +38,8 @@ results/v3/feasibility_remote/stroke_text_strategy_audit_fresh_v3.json
 *key*
 *secret*
 *token*
+!results/cres_v3/phase65e_tier2_retry/openbiollm70b_retry_token_audit_summary_v1.json
+!results/cres_v3/phase65e_tier2_retry/openbiollm70b_retry_token_audit_summary_v2.json
 
 # Archive, backup, logs, and local-only outputs.
 archive/

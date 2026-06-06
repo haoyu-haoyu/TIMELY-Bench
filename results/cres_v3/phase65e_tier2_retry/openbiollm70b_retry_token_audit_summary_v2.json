@@ -1,0 +1,159 @@
+{
+  "manifest_rows": 8101,
+  "model_name": "aaditya/Llama3-OpenBioLLM-70B",
+  "context_limit": 8192,
+  "safety_margin": 64,
+  "default_max_tokens": 512,
+  "input_tokens_est_summary": {
+    "mean": 10934.26,
+    "median": 9406,
+    "p75": 12070,
+    "p90": 17268,
+    "p95": 20173,
+    "p99": 27622,
+    "min": 1740,
+    "max": 34677
+  },
+  "available_tokens_est_summary": {
+    "mean": 175.05,
+    "median": 0,
+    "p75": 173,
+    "p90": 726,
+    "p95": 853,
+    "p99": 965,
+    "min": 0,
+    "max": 6388
+  },
+  "budget_bucket_counts": {
+    "128_255_low_budget": 227,
+    "256_511_dynamic": 492,
+    "ge512_default512": 1352,
+    "lt128_compaction": 6030
+  },
+  "needs_compaction_rows": 6030,
+  "eligible_without_compaction_rows": 2071,
+  "tasks": {
+    "AKI-S1": {
+      "rows": 388,
+      "budget_buckets": {
+        "128_255_low_budget": 10,
+        "256_511_dynamic": 46,
+        "ge512_default512": 147,
+        "lt128_compaction": 185
+      }
+    },
+    "AKI-T1": {
+      "rows": 481,
+      "budget_buckets": {
+        "128_255_low_budget": 24,
+        "256_511_dynamic": 30,
+        "ge512_default512": 157,
+        "lt128_compaction": 270
+      }
+    },
+    "DEL-S1": {
+      "rows": 648,
+      "budget_buckets": {
+        "128_255_low_budget": 40,
+        "256_511_dynamic": 44,
+        "ge512_default512": 136,
+        "lt128_compaction": 428
+      }
+    },
+    "DEL-T1": {
+      "rows": 2018,
+      "budget_buckets": {
+        "128_255_low_budget": 60,
+        "256_511_dynamic": 160,
+        "ge512_default512": 340,
+        "lt128_compaction": 1458
+      }
+    },
+    "S-R1": {
+      "rows": 586,
+      "budget_buckets": {
+        "128_255_low_budget": 4,
+        "256_511_dynamic": 8,
+        "ge512_default512": 42,
+        "lt128_compaction": 532
+      }
+    },
+    "S-R2": {
+      "rows": 588,
+      "budget_buckets": {
+        "128_255_low_budget": 4,
+        "256_511_dynamic": 8,
+        "ge512_default512": 44,
+        "lt128_compaction": 532
+      }
+    },
+    "S-R3": {
+      "rows": 328,
+      "budget_buckets": {
+        "128_255_low_budget": 4,
+        "256_511_dynamic": 20,
+        "ge512_default512": 40,
+        "lt128_compaction": 264
+      }
+    },
+    "S-R4": {
+      "rows": 586,
+      "budget_buckets": {
+        "128_255_low_budget": 4,
+        "256_511_dynamic": 8,
+        "ge512_default512": 42,
+        "lt128_compaction": 532
+      }
+    },
+    "S-T1": {
+      "rows": 736,
+      "budget_buckets": {
+        "128_255_low_budget": 38,
+        "256_511_dynamic": 58,
+        "ge512_default512": 96,
+        "lt128_compaction": 544
+      }
+    },
+    "S-T2": {
+      "rows": 11,
+      "budget_buckets": {
+        "lt128_compaction": 11
+      }
+    },
+    "S-T3": {
+      "rows": 4,
+      "budget_buckets": {
+        "ge512_default512": 3,
+        "lt128_compaction": 1
+      }
+    },
+    "S-T4": {
+      "rows": 356,
+      "budget_buckets": {
+        "128_255_low_budget": 12,
+        "256_511_dynamic": 40,
+        "ge512_default512": 66,
+        "lt128_compaction": 238
+      }
+    },
+    "SEP-S1": {
+      "rows": 688,
+      "budget_buckets": {
+        "128_255_low_budget": 8,
+        "256_511_dynamic": 24,
+        "ge512_default512": 64,
+        "lt128_compaction": 592
+      }
+    },
+    "SEP-T1": {
+      "rows": 683,
+      "budget_buckets": {
+        "128_255_low_budget": 19,
+        "256_511_dynamic": 46,
+        "ge512_default512": 175,
+        "lt128_compaction": 443
+      }
+    }
+  },
+  "output_path": "results/cres_v3/phase65e_tier2_retry/openbiollm70b_retry_manifest_audited_v2.jsonl"
+}

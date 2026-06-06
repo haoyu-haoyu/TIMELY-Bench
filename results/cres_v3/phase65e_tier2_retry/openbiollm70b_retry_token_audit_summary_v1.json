@@ -1,0 +1,119 @@
+{
+  "manifest_rows": 8101,
+  "model_name": "aaditya/Llama3-OpenBioLLM-70B",
+  "context_limit": 8192,
+  "safety_margin": 64,
+  "default_max_tokens": 512,
+  "input_tokens_est_summary": {
+    "mean": 2.0,
+    "median": 2,
+    "p75": 2,
+    "p90": 2,
+    "p95": 2,
+    "p99": 2,
+    "min": 2,
+    "max": 2
+  },
+  "available_tokens_est_summary": {
+    "mean": 8126.0,
+    "median": 8126,
+    "p75": 8126,
+    "p90": 8126,
+    "p95": 8126,
+    "p99": 8126,
+    "min": 8126,
+    "max": 8126
+  },
+  "budget_bucket_counts": {
+    "ge512_default512": 8101
+  },
+  "needs_compaction_rows": 0,
+  "eligible_without_compaction_rows": 8101,
+  "tasks": {
+    "AKI-S1": {
+      "rows": 388,
+      "budget_buckets": {
+        "ge512_default512": 388
+      }
+    },
+    "AKI-T1": {
+      "rows": 481,
+      "budget_buckets": {
+        "ge512_default512": 481
+      }
+    },
+    "DEL-S1": {
+      "rows": 648,
+      "budget_buckets": {
+        "ge512_default512": 648
+      }
+    },
+    "DEL-T1": {
+      "rows": 2018,
+      "budget_buckets": {
+        "ge512_default512": 2018
+      }
+    },
+    "S-R1": {
+      "rows": 586,
+      "budget_buckets": {
+        "ge512_default512": 586
+      }
+    },
+    "S-R2": {
+      "rows": 588,
+      "budget_buckets": {
+        "ge512_default512": 588
+      }
+    },
+    "S-R3": {
+      "rows": 328,
+      "budget_buckets": {
+        "ge512_default512": 328
+      }
+    },
+    "S-R4": {
+      "rows": 586,
+      "budget_buckets": {
+        "ge512_default512": 586
+      }
+    },
+    "S-T1": {
+      "rows": 736,
+      "budget_buckets": {
+        "ge512_default512": 736
+      }
+    },
+    "S-T2": {
+      "rows": 11,
+      "budget_buckets": {
+        "ge512_default512": 11
+      }
+    },
+    "S-T3": {
+      "rows": 4,
+      "budget_buckets": {
+        "ge512_default512": 4
+      }
+    },
+    "S-T4": {
+      "rows": 356,
+      "budget_buckets": {
+        "ge512_default512": 356
+      }
+    },
+    "SEP-S1": {
+      "rows": 688,
+      "budget_buckets": {
+        "ge512_default512": 688
+      }
+    },
+    "SEP-T1": {
+      "rows": 683,
+      "budget_buckets": {
+        "ge512_default512": 683
+      }
+    }
+  },
+  "output_path": "results/cres_v3/phase65e_tier2_retry/openbiollm70b_retry_manifest_audited_v1.jsonl"
+}
