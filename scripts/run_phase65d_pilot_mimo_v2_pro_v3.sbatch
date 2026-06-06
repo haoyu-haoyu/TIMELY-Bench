@@ -12,8 +12,8 @@ set -euo pipefail
 cd /scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final
 mkdir -p logs/v3 results/cres_v3/phase65d_tier1b_pilot
 
-ENV_FILE=/users/k25113331/.phase65d_gemma4_26b.env
-if [ -f "$ENV_FILE" ]; then
+ENV_FILE="${TIER1B_GEMMA4_26B_ENV_FILE:-}"
+if [ -n "$ENV_FILE" ] && [ -f "$ENV_FILE" ]; then
   set -a
   source "$ENV_FILE"
   set +a

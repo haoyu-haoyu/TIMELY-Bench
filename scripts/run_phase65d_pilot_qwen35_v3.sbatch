@@ -12,8 +12,8 @@ set -euo pipefail
 cd /scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final
 mkdir -p logs/v3 results/cres_v3/phase65d_tier1b_pilot
 
-ENV_FILE=/users/k25113331/.phase65d_qwen35.env
-if [ -f "$ENV_FILE" ]; then
+ENV_FILE="${TIER1B_QWEN35_ENV_FILE:-}"
+if [ -n "$ENV_FILE" ] && [ -f "$ENV_FILE" ]; then
   set -a
   source "$ENV_FILE"
   set +a

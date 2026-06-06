@@ -17,9 +17,10 @@
 - `results/cres/`
   - Supplementary clinical reasoning evaluation track
   - Not counted in the 113 canonical benchmark experiments
-- `results/llm_annotations/`
-  - Annotation assets and annotation-specific audit records
-  - Not benchmark result tables
+- LLM annotation assets
+  - Annotation prompts and outputs are not stored in the public GitHub export
+  - Aggregate annotation summaries may be released when they do not include
+    note excerpts or patient-level identifiers
 
 ## Project-wide audits
 
@@ -36,5 +37,6 @@
 
 ## Archived legacy tracks
 
-- `archive/legacy_consolidated/root_cleanup/`
-  - Deprecated legacy tracks that are no longer part of the active project scope
+- Deprecated legacy tracks are not part of the active project scope and are not
+  retained in the public GitHub export unless they are needed for a documented
+  reproducibility check.

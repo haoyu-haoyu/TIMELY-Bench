@@ -18,7 +18,7 @@ if [ -f /scratch/users/k25113331/venvs/timer/bin/activate ]; then
   source /scratch/users/k25113331/venvs/timer/bin/activate
 fi
 
-export CLIPROXY_KEY="$(cat /users/k25113331/.phase65c_gemini31pro.key)"
+: "${CLIPROXY_KEY:?export CLIPROXY_KEY before submitting this job}"
 export OPENAI_API_KEY="$CLIPROXY_KEY"
 export OPENAI_BASE_URL="http://127.0.0.1:18317/v1"
 

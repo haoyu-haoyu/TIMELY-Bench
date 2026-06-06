@@ -2,10 +2,14 @@
 
 TIMELY-Bench is a benchmark dataset for **time-aligned fusion** of ICU structured time-series and clinical text derived from MIMIC-IV.
 
-This repository currently contains **two episode formats**:
+The controlled benchmark build uses **two episode formats**:
 
 1. **Canonical v2.0 episodes (recommended):** per-episode JSON files in `episodes/episodes_enhanced/` (schema version is recorded in `metadata.schema_version`).
 2. **Legacy v1 JSONL snapshot:** `dataset/timely_bench_episodes.jsonl` (older schema using `notes_spans` / `pattern_detections`).
+
+Patient-level episode files are **not included in this public GitHub export**.
+They must be reconstructed from credentialed MIMIC-IV access or obtained through
+an approved controlled release channel.
 
 All dataset-level reporting in the paper and in `results/` uses the **v2.0 episode format**.
 
@@ -18,8 +22,8 @@ Each episode file `episodes/episodes_enhanced/TIMELY_v2_*.json` is a single ICU 
 ```json
 {
   "episode_id": "TIMELY_v2_<stay_id>",
-  "stay_id": 30000153,
-  "patient": { "subject_id": 123456 },
+  "stay_id": "<mimic_iv_stay_id>",
+  "patient": { "subject_id": "<mimic_iv_subject_id>" },
   "metadata": {
     "schema_version": "TIMELY-Episode/2.x",
     "observation_window_hours": 24,
@@ -45,7 +49,7 @@ Each episode file `episodes/episodes_enhanced/TIMELY_v2_*.json` is a single ICU 
     "note_types": ["nursing", "lab_comment"],
     "notes": [
       {
-        "note_id": "218174_nursing",
+        "note_id": "<note_id>_nursing",
         "note_type": "nursing",
         "note_category": "Routine Vital Signs: Heart Rhythm",
         "chart_hour": 2,
@@ -86,7 +90,7 @@ Notes:
 
 ## 2. Dataset Statistics (v2.0)
 
-Canonical statistics are stored in `dataset/dataset_stats.json`:
+Canonical statistics are reported in the paper and release summaries:
 
 - Total Episodes: 74,829
 - Episodes with Notes: 74,811
@@ -102,13 +106,13 @@ Canonical statistics are stored in `dataset/dataset_stats.json`:
 
 ### Recommended (v2.0)
 
-- `episodes/episodes_enhanced/`: canonical per-episode JSON files (v2.0 schema).
-- `dataset/dataset_stats.json`: dataset-level counts used by the report/paper.
+- `episodes/episodes_enhanced/`: canonical per-episode JSON files (v2.0 schema; controlled storage only, not public GitHub).
+- `dataset/dataset_stats.json`: dataset-level counts used by the report/paper when available in controlled builds.
 - `final_release/`: release bundle (condition graphs, physiology templates, QC, evidence, CRES).
 
 ### Legacy (v1 snapshot)
 
-- `dataset/timely_bench_episodes.jsonl`: older JSONL episode format.
+- `dataset/timely_bench_episodes.jsonl`: older JSONL episode format (controlled storage only, not public GitHub).
 - `dataset/sample_episodes.json`, `dataset/condition_graph.json`: older artefacts kept for backward compatibility.
 
 ---

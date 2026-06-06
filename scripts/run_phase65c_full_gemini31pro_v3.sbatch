@@ -13,7 +13,7 @@ cd /scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final
 mkdir -p logs/v3 results/cres_v3/phase65c_tier1a_full
 
 export IKUNCODE_BASE_URL="https://www.vibeapi.cn"
-export IKUNCODE_API_KEY="$(cat /users/k25113331/.phase65c_vibeapi_gemini.key)"
+: "${IKUNCODE_API_KEY:?export IKUNCODE_API_KEY before submitting this job}"
 
 python3 -u code/v3/run_phase65c_tier1a_full_v3.py \
   --mode run_provider_shard \

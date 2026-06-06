@@ -15,12 +15,18 @@ patient_text_features.csv
 
 # Large prompt/response artifacts are kept on controlled storage, not GitHub.
 *.jsonl
+*.parquet
 results/cres_v3/**/canonical/
 results/cres_v3/**/inputs/
 results/cres_v3/**/downloads/
 results/cres_v3/**/*manifest.jsonl
 results/cres_v3/**/*responses*.jsonl
 results/cres_v3/**/*outputs*.jsonl
+results/cres_v3/**/phase65f_scored_prompts.parquet
+results/cres_v3/**/phase65f_judge_scores_long.csv
+results/cres/**/model_runs/
+results/cres/**/*.jsonl
+final_release/cres/**/*.jsonl
 
 # Keep lightweight source/config/result metadata, but exclude arbitrary JSON/CSV by default.
 *.csv
@@ -32,6 +38,12 @@ results/cres_v3/**/*outputs*.jsonl
 results/v3/feasibility_remote/stroke_open_questions_audit.json
 results/v3/feasibility_remote/stroke_text_strategy_audit.json
 results/v3/feasibility_remote/stroke_text_strategy_audit_fresh_v3.json
+results/fusion_baselines/predictions/
+results/llm_annotations/
+final_release/llm_annotations/
+results/audit/nursing_duplicates_by_stay.csv
+results/audit/nursing_duplicates_recheck.json
+results/audit/subject_multiplicity.json
 
 # Credential material.
 *.env
@@ -44,6 +56,8 @@ results/v3/feasibility_remote/stroke_text_strategy_audit_fresh_v3.json
 # Archive, backup, logs, and local-only outputs.
 archive/
 legacy_archive/
+documentation/archive_legacy/
+results/audit/archive_legacy/
 logs/
 models/
 report/
