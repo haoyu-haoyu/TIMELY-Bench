@@ -1,0 +1,132 @@
+{
+  "cohort_update": {
+    "broad_stroke_stays": 10653,
+    "assignment_missing_stays": 0,
+    "assignment_rows": 10653,
+    "assignment_source_breakdown": [
+      {
+        "source": "diagnoses_parquet",
+        "n_stays": 9217
+      },
+      {
+        "source": "cohort_icd_fallback",
+        "n_stays": 1436
+      }
+    ],
+    "cohort_csv_columns_written": [
+      "stroke_subtype_priority",
+      "stroke_subtype_mixed"
+    ]
+  },
+  "nursing_timeline": {
+    "total_rows": 1094518,
+    "unique_stays": 5480,
+    "incremental_rows": 723494,
+    "non_incremental_rows": 371024,
+    "category_distribution": [
+      {
+        "category": "Neurological GCS - Motor Response",
+        "n_rows": 183382
+      },
+      {
+        "category": "Neurological Strength R Arm",
+        "n_rows": 109362
+      },
+      {
+        "category": "Neurological Strength R Leg",
+        "n_rows": 109200
+      },
+      {
+        "category": "Neurological Strength L Arm",
+        "n_rows": 109186
+      },
+      {
+        "category": "Neurological Strength L Leg",
+        "n_rows": 108991
+      },
+      {
+        "category": "Neurological Commands Response",
+        "n_rows": 106892
+      },
+      {
+        "category": "Neurological GCS - Eye Opening",
+        "n_rows": 98938
+      },
+      {
+        "category": "Neurological GCS - Verbal Response",
+        "n_rows": 88704
+      },
+      {
+        "category": "Neurological Orientation",
+        "n_rows": 46038
+      },
+      {
+        "category": "Neurological RL Strength/Movement",
+        "n_rows": 27619
+      },
+      {
+        "category": "Neurological LL Strength/Movement",
+        "n_rows": 27547
+      },
+      {
+        "category": "Neurological LU Strength/Movement",
+        "n_rows": 27193
+      },
+      {
+        "category": "Neurological RU Strength/Movement",
+        "n_rows": 27033
+      },
+      {
+        "category": "Neurological Speech",
+        "n_rows": 24433
+      }
+    ]
+  },
+  "radiology_timeline": {
+    "total_rows": 14946,
+    "unique_stays": 3552,
+    "temporal_category_distribution": [
+      {
+        "temporal_category": "early_diagnostic",
+        "n_rows": 5353
+      },
+      {
+        "temporal_category": "follow_up",
+        "n_rows": 9593
+      }
+    ]
+  },
+  "metadata": {
+    "total_rows": 5505,
+    "unique_stays": 5505,
+    "tier_distribution": [
+      {
+        "tier": "A",
+        "n_stays": 3570
+      },
+      {
+        "tier": "B",
+        "n_stays": 1406
+      },
+      {
+        "tier": "C",
+        "n_stays": 342
+      },
+      {
+        "tier": "D",
+        "n_stays": 187
+      }
+    ],
+    "layer1_eligible_stays": 4976,
+    "layer2_eligible_stays": 3912,
+    "has_discharge_summary_stays": 3912,
+    "expected_tier_distribution": {
+      "A": 3570,
+      "B": 1406,
+      "C": 342,
+      "D": 187
+    }
+  },
+  "tier_mismatches": {},
+  "flags": []
+}

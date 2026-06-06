@@ -1,0 +1,390 @@
+{
+  "gcs_dedup_rule": {
+    "decision": "Nursing GCS rows are retained in raw extraction but excluded from incremental Layer 1 stroke features, tier counts, and model-facing neuro observation counts.",
+    "structured_channel_keeps_gcs": true,
+    "nursing_incremental_channel_excludes_gcs": true,
+    "tier_counts_default_to_incremental_no_gcs": true
+  },
+  "priority_based_ischaemic_subset": {
+    "subset_name": "priority_based_ischaemic",
+    "n_stays": 5505,
+    "n_hadm": 4858,
+    "n_mixed_conflict_stays": 762,
+    "pct_mixed_conflict_stays": 13.84,
+    "primary_dx_flag_pct": 51.64,
+    "discharge_coverage": {
+      "n_hadm_with_discharge": 3474,
+      "pct_hadm_with_discharge": 71.51,
+      "n_stays_with_discharge": 3912,
+      "pct_stays_with_discharge": 71.06,
+      "sections": {
+        "n_representative_discharge_docs": 3474,
+        "hpi_found_pct": 99.31,
+        "hospital_course_found_pct": 92.69,
+        "both_hpi_and_hospital_course_found_pct": 92.11,
+        "physical_exam_found_pct": 97.55,
+        "pertinent_results_found_pct": 99.05,
+        "admission_text_nihss_mention_pct": 15.43,
+        "admission_char_count": {
+          "count": 3474,
+          "mean": 2393.12,
+          "median": 2268.5,
+          "min": 0.0,
+          "max": 29650.0
+        }
+      }
+    },
+    "nursing_neuro": {
+      "n_stays_with_any_neuro_obs": 5480,
+      "pct_stays_with_any_neuro_obs": 99.55,
+      "n_stays_with_any_incremental_neuro_obs": 5172,
+      "pct_stays_with_any_incremental_neuro_obs": 93.95,
+      "n_stays_with_ge10_incremental_neuro_obs": 4976,
+      "pct_stays_with_ge10_incremental_neuro_obs": 90.39,
+      "median_any_neuro_obs_per_stay": 192,
+      "median_incremental_neuro_obs_per_stay": 95,
+      "median_first_incremental_neuro_hour": 1.0,
+      "n_stays_with_bilateral_strength_data": 5087,
+      "pct_stays_with_bilateral_strength_data": 92.41,
+      "top_incremental_categories": [
+        {
+          "category": "Strength R Arm",
+          "n_rows": 109362
+        },
+        {
+          "category": "Strength R Leg",
+          "n_rows": 109200
+        },
+        {
+          "category": "Strength L Arm",
+          "n_rows": 109186
+        },
+        {
+          "category": "Strength L Leg",
+          "n_rows": 108991
+        },
+        {
+          "category": "Commands Response",
+          "n_rows": 106892
+        },
+        {
+          "category": "Orientation",
+          "n_rows": 30924
+        },
+        {
+          "category": "RL Strength/Movement",
+          "n_rows": 27619
+        },
+        {
+          "category": "LL Strength/Movement",
+          "n_rows": 27547
+        },
+        {
+          "category": "LU Strength/Movement",
+          "n_rows": 27193
+        },
+        {
+          "category": "RU Strength/Movement",
+          "n_rows": 27033
+        },
+        {
+          "category": "Speech",
+          "n_rows": 24433
+        },
+        {
+          "category": "Orientation to Time",
+          "n_rows": 15114
+        }
+      ]
+    },
+    "brain_radiology": {
+      "n_stays_with_any_brain_radiology": 3552,
+      "pct_stays_with_any_brain_radiology": 64.52,
+      "n_stays_with_brain_radiology_first24h": 2864,
+      "pct_stays_with_brain_radiology_first24h": 52.03,
+      "median_first_brain_radiology_hour": 8.0
+    },
+    "structured_coverage": {
+      "step_4_1_gcs_measurement_frequency": {
+        "pct_stays_with_1_or_more_gcs_measurements": 99.55,
+        "median_gcs_measurements_per_stay": 27.0,
+        "median_time_of_first_gcs_from_icu_admission_hours": 1.0,
+        "method_note": "Derived from gcs_hourly_v3 parquet."
+      },
+      "step_4_2_vital_sign_density_first_72h": {
+        "method_note": "Uses hourly observed bins in hourly_state_grid_168h as a proxy for raw measurement density.",
+        "variables": {
+          "heart_rate": {
+            "pct_stays_with_1_or_more_observed_hours_0_72h": 99.91,
+            "median_observed_hours_0_72h": 58
+          },
+          "map_merged": {
+            "pct_stays_with_1_or_more_observed_hours_0_72h": 99.84,
+            "median_observed_hours_0_72h": 50
+          },
+          "temperature_c": {
+            "pct_stays_with_1_or_more_observed_hours_0_72h": 98.69,
+            "median_observed_hours_0_72h": 16
+          },
+          "spo2": {
+            "pct_stays_with_1_or_more_observed_hours_0_72h": 99.87,
+            "median_observed_hours_0_72h": 57
+          }
+        }
+      }
+    },
+    "tiering_incremental_no_gcs": {
+      "tier_definition_neuro_count_column": "n_incremental_neuro_obs",
+      "tiers": [
+        {
+          "tier": "A",
+          "n_stays": 3570,
+          "n_hadm": 3211,
+          "pct_of_subset_stays": 64.85
+        },
+        {
+          "tier": "B",
+          "n_stays": 1406,
+          "n_hadm": 1244,
+          "pct_of_subset_stays": 25.54
+        },
+        {
+          "tier": "C",
+          "n_stays": 342,
+          "n_hadm": 320,
+          "pct_of_subset_stays": 6.21
+        },
+        {
+          "tier": "D",
+          "n_stays": 187,
+          "n_hadm": 180,
+          "pct_of_subset_stays": 3.4
+        }
+      ],
+      "layer1_eligible_stays": 4976,
+      "layer2_eligible_stays": 3912
+    },
+    "tiering_any_neuro_including_gcs_like_rows": {
+      "tier_definition_neuro_count_column": "n_any_neuro_obs",
+      "tiers": [
+        {
+          "tier": "A",
+          "n_stays": 3863,
+          "n_hadm": 3451,
+          "pct_of_subset_stays": 70.17
+        },
+        {
+          "tier": "B",
+          "n_stays": 1572,
+          "n_hadm": 1375,
+          "pct_of_subset_stays": 28.56
+        },
+        {
+          "tier": "C",
+          "n_stays": 49,
+          "n_hadm": 49,
+          "pct_of_subset_stays": 0.89
+        },
+        {
+          "tier": "D",
+          "n_stays": 21,
+          "n_hadm": 21,
+          "pct_of_subset_stays": 0.38
+        }
+      ],
+      "layer1_eligible_stays": 5435,
+      "layer2_eligible_stays": 3912
+    }
+  },
+  "pure_ischaemic_no_conflict_subset": {
+    "subset_name": "pure_ischaemic_no_conflict",
+    "n_stays": 4743,
+    "n_hadm": 4189,
+    "n_mixed_conflict_stays": 0,
+    "pct_mixed_conflict_stays": 0.0,
+    "primary_dx_flag_pct": 47.25,
+    "discharge_coverage": {
+      "n_hadm_with_discharge": 3049,
+      "pct_hadm_with_discharge": 72.79,
+      "n_stays_with_discharge": 3433,
+      "pct_stays_with_discharge": 72.38,
+      "sections": {
+        "n_representative_discharge_docs": 3049,
+        "hpi_found_pct": 99.28,
+        "hospital_course_found_pct": 92.52,
+        "both_hpi_and_hospital_course_found_pct": 91.9,
+        "physical_exam_found_pct": 97.44,
+        "pertinent_results_found_pct": 99.02,
+        "admission_text_nihss_mention_pct": 14.14,
+        "admission_char_count": {
+          "count": 3049,
+          "mean": 2382.41,
+          "median": 2251.0,
+          "min": 0.0,
+          "max": 29650.0
+        }
+      }
+    },
+    "nursing_neuro": {
+      "n_stays_with_any_neuro_obs": 4719,
+      "pct_stays_with_any_neuro_obs": 99.49,
+      "n_stays_with_any_incremental_neuro_obs": 4474,
+      "pct_stays_with_any_incremental_neuro_obs": 94.33,
+      "n_stays_with_ge10_incremental_neuro_obs": 4299,
+      "pct_stays_with_ge10_incremental_neuro_obs": 90.64,
+      "median_any_neuro_obs_per_stay": 180,
+      "median_incremental_neuro_obs_per_stay": 90,
+      "median_first_incremental_neuro_hour": 1.0,
+      "n_stays_with_bilateral_strength_data": 4398,
+      "pct_stays_with_bilateral_strength_data": 92.73,
+      "top_incremental_categories": [
+        {
+          "category": "Strength R Arm",
+          "n_rows": 85986
+        },
+        {
+          "category": "Strength L Arm",
+          "n_rows": 85910
+        },
+        {
+          "category": "Strength R Leg",
+          "n_rows": 85859
+        },
+        {
+          "category": "Strength L Leg",
+          "n_rows": 85771
+        },
+        {
+          "category": "Commands Response",
+          "n_rows": 83859
+        },
+        {
+          "category": "Orientation",
+          "n_rows": 28182
+        },
+        {
+          "category": "RL Strength/Movement",
+          "n_rows": 24922
+        },
+        {
+          "category": "LL Strength/Movement",
+          "n_rows": 24848
+        },
+        {
+          "category": "LU Strength/Movement",
+          "n_rows": 24553
+        },
+        {
+          "category": "RU Strength/Movement",
+          "n_rows": 24354
+        },
+        {
+          "category": "Speech",
+          "n_rows": 20379
+        },
+        {
+          "category": "Orientation to Time",
+          "n_rows": 13239
+        }
+      ]
+    },
+    "brain_radiology": {
+      "n_stays_with_any_brain_radiology": 3089,
+      "pct_stays_with_any_brain_radiology": 65.13,
+      "n_stays_with_brain_radiology_first24h": 2449,
+      "pct_stays_with_brain_radiology_first24h": 51.63,
+      "median_first_brain_radiology_hour": 8.0
+    },
+    "structured_coverage": {
+      "step_4_1_gcs_measurement_frequency": {
+        "pct_stays_with_1_or_more_gcs_measurements": 99.49,
+        "median_gcs_measurements_per_stay": 25,
+        "median_time_of_first_gcs_from_icu_admission_hours": 1,
+        "method_note": "Derived from gcs_hourly_v3 parquet."
+      },
+      "step_4_2_vital_sign_density_first_72h": {
+        "method_note": "Uses hourly observed bins in hourly_state_grid_168h as a proxy for raw measurement density.",
+        "variables": {
+          "heart_rate": {
+            "pct_stays_with_1_or_more_observed_hours_0_72h": 99.89,
+            "median_observed_hours_0_72h": 57
+          },
+          "map_merged": {
+            "pct_stays_with_1_or_more_observed_hours_0_72h": 99.83,
+            "median_observed_hours_0_72h": 49
+          },
+          "temperature_c": {
+            "pct_stays_with_1_or_more_observed_hours_0_72h": 98.59,
+            "median_observed_hours_0_72h": 15
+          },
+          "spo2": {
+            "pct_stays_with_1_or_more_observed_hours_0_72h": 99.85,
+            "median_observed_hours_0_72h": 55
+          }
+        }
+      }
+    },
+    "tiering_incremental_no_gcs": {
+      "tier_definition_neuro_count_column": "n_incremental_neuro_obs",
+      "tiers": [
+        {
+          "tier": "A",
+          "n_stays": 3147,
+          "n_hadm": 2833,
+          "pct_of_subset_stays": 66.35
+        },
+        {
+          "tier": "B",
+          "n_stays": 1152,
+          "n_hadm": 1024,
+          "pct_of_subset_stays": 24.29
+        },
+        {
+          "tier": "C",
+          "n_stays": 286,
+          "n_hadm": 267,
+          "pct_of_subset_stays": 6.03
+        },
+        {
+          "tier": "D",
+          "n_stays": 158,
+          "n_hadm": 152,
+          "pct_of_subset_stays": 3.33
+        }
+      ],
+      "layer1_eligible_stays": 4299,
+      "layer2_eligible_stays": 3433
+    },
+    "tiering_any_neuro_including_gcs_like_rows": {
+      "tier_definition_neuro_count_column": "n_any_neuro_obs",
+      "tiers": [
+        {
+          "tier": "A",
+          "n_stays": 3387,
+          "n_hadm": 3028,
+          "pct_of_subset_stays": 71.41
+        },
+        {
+          "tier": "B",
+          "n_stays": 1293,
+          "n_hadm": 1133,
+          "pct_of_subset_stays": 27.26
+        },
+        {
+          "tier": "C",
+          "n_stays": 46,
+          "n_hadm": 46,
+          "pct_of_subset_stays": 0.97
+        },
+        {
+          "tier": "D",
+          "n_stays": 17,
+          "n_hadm": 17,
+          "pct_of_subset_stays": 0.36
+        }
+      ],
+      "layer1_eligible_stays": 4680,
+      "layer2_eligible_stays": 3433
+    }
+  }
+}

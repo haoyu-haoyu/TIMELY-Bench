@@ -1,0 +1,29 @@
+{
+  "condition": "stroke",
+  "representation_family": "B2",
+  "representation_layout": "global_original_context_bank_plus_task_aware_index",
+  "temporal": {
+    "context_mode": "temporal_original",
+    "rows": 43648,
+    "unique_stays": 4976,
+    "clipped_anchor_rows": 0,
+    "outputs": "data/processed/v3/stroke/representations/stroke_B2_original_temporal_index.parquet.parts",
+    "flags": [],
+    "notes_policy": "exclude_discharge"
+  },
+  "retrospective": {
+    "context_mode": "retrospective_original",
+    "rows": 3912,
+    "unique_stays": 3912,
+    "outputs": "data/processed/v3/stroke/representations/stroke_B2_original_retrospective_index.parquet.parts",
+    "flags": [],
+    "notes_policy": "full_context_including_discharge"
+  },
+  "outputs": {
+    "summary_json": "results/v3/stroke/stroke_B2_original_build_summary.json"
+  },
+  "settings": {
+    "anchor_clip_policy": "clip_to_167 for temporal only",
+    "source_context_variant": "original"
+  }
+}

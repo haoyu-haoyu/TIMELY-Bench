@@ -1,0 +1,157 @@
+condition,node_id,node_label,node_type,reference_source,mimic_source_raw,mimic_itemid_raw,mapped_feature_name,support_level,implementation_mode,blocking,notes
+aki,ace_arb,ACEi / ARB,med,KDIGO2024CKD,prescriptions / emar,null,ace_arb_exposure,proxy_executable,event_rule,False,Medication exposure rule.
+aki,aki_s1,KDIGO Stage 1,stage,KDIGO2012 §2.1.2,derived.kdigo_stages,null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+aki,aki_s2,KDIGO Stage 2,stage,KDIGO2012 §2.1.2,derived.kdigo_stages,null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+aki,aki_s3,KDIGO Stage 3,stage,KDIGO2012 §2.1.2,derived.kdigo_stages,null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+aki,amphotericin,Amphotericin B,med,KDIGO2012 §5,prescriptions / emar,null,nephrotoxic_drug_active,proxy_executable,event_rule,False,Medication class rule on timeline.
+aki,anuria,Anuria (<100 mL/12h),symptom,KDIGO2012 Stage 3,outputevents (derived),null,urineoutput,proxy_executable,direct_feature,False,Derived severe urine reduction.
+aki,bicarbonate,HCO₃⁻ ↓,lab,Bellomo2012,labevents,50882,bicarbonate,core_executable,direct_feature,False,Metabolic acidosis support.
+aki,bun,BUN ↑,lab,Bellomo2012,labevents,51006,bun,core_executable,direct_feature,False,Renal burden marker.
+aki,calcium,Ca²⁺ ↓ (Hypocalcaemia),lab,Bellomo2012,labevents,50893,calcium,proxy_executable,direct_feature,False,Secondary metabolic marker.
+aki,cardiac_surgery,Post Cardiac Surgery,comorbid,KDIGO2012 §3,procedureevents,null,cardiac_surgery_context,reference_only,not_implemented,False,No explicit current feature.
+aki,ckd,CKD (Baseline eGFR ↓),comorbid,KDIGO2024CKD,diagnoses_icd (N18.*),null,ckd,core_executable,direct_feature,False,Static comorbidity.
+aki,contrast,IV Contrast (CT/Angiography),med,KDIGO2012 CI-AKI,procedureevents,null,contrast_exposure,proxy_executable,event_rule,False,Procedure/medication exposure rule.
+aki,cvp_elevated,CVP ↑ (Venous Congestion),vital,Mullens2019,chartevents,220074,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+aki,cystatin_c,Cystatin C ↑,lab,KDIGO2024CKD,labevents (if available),null,reference_only_signal,reference_only,not_implemented,False,Requires unsupported imaging/research assay or non-MIMIC-standard measurement.
+aki,diabetes,Diabetes Mellitus,comorbid,KDIGO2024CKD,diagnoses_icd (E11.*),null,diabetes,proxy_executable,direct_feature,False,Static comorbidity.
+aki,diuretics,Diuretics (Furosemide),med,KDIGO2012 §4,inputevents,228340,diuretic_exposure,proxy_executable,event_rule,False,Medication exposure rule.
+aki,egfr,eGFR ↓,lab,KDIGO2024CKD,derived (CKD-EPI equation),null,ckd,proxy_executable,direct_feature,False,Static comorbidity.
+aki,fever,Fever (T > 38.3°C),vital,SurvivingSepsis,chartevents,"[223761, 223762]",temperature_c,proxy_executable,direct_feature,False,Temperature-derived fever.
+aki,fluid_overload,Fluid Overload / Edema,symptom,KDIGO2012 §4,inputevents − outputevents (fluid balance),null,fluid_balance,proxy_executable,direct_feature,False,Positive balance proxy.
+aki,fluids_iv,IV Fluid Resuscitation (Crystalloid),med,KDIGO2012 §3,inputevents,null,fluid_input_hourly,core_executable,direct_feature,False,IV fluid burden.
+aki,heart_failure,Heart Failure (Cardiorenal),comorbid,Mullens2019,diagnoses_icd (I50.*),null,heart_failure_context,reference_only,not_implemented,False,Not in current v3 static context.
+aki,hypotension,Hypotension (SBP < 90 mmHg),vital,KDIGO2012 §3,chartevents,"[220050, 220179]",sbp,proxy_executable,direct_feature,False,Hypotension proxied by SBP.
+aki,il18,IL-18 ↑ (urine),lab,Matarneh2025,research assay,null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+aki,kim1,KIM-1 ↑ (urine),lab,Matarneh2025,research assay,null,reference_only_signal,reference_only,not_implemented,False,Requires unsupported imaging/research assay or non-MIMIC-standard measurement.
+aki,lactate,Lactate ↑,lab,SurvivingSepsis,labevents,50813,lactate,proxy_executable,direct_feature,False,Perfusion/sepsis context.
+aki,liver_disease,Hepatorenal Syndrome,comorbid,EASL2018,diagnoses_icd (K76.7),null,liver_disease,proxy_executable,direct_feature,False,Static comorbidity.
+aki,low_spo2,SpO₂ ↓,vital,NICE2019,chartevents,220277,spo2,proxy_executable,direct_feature,False,Hypoxia proxy from SpO2.
+aki,map_low,MAP < 65 mmHg,vital,SurvivingSepsis,chartevents,220052,map_merged,core_executable,derived_feature,False,Low MAP derived from merged MAP.
+aki,met_acidosis,"Metabolic Acidosis (pH ↓, AG ↑)",symptom,KDIGO2012,"labevents (pH 50820, AG derived)",null,ph,proxy_executable,direct_feature,False,Derived from pH/bicarbonate/anion gap.
+aki,nausea,Nausea / Vomiting,symptom,Bellomo2012,clinical notes (NLP),null,note_symptom_proxy,proxy_executable,note_proxy,False,Only available as note-level proxy in B2.
+aki,nephrotoxic_amino,Aminoglycosides,med,KDIGO2012 §5,prescriptions / emar,null,nephrotoxic_drug_active,proxy_executable,event_rule,False,Medication class rule on timeline.
+aki,nephrotoxic_nsaid,NSAIDs,med,KDIGO2012 §5,prescriptions / emar,null,nephrotoxic_drug_active,proxy_executable,event_rule,False,Medication class rule on timeline.
+aki,ngal,NGAL ↑ (urine/plasma),lab,Matarneh2025,research assay (not standard MIMIC),null,reference_only_signal,reference_only,not_implemented,False,Requires unsupported imaging/research assay or non-MIMIC-standard measurement.
+aki,oliguria,Oliguria (<0.5 mL/kg/h),symptom,KDIGO2012,outputevents (derived),null,urineoutput,core_executable,derived_feature,False,Derived from hourly urine output.
+aki,phosphate,Phosphate ↑,lab,KDIGO2012,labevents,50970,phosphate,proxy_executable,direct_feature,False,Secondary renal/metabolic marker.
+aki,potassium,K⁺ ↑ (Hyperkalaemia),lab,KDIGO2012 §4,labevents,50971,potassium,core_executable,direct_feature,False,Electrolyte complication signal.
+aki,rhabdomyolysis,Rhabdomyolysis (CK ↑↑),symptom,NICE2019,labevents (CK 50910),50910,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+aki,rrt,Renal Replacement Therapy (RRT),med,KDIGO2012 §5,procedureevents / chartevents (CRRT),null,rrt_active,core_executable,direct_feature,False,RRT status.
+aki,scr,Serum Creatinine ↑,lab,KDIGO2012 §2.1,labevents,50912,creatinine,core_executable,direct_feature,False,Primary AKI functional marker.
+aki,sepsis,Sepsis (Sepsis-3),comorbid,SurvivingSepsis,derived.sepsis3,null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+aki,tachycardia,Tachycardia (HR > 100),vital,Bellomo2012,chartevents,220045,heart_rate,proxy_executable,direct_feature,False,Tachycardia from hourly HR.
+aki,timp2_igfbp7,[TIMP-2]·[IGFBP7] (NephroCheck),lab,Matarneh2025,NephroCheck assay,null,reference_only_signal,reference_only,not_implemented,False,Requires unsupported imaging/research assay or non-MIMIC-standard measurement.
+aki,uremic_enceph,Uremic Encephalopathy,symptom,Bellomo2012,clinical notes (NLP),null,note_symptom_proxy,proxy_executable,note_proxy,False,Only available as note-level proxy in B2.
+aki,urine_output,Urine Output,lab,KDIGO2012 §2.1,outputevents,null,urineoutput,core_executable,direct_feature,False,Core AKI urine signal.
+aki,urine_sediment,"Urine Sediment (Casts, RTE cells)",symptom,KDIGO2012 §2.5,microbiologyevents / clinical notes,null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+aki,vancomycin,Vancomycin,med,KDIGO2012 §5,prescriptions / emar,null,nephrotoxic_drug_active,proxy_executable,event_rule,False,Medication class rule on timeline.
+aki,vasopressors,Vasopressors (Norepinephrine),med,SurvivingSepsis,inputevents,221906,vasopressors_active,core_executable,direct_feature,False,Hemodynamic support flag.
+aki,__phase_required::aki_phase_1::kdigo_stage,Required phase feature: kdigo_stage,stage,phase_requirement,,,kdigo_stage,reference_only,not_implemented,True,Phase aki_phase_1 cannot be executed without kdigo_stage.
+aki,__required::kdigo_stage,Required executable feature: kdigo_stage,stage,wave1_requirement,,,kdigo_stage,reference_only,not_implemented,True,Core requirement missing from executable subgraph.
+delirium,age_advanced,Age ≥ 65,comorbid,PADIS2018 (non-modifiable),patients (anchor_age),null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+delirium,agitation,Agitation (RASS +2 to +4),symptom,PADIS2018,chartevents (RASS),228096,rass,proxy_executable,direct_feature,False,Positive RASS range.
+delirium,albumin_d,Albumin ↓,lab,Zaal2015,labevents,50862,albumin,proxy_executable,direct_feature,False,"Albumin available, medium coverage."
+delirium,alcohol_withdrawal,Alcohol Withdrawal,comorbid,Inouye2006,diagnoses_icd (F10.2*),null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+delirium,altered_loc,Altered Level of Consciousness (CAM Feature 4),symptom,DSM5 / Ely2001,RASS ≠ 0,null,rass,core_executable,derived_feature,False,RASS deviation proxy.
+delirium,ammonia_d,Ammonia ↑,lab,Maldonado2018,labevents,null,reference_only_signal,reference_only,not_implemented,False,Requires unsupported imaging/research assay or non-MIMIC-standard measurement.
+delirium,anticholinergic,"Anticholinergics (Diphenhydramine, Atropine)",med,Maldonado2018,prescriptions / emar,null,creatinine,core_executable,direct_feature,False,Creatinine-backed renal signal.
+delirium,antipsychotics_d,Antipsychotics (Haloperidol),med,PADIS2025 (no recommendation for/against),prescriptions / emar,null,creatinine,core_executable,direct_feature,False,Creatinine-backed renal signal.
+delirium,b12_folate,B12 / Folate ↓,lab,Inouye2006,labevents,null,reference_only_signal,reference_only,not_implemented,False,Requires unsupported imaging/research assay or non-MIMIC-standard measurement.
+delirium,benzo,"Benzodiazepines (Midazolam, Lorazepam)",med,PADIS2018 (strong evidence),inputevents / emar,null,sedation_burden,core_executable,derived_feature,False,Proxy via midazolam-driven sedation burden.
+delirium,calcium_d,Ca²⁺ Abnormal,lab,Inouye2006,labevents,50893,calcium,proxy_executable,direct_feature,False,Metabolic precipitant.
+delirium,cam_icu_pos,CAM-ICU Positive (Delirium Diagnosis),stage,Ely2001,chartevents (CAM-ICU result),null,delirium_assessment,core_executable,derived_feature,False,Delirium/CAM assessment proxy.
+delirium,cortisol_d,Cortisol ↑,lab,Maldonado2018,labevents (if available),null,reference_only_signal,reference_only,not_implemented,False,Requires unsupported imaging/research assay or non-MIMIC-standard measurement.
+delirium,crp_wbc,CRP / WBC ↑ (Inflammation),lab,PADIS2018,labevents,"[50889, 51301]",wbc,proxy_executable,direct_feature,False,Use WBC backbone and optional CRP.
+delirium,dementia_d,Dementia (Pre-existing),comorbid,PADIS2018 (non-modifiable),diagnoses_icd (F0*),null,cognitive_impairment_context,proxy_executable,event_rule,False,Diagnosis pathway/static context proxy.
+delirium,dexmedetomidine,Dexmedetomidine (Preferred sedation),med,PADIS2025,inputevents,221744,sedation_burden,proxy_executable,event_rule,False,Medication timeline pattern.
+delirium,disorganized,Disorganized Thinking (CAM Feature 3),symptom,DSM5 / Ely2001,chartevents (CAM-ICU),null,delirium_assessment,proxy_executable,direct_feature,False,Approximate from CAM positivity/components.
+delirium,fever_d,Fever / Hypothermia,vital,PADIS2018,chartevents,"[223761, 223762]",temperature_c,proxy_executable,direct_feature,False,Temperature-derived fever.
+delirium,fluctuating,Acute Onset & Fluctuating Course (CAM Feature 2),symptom,DSM5 / Ely2001,RASS/GCS delta over time,null,rass,proxy_executable,direct_feature,False,RASS/GCS fluctuation proxy.
+delirium,glucose_d,Glucose Abnormal (Hypo/Hyperglycaemia),lab,PADIS2018,labevents,50931,glucose_merged,proxy_executable,direct_feature,False,Metabolic precipitant.
+delirium,hallucinations,Hallucinations / Delusions,symptom,DSM5,clinical notes (NLP),null,hallucination_note_proxy,proxy_executable,note_proxy,False,Only notes can support this.
+delirium,hepatic_enc,Hepatic Encephalopathy,comorbid,Maldonado2018,diagnoses_icd (K72.*),null,note_symptom_proxy,proxy_executable,note_proxy,False,Only available as note-level proxy in B2.
+delirium,hyperactive,Hyperactive Subtype,symptom,Peterson2006,RASS +1 to +4,null,rass,proxy_executable,direct_feature,False,Positive RASS range.
+delirium,hypoactive,Hypoactive Subtype,symptom,Peterson2006,RASS −1 to −3,null,rass,proxy_executable,direct_feature,False,Negative RASS range.
+delirium,hypotension_d,Hypotension / Shock,vital,Zaal2015,chartevents,220052,map_merged,proxy_executable,direct_feature,False,Hemodynamic instability.
+delirium,hypoxia_d,Hypoxia (SpO₂ ↓),vital,PADIS2018,chartevents,220277,spo2,proxy_executable,direct_feature,False,Hypoxia proxy.
+delirium,immobility,Immobility / Physical Restraints,comorbid,PADIS2018,chartevents / procedureevents,null,restraint_active,core_executable,direct_feature,False,Hourly restraint signal.
+delirium,inattention,Inattention (CAM Feature 1),symptom,DSM5 / Ely2001,chartevents (CAM-ICU),null,delirium_assessment,proxy_executable,direct_feature,False,Approximate from CAM positivity/components.
+delirium,infection_d,Infection / Sepsis,comorbid,PADIS2018,derived.sepsis3,null,diagnosis_pathway::sepsis_present_proxy,proxy_executable,event_rule,False,Diagnosis pathway proxy.
+delirium,lfts_d,LFTs Abnormal (AST/ALT/Bili),lab,Maldonado2018,labevents,"[50861, 50878]",bilirubin_total,proxy_executable,direct_feature,False,Use bilirubin as current liver proxy.
+delirium,mech_vent,Mechanical Ventilation,comorbid,PADIS2018,procedureevents / derived.ventilation,null,ventilation_status,core_executable,derived_feature,False,Respiratory support proxy.
+delirium,melatonin,Melatonin,med,PADIS2025 (conditional suggestion),prescriptions / emar,null,creatinine,core_executable,direct_feature,False,Creatinine-backed renal signal.
+delirium,mixed_motor,Mixed Subtype,symptom,Peterson2006,RASS fluctuation pattern,null,rass,proxy_executable,direct_feature,False,RASS fluctuation proxy.
+delirium,opioids_d,"Opioids (Fentanyl, Morphine)",med,PADIS2018,inputevents / emar,null,sedation_burden,proxy_executable,derived_feature,False,Proxy via fentanyl contribution.
+delirium,pain_d,Uncontrolled Pain,comorbid,PADIS2018,chartevents (pain scale),null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+delirium,pao2_d,PaO₂ ↓ / PaCO₂ ↑,lab,PADIS2018,labevents,"[50821, 50818]",pao2,proxy_executable,direct_feature,False,Use PaO2/PaCO2 blood-gas support.
+delirium,post_surgical_d,Post-Surgical State,comorbid,PADIS2018,procedureevents,null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+delirium,prior_coma,Prior Coma (Before ICU),comorbid,PADIS2018 (non-modifiable),GCS / RASS history,null,rass,core_executable,derived_feature,False,RASS-backed neurobehavioral proxy.
+delirium,propofol_d,Propofol,med,PADIS2025,inputevents,222168,sedation_burden,core_executable,derived_feature,False,Propofol contributes to sedation burden.
+delirium,rass,RASS Score,stage,Sessler 2002,chartevents,228096,rass,core_executable,derived_feature,False,RASS-backed neurobehavioral proxy.
+delirium,renal_failure_d,Renal Failure,comorbid,PADIS2018,diagnoses_icd (N17-N19),null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+delirium,rr_abnormal,RR Abnormal,vital,Zaal2015,chartevents,220210,resp_rate,proxy_executable,direct_feature,False,Abnormal respiratory rate.
+delirium,sensory_dep,Sensory Deprivation (No glasses/aids),comorbid,Inouye2006,clinical notes,null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+delirium,sleep_wake,Sleep-Wake Disruption,symptom,PADIS2018,chartevents / clinical notes,null,sleep_wake_note_proxy,proxy_executable,note_proxy,False,Only notes can support this.
+delirium,sodium_d,Na⁺ Abnormal (Hypo/Hypernatraemia),lab,PADIS2018,labevents,50983,sodium,proxy_executable,direct_feature,False,Metabolic precipitant.
+delirium,steroids_d,Corticosteroids,med,Zaal2015,prescriptions / emar,null,creatinine,core_executable,direct_feature,False,Creatinine-backed renal signal.
+delirium,tachy_d,Tachycardia,vital,Zaal2015,chartevents,220045,heart_rate,proxy_executable,direct_feature,False,Autonomic instability proxy.
+delirium,transfusion_d,Blood Transfusion,comorbid,PADIS2018 (modifiable),inputevents (RBC units),null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+delirium,tsh_d,TSH Abnormal,lab,Inouye2006,labevents,50993,reference_only_signal,reference_only,not_implemented,False,Requires unsupported imaging/research assay or non-MIMIC-standard measurement.
+delirium,urea_cr_d,Urea / Cr ↑ (Renal Failure),lab,PADIS2018,labevents,"[51006, 50912]",creatinine,proxy_executable,direct_feature,False,Use creatinine+BUN renal burden.
+delirium,__phase_required::del_phase_0::gcs_total,Required phase feature: gcs_total,stage,phase_requirement,,,gcs_total,reference_only,not_implemented,True,Phase del_phase_0 cannot be executed without gcs_total.
+delirium,__phase_required::del_phase_2::gcs_total,Required phase feature: gcs_total,stage,phase_requirement,,,gcs_total,reference_only,not_implemented,True,Phase del_phase_2 cannot be executed without gcs_total.
+delirium,__required::gcs_total,Required executable feature: gcs_total,stage,wave1_requirement,,,gcs_total,reference_only,not_implemented,True,Core requirement missing from executable subgraph.
+stroke_proxy,af_s,Atrial Fibrillation,comorbid,AHASA2026,diagnoses_icd (I48.*),null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+stroke_proxy,anticoag_s,Anticoagulation (Heparin / DOAC),med,AHASA2026,prescriptions / emar,null,creatinine,core_executable,direct_feature,False,Creatinine-backed renal signal.
+stroke_proxy,antihypertensive_s,Antihypertensives (Labetalol/Nicardipine),med,AHASA2026,inputevents / emar,null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+stroke_proxy,antiplatelet_s,Antiplatelets (Aspirin + Clopidogrel),med,AHASA2026 / CHANCE,prescriptions / emar,null,creatinine,core_executable,direct_feature,False,Creatinine-backed renal signal.
+stroke_proxy,aphasia,Aphasia,symptom,NIHSS,NIHSS language item 9,null,reference_only_signal,reference_only,not_implemented,False,Requires unsupported imaging/research assay or non-MIMIC-standard measurement.
+stroke_proxy,aspects,ASPECTS Score (CT-based),stage,AHASA2026,radiology notes / derived,null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+stroke_proxy,ataxia_s,Limb Ataxia,symptom,NIHSS,NIHSS ataxia item 7,null,reference_only_signal,reference_only,not_implemented,False,Requires unsupported imaging/research assay or non-MIMIC-standard measurement.
+stroke_proxy,bp_post_evt,BP post-EVT (Target <180/105),vital,AHASA2026,chartevents,220050,map_merged,proxy_executable,direct_feature,False,Hemodynamic stability proxy.
+stroke_proxy,carotid_s,Carotid Stenosis / Large Vessel Disease,comorbid,AHASA2026,diagnoses_icd (I65.*),null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+stroke_proxy,cerebral_edema,Cerebral Oedema (Malignant MCA),symptom,AHASA2026,radiology / ICP monitoring,null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+stroke_proxy,creatinine_s,Creatinine (Contrast safety),lab,AHASA2026,labevents,50912,creatinine,proxy_executable,direct_feature,False,Renal comorbidity burden.
+stroke_proxy,crp_s,CRP ↑ (Post-stroke inflammation),lab,AHASA2026,labevents,50889,crp,proxy_executable,direct_feature,False,"Inflammation, low coverage."
+stroke_proxy,ddimer_s,D-dimer ↑,lab,Thrombotic workup,labevents,51196,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+stroke_proxy,dm_s,Diabetes Mellitus,comorbid,AHASA2026,diagnoses_icd (E11.*),null,diabetes,proxy_executable,direct_feature,False,Static comorbidity.
+stroke_proxy,dysarthria_s,Dysarthria,symptom,NIHSS,NIHSS dysarthria item 10,null,reference_only_signal,reference_only,not_implemented,False,Requires unsupported imaging/research assay or non-MIMIC-standard measurement.
+stroke_proxy,dysphagia_s,Dysphagia,symptom,AHASA2026 (new emphasis),swallow screen / clinical notes,null,creatinine,core_executable,direct_feature,False,Creatinine-backed renal signal.
+stroke_proxy,evt,Endovascular Thrombectomy (EVT),med,AHASA2026 (Class 1),procedureevents,null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+stroke_proxy,facial_droop,Facial Droop,symptom,NIHSS,NIHSS facial palsy item 4,null,reference_only_signal,reference_only,not_implemented,False,Requires unsupported imaging/research assay or non-MIMIC-standard measurement.
+stroke_proxy,fibrinogen_s,Fibrinogen,lab,Coagulation panel,labevents,51214,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+stroke_proxy,glucose_s,Glucose (Hypo/Hyperglycaemia),lab,AHASA2026,labevents,50931,glucose_merged,proxy_executable,direct_feature,False,Metabolic support.
+stroke_proxy,haem_transform,Haemorrhagic Transformation,symptom,AHASA2026,radiology reports / CT,null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+stroke_proxy,hba1c,HbA1c ↑,lab,AHASA2026,labevents,null,reference_only_signal,reference_only,not_implemented,False,Requires unsupported imaging/research assay or non-MIMIC-standard measurement.
+stroke_proxy,headache_s,Sudden Severe Headache,symptom,AHASA2026,clinical notes,null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+stroke_proxy,hemiparesis,Hemiparesis / Hemiplegia,symptom,NIHSS,NIHSS motor items 5-6,null,reference_only_signal,reference_only,not_implemented,False,Requires unsupported imaging/research assay or non-MIMIC-standard measurement.
+stroke_proxy,hemoglobin_s,Hemoglobin (Anaemia check),lab,AHASA2026,labevents,51222,hemoglobin,proxy_executable,direct_feature,False,Anemia burden.
+stroke_proxy,hf_s,Heart Failure,comorbid,AHASA2026,diagnoses_icd (I50.*),null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+stroke_proxy,htn_chronic_s,Chronic Hypertension,comorbid,AHASA2026,diagnoses_icd (I10),null,hypertension,proxy_executable,direct_feature,False,Static comorbidity.
+stroke_proxy,hypertension_s,BP ↑↑ (>185/110 for tPA),vital,AHASA2026,chartevents,"[220050, 220179]",sbp,proxy_executable,direct_feature,False,Blood pressure support.
+stroke_proxy,inr_pt,INR / PT (Coagulation),lab,AHASA2026 (tPA eligibility),labevents,"[51237, 51274]",inr,proxy_executable,direct_feature,False,Use INR/PT coagulation proxy.
+stroke_proxy,insulin_s,Insulin (NOT for tight glucose 80-130),med,AHASA2026 (Class III: harm),inputevents,null,glucose_merged,proxy_executable,direct_feature,False,Merged glucose signal.
+stroke_proxy,irregular_pulse,Irregular Pulse (AF detection),vital,AHASA2026,chartevents (ECG rhythm),null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+stroke_proxy,lipids,LDL Cholesterol ↑,lab,AHASA2026 secondary prevention,labevents,null,reference_only_signal,reference_only,not_implemented,False,Requires unsupported imaging/research assay or non-MIMIC-standard measurement.
+stroke_proxy,loc_s,↓ Consciousness (GCS / LOC),symptom,NIHSS,GCS / NIHSS items 1a-c,null,reference_only_signal,reference_only,not_implemented,False,Requires unsupported imaging/research assay or non-MIMIC-standard measurement.
+stroke_proxy,neglect_s,Hemispatial Neglect,symptom,NIHSS,NIHSS extinction item 11,null,reference_only_signal,reference_only,not_implemented,False,Requires unsupported imaging/research assay or non-MIMIC-standard measurement.
+stroke_proxy,nihss,NIHSS Total Score,stage,NIHSS,chartevents (NIHSS),null,reference_only_signal,reference_only,not_implemented,False,Requires unsupported imaging/research assay or non-MIMIC-standard measurement.
+stroke_proxy,pfo,PFO (Paradoxical Embolism),comorbid,AHASA2026,echocardiography notes,null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+stroke_proxy,platelets_s,Platelet Count,lab,AHASA2026 (tPA eligibility),labevents,51265,platelet,proxy_executable,direct_feature,False,Coagulation support.
+stroke_proxy,prev_stroke_s,Previous Stroke / TIA,comorbid,AHASA2026,diagnoses_icd (I63.*/G45.*),null,stroke_cohort_membership,core_executable,event_rule,False,Stroke cohort/pathway proxy.
+stroke_proxy,sensory_loss,Sensory Loss,symptom,NIHSS,NIHSS sensory item 8,null,reference_only_signal,reference_only,not_implemented,False,Requires unsupported imaging/research assay or non-MIMIC-standard measurement.
+stroke_proxy,spo2_s,SpO₂ ↓ (<94%),vital,AHASA2026,chartevents,220277,spo2,proxy_executable,direct_feature,False,Oxygenation proxy.
+stroke_proxy,statin_s,High-Intensity Statin,med,AHASA2026 (Class 1),prescriptions / emar,null,creatinine,core_executable,direct_feature,False,Creatinine-backed renal signal.
+stroke_proxy,tachy_s,Tachycardia,vital,AHASA2026,chartevents,220045,heart_rate,proxy_executable,direct_feature,False,Autonomic burden.
+stroke_proxy,temp_s,Temperature ↑ (Hyperthermia),vital,AHASA2026,chartevents,223761,temperature_c,proxy_executable,direct_feature,False,Temperature proxy.
+stroke_proxy,tpa,tPA: Alteplase or Tenecteplase,med,AHASA2026 (Class 1: either agent),inputevents / emar,null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+stroke_proxy,troponin_s,Troponin ↑ (Cardiac injury),lab,AHASA2026 (baseline assessment),labevents,51003,troponin_t,proxy_executable,direct_feature,False,Cardiac stress proxy.
+stroke_proxy,visual_deficit,Visual Field Deficit,symptom,NIHSS,NIHSS visual item 3,null,reference_only_signal,reference_only,not_implemented,False,Requires unsupported imaging/research assay or non-MIMIC-standard measurement.
+stroke_proxy,window_24h,6-24h EVT (DAWN/DEFUSE-3 criteria),stage,AHASA2026 (Class 1),perfusion imaging / clinical-imaging mismatch,null,reference_only_signal,reference_only,not_implemented,False,Requires unsupported imaging/research assay or non-MIMIC-standard measurement.
+stroke_proxy,window_45h,< 4.5h Thrombolysis Window,stage,AHASA2026 (Class 1),derived (onset-to-needle time),null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+stroke_proxy,window_6h,< 6h EVT Window (Anterior LVO),stage,AHASA2026 (Class 1),derived,null,unmapped_reference,reference_only,not_implemented,False,No safe executable mapping was found.
+stroke_proxy,__required::gcs_total,Required executable feature: gcs_total,stage,wave1_requirement,,,gcs_total,reference_only,not_implemented,True,Core requirement missing from executable subgraph.
+stroke_proxy,__required::rass,Required executable feature: rass,stage,wave1_requirement,,,rass,reference_only,not_implemented,True,Core requirement missing from executable subgraph.
+stroke_proxy,__required::restraint_active,Required executable feature: restraint_active,stage,wave1_requirement,,,restraint_active,reference_only,not_implemented,True,Core requirement missing from executable subgraph.
+stroke_proxy,__required::sedation_burden,Required executable feature: sedation_burden,stage,wave1_requirement,,,sedation_burden,reference_only,not_implemented,True,Core requirement missing from executable subgraph.
+stroke_proxy,__required::ventilation_status,Required executable feature: ventilation_status,stage,wave1_requirement,,,ventilation_status,reference_only,not_implemented,True,Core requirement missing from executable subgraph.

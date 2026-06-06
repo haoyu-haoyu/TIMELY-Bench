@@ -1,0 +1,112 @@
+name,domain,source,acquisition_mode,validation_status,use,itemids,notes,backbone,unit,normalization_rule,missingness_expectation
+age,static_context,admissions/patients or cohort table,Derived,Direct-existing,static context,,Age at ICU admission.,True,,native units or source-native encoding,low
+sex,static_context,patients,Direct,Direct-existing,static context,,,True,,native units or source-native encoding,low
+icu_intime,static_context,icustays.intime,Direct,Direct-existing,relative timing anchor,,,True,,native units or source-native encoding,low
+icu_outtime,static_context,icustays.outtime,Direct,Direct-existing,censoring,,,True,,native units or source-native encoding,low
+hospital_death_status,static_context,admissions/discharge metadata,Direct,Direct-existing,mortality baseline,,,True,,native units or source-native encoding,low
+icu_los_hours,static_context,icustays,Derived,Direct-existing,LOS baseline,,,True,hours,native units or source-native encoding,low
+ckd,static_context,diagnoses_icd,Direct,Direct-existing,AKI comorbidity,,,True,,native units or source-native encoding,low
+diabetes,static_context,diagnoses_icd,Direct,Direct-existing,AKI/sepsis risk,,,True,,native units or source-native encoding,low
+hypertension,static_context,diagnoses_icd,Direct,Direct-existing,cardiovascular context,,,True,,native units or source-native encoding,low
+cognitive_impairment_or_dementia,static_context,diagnoses_icd,Direct,Planned source-confirmed,delirium risk,,,False,,native units or source-native encoding,low
+copd,static_context,diagnoses_icd,Direct,Planned source-confirmed,ARF context,,,False,,native units or source-native encoding,low
+atrial_fibrillation,static_context,diagnoses_icd,Direct,Planned source-confirmed,cardiovascular context,,,False,,native units or source-native encoding,low
+liver_disease,static_context,diagnoses_icd,Direct,Planned source-confirmed,SOFA/liver context,,,False,,native units or source-native encoding,low
+prior_stroke_or_stroke_family,static_context,diagnoses_icd,Direct,Direct-validated,stroke-proxy cohort,,Use ICD families I60-I64/G45 and legacy prefixes.,False,,native units or source-native encoding,low
+elixhauser_score,static_context,diagnoses_icd,Derived,Planned,general severity/comorbidity,,,False,,native units or source-native encoding,low
+heart_rate,hourly_vitals,chartevents,Direct,Direct-existing,all conditions,,,True,beats/min,native units or source-native encoding,low_to_medium
+sbp,hourly_vitals,chartevents,Direct,Direct-existing,hemodynamics,,,True,mmHg,native units or source-native encoding,low_to_medium
+dbp,hourly_vitals,chartevents,Direct,Direct-existing,hemodynamics,,,True,mmHg,native units or source-native encoding,low_to_medium
+map_noninvasive,hourly_vitals,chartevents,Direct,Direct-validated,fallback MAP,220181,,False,mmHg,native units or source-native encoding,low_to_medium
+map_invasive,hourly_vitals,chartevents,Direct,Direct-validated,preferred MAP,220052,,False,mmHg,native units or source-native encoding,low_to_medium
+map_merged,hourly_vitals,chartevents,Derived,Direct-validated,merged MAP,,"Invasive priority, NIBP fallback.",True,mmHg,"Prefer invasive MAP when available, otherwise non-invasive MAP.",low_to_medium
+resp_rate,hourly_vitals,chartevents,Direct,Direct-existing,ARF/sepsis,,,True,breaths/min,native units or source-native encoding,low_to_medium
+spo2,hourly_vitals,chartevents,Direct,Direct-existing,ARF,,,True,percent,native units or source-native encoding,low_to_medium
+temperature_f,hourly_vitals,chartevents,Direct,Direct-validated,temperature normalization,223761,,False,degF,native units or source-native encoding,low_to_medium
+temperature_c_raw,hourly_vitals,chartevents,Direct,Direct-validated,temperature normalization,223762,,False,degC,native units or source-native encoding,low_to_medium
+temperature_c,hourly_vitals,chartevents,Derived,Direct-validated,all conditions,,Normalized to Celsius.,True,degC,Convert Fahrenheit readings to Celsius; keep Celsius readings unchanged.,low_to_medium
+weight,hourly_vitals,chartevents,Direct,Direct-existing,context/dosing,,,False,kg,native units or source-native encoding,low_to_medium
+urine_output_items,hourly_vitals,outputevents,Direct multi-item,Direct-validated,AKI/fluid balance,"226559,226560,226561,226563,226564,226565,226566,226567,226627,226631,227489",,False,,Aggregate validated urine-output itemids to hourly totals.,low_to_medium
+urineoutput,hourly_vitals,outputevents aggregate,Derived,Direct-validated,AKI/sepsis,,Hourly urine output aggregate.,True,mL/hour,Hourly aggregate from validated outputevents itemids.,low_to_medium
+gcs_eye,neurologic,chartevents,Direct,Direct-existing,neuro,220739,,True,score,native units or source-native encoding,medium
+gcs_verbal,neurologic,chartevents,Direct,Direct-existing,neuro,223900,,True,score,native units or source-native encoding,medium
+gcs_motor,neurologic,chartevents,Direct,Direct-validated,neuro,223901,,True,score,native units or source-native encoding,medium
+gcs_total,neurologic,chartevents,Derived,Needs final audit,neuro/delirium/stroke-proxy,,Prefer sum of corrected components unless an independent validated total is selected.,True,score,"Sum validated GCS eye, verbal, and motor components unless a validated independent total is selected.",medium
+rass,neurologic,chartevents,Direct,Direct-validated,delirium/stroke-proxy,228096,,True,score,Use validated Richmond Agitation-Sedation Scale itemid 228096.,medium
+delirium_assessment,neurologic,chartevents,Direct,Direct-validated,primary delirium signal,228332,Values: Negative / Positive / UTA.,True,,Map chartevents values to Positive/Negative/UTA flags.,medium
+cam_component_items,neurologic,chartevents,Direct,Direct-validated,delirium support,"228334,228337,229325,229326",CAM support only; 228300 is too sparse to serve as primary signal.,False,,native units or source-native encoding,medium
+restraint_events,neurologic,chartevents,Direct,Direct-validated,neuro-behavioural context,,Restraint-related items validated on CREATE.,False,,native units or source-native encoding,medium
+delirium_note_keywords,neurologic,nursing/charted text rows,Proxy / inferred,Direct-validated low coverage,supporting evidence only,,Low frequency; do not use as primary label source.,False,,native units or source-native encoding,medium
+creatinine,labs,labevents,Direct,Direct-existing,AKI,,,True,mg/dL,native units or source-native encoding,medium_to_high
+bun,labs,labevents,Direct,Direct-existing,AKI,,,True,mg/dL,native units or source-native encoding,medium_to_high
+sodium,labs,labevents,Direct,Direct-existing,metabolic,,,True,mmol/L,native units or source-native encoding,medium_to_high
+potassium,labs,labevents,Direct,Direct-existing,AKI,,,True,mmol/L,native units or source-native encoding,medium_to_high
+bicarbonate,labs,labevents,Direct,Direct-existing,acid-base,,,True,mmol/L,native units or source-native encoding,medium_to_high
+chloride,labs,labevents,Direct,Direct-existing,metabolic,,,True,mmol/L,native units or source-native encoding,medium_to_high
+aniongap,labs,labevents,Direct,Direct-existing,acid-base,,,True,mmol/L,native units or source-native encoding,medium_to_high
+calcium,labs,labevents,Direct,Direct-existing,metabolic,,,False,mg/dL,native units or source-native encoding,medium_to_high
+phosphate,labs,labevents,Direct,Direct-existing,renal/metabolic,,,False,mg/dL,native units or source-native encoding,medium_to_high
+magnesium,labs,labevents,Direct,Direct-existing,metabolic,,,False,mg/dL,native units or source-native encoding,medium_to_high
+wbc,labs,labevents,Direct,Direct-existing,infection,,,True,K/uL,native units or source-native encoding,medium_to_high
+hemoglobin,labs,labevents,Direct,Direct-existing,general,,,True,g/dL,native units or source-native encoding,medium_to_high
+hematocrit,labs,labevents,Direct,Direct-existing,general,,,True,percent,native units or source-native encoding,medium_to_high
+platelet,labs,labevents,Direct,Direct-existing,coagulation,,,True,K/uL,native units or source-native encoding,medium_to_high
+lactate,labs,labevents,Direct,Direct-existing / partially audited,sepsis/shock,,,True,mmol/L,native units or source-native encoding,medium_to_high
+albumin,labs,labevents,Direct,Direct-validated,medium-coverage lab,50862,,False,g/dL,native units or source-native encoding,medium_to_high
+bilirubin_total,labs,labevents,Direct,Direct-existing + BQ extraction logic exists,SOFA liver,,,True,mg/dL,native units or source-native encoding,medium_to_high
+inr,labs,labevents,Direct,Direct-existing,coagulation,,,False,ratio,native units or source-native encoding,medium_to_high
+pt,labs,labevents,Direct,Direct-existing,coagulation,,,False,seconds,native units or source-native encoding,medium_to_high
+serum_glucose,labs,labevents,Direct,Direct-validated,core glucose source,50931,,False,mg/dL,native units or source-native encoding,medium_to_high
+bedside_glucose,labs,chartevents,Direct,Direct-validated,complementary glucose source,220621,,False,mg/dL,native units or source-native encoding,medium_to_high
+glucose_merged,labs,labevents + chartevents,Derived,Direct-validated,all conditions,,"Serum priority, bedside fallback.",True,mg/dL,Prefer serum glucose; fallback to bedside glucose when serum is missing.,medium_to_high
+ph,blood_gas,blood gas / labevents,Direct,Direct-existing,acid-base,,,True,unitless,native units or source-native encoding,medium_to_high
+pao2,blood_gas,bg table,Direct/Derived-table,Direct-existing,ARF,,,True,mmHg,native units or source-native encoding,medium_to_high
+paco2,blood_gas,bg table,Direct/Derived-table,Direct-existing,ARF,,,True,mmHg,native units or source-native encoding,medium_to_high
+pao2_fio2_ratio,blood_gas,derived.bg.pao2fio2ratio,Derived,Direct-validated,ARF,,,True,ratio,Use derived PF ratio when available from blood-gas table.,medium_to_high
+troponin_t,labs,labevents,Direct,Direct-validated,cardio extension,51003,,False,ng/L,native units or source-native encoding,medium_to_high
+troponin_i,labs,labevents,Direct,Refuted for ICU use,exclude,,No meaningful ICU coverage in v3.1.,False,ng/mL,native units or source-native encoding,medium_to_high
+crp,labs,labevents,Direct,Direct-validated low coverage,optional only,50889,,False,mg/L,native units or source-native encoding,medium_to_high
+hs_crp,labs,labevents,Direct,Direct-validated as hs-CRP,optional only,51652,,False,mg/L,native units or source-native encoding,medium_to_high
+procalcitonin,labs,d_labitems,N/A,Refuted,exclude,,No confirmed standard item in MIMIC-IV v3.1.,False,,native units or source-native encoding,medium_to_high
+fio2,respiratory,ventilator_setting / chartevents,Direct,Direct-existing,ARF,,,True,fraction,native units or source-native encoding,medium
+peep,respiratory,ventilator_setting / chartevents,Direct,Direct-existing,ARF,,,True,cmH2O,native units or source-native encoding,medium
+tidal_volume,respiratory,ventilator_setting,Direct,Direct-existing,ARF,,,True,mL,native units or source-native encoding,medium
+tidal_volume_set,respiratory,chartevents / ventilator settings,Direct,Planned source-confirmed,ARF,,,False,mL,native units or source-native encoding,medium
+minute_volume,respiratory,ventilator_setting,Direct,Direct-existing,ARF,,,True,L/min,native units or source-native encoding,medium
+plateau_pressure,respiratory,chartevents,Direct,Direct-validated,ARF,224696,,True,cmH2O,native units or source-native encoding,medium
+ventilation_status,respiratory,derived.ventilation,Derived,Direct-validated,ARF/stroke-proxy,,,True,,native units or source-native encoding,medium
+vasopressors_active,medications,inputevents,Direct,Direct-validated,shock/AKI,,,True,,native units or source-native encoding,event_driven
+vasopressor_dose_norepi_equiv,medications,inputevents conversion,Derived,Direct-existing,hemodynamic burden,,,True,mcg/kg/min-equivalent,Convert agent-specific vasopressor doses to norepinephrine-equivalent burden.,event_driven
+propofol_rate,medications,inputevents / emar,Direct,Direct-existing,delirium/ventilation,,,True,,native units or source-native encoding,event_driven
+midazolam_rate,medications,inputevents / emar,Direct,Direct-existing,delirium/ventilation,,,True,,native units or source-native encoding,event_driven
+fentanyl_rate,medications,inputevents / emar,Direct,Direct-existing,analgesia/sedation,,,True,,native units or source-native encoding,event_driven
+dexmedetomidine_active,medications,prescriptions/emar/inputevents,Direct,Needs final source audit,delirium,,,False,,native units or source-native encoding,event_driven
+antibiotic_active,medications,prescriptions + emar,Derived event logic,Direct-validated coverage basis,sepsis,,,False,,native units or source-native encoding,event_driven
+nephrotoxic_drug_active,medications,prescriptions + emar,Derived event logic,Direct-validated source feasibility,AKI,,,False,,native units or source-native encoding,event_driven
+fluid_input_hourly,medications,inputevents,Derived,Direct-existing,fluid balance,,,True,mL/hour,Aggregate infusion volumes within hour bins.,event_driven
+fluid_balance,medications,input minus output,Derived,Direct-existing,AKI/shock,,,True,mL/hour,Hourly fluid input minus hourly urine output.,event_driven
+rrt_active,procedures,procedureevents,Direct/Derived flag,Direct-existing + validated search logic,AKI,,,True,,native units or source-native encoding,event_driven
+intubation_event,procedures,procedureevents,Direct,Direct-validated,ARF/stroke-proxy,224385,,False,,native units or source-native encoding,event_driven
+extubation_event,procedures,procedureevents,Direct,Direct-validated,ARF,227194,,False,,native units or source-native encoding,event_driven
+unplanned_extubation_event,procedures,procedureevents,Direct,Direct-validated,ARF,"225468,225477",,False,,native units or source-native encoding,event_driven
+tracheostomy,procedures,procedureevents / ventilation,Direct,Needs final audit,optional respiratory feature,,,False,,native units or source-native encoding,event_driven
+sofa_total,derived_scores,derived.sofa,Derived,Direct-existing,severity,,,True,,native units or source-native encoding,depends_on_inputs
+sofa_subcomponents,derived_scores,derived.sofa,Derived,Direct-existing,organ failure,,,False,,native units or source-native encoding,depends_on_inputs
+kdigo_stage,derived_scores,derived.kdigo_stages,Derived,Direct-existing,AKI,,,True,,native units or source-native encoding,depends_on_inputs
+qsofa,derived_scores,RR + SBP + GCS,Derived,Planned,sepsis severity,,,False,,native units or source-native encoding,depends_on_inputs
+apache_ii,derived_scores,multiple components,Derived,Needs rule design,optional severity score,,,False,,native units or source-native encoding,depends_on_inputs
+delirium_onset,pathway_objects,first Positive 228332 with censoring rule,Proxy / inferred,Needs rule design,delirium task,,,False,,native units or source-native encoding,rule_defined
+delirium_resolution,pathway_objects,sustained non-positive period,Proxy / inferred,Needs rule design,delirium task,,,False,,native units or source-native encoding,rule_defined
+sepsis_onset,pathway_objects,derived.sepsis3,Derived,Direct-existing,sepsis task,,,False,,native units or source-native encoding,rule_defined
+shock_onset,pathway_objects,project rule + reference rule,Proxy / inferred,Needs rule design,sepsis/shock task,,,False,,native units or source-native encoding,rule_defined
+arf_onset,pathway_objects,PF < 300 and/or invasive ventilation start,Derived / proxy,Direct-validated feasibility,ARF task,,,False,,native units or source-native encoding,rule_defined
+stroke_proxy_deterioration_markers,pathway_objects,GCS / RASS / vent / restraint / sedation pattern,Proxy / inferred,Needs task design,stroke-proxy reasoning,,,False,,native units or source-native encoding,rule_defined
+diagnosis_pathway_events,pathway_objects,threshold crossings + procedure time + note mention + derived onset tables,Derived / proxy,Needs explicit schema,condition-aware pathways,,,True,,Convert diagnosis-related signals into time-stamped pathway events with source/confidence/proxy semantics.,rule_defined
+raw_notes_0_168h,text_objects,noteevents + lab comments,Direct,"existing logic, needs window extension",B2,,,False,,Preserve timestamped note order; no pooling in the mainline representation.,medium_to_high
+note_timestamp,text_objects,charttime / relative hour,Direct,Direct-existing,all text alignment,,,True,,native units or source-native encoding,medium_to_high
+note_type,text_objects,note metadata,Direct,Direct-existing,typed reasoning,,,True,,native units or source-native encoding,medium_to_high
+sentence_level_doctime_rel_tags,text_objects,LLM/classifier pipeline,Derived,Direct-existing,clean text,,,False,,native units or source-native encoding,medium_to_high
+clean_note_text,text_objects,raw note minus AFTER sentences,Derived,Planned for B2,leakage control,,,False,,Sentence-level clean policy removes heuristic AFTER sentences from note text.,medium_to_high
+original_note_text,text_objects,raw note unchanged,Direct,Direct-existing,original/leaked B2,,,False,,native units or source-native encoding,medium_to_high
+note_level_embedding,text_objects,ClinicalBERT or equivalent,Derived,Direct-existing,optional baseline / retrieval,,,False,,native units or source-native encoding,medium_to_high
+note_sequence_object,text_objects,ordered note list with timestamps and type,Derived,Planned,B2 / CRES,,,True,,Store notes as ordered per-stay sequences with timestamps and note type.,medium_to_high

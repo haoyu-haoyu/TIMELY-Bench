@@ -1,0 +1,295 @@
+{
+  "condition": "delirium",
+  "name": "Delirium Clinical Standard Physiology Template",
+  "clinical_standard": [
+    "CAM-ICU assessment framework",
+    "SCCM PADIS / focused PADIS ICU delirium logic"
+  ],
+  "anchor_event": "first positive delirium assessment after ICU admission",
+  "anchor_mimic": "chartevents delirium assessment (228332) with RASS/GCS context",
+  "total_typical_duration": "hours to days",
+  "references": [
+    "DSM-5 (APA 2013)",
+    "Ely EW et al. JAMA 2001 (CAM-ICU)",
+    "PADIS 2018 & 2025 Focused Update",
+    "Pandharipande PP et al. Lancet 2013 (duration and cognitive outcomes)",
+    "Girard TD et al. NEJM 2018 (MIND-USA: haloperidol/ziprasidone)",
+    "Pisani MA et al. Am J Respir Crit Care Med 2009 (delirium duration trajectories)"
+  ],
+  "implementation_warnings": [],
+  "phases": [
+    {
+      "phase_id": "at_risk_or_prepositive",
+      "name": "At Risk / Pre-Positive",
+      "time_relative_to_anchor": "before first positive",
+      "description": "Predisposition and precipitating factors present before overt positive assessment.",
+      "trajectories": [
+        {
+          "marker": "RASS",
+          "direction": "drifting from calm baseline",
+          "expected_range": "subtle instability",
+          "rate": "hours",
+          "clinical_significance": "Motor/arousal instability may precede overt delirium.",
+          "mimic_source": "chartevents",
+          "canonical_feature": "rass",
+          "support_level": "core_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "rass"
+        },
+        {
+          "marker": "GCS Total",
+          "direction": "subtle fluctuation",
+          "expected_range": "mild decrement or variability",
+          "rate": "hours",
+          "clinical_significance": "Neuro fluctuation support.",
+          "mimic_source": "chartevents",
+          "canonical_feature": "gcs_total",
+          "support_level": "core_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "gcs_total"
+        },
+        {
+          "marker": "Sedation burden",
+          "direction": "present or increasing",
+          "expected_range": "context dependent",
+          "rate": "hours",
+          "clinical_significance": "Sedation modifies arousal and delirium risk.",
+          "mimic_source": "medication timeline",
+          "canonical_feature": "sedation_burden",
+          "support_level": "core_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "sedation_burden"
+        },
+        {
+          "marker": "Glucose",
+          "direction": "may be deranged",
+          "expected_range": "hypoglycemia or hyperglycemia",
+          "rate": "hours",
+          "clinical_significance": "Correctable metabolic precipitant of delirium.",
+          "mimic_source": "labevents + chartevents",
+          "canonical_feature": "glucose_merged",
+          "support_level": "proxy_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "glucose_merged"
+        }
+      ],
+      "reference_only_trajectories": []
+    },
+    {
+      "phase_id": "active_positive",
+      "name": "Active Positive",
+      "time_relative_to_anchor": "0 to 24h after onset",
+      "description": "Positive delirium assessment with acute disturbance in attention/arousal.",
+      "trajectories": [
+        {
+          "marker": "Delirium assessment",
+          "direction": "positive",
+          "expected_range": "positive assessment",
+          "rate": "hours",
+          "clinical_significance": "Primary machine-grounded delirium signal.",
+          "mimic_source": "chartevents",
+          "canonical_feature": "delirium_assessment",
+          "support_level": "core_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "delirium_assessment"
+        },
+        {
+          "marker": "RASS",
+          "direction": "deviated or unstable",
+          "expected_range": "positive or negative deviation",
+          "rate": "hours",
+          "clinical_significance": "Motor phenotype support.",
+          "mimic_source": "chartevents",
+          "canonical_feature": "rass",
+          "support_level": "core_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "rass"
+        },
+        {
+          "marker": "Restraint use",
+          "direction": "may appear",
+          "expected_range": "active/inactive",
+          "rate": "hours",
+          "clinical_significance": "Behavioral safety context.",
+          "mimic_source": "chartevents",
+          "canonical_feature": "restraint_active",
+          "support_level": "core_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "restraint_active"
+        }
+      ],
+      "reference_only_trajectories": []
+    },
+    {
+      "phase_id": "fluctuating_course",
+      "name": "Fluctuating Course",
+      "time_relative_to_anchor": "24 to 72h",
+      "description": "Oscillation between more and less overt delirious states.",
+      "trajectories": [
+        {
+          "marker": "Delirium assessment",
+          "direction": "alternating",
+          "expected_range": "positive and non-positive fluctuations",
+          "rate": "shift to shift",
+          "clinical_significance": "Fluctuation is the defining temporal feature.",
+          "mimic_source": "chartevents",
+          "canonical_feature": "delirium_assessment",
+          "support_level": "core_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "delirium_assessment"
+        },
+        {
+          "marker": "RASS",
+          "direction": "oscillating",
+          "expected_range": "mixed hypoactive/hyperactive pattern possible",
+          "rate": "hours",
+          "clinical_significance": "Arousal instability supports fluctuating phenotype.",
+          "mimic_source": "chartevents",
+          "canonical_feature": "rass",
+          "support_level": "core_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "rass"
+        },
+        {
+          "marker": "GCS Total",
+          "direction": "variable",
+          "expected_range": "point-to-point fluctuation",
+          "rate": "hours",
+          "clinical_significance": "Secondary neuro fluctuation context.",
+          "mimic_source": "chartevents",
+          "canonical_feature": "gcs_total",
+          "support_level": "core_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "gcs_total"
+        },
+        {
+          "marker": "Sleep-wake disruption",
+          "direction": "persistent",
+          "expected_range": "note-level proxy",
+          "rate": "days",
+          "clinical_significance": "Circadian disturbance can perpetuate delirium.",
+          "mimic_source": "nursing/progress notes",
+          "canonical_feature": "sleep_wake_note_proxy",
+          "support_level": "proxy_executable",
+          "implementation_mode": "note_proxy",
+          "execution_notes": "",
+          "mapped_feature_name": "sleep_wake_note_proxy"
+        }
+      ],
+      "reference_only_trajectories": []
+    },
+    {
+      "phase_id": "resolution_or_persistence",
+      "name": "Resolution or Persistence",
+      "time_relative_to_anchor": "days",
+      "description": "Delirium either resolves with sustained non-positive assessments or persists.",
+      "trajectories": [
+        {
+          "marker": "Delirium resolution",
+          "direction": "present or absent",
+          "expected_range": "sustained non-positive window or persistence",
+          "rate": "days",
+          "clinical_significance": "Derived resolution state.",
+          "mimic_source": "derived",
+          "canonical_feature": "delirium_resolution",
+          "support_level": "proxy_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "delirium_resolution"
+        },
+        {
+          "marker": "Delirium assessment",
+          "direction": "stabilising or remaining positive",
+          "expected_range": "non-positive or persistent positive",
+          "rate": "days",
+          "clinical_significance": "Primary course discriminator.",
+          "mimic_source": "chartevents",
+          "canonical_feature": "delirium_assessment",
+          "support_level": "core_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "delirium_assessment"
+        },
+        {
+          "marker": "RASS",
+          "direction": "returning to calm or remaining unstable",
+          "expected_range": "toward 0 or persistent deviation",
+          "rate": "days",
+          "clinical_significance": "Recovery of arousal control.",
+          "mimic_source": "chartevents",
+          "canonical_feature": "rass",
+          "support_level": "core_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "rass"
+        },
+        {
+          "marker": "Hallucination note signal",
+          "direction": "present in some persistent cases",
+          "expected_range": "note-level proxy",
+          "rate": "days",
+          "clinical_significance": "Perceptual disturbance proxy only.",
+          "mimic_source": "nursing/progress notes",
+          "canonical_feature": "hallucination_note_proxy",
+          "support_level": "proxy_executable",
+          "implementation_mode": "note_proxy",
+          "execution_notes": "",
+          "mapped_feature_name": "hallucination_note_proxy"
+        }
+      ],
+      "reference_only_trajectories": []
+    }
+  ],
+  "atypical_variants": [
+    {
+      "variant_id": "del_atyp_1",
+      "name": "Purely hypoactive delirium (missed delirium)",
+      "prevalence": "~43% of ICU delirium; most commonly missed subtype",
+      "deviation": "No agitation, no psychomotor excitement. Patient appears withdrawn, drowsy, apathetic. RASS −1 to −3 but NOT sedation-related.",
+      "clinical_implication": "Often mistaken for depression, fatigue, or oversedation. Carries WORSE prognosis than hyperactive.",
+      "cres_task": "Contrastive: model must distinguish hypoactive delirium from appropriate sedation or depression"
+    },
+    {
+      "variant_id": "del_atyp_2",
+      "name": "Persistent delirium (>7 days)",
+      "prevalence": "20-30% of ICU delirium episodes",
+      "deviation": "CAM-ICU remains positive beyond 7 days. No resolution phase. May evolve into chronic cognitive impairment.",
+      "clinical_implication": "Associated with dementia predisposition, higher mortality, longer ICU stay",
+      "cres_task": "Temporal reasoning: model must identify non-resolving trajectory and predict persistence"
+    },
+    {
+      "variant_id": "del_atyp_3",
+      "name": "Delirium superimposed on dementia",
+      "prevalence": "Common in elderly ICU patients (>65 years)",
+      "deviation": "Baseline cognitive impairment present. Fluctuation less pronounced. CAM-ICU Feature 1 (inattention) may be chronically present. New-onset disorganised thinking is the key distinguishing feature.",
+      "clinical_implication": "Higher delirium risk; worse outcomes; harder to detect",
+      "cres_task": "Diagnostic consistency: model must separate chronic dementia features from acute delirium features"
+    },
+    {
+      "variant_id": "del_atyp_4",
+      "name": "Alcohol withdrawal delirium (delirium tremens)",
+      "prevalence": "Subset of hyperactive delirium",
+      "deviation": "Hyperadrenergic state: tremor, diaphoresis, seizures. Very high HR and BP. Distinct from typical ICU delirium trajectory — follows withdrawal timeline (24-72h after last drink).",
+      "clinical_implication": "Requires benzodiazepines (unlike standard delirium where benzos are harmful)",
+      "cres_task": "Contrastive: model must recognise that benzodiazepines are THERAPEUTIC here but CAUSATIVE in typical delirium"
+    },
+    {
+      "variant_id": "del_atyp_5",
+      "name": "Rapid-cycling mixed subtype",
+      "prevalence": "~55% of ICU delirium (most common subtype)",
+      "deviation": "RASS alternates between positive and negative within hours. Shifts from agitation to withdrawal unpredictably.",
+      "clinical_implication": "Hardest to manage; medication titration challenging",
+      "cres_task": "Temporal grounding: model must recognise rapid RASS oscillation as mixed delirium, not artefact"
+    }
+  ]
+}

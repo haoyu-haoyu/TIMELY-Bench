@@ -1,0 +1,57 @@
+{
+  "condition": "sepsis",
+  "cohort": {
+    "sepsis3_positive_stays": 32899,
+    "onset_from_pathway_stays": 29518,
+    "onset_fallback_zero_stays": 3381,
+    "onset_confidence_high_stays": 29518,
+    "onset_confidence_low_stays": 3381,
+    "stays_with_any_shock": 12638,
+    "stays_with_progression_shock": 12072,
+    "shock_before_sepsis_onset_stays": 2547,
+    "shock_at_sepsis_onset_stays": 826,
+    "primary_excluded_due_shock_at_or_before_first_anchor": 6382
+  },
+  "support_coverage": {
+    "stays_with_map": 32888,
+    "stays_with_lactate": 23716,
+    "stays_with_vasopressor": 16392,
+    "stays_with_sofa_total": 32899
+  },
+  "tasks": {
+    "SEP-T1": {
+      "rows": 871557,
+      "unique_stays": 26517,
+      "positive_rate": 0.01655428159030333,
+      "stays_with_any_positive": 6256,
+      "label_definition": "shock within (T, T+12]"
+    },
+    "SEP-S1": {
+      "rows": 27003,
+      "unique_stays": 11715,
+      "positive_rate": 0.21108765692700812,
+      "stays_with_any_positive": 3711,
+      "label_definition": "lactate clearance >10% within (T, T+6]"
+    }
+  },
+  "outputs": {
+    "metadata": "data/processed/v3/sepsis/tasks/sepsis_stay_metadata.parquet",
+    "shock_hourly": "data/processed/v3/sepsis/tasks/septic_shock_hourly_v3.parquet",
+    "primary_instances": "data/processed/v3/sepsis/tasks/sepsis_shock_instances.parquet",
+    "secondary_instances": "data/processed/v3/sepsis/tasks/sepsis_lactate_clearance_instances.parquet"
+  },
+  "settings": {
+    "prediction_interval": 4,
+    "lookahead_hours": 12,
+    "clearance_window_hours": 6,
+    "max_hour": 168,
+    "map_threshold": 65.0,
+    "lactate_threshold": 2.0
+  },
+  "flags": [
+    "onset_fallback_zero_for_3381_stays",
+    "shock_before_sepsis_onset_for_2547_stays",
+    "shock_at_sepsis_onset_for_826_stays",
+    "primary_excluded_due_shock_at_or_before_first_anchor_for_6382_stays"
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "condition": "aki",
+  "phase5_mode": "template_driven_state_space_mvp",
+  "template_source": "results/v3/knowledge/physiology_template_aki_executable.json",
+  "template_phase_ids": [
+    "risk_exposure",
+    "early_injury_stage1",
+    "progressive_injury_stage2plus",
+    "support_escalation",
+    "recovery_or_nonrecovery"
+  ],
+  "template_atypical_variant_ids": [
+    "aki_atyp_1",
+    "aki_atyp_2",
+    "aki_atyp_3",
+    "aki_atyp_4",
+    "aki_atyp_5",
+    "aki_atyp_6"
+  ],
+  "aligned_trajectories": {
+    "rows": 8590329,
+    "unique_stays": 49920,
+    "min_relative_hour": -48.0,
+    "max_relative_hour": 167.0,
+    "outputs": "data/processed/v3/aki/state_space/aki_aligned_trajectories.parquet"
+  },
+  "phase_labels_hourly": {
+    "rows": 8590329,
+    "unique_stays": 49920,
+    "phase_distribution": {
+      "recovery_or_nonrecovery": 3915260,
+      "progressive_injury_stage2plus": 2304831,
+      "early_injury_stage1": 1254726,
+      "risk_exposure": 807362,
+      "support_escalation": 308150
+    },
+    "mean_template_executable_support_score": 0.19333546480000943,
+    "outputs": "data/processed/v3/aki/state_space/aki_phase_labels_hourly.parquet"
+  },
+  "phase_episode_summary": {
+    "rows": 486268,
+    "unique_stays": 49920,
+    "outputs": "data/processed/v3/aki/state_space/aki_phase_episode_summary.parquet"
+  },
+  "state_prototypes": {
+    "rows": 17,
+    "outputs": "data/processed/v3/aki/state_space/aki_state_prototypes.parquet"
+  },
+  "transition_matrix": {
+    "n_transitions": 777462,
+    "n_edges": 111,
+    "outputs": "data/processed/v3/aki/state_space/aki_transition_matrix.json"
+  },
+  "atypical_variants": {
+    "rows": 299520,
+    "unique_stays": 49920,
+    "supported_flag_counts": {
+      "aki_atyp_1": 12648,
+      "aki_atyp_2": 4345,
+      "aki_atyp_3": 13080,
+      "aki_atyp_6": 6545
+    },
+    "unsupported_variants": [
+      "aki_atyp_4",
+      "aki_atyp_5"
+    ],
+    "outputs": "data/processed/v3/aki/state_space/aki_atypical_variant_flags.parquet"
+  },
+  "trajectory_tiers": {
+    "rows": 49920,
+    "unique_stays": 49920,
+    "tier_distribution": {
+      "atypical_low_support": 26355,
+      "low_template_support": 20695,
+      "atypical_supported": 2479,
+      "typical_supported": 391
+    },
+    "outputs": "data/processed/v3/aki/state_space/aki_trajectory_tiers.parquet"
+  },
+  "flags": []
+}

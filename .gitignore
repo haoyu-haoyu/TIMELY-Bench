@@ -29,6 +29,9 @@ results/cres_v3/**/*outputs*.jsonl
 !code/**/*.json
 !results/**/*.json
 !results/**/*.csv
+results/v3/feasibility_remote/stroke_open_questions_audit.json
+results/v3/feasibility_remote/stroke_text_strategy_audit.json
+results/v3/feasibility_remote/stroke_text_strategy_audit_fresh_v3.json
 
 # Credential material.
 *.env

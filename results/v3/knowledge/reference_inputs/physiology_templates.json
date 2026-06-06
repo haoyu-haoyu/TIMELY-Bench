@@ -1,0 +1,412 @@
+{
+  "meta": {
+    "project": "TIMELY-Bench / CRES",
+    "component": "Physiology Templates",
+    "version": "1.0",
+    "created": "2026-03-18",
+    "description": "Temporal extensions of Condition Graphs encoding expected biomarker trajectories across disease phases. These templates serve as (1) question-generation infrastructure for CRES reasoning tasks, (2) answer-scoring rubrics for temporal grounding and trend consistency evaluation, and (3) a basis for constructing contrastive inference tasks using atypical presentations. They are EVALUATION INFRASTRUCTURE — not training data for models.",
+    "design_principles": [
+      "Each phase has explicit time boundaries relative to a clinical anchor event",
+      "Biomarker trajectories specify direction, expected range, and rate of change",
+      "Atypical variants are encoded to support contrastive reasoning tasks",
+      "All values reference clinical guidelines or established literature",
+      "MIMIC-IV operationalisation is specified for each trajectory"
+    ],
+    "trajectory_fields": {
+      "marker": "The biomarker or clinical variable being tracked",
+      "direction": "Expected direction of change: rising | falling | stable | oscillating | absent→present | present→absent",
+      "expected_range": "Typical value range during this phase (units specified)",
+      "rate": "Expected rate of change: rapid | gradual | variable | plateau",
+      "clinical_significance": "Why this trajectory matters clinically",
+      "mimic_source": "How to operationalise this in MIMIC-IV"
+    }
+  },
+
+  "conditions": {
+
+    "aki": {
+      "name": "Acute Kidney Injury (AKI)",
+      "anchor_event": "First KDIGO criterion met (SCr ≥1.5× baseline or ↑≥0.3 mg/dL within 48h, or UO <0.5 mL/kg/h ×6h)",
+      "anchor_mimic": "derived.kdigo_stages: first hour where kdigo_stage ≥ 1",
+      "total_typical_duration": "7-21 days (transient: <48h; persistent AKI/AKD: 7-90 days)",
+      "references": [
+        "KDIGO 2012 AKI Guideline",
+        "Bellomo R et al. Lancet 2012;380:756-766",
+        "Kellum JA et al. Kidney Int 2012 (AKI trajectories)",
+        "KDIGO AKI/AKD Scope of Work 2023 (transient vs persistent vs progressive)",
+        "Matarneh et al. Renal Failure 2025 (biomarker timing)"
+      ],
+
+      "phases": [
+        {
+          "phase_id": "aki_phase_0",
+          "name": "Pre-injury / Risk Window",
+          "time_relative_to_anchor": "−48h to 0h (before KDIGO criteria met)",
+          "description": "Subclinical injury period. Novel biomarkers may already be elevated while SCr remains within normal range. Haemodynamic insult or nephrotoxin exposure has occurred but functional markers have not yet responded.",
+          "trajectories": [
+            {"marker": "Serum Creatinine", "direction": "stable or minimally rising", "expected_range": "within baseline ±0.1 mg/dL", "rate": "slow (SCr lags actual GFR decline by 24-48h)", "clinical_significance": "SCr insensitive in this phase; false reassurance risk", "mimic_source": "labevents (50912)"},
+            {"marker": "NGAL (urine/plasma)", "direction": "rising", "expected_range": "may exceed threshold (>150 ng/mL urine) 2-6h post insult", "rate": "rapid (peaks at 6-12h post injury)", "clinical_significance": "Earliest structural injury marker; precedes SCr rise by 24-48h", "mimic_source": "research assay (not standard MIMIC)"},
+            {"marker": "[TIMP-2]·[IGFBP7]", "direction": "rising", "expected_range": ">0.3 (ng/mL)²/1000 indicates moderate risk; >2.0 high risk", "rate": "rapid (peaks within 12h of insult)", "clinical_significance": "Cell cycle arrest marker; FDA-approved for AKI risk within 12h", "mimic_source": "NephroCheck assay (not standard MIMIC)"},
+            {"marker": "Urine Output", "direction": "may begin falling", "expected_range": "may drop toward 0.5-1.0 mL/kg/h", "rate": "gradual over 6-12h", "clinical_significance": "UO often the first bedside signal; more sensitive than SCr for early AKI", "mimic_source": "outputevents"},
+            {"marker": "MAP", "direction": "may be low if pre-renal aetiology", "expected_range": "<65 mmHg in septic/hypovolaemic cases", "rate": "variable", "clinical_significance": "Haemodynamic trigger for pre-renal AKI", "mimic_source": "chartevents (220052)"},
+            {"marker": "Lactate", "direction": "may be rising if septic aetiology", "expected_range": ">2 mmol/L", "rate": "rapid in sepsis", "clinical_significance": "Tissue hypoperfusion indicator; co-occurs with septic AKI risk", "mimic_source": "labevents (50813)"}
+          ]
+        },
+
+        {
+          "phase_id": "aki_phase_1",
+          "name": "Initiation / Onset Phase",
+          "time_relative_to_anchor": "0h to +24h",
+          "description": "KDIGO criteria first met. SCr crosses diagnostic threshold. Injury mechanisms actively ongoing (ischaemia, nephrotoxin, inflammation). Metabolic consequences beginning to emerge.",
+          "trajectories": [
+            {"marker": "Serum Creatinine", "direction": "rising", "expected_range": "1.5-2.0× baseline (Stage 1-2 range)", "rate": "rapid rise (0.3-0.5 mg/dL per 24h in severe cases)", "clinical_significance": "Diagnostic threshold crossed; rate of rise predicts severity", "mimic_source": "labevents (50912)"},
+            {"marker": "eGFR", "direction": "falling", "expected_range": "may drop 30-50% from baseline", "rate": "rapid", "clinical_significance": "Note: eGFR overestimates actual GFR during non-steady-state SCr rise", "mimic_source": "derived from SCr"},
+            {"marker": "BUN", "direction": "rising", "expected_range": "BUN:Cr ratio >20:1 suggests pre-renal; ≤15:1 suggests intrinsic", "rate": "gradual", "clinical_significance": "BUN:Cr ratio aids in distinguishing pre-renal from intrinsic AKI", "mimic_source": "labevents (51006)"},
+            {"marker": "Urine Output", "direction": "falling", "expected_range": "<0.5 mL/kg/h (oliguric) or maintained (non-oliguric AKI)", "rate": "may drop abruptly or gradually over 6-12h", "clinical_significance": "Oliguric vs non-oliguric AKI: ~50% of AKI is non-oliguric (preserved UO)", "mimic_source": "outputevents"},
+            {"marker": "Potassium", "direction": "rising", "expected_range": "5.0-6.0 mEq/L", "rate": "gradual (faster in rhabdomyolysis/acidosis)", "clinical_significance": "Cardiac arrhythmia risk at >6.0; ECG monitoring indicated", "mimic_source": "labevents (50971)"},
+            {"marker": "Bicarbonate", "direction": "falling", "expected_range": "18-22 mEq/L", "rate": "gradual", "clinical_significance": "Metabolic acidosis developing; anion gap may rise", "mimic_source": "labevents (50882)"},
+            {"marker": "Phosphate", "direction": "rising", "expected_range": ">4.5 mg/dL", "rate": "gradual", "clinical_significance": "Reduced renal excretion", "mimic_source": "labevents (50970)"},
+            {"marker": "NGAL", "direction": "peaked or plateauing", "expected_range": "may already be declining from 6-12h peak", "rate": "plateau then gradual decline", "clinical_significance": "Peak NGAL predicts severity; declining NGAL is favourable", "mimic_source": "research assay"}
+          ]
+        },
+
+        {
+          "phase_id": "aki_phase_2",
+          "name": "Extension / Oliguric-Anuric Phase",
+          "time_relative_to_anchor": "+24h to +72h (may extend to 7-14 days in severe ATN)",
+          "description": "Sustained kidney injury. Peak SCr reached or still rising. Oliguria or anuria in severe cases. Metabolic complications intensify. RRT may be initiated. Fluid overload risk is highest.",
+          "trajectories": [
+            {"marker": "Serum Creatinine", "direction": "peak or continued rise", "expected_range": "2.0-3.0× baseline (Stage 2-3); may exceed 4.0 mg/dL", "rate": "slowing rise → plateau", "clinical_significance": "Peak SCr correlates with severity; time to peak predicts recovery trajectory", "mimic_source": "labevents (50912)"},
+            {"marker": "Urine Output", "direction": "minimal (oliguric/anuric)", "expected_range": "<0.3 mL/kg/h or <100 mL/12h (anuric)", "rate": "stable at nadir", "clinical_significance": "Anuria >12h = KDIGO Stage 3; RRT indication if life-threatening complications", "mimic_source": "outputevents"},
+            {"marker": "Potassium", "direction": "rising further or critically high", "expected_range": "5.5-7.0+ mEq/L", "rate": "may accelerate with acidosis", "clinical_significance": "Life-threatening: ECG changes (peaked T, wide QRS); emergency intervention needed", "mimic_source": "labevents (50971)"},
+            {"marker": "Bicarbonate", "direction": "further decline", "expected_range": "<18 mEq/L; may reach <12 in severe acidosis", "rate": "gradual", "clinical_significance": "Severe metabolic acidosis; Kussmaul respirations may develop", "mimic_source": "labevents (50882)"},
+            {"marker": "Fluid Balance", "direction": "increasingly positive", "expected_range": "cumulative +2-5L or more", "rate": "depends on fluid input vs output", "clinical_significance": "Fluid overload → pulmonary oedema → hypoxia; a key driver of morbidity", "mimic_source": "inputevents − outputevents"},
+            {"marker": "CVP", "direction": "rising", "expected_range": ">12 mmHg", "rate": "gradual with fluid accumulation", "clinical_significance": "Venous congestion worsens renal recovery; guides diuretic vs RRT decision", "mimic_source": "chartevents (220074)"},
+            {"marker": "Calcium", "direction": "falling", "expected_range": "<8.5 mg/dL (ionised <1.1 mmol/L)", "rate": "gradual", "clinical_significance": "Due to ↓ 1,25-dihydroxyvitamin D production", "mimic_source": "labevents (50893)"},
+            {"marker": "BUN", "direction": "rising", "expected_range": ">60-80 mg/dL in severe cases", "rate": "gradual", "clinical_significance": "Uremic symptoms (encephalopathy, pericarditis) if BUN >100", "mimic_source": "labevents (51006)"}
+          ]
+        },
+
+        {
+          "phase_id": "aki_phase_3",
+          "name": "Maintenance / Plateau Phase",
+          "time_relative_to_anchor": "+3 to +14 days (variable; shortest in pre-renal, longest in ATN)",
+          "description": "SCr stabilises at elevated level. Tubular repair processes begin. GFR remains low but injury mechanisms are subsiding. Focus shifts to supportive care, avoiding second hits, and monitoring for recovery signals.",
+          "trajectories": [
+            {"marker": "Serum Creatinine", "direction": "plateau", "expected_range": "stable at elevated level (individual peak)", "rate": "plateau (±0.2 mg/dL/day)", "clinical_significance": "Stable SCr = injury mechanism ceased but repair not yet complete", "mimic_source": "labevents (50912)"},
+            {"marker": "Urine Output", "direction": "earliest recovery signal: UO begins to increase", "expected_range": "0.5-1.0 mL/kg/h initially, may overshoot", "rate": "gradual increase", "clinical_significance": "UO recovery often precedes SCr decline by 24-48h", "mimic_source": "outputevents"},
+            {"marker": "KIM-1", "direction": "may remain elevated", "expected_range": "elevated (ongoing tubular repair)", "rate": "gradual decline as repair progresses", "clinical_significance": "Persistently elevated KIM-1 predicts incomplete recovery and CKD risk", "mimic_source": "research assay"}
+          ]
+        },
+
+        {
+          "phase_id": "aki_phase_4",
+          "name": "Recovery / Diuretic Phase",
+          "time_relative_to_anchor": "+7 to +21 days (onset highly variable; may not occur in non-recovery)",
+          "description": "Tubular function recovering. Urine output increases, sometimes dramatically (diuretic phase with polyuria). SCr begins declining toward baseline. Electrolyte instability from polyuria. Risk of volume depletion if output not matched.",
+          "trajectories": [
+            {"marker": "Serum Creatinine", "direction": "falling", "expected_range": "declining toward baseline; may not return to pre-AKI level", "rate": "gradual (typically 0.3-0.5 mg/dL decline per day)", "clinical_significance": "Rate of SCr decline predicts completeness of recovery; note eGFR underestimates actual GFR during SCr fall", "mimic_source": "labevents (50912)"},
+            {"marker": "Urine Output", "direction": "rising; may overshoot (polyuric phase)", "expected_range": ">2-3 mL/kg/h; occasionally >5 L/day", "rate": "can be brisk (hours to days)", "clinical_significance": "Polyuria reflects recovering tubules with impaired concentrating ability; hypovolaemia risk if not matched", "mimic_source": "outputevents"},
+            {"marker": "Potassium", "direction": "falling (may undershoot)", "expected_range": "may drop to <3.5 mEq/L during polyuria", "rate": "rapid during brisk diuresis", "clinical_significance": "Hypokalaemia risk during recovery; replace electrolytes", "mimic_source": "labevents (50971)"},
+            {"marker": "Sodium", "direction": "may fluctuate", "expected_range": "risk of hypernatraemia during polyuria if free water not replaced", "rate": "variable", "clinical_significance": "Tubular concentrating defect → dilute urine", "mimic_source": "labevents (50983)"},
+            {"marker": "Bicarbonate", "direction": "normalising", "expected_range": "rising toward 22-26 mEq/L", "rate": "gradual", "clinical_significance": "Acid-base normalisation", "mimic_source": "labevents (50882)"},
+            {"marker": "Fluid Balance", "direction": "turning negative", "expected_range": "net negative 1-3 L/day during polyuric phase", "rate": "variable", "clinical_significance": "Natural mobilisation of accumulated fluid; support with IV fluids if haemodynamically unstable", "mimic_source": "inputevents − outputevents"}
+          ]
+        }
+      ],
+
+      "atypical_variants": [
+        {
+          "variant_id": "aki_atyp_1",
+          "name": "Non-oliguric AKI",
+          "prevalence": "~50% of ICU AKI episodes",
+          "deviation": "Urine output remains >0.5 mL/kg/h throughout despite rising SCr and falling GFR",
+          "clinical_implication": "UO-based KDIGO criteria not met; SCr-only diagnosis. May be missed if only monitoring UO.",
+          "cres_task": "Contrastive: model must recognise AKI despite preserved urine output"
+        },
+        {
+          "variant_id": "aki_atyp_2",
+          "name": "Rapidly reversible (pre-renal) AKI",
+          "prevalence": "~30-40% of AKI episodes",
+          "deviation": "SCr peaks within 24-48h then declines rapidly with volume resuscitation. No sustained oliguric phase.",
+          "clinical_implication": "Transient AKI; full recovery expected. Persistent AKI (>48h) suggests transition to ATN.",
+          "cres_task": "Temporal grounding: model must distinguish transient from persistent trajectory"
+        },
+        {
+          "variant_id": "aki_atyp_3",
+          "name": "AKI on CKD (acute-on-chronic)",
+          "prevalence": "~30% of AKI in elderly ICU patients",
+          "deviation": "Elevated baseline SCr (e.g., 2.0 mg/dL). Absolute SCr rise smaller for same proportional GFR loss. Recovery may plateau above pre-AKI baseline, reflecting new CKD progression.",
+          "clinical_implication": "KDIGO criteria still apply to proportional change; but absolute thresholds (e.g., >4.0 mg/dL) reached earlier",
+          "cres_task": "Threshold detection: model must correctly apply KDIGO staging relative to elevated baseline"
+        },
+        {
+          "variant_id": "aki_atyp_4",
+          "name": "Delayed SCr rise (low muscle mass / liver disease)",
+          "deviation": "SCr rise blunted due to reduced creatinine generation (sarcopenia, cirrhosis). AKI severity underestimated.",
+          "clinical_implication": "Cystatin C or novel biomarkers more reliable in this population",
+          "cres_task": "Contrastive: model must recognise that 'normal' SCr can mask severe AKI"
+        },
+        {
+          "variant_id": "aki_atyp_5",
+          "name": "Rhabdomyolysis-associated AKI",
+          "deviation": "SCr rises disproportionately fast (CK release adds to creatinine pool). Very high K⁺ and phosphate early. Myoglobin casts in urine.",
+          "clinical_implication": "SCr rise partly artifactual (muscle creatine release); but kidney injury is real (cast nephropathy)",
+          "cres_task": "Diagnostic consistency: model must integrate CK, SCr, and UO to correctly attribute AKI cause"
+        },
+        {
+          "variant_id": "aki_atyp_6",
+          "name": "Non-recovery / AKD transition",
+          "deviation": "SCr does not decline by day 7; meets AKD criteria (persistent abnormality 7-90 days). May require long-term RRT.",
+          "clinical_implication": "Transition from AKI to AKD; higher CKD conversion risk",
+          "cres_task": "Temporal reasoning: model must identify non-recovery trajectory and flag AKD transition"
+        }
+      ]
+    },
+
+    "delirium": {
+      "name": "Delirium (ICU)",
+      "anchor_event": "First CAM-ICU positive assessment (Feature 1 + 2 + either 3 or 4)",
+      "anchor_mimic": "chartevents: first CAM-ICU positive result (RASS ≥ −3 required for assessment)",
+      "total_typical_duration": "Median 2-3 days in ICU; may persist >7 days in 20-30% of cases",
+      "references": [
+        "DSM-5 (APA 2013)",
+        "Ely EW et al. JAMA 2001 (CAM-ICU)",
+        "PADIS 2018 & 2025 Focused Update",
+        "Pandharipande PP et al. Lancet 2013 (duration and cognitive outcomes)",
+        "Girard TD et al. NEJM 2018 (MIND-USA: haloperidol/ziprasidone)",
+        "Pisani MA et al. Am J Respir Crit Care Med 2009 (delirium duration trajectories)"
+      ],
+
+      "phases": [
+        {
+          "phase_id": "del_phase_0",
+          "name": "Prodromal / Subclinical Phase",
+          "time_relative_to_anchor": "−24 to −6h before first CAM-ICU positive",
+          "description": "Subsyndromal delirium. Patient may exhibit subtle signs: restlessness, mild inattention, sleep-wake cycle disruption. CAM-ICU may still be negative but ICDSC score trending upward. Metabolic or pharmacological precipitants accumulating.",
+          "trajectories": [
+            {"marker": "RASS", "direction": "subtly drifting from 0", "expected_range": "−1 to +1 (mild deviations)", "rate": "gradual", "clinical_significance": "Prodromal RASS instability predicts delirium onset within 24h", "mimic_source": "chartevents (228096)"},
+            {"marker": "Heart Rate", "direction": "may be rising", "expected_range": "85-110 bpm", "rate": "gradual", "clinical_significance": "Sympathetic activation; autonomic instability precedes delirium", "mimic_source": "chartevents (220045)"},
+            {"marker": "Sleep pattern", "direction": "disrupted", "expected_range": "fragmented; ↑ night-time wakefulness", "rate": "progressive over 12-24h", "clinical_significance": "Circadian disruption is both risk factor and early sign", "mimic_source": "nursing notes / chartevents"},
+            {"marker": "CRP / WBC", "direction": "may be rising if infectious trigger", "expected_range": "CRP >50 mg/L; WBC >12,000", "rate": "depends on underlying trigger", "clinical_significance": "Neuroinflammatory pathway activation", "mimic_source": "labevents (50889/51301)"},
+            {"marker": "Sodium / Glucose / Calcium", "direction": "may be deranged", "expected_range": "Na <130 or >150; Glucose <70 or >250; iCa <1.0", "rate": "variable", "clinical_significance": "Metabolic precipitants; correctable if identified early", "mimic_source": "labevents (50983/50931/50893)"}
+          ]
+        },
+
+        {
+          "phase_id": "del_phase_1",
+          "name": "Acute Onset Phase",
+          "time_relative_to_anchor": "0h to +24h (first CAM-ICU positive)",
+          "description": "Delirium diagnosed. Core features present: acute inattention, fluctuating consciousness, ±disorganised thinking or altered LOC. Motor subtype typically becomes apparent. Vital signs may show autonomic instability.",
+          "trajectories": [
+            {"marker": "CAM-ICU", "direction": "positive (newly)", "expected_range": "Features 1+2+3/4 present", "rate": "acute onset (hours)", "clinical_significance": "Definitive diagnosis. Begin PINCHME workup for reversible causes.", "mimic_source": "chartevents (CAM-ICU result)"},
+            {"marker": "RASS", "direction": "fluctuating", "expected_range": "may swing between −3 and +3 within hours", "rate": "rapid fluctuation (hallmark)", "clinical_significance": "Fluctuation = cardinal feature; distinguishes delirium from dementia/depression", "mimic_source": "chartevents (228096)"},
+            {"marker": "Heart Rate", "direction": "elevated or fluctuating", "expected_range": "90-130 bpm (hyperactive); may be normal in hypoactive", "rate": "variable", "clinical_significance": "Autonomic instability correlates with severity", "mimic_source": "chartevents (220045)"},
+            {"marker": "Blood Pressure", "direction": "fluctuating", "expected_range": "labile; hypertension in hyperactive, hypotension in hypoactive", "rate": "variable", "clinical_significance": "Autonomic dysregulation", "mimic_source": "chartevents (220050/220052)"},
+            {"marker": "Temperature", "direction": "may be elevated", "expected_range": ">38°C if infective trigger", "rate": "variable", "clinical_significance": "Fever workup essential (infection is top precipitant)", "mimic_source": "chartevents (223761)"},
+            {"marker": "SpO₂", "direction": "may be reduced", "expected_range": "<94% if respiratory compromise", "rate": "variable", "clinical_significance": "Hypoxia both cause and consequence of delirium", "mimic_source": "chartevents (220277)"}
+          ]
+        },
+
+        {
+          "phase_id": "del_phase_2",
+          "name": "Fluctuating Course (Days 1-3)",
+          "time_relative_to_anchor": "+24h to +72h",
+          "description": "Characteristic waxing and waning of symptoms. Lucid intervals alternate with confusion. Motor subtype may shift (mixed most common). Circadian disruption prominent: sundowning pattern. Metabolic abnormalities may persist or resolve depending on treatment.",
+          "trajectories": [
+            {"marker": "CAM-ICU", "direction": "oscillating positive/negative", "expected_range": "may be positive at night, negative in morning (sundowning)", "rate": "fluctuating every 4-12h", "clinical_significance": "THE hallmark temporal pattern of delirium; single time-point assessment may miss it", "mimic_source": "chartevents (CAM-ICU per nursing shift)"},
+            {"marker": "RASS", "direction": "oscillating", "expected_range": "amplitude of fluctuation correlates with severity (CAM-ICU-7 score)", "rate": "multiple fluctuations per 24h", "clinical_significance": "Greater RASS variability = more severe delirium trajectory", "mimic_source": "chartevents (228096)"},
+            {"marker": "GCS / Attention tests", "direction": "variable", "expected_range": "GCS may fluctuate 3-5 points within 24h", "rate": "rapid fluctuations", "clinical_significance": "Attention is worst feature; letter recognition test errors increase", "mimic_source": "chartevents (GCS components)"},
+            {"marker": "Sleep-Wake Cycle", "direction": "reversed or fragmented", "expected_range": "daytime somnolence with nocturnal agitation", "rate": "persistent pattern", "clinical_significance": "Circadian disruption perpetuates delirium; melatonin may help (PADIS 2025)", "mimic_source": "nursing notes"},
+            {"marker": "Sodium / Urea / Glucose", "direction": "should be correcting if treatment effective", "expected_range": "trending toward normal", "rate": "depends on underlying cause correction", "clinical_significance": "Failure to correct metabolic precipitants predicts prolonged delirium", "mimic_source": "labevents"}
+          ]
+        },
+
+        {
+          "phase_id": "del_phase_3",
+          "name": "Resolution Phase",
+          "time_relative_to_anchor": "+48h to +7 days (variable; may be >7 days in persistent delirium)",
+          "description": "Gradual clearing of confusion. CAM-ICU becomes consistently negative. RASS stabilises at 0. Attention improves. Sleep-wake cycle normalises. Some patients retain subsyndromal symptoms for days to weeks.",
+          "trajectories": [
+            {"marker": "CAM-ICU", "direction": "transitioning to negative", "expected_range": "increasingly negative across consecutive assessments", "rate": "gradual (resolution over 24-72h)", "clinical_significance": "Sustained CAM-ICU negativity × 24h = resolution", "mimic_source": "chartevents (CAM-ICU)"},
+            {"marker": "RASS", "direction": "stabilising at 0", "expected_range": "0 (alert and calm)", "rate": "gradual stabilisation", "clinical_significance": "Stable RASS = resolution of motor disturbance", "mimic_source": "chartevents (228096)"},
+            {"marker": "Heart Rate", "direction": "normalising", "expected_range": "60-100 bpm", "rate": "gradual", "clinical_significance": "Autonomic stability restored", "mimic_source": "chartevents (220045)"},
+            {"marker": "Cognitive function", "direction": "improving but may not return to pre-ICU baseline", "expected_range": "attention improving; orientation restoring", "rate": "gradual (days to weeks)", "clinical_significance": "Up to 40% of ICU delirium patients have persistent cognitive impairment at discharge", "mimic_source": "clinical notes / discharge summary"}
+          ]
+        }
+      ],
+
+      "atypical_variants": [
+        {
+          "variant_id": "del_atyp_1",
+          "name": "Purely hypoactive delirium (missed delirium)",
+          "prevalence": "~43% of ICU delirium; most commonly missed subtype",
+          "deviation": "No agitation, no psychomotor excitement. Patient appears withdrawn, drowsy, apathetic. RASS −1 to −3 but NOT sedation-related.",
+          "clinical_implication": "Often mistaken for depression, fatigue, or oversedation. Carries WORSE prognosis than hyperactive.",
+          "cres_task": "Contrastive: model must distinguish hypoactive delirium from appropriate sedation or depression"
+        },
+        {
+          "variant_id": "del_atyp_2",
+          "name": "Persistent delirium (>7 days)",
+          "prevalence": "20-30% of ICU delirium episodes",
+          "deviation": "CAM-ICU remains positive beyond 7 days. No resolution phase. May evolve into chronic cognitive impairment.",
+          "clinical_implication": "Associated with dementia predisposition, higher mortality, longer ICU stay",
+          "cres_task": "Temporal reasoning: model must identify non-resolving trajectory and predict persistence"
+        },
+        {
+          "variant_id": "del_atyp_3",
+          "name": "Delirium superimposed on dementia",
+          "prevalence": "Common in elderly ICU patients (>65 years)",
+          "deviation": "Baseline cognitive impairment present. Fluctuation less pronounced. CAM-ICU Feature 1 (inattention) may be chronically present. New-onset disorganised thinking is the key distinguishing feature.",
+          "clinical_implication": "Higher delirium risk; worse outcomes; harder to detect",
+          "cres_task": "Diagnostic consistency: model must separate chronic dementia features from acute delirium features"
+        },
+        {
+          "variant_id": "del_atyp_4",
+          "name": "Alcohol withdrawal delirium (delirium tremens)",
+          "prevalence": "Subset of hyperactive delirium",
+          "deviation": "Hyperadrenergic state: tremor, diaphoresis, seizures. Very high HR and BP. Distinct from typical ICU delirium trajectory — follows withdrawal timeline (24-72h after last drink).",
+          "clinical_implication": "Requires benzodiazepines (unlike standard delirium where benzos are harmful)",
+          "cres_task": "Contrastive: model must recognise that benzodiazepines are THERAPEUTIC here but CAUSATIVE in typical delirium"
+        },
+        {
+          "variant_id": "del_atyp_5",
+          "name": "Rapid-cycling mixed subtype",
+          "prevalence": "~55% of ICU delirium (most common subtype)",
+          "deviation": "RASS alternates between positive and negative within hours. Shifts from agitation to withdrawal unpredictably.",
+          "clinical_implication": "Hardest to manage; medication titration challenging",
+          "cres_task": "Temporal grounding: model must recognise rapid RASS oscillation as mixed delirium, not artefact"
+        }
+      ]
+    },
+
+    "stroke": {
+      "name": "Stroke (Ischaemic)",
+      "anchor_event": "Symptom onset (last known well time) or, if wake-up stroke, time of symptom discovery",
+      "anchor_mimic": "Earliest documented NIHSS assessment or nursing note indicating stroke symptoms",
+      "total_typical_duration": "Acute phase: 0-72h; subacute: 72h-14 days; early chronic: 14 days+",
+      "references": [
+        "AHA/ASA 2026 Guideline for Early Management of AIS (Prabhakaran et al.)",
+        "NIHSS (Brott et al. Stroke 1989)",
+        "DAWN Trial (Nogueira et al. NEJM 2018)",
+        "DEFUSE-3 Trial (Albers et al. NEJM 2018)",
+        "Tissue plasminogen activator for acute ischemic stroke (NINDS rt-PA Stroke Study Group, NEJM 1995)"
+      ],
+
+      "phases": [
+        {
+          "phase_id": "str_phase_0",
+          "name": "Hyperacute Phase (Ischaemic Penumbra)",
+          "time_relative_to_anchor": "0h to +4.5h (thrombolysis window)",
+          "description": "Core infarct surrounded by ischaemic penumbra (salvageable tissue). Neurological deficits maximal or progressing. Treatment decisions are time-critical: thrombolysis eligibility, EVT triage. Every minute of delay = further penumbral loss.",
+          "trajectories": [
+            {"marker": "NIHSS", "direction": "high and stable or worsening", "expected_range": "variable by territory; MCA LVO typically 10-25", "rate": "may worsen in first hours (progressing stroke)", "clinical_significance": "NIHSS drives treatment decisions: any disabling deficit → tPA eligible (AHA/ASA 2026)", "mimic_source": "chartevents (NIHSS)"},
+            {"marker": "Blood Pressure", "direction": "elevated (acute hypertensive response)", "expected_range": "SBP 160-220 mmHg (Cushing response)", "rate": "rapid elevation", "clinical_significance": "Must lower to <185/110 before tPA; permissive hypertension if no tPA", "mimic_source": "chartevents (220050/220179)"},
+            {"marker": "Heart Rate", "direction": "may be irregular", "expected_range": "60-120 bpm; irregular if AF present", "rate": "variable", "clinical_significance": "AF detection critical for aetiology and secondary prevention", "mimic_source": "chartevents (220045)"},
+            {"marker": "Glucose", "direction": "may be elevated (stress hyperglycaemia)", "expected_range": "140-250 mg/dL", "rate": "rapid", "clinical_significance": "Hyperglycaemia worsens penumbral injury; must rule out hypoglycaemia (stroke mimic)", "mimic_source": "labevents (50931)"},
+            {"marker": "INR / Platelets", "direction": "checked urgently", "expected_range": "INR ≤1.7 and platelets ≥100K required for tPA", "rate": "single check (pre-treatment)", "clinical_significance": "Coagulopathy = tPA contraindication", "mimic_source": "labevents (51237/51265)"},
+            {"marker": "GCS", "direction": "may be reduced in large territory stroke", "expected_range": "8-14 for moderate; <8 for severe", "rate": "may decline rapidly", "clinical_significance": "Low GCS with LVO → urgent EVT consideration", "mimic_source": "chartevents (GCS)"},
+            {"marker": "SpO₂", "direction": "should be maintained ≥94%", "expected_range": "≥94% (supplemental O₂ if needed)", "rate": "stable ideally", "clinical_significance": "Hypoxia exacerbates penumbral injury", "mimic_source": "chartevents (220277)"}
+          ]
+        },
+
+        {
+          "phase_id": "str_phase_1",
+          "name": "Early Acute Phase (Post-treatment / First 24h)",
+          "time_relative_to_anchor": "+4.5h to +24h",
+          "description": "Post-thrombolysis or post-EVT monitoring period. Neurological status may improve (reperfusion benefit) or worsen (haemorrhagic transformation). Strict BP control. Serial NIHSS monitoring. EVT still possible up to 24h for selected patients (DAWN/DEFUSE-3 criteria).",
+          "trajectories": [
+            {"marker": "NIHSS", "direction": "improving if successful reperfusion; stable or worsening if not", "expected_range": "≥4-point improvement suggests reperfusion benefit", "rate": "rapid improvement in first 2h post-tPA (dramatic responders); gradual over 24h", "clinical_significance": "Early neurological improvement is strongest predictor of good outcome", "mimic_source": "chartevents (NIHSS serial)"},
+            {"marker": "Blood Pressure", "direction": "controlled within targets", "expected_range": "<180/105 post-tPA; <180/105 post-EVT (AHA/ASA 2026)", "rate": "maintained with IV antihypertensives", "clinical_significance": "BP excursions above target increase haemorrhagic transformation risk", "mimic_source": "chartevents (220050/220179)"},
+            {"marker": "Troponin", "direction": "baseline check; may be elevated", "expected_range": "any elevation suggests concurrent cardiac injury", "rate": "single baseline measurement", "clinical_significance": "Cardiac source workup; concurrent MI or takotsubo", "mimic_source": "labevents (51003)"},
+            {"marker": "Temperature", "direction": "should remain normothermic", "expected_range": "<37.5°C ideal", "rate": "fever may develop at 12-24h", "clinical_significance": "Hyperthermia worsens infarct expansion; active cooling if >38°C", "mimic_source": "chartevents (223761)"},
+            {"marker": "Glucose", "direction": "should be managed but NOT tightly", "expected_range": "140-180 mg/dL (AHA/ASA 2026: Class III harm for 80-130 target)", "rate": "stable with insulin drip if needed", "clinical_significance": "Both hypo- and hyperglycaemia worsen outcomes; moderate control preferred", "mimic_source": "labevents (50931)"},
+            {"marker": "CT / Imaging", "direction": "follow-up CT at 24h", "expected_range": "assess for haemorrhagic transformation, oedema evolution", "rate": "single repeat scan", "clinical_significance": "Symptomatic ICH occurs in ~6% post-tPA; routine CT at 24h", "mimic_source": "radiology reports"}
+          ]
+        },
+
+        {
+          "phase_id": "str_phase_2",
+          "name": "Oedema / Complication Phase",
+          "time_relative_to_anchor": "+24h to +72h (peak cerebral oedema at 48-72h)",
+          "description": "Cerebral oedema peaks. Risk of midline shift, herniation in large territory infarcts (malignant MCA syndrome). Neurological deterioration may occur despite initial improvement. Dysphagia screening, DVT prophylaxis, early mobilisation begin.",
+          "trajectories": [
+            {"marker": "NIHSS", "direction": "stable or secondary worsening", "expected_range": "if worsening: ↑ ≥4 points suggests oedema/complication", "rate": "gradual worsening over 24-48h if oedema-related", "clinical_significance": "Secondary deterioration = urgent re-imaging; consider decompressive craniectomy if large MCA infarct and age <60", "mimic_source": "chartevents (NIHSS)"},
+            {"marker": "GCS", "direction": "may decline if oedema progressing", "expected_range": "drop of ≥2 points from post-treatment baseline", "rate": "gradual to rapid", "clinical_significance": "GCS decline + pupil asymmetry = herniation → neurosurgical emergency", "mimic_source": "chartevents (GCS)"},
+            {"marker": "Blood Pressure", "direction": "may rise (Cushing response to ↑ ICP)", "expected_range": "SBP >180 with bradycardia (Cushing triad)", "rate": "may be sudden", "clinical_significance": "Cushing triad (hypertension + bradycardia + irregular breathing) = imminent herniation", "mimic_source": "chartevents (220050/220045)"},
+            {"marker": "Temperature", "direction": "may be rising", "expected_range": ">38°C (central fever or infection)", "rate": "gradual", "clinical_significance": "Post-stroke fever within 72h associated with worse outcomes; treat aggressively", "mimic_source": "chartevents (223761)"},
+            {"marker": "CRP", "direction": "rising", "expected_range": ">20-50 mg/L", "rate": "gradual", "clinical_significance": "Post-stroke inflammatory response; also check for aspiration pneumonia", "mimic_source": "labevents (50889)"},
+            {"marker": "Sodium", "direction": "may drop", "expected_range": "<135 mEq/L (cerebral salt wasting or SIADH)", "rate": "gradual", "clinical_significance": "Hyponatraemia common post-stroke; worsens oedema", "mimic_source": "labevents (50983)"},
+            {"marker": "Swallow function", "direction": "assessed and may be impaired", "expected_range": "dysphagia present in 37-78% of acute stroke", "rate": "assessed within 24h", "clinical_significance": "Failed swallow screen → NPO, NG feeding; aspiration pneumonia prevention", "mimic_source": "clinical notes / swallow screen"}
+          ]
+        },
+
+        {
+          "phase_id": "str_phase_3",
+          "name": "Stabilisation / Early Rehabilitation Phase",
+          "time_relative_to_anchor": "+72h to +14 days",
+          "description": "Oedema resolving. Neurological status stabilising or gradually improving. Secondary prevention initiated (antiplatelet/anticoagulant, statin, antihypertensive). Early rehabilitation and mobilisation. Risk of recurrent stroke highest in first 2 weeks.",
+          "trajectories": [
+            {"marker": "NIHSS", "direction": "gradually improving", "expected_range": "declining by 1-2 points per week (variable)", "rate": "gradual", "clinical_significance": "Rate of NIHSS improvement predicts functional outcome (mRS at 90 days)", "mimic_source": "chartevents (NIHSS)"},
+            {"marker": "Blood Pressure", "direction": "transitioning to oral antihypertensives", "expected_range": "target <140/90 (or <130/80 if tolerated) for secondary prevention", "rate": "gradual adjustment over days", "clinical_significance": "Long-term BP control reduces recurrence risk by ~30%", "mimic_source": "prescriptions / chartevents"},
+            {"marker": "LDL Cholesterol", "direction": "measured; statin initiated", "expected_range": "target <70 mg/dL with high-intensity statin", "rate": "statin effect over 4-6 weeks", "clinical_significance": "High-intensity statin = Class 1 recommendation (AHA/ASA 2026)", "mimic_source": "labevents / prescriptions"},
+            {"marker": "HbA1c", "direction": "measured for diabetes screening", "expected_range": ">6.5% = diabetes; target <7% with management", "rate": "single measurement (reflects 3-month average)", "clinical_significance": "Diabetes management part of secondary prevention", "mimic_source": "labevents"},
+            {"marker": "Heart rhythm monitoring", "direction": "prolonged cardiac monitoring", "expected_range": "≥24h telemetry minimum; consider extended monitoring if cryptogenic", "rate": "continuous", "clinical_significance": "AF detection rate increases with monitoring duration; anticoagulation if AF found", "mimic_source": "chartevents (ECG/telemetry)"},
+            {"marker": "D-dimer", "direction": "should be normalising", "expected_range": "declining toward normal", "rate": "gradual", "clinical_significance": "Persistently elevated D-dimer → investigate for DVT (immobility risk)", "mimic_source": "labevents (51196)"}
+          ]
+        }
+      ],
+
+      "atypical_variants": [
+        {
+          "variant_id": "str_atyp_1",
+          "name": "Wake-up stroke / Unknown onset time",
+          "prevalence": "~15-25% of ischaemic strokes",
+          "deviation": "Onset time unknown (patient found with symptoms). Cannot apply standard time windows. DWI-FLAIR mismatch on MRI used to estimate onset window.",
+          "clinical_implication": "May still be eligible for tPA if DWI-FLAIR mismatch present (WAKE-UP trial); EVT if perfusion mismatch",
+          "cres_task": "Temporal grounding: model must recognise that treatment eligibility requires imaging-based time estimation, not clock time alone"
+        },
+        {
+          "variant_id": "str_atyp_2",
+          "name": "Minor stroke with early neurological deterioration (END)",
+          "prevalence": "~10-20% of initially mild strokes (NIHSS <5)",
+          "deviation": "Initial NIHSS low (2-4), then sudden worsening at 12-48h. May reflect clot propagation, re-occlusion, or oedema.",
+          "clinical_implication": "DAPT (aspirin + clopidogrel) within 24h reduces END risk (CHANCE/POINT trials)",
+          "cres_task": "Trend reasoning: model must flag unexpected NIHSS worsening from a low baseline"
+        },
+        {
+          "variant_id": "str_atyp_3",
+          "name": "Haemorrhagic transformation post-thrombolysis",
+          "prevalence": "~6% symptomatic ICH post-tPA",
+          "deviation": "After initial improvement, sudden NIHSS worsening with headache, vomiting, BP spike. CT shows new haemorrhage.",
+          "clinical_implication": "Stop tPA infusion; reverse with cryoprecipitate/TXA; neurosurgical consult",
+          "cres_task": "Contrastive: model must distinguish oedema-related worsening from haemorrhagic worsening using vital sign and lab patterns"
+        },
+        {
+          "variant_id": "str_atyp_4",
+          "name": "Posterior circulation stroke (basilar artery)",
+          "prevalence": "~20% of ischaemic strokes",
+          "deviation": "Atypical symptom profile: vertigo, diplopia, ataxia, bilateral weakness, bulbar symptoms. NIHSS underestimates severity (NIHSS skewed toward anterior circulation). GCS may drop rapidly.",
+          "clinical_implication": "NIHSS ≥10 with basilar occlusion → EVT within 24h (AHA/ASA 2026 Class 1)",
+          "cres_task": "Diagnostic consistency: model must recognise NIHSS underestimation in posterior circulation and use additional signals"
+        },
+        {
+          "variant_id": "str_atyp_5",
+          "name": "Stroke mimic (hypoglycaemia, seizure, migraine)",
+          "prevalence": "~15-30% of suspected strokes",
+          "deviation": "Focal neurological deficit resolves with glucose correction (hypoglycaemia), time (migraine aura), or is post-ictal. No infarct on imaging.",
+          "clinical_implication": "Glucose must be checked before tPA (AHA/ASA 2026: mandatory). tPA in stroke mimics has low bleeding risk but should be avoided.",
+          "cres_task": "Threshold detection: model must identify glucose <60 mg/dL as alternative explanation before attributing deficit to stroke"
+        },
+        {
+          "variant_id": "str_atyp_6",
+          "name": "Malignant MCA infarction",
+          "prevalence": "~10% of MCA territory strokes",
+          "deviation": "Massive oedema with midline shift >5mm by 24-48h. NIHSS >20 with rapid deterioration despite treatment. GCS drops below 8.",
+          "clinical_implication": "Decompressive craniectomy within 48h reduces mortality from ~80% to ~30% in patients <60 years",
+          "cres_task": "Temporal reasoning: model must predict trajectory toward malignant oedema from early NIHSS, imaging, and clinical signs"
+        }
+      ]
+    }
+  }
+}

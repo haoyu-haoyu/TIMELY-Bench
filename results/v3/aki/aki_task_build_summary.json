@@ -1,0 +1,47 @@
+{
+  "condition": "aki",
+  "cohort": {
+    "cohort_source_rows": 67879,
+    "kdigo_rows": 3249801,
+    "kdigo_stays": 50634,
+    "stage1_onset_lte_48h_stays": 50634,
+    "stage2plus_any_stays": 34339,
+    "rrt_proxy_any_stays": 4340
+  },
+  "tasks": {
+    "AKI-T1": {
+      "rows": 692013,
+      "unique_stays": 40915,
+      "positive_rate": 0.08460245689026073,
+      "stays_with_any_positive": 24620,
+      "label_definition": "stage2plus within (T, T+24]"
+    },
+    "AKI-S1": {
+      "rows": 1764883,
+      "unique_stays": 48461,
+      "positive_rate": 0.009804049333581887,
+      "stays_with_any_positive": 2167,
+      "label_definition": "rrt_proxy within (T, T+72]",
+      "label_source": "procedure_events_then_hourly_grid_rrt",
+      "rrt_time_source_counts": {
+        "hourly_grid_rrt": 4340
+      }
+    }
+  },
+  "outputs": {
+    "kdigo_staged": "data/processed/v3/aki/tasks/aki_kdigo_onsets_v3.parquet",
+    "aki_stage1_cohort": "data/processed/v3/aki/tasks/aki_stage1_cohort_v3.parquet",
+    "primary_instances": "data/processed/v3/aki/tasks/aki_stage2plus_instances.parquet",
+    "secondary_rrt_proxy_instances": "data/processed/v3/aki/tasks/aki_rrt_proxy_instances.parquet"
+  },
+  "settings": {
+    "billing_project": "timely-bench-mimic",
+    "quota_project": "timely-bench-mimic",
+    "prediction_interval": 4,
+    "lookahead_hours": 24,
+    "rrt_lookahead_hours": 72,
+    "max_hour": 168,
+    "stage1_onset_max_hour": 48
+  },
+  "flags": []
+}

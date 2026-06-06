@@ -1,0 +1,418 @@
+{
+  "condition": "stroke_proxy",
+  "name": "Stroke (Ischaemic)",
+  "anchor_event": "Symptom onset (last known well time) or, if wake-up stroke, time of symptom discovery",
+  "anchor_mimic": "Earliest documented NIHSS assessment or nursing note indicating stroke symptoms",
+  "total_typical_duration": "Acute phase: 0-72h; subacute: 72h-14 days; early chronic: 14 days+",
+  "references": [
+    "AHA/ASA 2026 Guideline for Early Management of AIS (Prabhakaran et al.)",
+    "NIHSS (Brott et al. Stroke 1989)",
+    "DAWN Trial (Nogueira et al. NEJM 2018)",
+    "DEFUSE-3 Trial (Albers et al. NEJM 2018)",
+    "Tissue plasminogen activator for acute ischemic stroke (NINDS rt-PA Stroke Study Group, NEJM 1995)"
+  ],
+  "phases": [
+    {
+      "phase_id": "str_phase_0",
+      "name": "Hyperacute Phase (Ischaemic Penumbra)",
+      "time_relative_to_anchor": "0h to +4.5h (thrombolysis window)",
+      "description": "Core infarct surrounded by ischaemic penumbra (salvageable tissue). Neurological deficits maximal or progressing. Treatment decisions are time-critical: thrombolysis eligibility, EVT triage. Every minute of delay = further penumbral loss.",
+      "trajectories": [
+        {
+          "marker": "Heart Rate",
+          "direction": "may be irregular",
+          "expected_range": "60-120 bpm; irregular if AF present",
+          "rate": "variable",
+          "clinical_significance": "AF detection critical for aetiology and secondary prevention",
+          "mimic_source": "chartevents (220045)",
+          "mapped_feature_name": "heart_rate",
+          "support_level": "proxy_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "Heart-rate proxy."
+        },
+        {
+          "marker": "Glucose",
+          "direction": "may be elevated (stress hyperglycaemia)",
+          "expected_range": "140-250 mg/dL",
+          "rate": "rapid",
+          "clinical_significance": "Hyperglycaemia worsens penumbral injury; must rule out hypoglycaemia (stroke mimic)",
+          "mimic_source": "labevents (50931)",
+          "mapped_feature_name": "glucose_merged",
+          "support_level": "proxy_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "Merged glucose signal."
+        },
+        {
+          "marker": "GCS",
+          "direction": "may be reduced in large territory stroke",
+          "expected_range": "8-14 for moderate; <8 for severe",
+          "rate": "may decline rapidly",
+          "clinical_significance": "Low GCS with LVO → urgent EVT consideration",
+          "mimic_source": "chartevents (GCS)",
+          "mapped_feature_name": "gcs_total",
+          "support_level": "core_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "GCS-backed neurologic proxy."
+        }
+      ],
+      "reference_only_trajectories": [
+        {
+          "marker": "NIHSS",
+          "direction": "high and stable or worsening",
+          "expected_range": "variable by territory; MCA LVO typically 10-25",
+          "rate": "may worsen in first hours (progressing stroke)",
+          "clinical_significance": "NIHSS drives treatment decisions: any disabling deficit → tPA eligible (AHA/ASA 2026)",
+          "mimic_source": "chartevents (NIHSS)",
+          "mapped_feature_name": "reference_only_signal",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+        },
+        {
+          "marker": "Blood Pressure",
+          "direction": "elevated (acute hypertensive response)",
+          "expected_range": "SBP 160-220 mmHg (Cushing response)",
+          "rate": "rapid elevation",
+          "clinical_significance": "Must lower to <185/110 before tPA; permissive hypertension if no tPA",
+          "mimic_source": "chartevents (220050/220179)",
+          "mapped_feature_name": "unmapped_reference",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "execution_notes": "No safe executable mapping was found."
+        },
+        {
+          "marker": "INR / Platelets",
+          "direction": "checked urgently",
+          "expected_range": "INR ≤1.7 and platelets ≥100K required for tPA",
+          "rate": "single check (pre-treatment)",
+          "clinical_significance": "Coagulopathy = tPA contraindication",
+          "mimic_source": "labevents (51237/51265)",
+          "mapped_feature_name": "unmapped_reference",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "execution_notes": "No safe executable mapping was found."
+        },
+        {
+          "marker": "SpO₂",
+          "direction": "should be maintained ≥94%",
+          "expected_range": "≥94% (supplemental O₂ if needed)",
+          "rate": "stable ideally",
+          "clinical_significance": "Hypoxia exacerbates penumbral injury",
+          "mimic_source": "chartevents (220277)",
+          "mapped_feature_name": "unmapped_reference",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "execution_notes": "No safe executable mapping was found."
+        }
+      ]
+    },
+    {
+      "phase_id": "str_phase_1",
+      "name": "Early Acute Phase (Post-treatment / First 24h)",
+      "time_relative_to_anchor": "+4.5h to +24h",
+      "description": "Post-thrombolysis or post-EVT monitoring period. Neurological status may improve (reperfusion benefit) or worsen (haemorrhagic transformation). Strict BP control. Serial NIHSS monitoring. EVT still possible up to 24h for selected patients (DAWN/DEFUSE-3 criteria).",
+      "trajectories": [
+        {
+          "marker": "Temperature",
+          "direction": "should remain normothermic",
+          "expected_range": "<37.5°C ideal",
+          "rate": "fever may develop at 12-24h",
+          "clinical_significance": "Hyperthermia worsens infarct expansion; active cooling if >38°C",
+          "mimic_source": "chartevents (223761)",
+          "mapped_feature_name": "temperature_c",
+          "support_level": "proxy_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "Temperature proxy."
+        },
+        {
+          "marker": "Glucose",
+          "direction": "should be managed but NOT tightly",
+          "expected_range": "140-180 mg/dL (AHA/ASA 2026: Class III harm for 80-130 target)",
+          "rate": "stable with insulin drip if needed",
+          "clinical_significance": "Both hypo- and hyperglycaemia worsen outcomes; moderate control preferred",
+          "mimic_source": "labevents (50931)",
+          "mapped_feature_name": "glucose_merged",
+          "support_level": "proxy_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "Merged glucose signal."
+        }
+      ],
+      "reference_only_trajectories": [
+        {
+          "marker": "NIHSS",
+          "direction": "improving if successful reperfusion; stable or worsening if not",
+          "expected_range": "≥4-point improvement suggests reperfusion benefit",
+          "rate": "rapid improvement in first 2h post-tPA (dramatic responders); gradual over 24h",
+          "clinical_significance": "Early neurological improvement is strongest predictor of good outcome",
+          "mimic_source": "chartevents (NIHSS serial)",
+          "mapped_feature_name": "reference_only_signal",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+        },
+        {
+          "marker": "Blood Pressure",
+          "direction": "controlled within targets",
+          "expected_range": "<180/105 post-tPA; <180/105 post-EVT (AHA/ASA 2026)",
+          "rate": "maintained with IV antihypertensives",
+          "clinical_significance": "BP excursions above target increase haemorrhagic transformation risk",
+          "mimic_source": "chartevents (220050/220179)",
+          "mapped_feature_name": "unmapped_reference",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "execution_notes": "No safe executable mapping was found."
+        },
+        {
+          "marker": "Troponin",
+          "direction": "baseline check; may be elevated",
+          "expected_range": "any elevation suggests concurrent cardiac injury",
+          "rate": "single baseline measurement",
+          "clinical_significance": "Cardiac source workup; concurrent MI or takotsubo",
+          "mimic_source": "labevents (51003)",
+          "mapped_feature_name": "unmapped_reference",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "execution_notes": "No safe executable mapping was found."
+        },
+        {
+          "marker": "CT / Imaging",
+          "direction": "follow-up CT at 24h",
+          "expected_range": "assess for haemorrhagic transformation, oedema evolution",
+          "rate": "single repeat scan",
+          "clinical_significance": "Symptomatic ICH occurs in ~6% post-tPA; routine CT at 24h",
+          "mimic_source": "radiology reports",
+          "mapped_feature_name": "unmapped_reference",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "execution_notes": "No safe executable mapping was found."
+        }
+      ]
+    },
+    {
+      "phase_id": "str_phase_2",
+      "name": "Oedema / Complication Phase",
+      "time_relative_to_anchor": "+24h to +72h (peak cerebral oedema at 48-72h)",
+      "description": "Cerebral oedema peaks. Risk of midline shift, herniation in large territory infarcts (malignant MCA syndrome). Neurological deterioration may occur despite initial improvement. Dysphagia screening, DVT prophylaxis, early mobilisation begin.",
+      "trajectories": [
+        {
+          "marker": "GCS",
+          "direction": "may decline if oedema progressing",
+          "expected_range": "drop of ≥2 points from post-treatment baseline",
+          "rate": "gradual to rapid",
+          "clinical_significance": "GCS decline + pupil asymmetry = herniation → neurosurgical emergency",
+          "mimic_source": "chartevents (GCS)",
+          "mapped_feature_name": "gcs_total",
+          "support_level": "core_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "GCS-backed neurologic proxy."
+        },
+        {
+          "marker": "Temperature",
+          "direction": "may be rising",
+          "expected_range": ">38°C (central fever or infection)",
+          "rate": "gradual",
+          "clinical_significance": "Post-stroke fever within 72h associated with worse outcomes; treat aggressively",
+          "mimic_source": "chartevents (223761)",
+          "mapped_feature_name": "temperature_c",
+          "support_level": "proxy_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "Temperature proxy."
+        },
+        {
+          "marker": "Sodium",
+          "direction": "may drop",
+          "expected_range": "<135 mEq/L (cerebral salt wasting or SIADH)",
+          "rate": "gradual",
+          "clinical_significance": "Hyponatraemia common post-stroke; worsens oedema",
+          "mimic_source": "labevents (50983)",
+          "mapped_feature_name": "sodium",
+          "support_level": "proxy_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "Electrolyte signal."
+        },
+        {
+          "marker": "Swallow function",
+          "direction": "assessed and may be impaired",
+          "expected_range": "dysphagia present in 37-78% of acute stroke",
+          "rate": "assessed within 24h",
+          "clinical_significance": "Failed swallow screen → NPO, NG feeding; aspiration pneumonia prevention",
+          "mimic_source": "clinical notes / swallow screen",
+          "mapped_feature_name": "creatinine",
+          "support_level": "core_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "Creatinine-backed renal signal."
+        }
+      ],
+      "reference_only_trajectories": [
+        {
+          "marker": "NIHSS",
+          "direction": "stable or secondary worsening",
+          "expected_range": "if worsening: ↑ ≥4 points suggests oedema/complication",
+          "rate": "gradual worsening over 24-48h if oedema-related",
+          "clinical_significance": "Secondary deterioration = urgent re-imaging; consider decompressive craniectomy if large MCA infarct and age <60",
+          "mimic_source": "chartevents (NIHSS)",
+          "mapped_feature_name": "reference_only_signal",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+        },
+        {
+          "marker": "Blood Pressure",
+          "direction": "may rise (Cushing response to ↑ ICP)",
+          "expected_range": "SBP >180 with bradycardia (Cushing triad)",
+          "rate": "may be sudden",
+          "clinical_significance": "Cushing triad (hypertension + bradycardia + irregular breathing) = imminent herniation",
+          "mimic_source": "chartevents (220050/220045)",
+          "mapped_feature_name": "unmapped_reference",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "execution_notes": "No safe executable mapping was found."
+        },
+        {
+          "marker": "CRP",
+          "direction": "rising",
+          "expected_range": ">20-50 mg/L",
+          "rate": "gradual",
+          "clinical_significance": "Post-stroke inflammatory response; also check for aspiration pneumonia",
+          "mimic_source": "labevents (50889)",
+          "mapped_feature_name": "unmapped_reference",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "execution_notes": "No safe executable mapping was found."
+        }
+      ]
+    },
+    {
+      "phase_id": "str_phase_3",
+      "name": "Stabilisation / Early Rehabilitation Phase",
+      "time_relative_to_anchor": "+72h to +14 days",
+      "description": "Oedema resolving. Neurological status stabilising or gradually improving. Secondary prevention initiated (antiplatelet/anticoagulant, statin, antihypertensive). Early rehabilitation and mobilisation. Risk of recurrent stroke highest in first 2 weeks.",
+      "trajectories": [
+        {
+          "marker": "Blood Pressure",
+          "direction": "transitioning to oral antihypertensives",
+          "expected_range": "target <140/90 (or <130/80 if tolerated) for secondary prevention",
+          "rate": "gradual adjustment over days",
+          "clinical_significance": "Long-term BP control reduces recurrence risk by ~30%",
+          "mimic_source": "prescriptions / chartevents",
+          "mapped_feature_name": "creatinine",
+          "support_level": "core_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "Creatinine-backed renal signal."
+        },
+        {
+          "marker": "LDL Cholesterol",
+          "direction": "measured; statin initiated",
+          "expected_range": "target <70 mg/dL with high-intensity statin",
+          "rate": "statin effect over 4-6 weeks",
+          "clinical_significance": "High-intensity statin = Class 1 recommendation (AHA/ASA 2026)",
+          "mimic_source": "labevents / prescriptions",
+          "mapped_feature_name": "creatinine",
+          "support_level": "core_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "Creatinine-backed renal signal."
+        }
+      ],
+      "reference_only_trajectories": [
+        {
+          "marker": "NIHSS",
+          "direction": "gradually improving",
+          "expected_range": "declining by 1-2 points per week (variable)",
+          "rate": "gradual",
+          "clinical_significance": "Rate of NIHSS improvement predicts functional outcome (mRS at 90 days)",
+          "mimic_source": "chartevents (NIHSS)",
+          "mapped_feature_name": "reference_only_signal",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+        },
+        {
+          "marker": "HbA1c",
+          "direction": "measured for diabetes screening",
+          "expected_range": ">6.5% = diabetes; target <7% with management",
+          "rate": "single measurement (reflects 3-month average)",
+          "clinical_significance": "Diabetes management part of secondary prevention",
+          "mimic_source": "labevents",
+          "mapped_feature_name": "reference_only_signal",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+        },
+        {
+          "marker": "Heart rhythm monitoring",
+          "direction": "prolonged cardiac monitoring",
+          "expected_range": "≥24h telemetry minimum; consider extended monitoring if cryptogenic",
+          "rate": "continuous",
+          "clinical_significance": "AF detection rate increases with monitoring duration; anticoagulation if AF found",
+          "mimic_source": "chartevents (ECG/telemetry)",
+          "mapped_feature_name": "unmapped_reference",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "execution_notes": "No safe executable mapping was found."
+        },
+        {
+          "marker": "D-dimer",
+          "direction": "should be normalising",
+          "expected_range": "declining toward normal",
+          "rate": "gradual",
+          "clinical_significance": "Persistently elevated D-dimer → investigate for DVT (immobility risk)",
+          "mimic_source": "labevents (51196)",
+          "mapped_feature_name": "unmapped_reference",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "execution_notes": "No safe executable mapping was found."
+        }
+      ]
+    }
+  ],
+  "atypical_variants": [
+    {
+      "variant_id": "str_atyp_1",
+      "name": "Wake-up stroke / Unknown onset time",
+      "prevalence": "~15-25% of ischaemic strokes",
+      "deviation": "Onset time unknown (patient found with symptoms). Cannot apply standard time windows. DWI-FLAIR mismatch on MRI used to estimate onset window.",
+      "clinical_implication": "May still be eligible for tPA if DWI-FLAIR mismatch present (WAKE-UP trial); EVT if perfusion mismatch",
+      "cres_task": "Temporal grounding: model must recognise that treatment eligibility requires imaging-based time estimation, not clock time alone"
+    },
+    {
+      "variant_id": "str_atyp_2",
+      "name": "Minor stroke with early neurological deterioration (END)",
+      "prevalence": "~10-20% of initially mild strokes (NIHSS <5)",
+      "deviation": "Initial NIHSS low (2-4), then sudden worsening at 12-48h. May reflect clot propagation, re-occlusion, or oedema.",
+      "clinical_implication": "DAPT (aspirin + clopidogrel) within 24h reduces END risk (CHANCE/POINT trials)",
+      "cres_task": "Trend reasoning: model must flag unexpected NIHSS worsening from a low baseline"
+    },
+    {
+      "variant_id": "str_atyp_3",
+      "name": "Haemorrhagic transformation post-thrombolysis",
+      "prevalence": "~6% symptomatic ICH post-tPA",
+      "deviation": "After initial improvement, sudden NIHSS worsening with headache, vomiting, BP spike. CT shows new haemorrhage.",
+      "clinical_implication": "Stop tPA infusion; reverse with cryoprecipitate/TXA; neurosurgical consult",
+      "cres_task": "Contrastive: model must distinguish oedema-related worsening from haemorrhagic worsening using vital sign and lab patterns"
+    },
+    {
+      "variant_id": "str_atyp_4",
+      "name": "Posterior circulation stroke (basilar artery)",
+      "prevalence": "~20% of ischaemic strokes",
+      "deviation": "Atypical symptom profile: vertigo, diplopia, ataxia, bilateral weakness, bulbar symptoms. NIHSS underestimates severity (NIHSS skewed toward anterior circulation). GCS may drop rapidly.",
+      "clinical_implication": "NIHSS ≥10 with basilar occlusion → EVT within 24h (AHA/ASA 2026 Class 1)",
+      "cres_task": "Diagnostic consistency: model must recognise NIHSS underestimation in posterior circulation and use additional signals"
+    },
+    {
+      "variant_id": "str_atyp_5",
+      "name": "Stroke mimic (hypoglycaemia, seizure, migraine)",
+      "prevalence": "~15-30% of suspected strokes",
+      "deviation": "Focal neurological deficit resolves with glucose correction (hypoglycaemia), time (migraine aura), or is post-ictal. No infarct on imaging.",
+      "clinical_implication": "Glucose must be checked before tPA (AHA/ASA 2026: mandatory). tPA in stroke mimics has low bleeding risk but should be avoided.",
+      "cres_task": "Threshold detection: model must identify glucose <60 mg/dL as alternative explanation before attributing deficit to stroke"
+    },
+    {
+      "variant_id": "str_atyp_6",
+      "name": "Malignant MCA infarction",
+      "prevalence": "~10% of MCA territory strokes",
+      "deviation": "Massive oedema with midline shift >5mm by 24-48h. NIHSS >20 with rapid deterioration despite treatment. GCS drops below 8.",
+      "clinical_implication": "Decompressive craniectomy within 48h reduces mortality from ~80% to ~30% in patients <60 years",
+      "cres_task": "Temporal reasoning: model must predict trajectory toward malignant oedema from early NIHSS, imaging, and clinical signs"
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "condition": "sepsis",
+  "phase5_mode": "template_driven_state_space_mvp",
+  "template_source": "results/v3/knowledge/physiology_template_sepsis_executable.json",
+  "template_phase_ids": [
+    "suspected_infection",
+    "early_sepsis",
+    "organ_dysfunction_progression",
+    "hemodynamic_compromise_or_shock",
+    "stabilization_or_nonrecovery"
+  ],
+  "template_atypical_variant_ids": [
+    "sepsis_atyp_1",
+    "sepsis_atyp_2",
+    "sepsis_atyp_3"
+  ],
+  "aligned_trajectories": {
+    "rows": 4991736,
+    "unique_stays": 29713,
+    "min_relative_hour": -48.0,
+    "max_relative_hour": 167.0,
+    "outputs": "data/processed/v3/sepsis/state_space/sepsis_aligned_trajectories.parquet"
+  },
+  "phase_labels_hourly": {
+    "rows": 4991736,
+    "unique_stays": 29713,
+    "phase_distribution": {
+      "stabilization_or_nonrecovery": 2725774,
+      "organ_dysfunction_progression": 1382053,
+      "early_sepsis": 680396,
+      "hemodynamic_compromise_or_shock": 117807,
+      "suspected_infection": 85706
+    },
+    "mean_template_executable_support_score": 0.4568877440633878,
+    "outputs": "data/processed/v3/sepsis/state_space/sepsis_phase_labels_hourly.parquet"
+  },
+  "phase_episode_summary": {
+    "rows": 224398,
+    "unique_stays": 29713,
+    "outputs": "data/processed/v3/sepsis/state_space/sepsis_phase_episode_summary.parquet"
+  },
+  "state_prototypes": {
+    "rows": 21,
+    "outputs": "data/processed/v3/sepsis/state_space/sepsis_state_prototypes.parquet"
+  },
+  "transition_matrix": {
+    "n_transitions": 270440,
+    "n_edges": 178,
+    "outputs": "data/processed/v3/sepsis/state_space/sepsis_transition_matrix.json"
+  },
+  "atypical_variants": {
+    "rows": 89139,
+    "unique_stays": 29713,
+    "supported_flag_counts": {
+      "sepsis_atyp_1": 6484,
+      "sepsis_atyp_2": 5029,
+      "sepsis_atyp_3": 2595
+    },
+    "unsupported_variants": [],
+    "outputs": "data/processed/v3/sepsis/state_space/sepsis_atypical_variant_flags.parquet"
+  },
+  "trajectory_tiers": {
+    "rows": 29713,
+    "unique_stays": 29713,
+    "tier_distribution": {
+      "low_template_support": 15818,
+      "atypical_supported": 6118,
+      "typical_supported": 4788,
+      "atypical_low_support": 2989
+    },
+    "outputs": "data/processed/v3/sepsis/state_space/sepsis_trajectory_tiers.parquet"
+  },
+  "flags": [],
+  "onset_confidence": {
+    "high_stays": 29518,
+    "low_stays": 3381
+  },
+  "shock_timing": {
+    "stays_with_any_shock": 12638,
+    "stays_with_progression_shock": 12072,
+    "shock_before_sepsis_onset_stays": 2547,
+    "shock_at_sepsis_onset_stays": 826
+  }
+}

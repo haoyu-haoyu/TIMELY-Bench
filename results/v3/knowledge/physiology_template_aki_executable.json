@@ -1,0 +1,374 @@
+{
+  "condition": "aki",
+  "name": "AKI Clinical Standard Physiology Template",
+  "clinical_standard": [
+    "KDIGO AKI staging and progression framework",
+    "KDIGO 2012 Acute Kidney Injury guideline logic"
+  ],
+  "anchor_event": "first clinically relevant AKI injury signal",
+  "anchor_mimic": "derived.kdigo_stages / creatinine-urine output operational anchor",
+  "total_typical_duration": "hours to days",
+  "references": [
+    "KDIGO 2012 AKI Guideline",
+    "Bellomo R et al. Lancet 2012;380:756-766",
+    "Kellum JA et al. Kidney Int 2012 (AKI trajectories)",
+    "KDIGO AKI/AKD Scope of Work 2023 (transient vs persistent vs progressive)",
+    "Matarneh et al. Renal Failure 2025 (biomarker timing)"
+  ],
+  "implementation_warnings": [],
+  "phases": [
+    {
+      "phase_id": "risk_exposure",
+      "name": "Risk Exposure",
+      "time_relative_to_anchor": "-48h to 0h (before KDIGO criteria met)",
+      "description": "Subclinical injury or exposure window before overt AKI stage transition.",
+      "trajectories": [
+        {
+          "marker": "Merged MAP",
+          "direction": "falling or vulnerable",
+          "expected_range": "reduced perfusion reserve",
+          "rate": "hours",
+          "clinical_significance": "Hemodynamic compromise precedes injury.",
+          "mimic_source": "chartevents",
+          "canonical_feature": "map_merged",
+          "support_level": "core_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "map_merged"
+        },
+        {
+          "marker": "Lactate",
+          "direction": "rising in septic or hypoperfusion states",
+          "expected_range": ">2 mmol/L suggests perfusion stress",
+          "rate": "hours",
+          "clinical_significance": "Important pre-injury signal in septic AKI overlap.",
+          "mimic_source": "labevents",
+          "canonical_feature": "lactate",
+          "support_level": "proxy_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "lactate"
+        },
+        {
+          "marker": "Nephrotoxic exposure",
+          "direction": "present",
+          "expected_range": "active exposure",
+          "rate": "hours",
+          "clinical_significance": "Drug exposure increases injury risk.",
+          "mimic_source": "medication timeline",
+          "canonical_feature": "nephrotoxic_drug_active",
+          "support_level": "core_executable",
+          "implementation_mode": "event_rule",
+          "execution_notes": "",
+          "mapped_feature_name": "nephrotoxic_drug_active"
+        },
+        {
+          "marker": "Fluid balance",
+          "direction": "positive or unstable",
+          "expected_range": "context dependent",
+          "rate": "hours",
+          "clinical_significance": "Volume status modifies renal perfusion.",
+          "mimic_source": "input/output",
+          "canonical_feature": "fluid_balance",
+          "support_level": "proxy_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "fluid_balance"
+        }
+      ],
+      "reference_only_trajectories": []
+    },
+    {
+      "phase_id": "early_injury_stage1",
+      "name": "Early Injury / Stage 1",
+      "time_relative_to_anchor": "0h to +24h",
+      "description": "Functional injury becomes measurable by creatinine or urine output criteria.",
+      "trajectories": [
+        {
+          "marker": "Serum Creatinine",
+          "direction": "rising",
+          "expected_range": "stage 1 compatible",
+          "rate": "hours to 1 day",
+          "clinical_significance": "Diagnostic threshold crossed.",
+          "mimic_source": "labevents",
+          "canonical_feature": "creatinine",
+          "support_level": "core_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "creatinine"
+        },
+        {
+          "marker": "Urine Output",
+          "direction": "falling",
+          "expected_range": "oliguria or decline",
+          "rate": "hours",
+          "clinical_significance": "Sensitive bedside AKI signal.",
+          "mimic_source": "outputevents",
+          "canonical_feature": "urineoutput",
+          "support_level": "core_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "urineoutput"
+        },
+        {
+          "marker": "KDIGO Stage",
+          "direction": "entering stage 1",
+          "expected_range": "stage 1",
+          "rate": "hours",
+          "clinical_significance": "Operational stage anchor.",
+          "mimic_source": "derived.kdigo_stages",
+          "canonical_feature": "kdigo_stage",
+          "support_level": "core_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "kdigo_stage"
+        },
+        {
+          "marker": "BUN",
+          "direction": "rising",
+          "expected_range": "BUN:Cr >20:1 suggests pre-renal; <=15:1 suggests intrinsic",
+          "rate": "hours to 1 day",
+          "clinical_significance": "BUN:Cr ratio aids in distinguishing pre-renal from intrinsic AKI.",
+          "mimic_source": "labevents",
+          "canonical_feature": "bun",
+          "support_level": "proxy_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "Interpret alongside creatinine rather than as a standalone injury marker.",
+          "mapped_feature_name": "bun"
+        }
+      ],
+      "reference_only_trajectories": []
+    },
+    {
+      "phase_id": "progressive_injury_stage2plus",
+      "name": "Progressive Injury / Stage 2+",
+      "time_relative_to_anchor": "+24h to +72h",
+      "description": "Kidney injury worsens with biochemical and physiologic consequences.",
+      "trajectories": [
+        {
+          "marker": "Serum Creatinine",
+          "direction": "continuing to rise",
+          "expected_range": "stage 2 or 3 compatible",
+          "rate": "hours to days",
+          "clinical_significance": "Worsening renal injury burden.",
+          "mimic_source": "labevents",
+          "canonical_feature": "creatinine",
+          "support_level": "core_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "creatinine"
+        },
+        {
+          "marker": "KDIGO Stage",
+          "direction": "progressing",
+          "expected_range": "stage 2 or 3",
+          "rate": "hours to days",
+          "clinical_significance": "Operational progression state.",
+          "mimic_source": "derived.kdigo_stages",
+          "canonical_feature": "kdigo_stage",
+          "support_level": "core_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "kdigo_stage"
+        },
+        {
+          "marker": "BUN",
+          "direction": "rising",
+          "expected_range": ">60-80 mg/dL in severe cases",
+          "rate": "hours to days",
+          "clinical_significance": "Uremic burden increases with persistent renal dysfunction.",
+          "mimic_source": "labevents",
+          "canonical_feature": "bun",
+          "support_level": "proxy_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "bun"
+        },
+        {
+          "marker": "Potassium",
+          "direction": "rising",
+          "expected_range": "hyperkalemia risk",
+          "rate": "hours",
+          "clinical_significance": "Electrolyte consequence of reduced clearance.",
+          "mimic_source": "labevents",
+          "canonical_feature": "potassium",
+          "support_level": "proxy_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "potassium"
+        },
+        {
+          "marker": "Bicarbonate",
+          "direction": "falling",
+          "expected_range": "metabolic acidosis",
+          "rate": "hours",
+          "clinical_significance": "Acid-base consequence of renal failure.",
+          "mimic_source": "labevents",
+          "canonical_feature": "bicarbonate",
+          "support_level": "proxy_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "bicarbonate"
+        }
+      ],
+      "reference_only_trajectories": []
+    },
+    {
+      "phase_id": "support_escalation",
+      "name": "Support Escalation",
+      "time_relative_to_anchor": "+24h onward in severe trajectories",
+      "description": "Severe AKI requiring organ support or aggressive rescue measures.",
+      "trajectories": [
+        {
+          "marker": "RRT",
+          "direction": "initiated or active",
+          "expected_range": "support present",
+          "rate": "event",
+          "clinical_significance": "Defines support escalation and stage 3 severity.",
+          "mimic_source": "procedureevents",
+          "canonical_feature": "rrt_active",
+          "support_level": "core_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "rrt_active"
+        },
+        {
+          "marker": "Merged MAP",
+          "direction": "persistently low or unstable",
+          "expected_range": "shock/perfusion stress",
+          "rate": "hours",
+          "clinical_significance": "Ongoing hemodynamic burden.",
+          "mimic_source": "chartevents",
+          "canonical_feature": "map_merged",
+          "support_level": "core_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "map_merged"
+        },
+        {
+          "marker": "Fluid balance",
+          "direction": "positive",
+          "expected_range": "volume accumulation",
+          "rate": "hours to days",
+          "clinical_significance": "Volume burden may drive support need.",
+          "mimic_source": "input/output",
+          "canonical_feature": "fluid_balance",
+          "support_level": "proxy_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "fluid_balance"
+        }
+      ],
+      "reference_only_trajectories": []
+    },
+    {
+      "phase_id": "recovery_or_nonrecovery",
+      "name": "Recovery or Non-Recovery",
+      "time_relative_to_anchor": "+72h to +7d",
+      "description": "Renal function improves, plateaus, or remains impaired.",
+      "trajectories": [
+        {
+          "marker": "Serum Creatinine",
+          "direction": "falling or plateaued high",
+          "expected_range": "toward baseline or persistent elevation",
+          "rate": "days",
+          "clinical_significance": "Trajectory distinguishes recovery from persistent injury.",
+          "mimic_source": "labevents",
+          "canonical_feature": "creatinine",
+          "support_level": "core_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "creatinine"
+        },
+        {
+          "marker": "Urine Output",
+          "direction": "recovering or remaining impaired",
+          "expected_range": "increasing or persistently low",
+          "rate": "days",
+          "clinical_significance": "Bedside recovery signal.",
+          "mimic_source": "outputevents",
+          "canonical_feature": "urineoutput",
+          "support_level": "core_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "urineoutput"
+        },
+        {
+          "marker": "KDIGO Stage",
+          "direction": "improving or persistent",
+          "expected_range": "downstage or persistent stage",
+          "rate": "days",
+          "clinical_significance": "Operational recovery state.",
+          "mimic_source": "derived.kdigo_stages",
+          "canonical_feature": "kdigo_stage",
+          "support_level": "core_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "kdigo_stage"
+        }
+      ],
+      "reference_only_trajectories": [
+        {
+          "marker": "NGAL / KIM-1",
+          "direction": "persistently elevated if measured",
+          "expected_range": "research only",
+          "rate": "days",
+          "clinical_significance": "Biomarker-only recovery context.",
+          "mimic_source": "research assay",
+          "canonical_feature": "reference_only_signal",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "execution_notes": "",
+          "mapped_feature_name": "reference_only_signal"
+        }
+      ]
+    }
+  ],
+  "atypical_variants": [
+    {
+      "variant_id": "aki_atyp_1",
+      "name": "Non-oliguric AKI",
+      "prevalence": "~50% of ICU AKI episodes",
+      "deviation": "Urine output remains >0.5 mL/kg/h throughout despite rising SCr and falling GFR",
+      "clinical_implication": "UO-based KDIGO criteria not met; SCr-only diagnosis. May be missed if only monitoring UO.",
+      "cres_task": "Contrastive: model must recognise AKI despite preserved urine output"
+    },
+    {
+      "variant_id": "aki_atyp_2",
+      "name": "Rapidly reversible (pre-renal) AKI",
+      "prevalence": "~30-40% of AKI episodes",
+      "deviation": "SCr peaks within 24-48h then declines rapidly with volume resuscitation. No sustained oliguric phase.",
+      "clinical_implication": "Transient AKI; full recovery expected. Persistent AKI (>48h) suggests transition to ATN.",
+      "cres_task": "Temporal grounding: model must distinguish transient from persistent trajectory"
+    },
+    {
+      "variant_id": "aki_atyp_3",
+      "name": "AKI on CKD (acute-on-chronic)",
+      "prevalence": "~30% of AKI in elderly ICU patients",
+      "deviation": "Elevated baseline SCr (e.g., 2.0 mg/dL). Absolute SCr rise smaller for same proportional GFR loss. Recovery may plateau above pre-AKI baseline, reflecting new CKD progression.",
+      "clinical_implication": "KDIGO criteria still apply to proportional change; but absolute thresholds (e.g., >4.0 mg/dL) reached earlier",
+      "cres_task": "Threshold detection: model must correctly apply KDIGO staging relative to elevated baseline"
+    },
+    {
+      "variant_id": "aki_atyp_4",
+      "name": "Delayed SCr rise (low muscle mass / liver disease)",
+      "deviation": "SCr rise blunted due to reduced creatinine generation (sarcopenia, cirrhosis). AKI severity underestimated.",
+      "clinical_implication": "Cystatin C or novel biomarkers more reliable in this population",
+      "cres_task": "Contrastive: model must recognise that 'normal' SCr can mask severe AKI"
+    },
+    {
+      "variant_id": "aki_atyp_5",
+      "name": "Rhabdomyolysis-associated AKI",
+      "deviation": "SCr rises disproportionately fast (CK release adds to creatinine pool). Very high K⁺ and phosphate early. Myoglobin casts in urine.",
+      "clinical_implication": "SCr rise partly artifactual (muscle creatine release); but kidney injury is real (cast nephropathy)",
+      "cres_task": "Diagnostic consistency: model must integrate CK, SCr, and UO to correctly attribute AKI cause"
+    },
+    {
+      "variant_id": "aki_atyp_6",
+      "name": "Non-recovery / AKD transition",
+      "deviation": "SCr does not decline by day 7; meets AKD criteria (persistent abnormality 7-90 days). May require long-term RRT.",
+      "clinical_implication": "Transition from AKI to AKD; higher CKD conversion risk",
+      "cres_task": "Temporal reasoning: model must identify non-recovery trajectory and flag AKD transition"
+    }
+  ]
+}

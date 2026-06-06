@@ -1,0 +1,26 @@
+{
+  "condition": "delirium",
+  "representation_family": "B2",
+  "representation_layout": "global_original_context_bank_plus_task_aware_anchor_index",
+  "context_mode": "temporal_original",
+  "anchor_index": {
+    "rows": 756251,
+    "unique_stays": 21628,
+    "min_anchor_hour_requested": 4,
+    "max_anchor_hour_requested": 167,
+    "clipped_anchor_rows": 0
+  },
+  "outputs": {
+    "context_index_parts_dir": "data/processed/v3/delirium/representations/delirium_B2_original_context_index.parquet.parts",
+    "summary_json": "results/v3/delirium/delirium_B2_original_build_summary.json"
+  },
+  "build_stats": {
+    "rows_written": 756251,
+    "n_parts": 16
+  },
+  "settings": {
+    "anchor_clip_policy": "clip_to_167",
+    "source_context_variant": "original"
+  },
+  "flags": []
+}

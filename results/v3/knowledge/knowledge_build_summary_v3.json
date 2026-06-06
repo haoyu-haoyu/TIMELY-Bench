@@ -1,0 +1,18 @@
+{
+  "registry_csv": "results/v3/knowledge/graph_node_registry_v3.csv",
+  "graph_outputs": {
+    "aki": "results/v3/knowledge/condition_graph_aki_executable.json",
+    "delirium": "results/v3/knowledge/condition_graph_delirium_executable.json",
+    "stroke_proxy": "results/v3/knowledge/condition_graph_stroke_proxy_executable.json"
+  },
+  "template_outputs": {
+    "aki": "results/v3/knowledge/physiology_template_aki_executable.json",
+    "delirium": "results/v3/knowledge/physiology_template_delirium_executable.json",
+    "stroke_proxy": "results/v3/knowledge/physiology_template_stroke_proxy_executable.json"
+  },
+  "blocking_conditions": [
+    "aki",
+    "delirium",
+    "stroke_proxy"
+  ]
+}

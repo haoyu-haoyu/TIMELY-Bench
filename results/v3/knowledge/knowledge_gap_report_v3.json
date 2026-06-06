@@ -1,0 +1,171 @@
+{
+  "conditions": {
+    "aki": {
+      "support_counts": {
+        "proxy_executable": 22,
+        "reference_only": 16,
+        "core_executable": 11
+      },
+      "implementation_counts": {
+        "event_rule": 7,
+        "not_implemented": 16,
+        "direct_feature": 22,
+        "derived_feature": 2,
+        "note_proxy": 2
+      },
+      "required_present": [
+        "creatinine",
+        "map_merged",
+        "nephrotoxic_drug_active",
+        "rrt_active",
+        "urineoutput"
+      ],
+      "required_missing": [
+        "kdigo_stage"
+      ],
+      "n_executable_nodes": 33,
+      "n_reference_only_nodes": 14,
+      "n_executable_edges": 36,
+      "n_dropped_edges": 31,
+      "blocking_items": [
+        {
+          "node_id": "__phase_required::aki_phase_1::kdigo_stage",
+          "mapped_feature_name": "kdigo_stage",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "notes": "Phase aki_phase_1 cannot be executed without kdigo_stage."
+        },
+        {
+          "node_id": "__required::kdigo_stage",
+          "mapped_feature_name": "kdigo_stage",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "notes": "Core requirement missing from executable subgraph."
+        }
+      ],
+      "phase_blocker_count": 1
+    },
+    "delirium": {
+      "support_counts": {
+        "reference_only": 14,
+        "proxy_executable": 27,
+        "core_executable": 12
+      },
+      "implementation_counts": {
+        "not_implemented": 14,
+        "direct_feature": 25,
+        "derived_feature": 8,
+        "event_rule": 3,
+        "note_proxy": 3
+      },
+      "required_present": [
+        "delirium_assessment",
+        "rass",
+        "restraint_active",
+        "sedation_burden"
+      ],
+      "required_missing": [
+        "gcs_total"
+      ],
+      "n_executable_nodes": 39,
+      "n_reference_only_nodes": 11,
+      "n_executable_edges": 45,
+      "n_dropped_edges": 17,
+      "blocking_items": [
+        {
+          "node_id": "__phase_required::del_phase_0::gcs_total",
+          "mapped_feature_name": "gcs_total",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "notes": "Phase del_phase_0 cannot be executed without gcs_total."
+        },
+        {
+          "node_id": "__phase_required::del_phase_2::gcs_total",
+          "mapped_feature_name": "gcs_total",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "notes": "Phase del_phase_2 cannot be executed without gcs_total."
+        },
+        {
+          "node_id": "__required::gcs_total",
+          "mapped_feature_name": "gcs_total",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "notes": "Core requirement missing from executable subgraph."
+        }
+      ],
+      "phase_blocker_count": 2
+    },
+    "stroke_proxy": {
+      "support_counts": {
+        "reference_only": 34,
+        "core_executable": 5,
+        "proxy_executable": 15
+      },
+      "implementation_counts": {
+        "not_implemented": 34,
+        "direct_feature": 19,
+        "event_rule": 1
+      },
+      "required_present": [
+        "map_merged",
+        "stroke_cohort_membership"
+      ],
+      "required_missing": [
+        "gcs_total",
+        "rass",
+        "restraint_active",
+        "sedation_burden",
+        "ventilation_status"
+      ],
+      "n_executable_nodes": 20,
+      "n_reference_only_nodes": 29,
+      "n_executable_edges": 5,
+      "n_dropped_edges": 57,
+      "blocking_items": [
+        {
+          "node_id": "__required::gcs_total",
+          "mapped_feature_name": "gcs_total",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "notes": "Core requirement missing from executable subgraph."
+        },
+        {
+          "node_id": "__required::rass",
+          "mapped_feature_name": "rass",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "notes": "Core requirement missing from executable subgraph."
+        },
+        {
+          "node_id": "__required::restraint_active",
+          "mapped_feature_name": "restraint_active",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "notes": "Core requirement missing from executable subgraph."
+        },
+        {
+          "node_id": "__required::sedation_burden",
+          "mapped_feature_name": "sedation_burden",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "notes": "Core requirement missing from executable subgraph."
+        },
+        {
+          "node_id": "__required::ventilation_status",
+          "mapped_feature_name": "ventilation_status",
+          "support_level": "reference_only",
+          "implementation_mode": "not_implemented",
+          "notes": "Core requirement missing from executable subgraph."
+        }
+      ],
+      "phase_blocker_count": 0
+    }
+  },
+  "inputs": {
+    "condition_graphs_json": "results/v3/knowledge/reference_inputs/condition_graphs.json",
+    "physiology_templates_json": "results/v3/knowledge/reference_inputs/physiology_templates.json",
+    "feature_dictionary_csv": "results/v3/feature_dictionary_v3.csv",
+    "pathway_events": "data/processed/v3/events/diagnosis_pathway_events_v3.parquet"
+  }
+}

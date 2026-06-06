@@ -1,0 +1,1092 @@
+{
+  "condition": "aki",
+  "name": "Acute Kidney Injury (AKI)",
+  "references": [
+    {
+      "key": "KDIGO2012",
+      "citation": "KDIGO Clinical Practice Guideline for Acute Kidney Injury. Kidney Int Suppl. 2012;2(1):1-138."
+    },
+    {
+      "key": "NICE2019",
+      "citation": "NICE Guideline NG148: Acute kidney injury: prevention, detection and management. NICE, 2019."
+    },
+    {
+      "key": "Bellomo2012",
+      "citation": "Bellomo R, Kellum JA, Ronco C. Acute kidney injury. Lancet. 2012;380(9843):756-766."
+    },
+    {
+      "key": "Zarbock2018",
+      "citation": "Zarbock A et al. Effect of Early vs Delayed Initiation of Renal Replacement Therapy on Mortality in Critically Ill Patients With Acute Kidney Injury. JAMA. 2016;315(20):2190-2199."
+    },
+    {
+      "key": "Matarneh2025",
+      "citation": "Matarneh A et al. Beyond creatinine: diagnostic accuracy of emerging biomarkers for AKI in the ICU – a systematic review. Renal Failure. 2025;47(1):2556295."
+    },
+    {
+      "key": "KDIGO2024CKD",
+      "citation": "KDIGO 2024 Clinical Practice Guideline for the Evaluation and Management of Chronic Kidney Disease. Kidney Int. 2024;105(4S):S117-S314."
+    },
+    {
+      "key": "Mullens2019",
+      "citation": "Mullens W et al. The use of diuretics in heart failure with congestion — a position statement from the HFA of the ESC. Eur J Heart Fail. 2019;21(2):137-155."
+    },
+    {
+      "key": "EASL2018",
+      "citation": "EASL Clinical Practice Guidelines for the management of patients with decompensated cirrhosis. J Hepatol. 2018;69(2):406-460."
+    },
+    {
+      "key": "SurvivingSepsis",
+      "citation": "Evans L et al. Surviving Sepsis Campaign: International Guidelines for Management of Sepsis and Septic Shock 2021. Crit Care Med. 2021;49(11):e1063-e1143."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "scr",
+      "label": "Serum Creatinine ↑",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": 50912,
+      "ref": "KDIGO2012 §2.1",
+      "mapped_feature_name": "creatinine",
+      "support_level": "core_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Primary AKI functional marker."
+    },
+    {
+      "id": "egfr",
+      "label": "eGFR ↓",
+      "type": "lab",
+      "mimic_source": "derived (CKD-EPI equation)",
+      "mimic_itemid": null,
+      "ref": "KDIGO2024CKD",
+      "mapped_feature_name": "ckd",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Static comorbidity."
+    },
+    {
+      "id": "bun",
+      "label": "BUN ↑",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": 51006,
+      "ref": "Bellomo2012",
+      "mapped_feature_name": "bun",
+      "support_level": "core_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Renal burden marker."
+    },
+    {
+      "id": "potassium",
+      "label": "K⁺ ↑ (Hyperkalaemia)",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": 50971,
+      "ref": "KDIGO2012 §4",
+      "mapped_feature_name": "potassium",
+      "support_level": "core_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Electrolyte complication signal."
+    },
+    {
+      "id": "bicarbonate",
+      "label": "HCO₃⁻ ↓",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": 50882,
+      "ref": "Bellomo2012",
+      "mapped_feature_name": "bicarbonate",
+      "support_level": "core_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Metabolic acidosis support."
+    },
+    {
+      "id": "phosphate",
+      "label": "Phosphate ↑",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": 50970,
+      "ref": "KDIGO2012",
+      "mapped_feature_name": "phosphate",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Secondary renal/metabolic marker."
+    },
+    {
+      "id": "lactate",
+      "label": "Lactate ↑",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": 50813,
+      "ref": "SurvivingSepsis",
+      "mapped_feature_name": "lactate",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Perfusion/sepsis context."
+    },
+    {
+      "id": "calcium",
+      "label": "Ca²⁺ ↓ (Hypocalcaemia)",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": 50893,
+      "ref": "Bellomo2012",
+      "mapped_feature_name": "calcium",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Secondary metabolic marker."
+    },
+    {
+      "id": "urine_output",
+      "label": "Urine Output",
+      "type": "lab",
+      "mimic_source": "outputevents",
+      "mimic_itemid": null,
+      "ref": "KDIGO2012 §2.1",
+      "mapped_feature_name": "urineoutput",
+      "support_level": "core_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Core AKI urine signal."
+    },
+    {
+      "id": "hypotension",
+      "label": "Hypotension (SBP < 90 mmHg)",
+      "type": "vital",
+      "mimic_source": "chartevents",
+      "mimic_itemid": [
+        220050,
+        220179
+      ],
+      "ref": "KDIGO2012 §3",
+      "mapped_feature_name": "sbp",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Hypotension proxied by SBP."
+    },
+    {
+      "id": "map_low",
+      "label": "MAP < 65 mmHg",
+      "type": "vital",
+      "mimic_source": "chartevents",
+      "mimic_itemid": 220052,
+      "ref": "SurvivingSepsis",
+      "mapped_feature_name": "map_merged",
+      "support_level": "core_executable",
+      "implementation_mode": "derived_feature",
+      "execution_notes": "Low MAP derived from merged MAP."
+    },
+    {
+      "id": "tachycardia",
+      "label": "Tachycardia (HR > 100)",
+      "type": "vital",
+      "mimic_source": "chartevents",
+      "mimic_itemid": 220045,
+      "ref": "Bellomo2012",
+      "mapped_feature_name": "heart_rate",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Tachycardia from hourly HR."
+    },
+    {
+      "id": "fever",
+      "label": "Fever (T > 38.3°C)",
+      "type": "vital",
+      "mimic_source": "chartevents",
+      "mimic_itemid": [
+        223761,
+        223762
+      ],
+      "ref": "SurvivingSepsis",
+      "mapped_feature_name": "temperature_c",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Temperature-derived fever."
+    },
+    {
+      "id": "low_spo2",
+      "label": "SpO₂ ↓",
+      "type": "vital",
+      "mimic_source": "chartevents",
+      "mimic_itemid": 220277,
+      "ref": "NICE2019",
+      "mapped_feature_name": "spo2",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Hypoxia proxy from SpO2."
+    },
+    {
+      "id": "oliguria",
+      "label": "Oliguria (<0.5 mL/kg/h)",
+      "type": "symptom",
+      "mimic_source": "outputevents (derived)",
+      "mimic_itemid": null,
+      "ref": "KDIGO2012",
+      "mapped_feature_name": "urineoutput",
+      "support_level": "core_executable",
+      "implementation_mode": "derived_feature",
+      "execution_notes": "Derived from hourly urine output."
+    },
+    {
+      "id": "anuria",
+      "label": "Anuria (<100 mL/12h)",
+      "type": "symptom",
+      "mimic_source": "outputevents (derived)",
+      "mimic_itemid": null,
+      "ref": "KDIGO2012 Stage 3",
+      "mapped_feature_name": "urineoutput",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Derived severe urine reduction."
+    },
+    {
+      "id": "fluid_overload",
+      "label": "Fluid Overload / Edema",
+      "type": "symptom",
+      "mimic_source": "inputevents − outputevents (fluid balance)",
+      "mimic_itemid": null,
+      "ref": "KDIGO2012 §4",
+      "mapped_feature_name": "fluid_balance",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Positive balance proxy."
+    },
+    {
+      "id": "uremic_enceph",
+      "label": "Uremic Encephalopathy",
+      "type": "symptom",
+      "mimic_source": "clinical notes (NLP)",
+      "mimic_itemid": null,
+      "ref": "Bellomo2012",
+      "mapped_feature_name": "note_symptom_proxy",
+      "support_level": "proxy_executable",
+      "implementation_mode": "note_proxy",
+      "execution_notes": "Only available as note-level proxy in B2."
+    },
+    {
+      "id": "nausea",
+      "label": "Nausea / Vomiting",
+      "type": "symptom",
+      "mimic_source": "clinical notes (NLP)",
+      "mimic_itemid": null,
+      "ref": "Bellomo2012",
+      "mapped_feature_name": "note_symptom_proxy",
+      "support_level": "proxy_executable",
+      "implementation_mode": "note_proxy",
+      "execution_notes": "Only available as note-level proxy in B2."
+    },
+    {
+      "id": "met_acidosis",
+      "label": "Metabolic Acidosis (pH ↓, AG ↑)",
+      "type": "symptom",
+      "mimic_source": "labevents (pH 50820, AG derived)",
+      "mimic_itemid": null,
+      "ref": "KDIGO2012",
+      "mapped_feature_name": "ph",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Derived from pH/bicarbonate/anion gap."
+    },
+    {
+      "id": "nephrotoxic_nsaid",
+      "label": "NSAIDs",
+      "type": "med",
+      "mimic_source": "prescriptions / emar",
+      "mimic_itemid": null,
+      "ref": "KDIGO2012 §5",
+      "mapped_feature_name": "nephrotoxic_drug_active",
+      "support_level": "proxy_executable",
+      "implementation_mode": "event_rule",
+      "execution_notes": "Medication class rule on timeline."
+    },
+    {
+      "id": "nephrotoxic_amino",
+      "label": "Aminoglycosides",
+      "type": "med",
+      "mimic_source": "prescriptions / emar",
+      "mimic_itemid": null,
+      "ref": "KDIGO2012 §5",
+      "mapped_feature_name": "nephrotoxic_drug_active",
+      "support_level": "proxy_executable",
+      "implementation_mode": "event_rule",
+      "execution_notes": "Medication class rule on timeline."
+    },
+    {
+      "id": "contrast",
+      "label": "IV Contrast (CT/Angiography)",
+      "type": "med",
+      "mimic_source": "procedureevents",
+      "mimic_itemid": null,
+      "ref": "KDIGO2012 CI-AKI",
+      "mapped_feature_name": "contrast_exposure",
+      "support_level": "proxy_executable",
+      "implementation_mode": "event_rule",
+      "execution_notes": "Procedure/medication exposure rule."
+    },
+    {
+      "id": "vancomycin",
+      "label": "Vancomycin",
+      "type": "med",
+      "mimic_source": "prescriptions / emar",
+      "mimic_itemid": null,
+      "ref": "KDIGO2012 §5",
+      "mapped_feature_name": "nephrotoxic_drug_active",
+      "support_level": "proxy_executable",
+      "implementation_mode": "event_rule",
+      "execution_notes": "Medication class rule on timeline."
+    },
+    {
+      "id": "amphotericin",
+      "label": "Amphotericin B",
+      "type": "med",
+      "mimic_source": "prescriptions / emar",
+      "mimic_itemid": null,
+      "ref": "KDIGO2012 §5",
+      "mapped_feature_name": "nephrotoxic_drug_active",
+      "support_level": "proxy_executable",
+      "implementation_mode": "event_rule",
+      "execution_notes": "Medication class rule on timeline."
+    },
+    {
+      "id": "vasopressors",
+      "label": "Vasopressors (Norepinephrine)",
+      "type": "med",
+      "mimic_source": "inputevents",
+      "mimic_itemid": 221906,
+      "ref": "SurvivingSepsis",
+      "mapped_feature_name": "vasopressors_active",
+      "support_level": "core_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Hemodynamic support flag."
+    },
+    {
+      "id": "diuretics",
+      "label": "Diuretics (Furosemide)",
+      "type": "med",
+      "mimic_source": "inputevents",
+      "mimic_itemid": 228340,
+      "ref": "KDIGO2012 §4",
+      "mapped_feature_name": "diuretic_exposure",
+      "support_level": "proxy_executable",
+      "implementation_mode": "event_rule",
+      "execution_notes": "Medication exposure rule."
+    },
+    {
+      "id": "ace_arb",
+      "label": "ACEi / ARB",
+      "type": "med",
+      "mimic_source": "prescriptions / emar",
+      "mimic_itemid": null,
+      "ref": "KDIGO2024CKD",
+      "mapped_feature_name": "ace_arb_exposure",
+      "support_level": "proxy_executable",
+      "implementation_mode": "event_rule",
+      "execution_notes": "Medication exposure rule."
+    },
+    {
+      "id": "fluids_iv",
+      "label": "IV Fluid Resuscitation (Crystalloid)",
+      "type": "med",
+      "mimic_source": "inputevents",
+      "mimic_itemid": null,
+      "ref": "KDIGO2012 §3",
+      "mapped_feature_name": "fluid_input_hourly",
+      "support_level": "core_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "IV fluid burden."
+    },
+    {
+      "id": "rrt",
+      "label": "Renal Replacement Therapy (RRT)",
+      "type": "med",
+      "mimic_source": "procedureevents / chartevents (CRRT)",
+      "mimic_itemid": null,
+      "ref": "KDIGO2012 §5",
+      "mapped_feature_name": "rrt_active",
+      "support_level": "core_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "RRT status."
+    },
+    {
+      "id": "ckd",
+      "label": "CKD (Baseline eGFR ↓)",
+      "type": "comorbid",
+      "mimic_source": "diagnoses_icd (N18.*)",
+      "mimic_itemid": null,
+      "ref": "KDIGO2024CKD",
+      "mapped_feature_name": "ckd",
+      "support_level": "core_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Static comorbidity."
+    },
+    {
+      "id": "diabetes",
+      "label": "Diabetes Mellitus",
+      "type": "comorbid",
+      "mimic_source": "diagnoses_icd (E11.*)",
+      "mimic_itemid": null,
+      "ref": "KDIGO2024CKD",
+      "mapped_feature_name": "diabetes",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Static comorbidity."
+    },
+    {
+      "id": "liver_disease",
+      "label": "Hepatorenal Syndrome",
+      "type": "comorbid",
+      "mimic_source": "diagnoses_icd (K76.7)",
+      "mimic_itemid": null,
+      "ref": "EASL2018",
+      "mapped_feature_name": "liver_disease",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Static comorbidity."
+    }
+  ],
+  "reference_only_nodes": [
+    {
+      "id": "cystatin_c",
+      "label": "Cystatin C ↑",
+      "type": "lab",
+      "mimic_source": "labevents (if available)",
+      "mimic_itemid": null,
+      "ref": "KDIGO2024CKD",
+      "mapped_feature_name": "reference_only_signal",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+    },
+    {
+      "id": "ngal",
+      "label": "NGAL ↑ (urine/plasma)",
+      "type": "lab",
+      "mimic_source": "research assay (not standard MIMIC)",
+      "mimic_itemid": null,
+      "ref": "Matarneh2025",
+      "mapped_feature_name": "reference_only_signal",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+    },
+    {
+      "id": "kim1",
+      "label": "KIM-1 ↑ (urine)",
+      "type": "lab",
+      "mimic_source": "research assay",
+      "mimic_itemid": null,
+      "ref": "Matarneh2025",
+      "mapped_feature_name": "reference_only_signal",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+    },
+    {
+      "id": "timp2_igfbp7",
+      "label": "[TIMP-2]·[IGFBP7] (NephroCheck)",
+      "type": "lab",
+      "mimic_source": "NephroCheck assay",
+      "mimic_itemid": null,
+      "ref": "Matarneh2025",
+      "mapped_feature_name": "reference_only_signal",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+    },
+    {
+      "id": "il18",
+      "label": "IL-18 ↑ (urine)",
+      "type": "lab",
+      "mimic_source": "research assay",
+      "mimic_itemid": null,
+      "ref": "Matarneh2025",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "cvp_elevated",
+      "label": "CVP ↑ (Venous Congestion)",
+      "type": "vital",
+      "mimic_source": "chartevents",
+      "mimic_itemid": 220074,
+      "ref": "Mullens2019",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "rhabdomyolysis",
+      "label": "Rhabdomyolysis (CK ↑↑)",
+      "type": "symptom",
+      "mimic_source": "labevents (CK 50910)",
+      "mimic_itemid": 50910,
+      "ref": "NICE2019",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "urine_sediment",
+      "label": "Urine Sediment (Casts, RTE cells)",
+      "type": "symptom",
+      "mimic_source": "microbiologyevents / clinical notes",
+      "mimic_itemid": null,
+      "ref": "KDIGO2012 §2.5",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "heart_failure",
+      "label": "Heart Failure (Cardiorenal)",
+      "type": "comorbid",
+      "mimic_source": "diagnoses_icd (I50.*)",
+      "mimic_itemid": null,
+      "ref": "Mullens2019",
+      "mapped_feature_name": "heart_failure_context",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "Not in current v3 static context."
+    },
+    {
+      "id": "sepsis",
+      "label": "Sepsis (Sepsis-3)",
+      "type": "comorbid",
+      "mimic_source": "derived.sepsis3",
+      "mimic_itemid": null,
+      "ref": "SurvivingSepsis",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "cardiac_surgery",
+      "label": "Post Cardiac Surgery",
+      "type": "comorbid",
+      "mimic_source": "procedureevents",
+      "mimic_itemid": null,
+      "ref": "KDIGO2012 §3",
+      "mapped_feature_name": "cardiac_surgery_context",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No explicit current feature."
+    },
+    {
+      "id": "aki_s1",
+      "label": "KDIGO Stage 1",
+      "type": "stage",
+      "mimic_source": "derived.kdigo_stages",
+      "mimic_itemid": null,
+      "ref": "KDIGO2012 §2.1.2",
+      "criteria": "SCr ≥1.5× baseline within 7d OR ↑≥0.3 mg/dL within 48h OR UO <0.5 mL/kg/h for 6-12h",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "aki_s2",
+      "label": "KDIGO Stage 2",
+      "type": "stage",
+      "mimic_source": "derived.kdigo_stages",
+      "mimic_itemid": null,
+      "ref": "KDIGO2012 §2.1.2",
+      "criteria": "SCr ≥2.0× baseline OR UO <0.5 mL/kg/h for ≥12h",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "aki_s3",
+      "label": "KDIGO Stage 3",
+      "type": "stage",
+      "mimic_source": "derived.kdigo_stages",
+      "mimic_itemid": null,
+      "ref": "KDIGO2012 §2.1.2",
+      "criteria": "SCr ≥3.0× baseline OR ≥4.0 mg/dL OR initiation of RRT OR UO <0.3 mL/kg/h for ≥24h OR anuria for ≥12h",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    }
+  ],
+  "edges": [
+    {
+      "from": "scr",
+      "to": "egfr",
+      "type": "causal",
+      "label": "inverse relationship",
+      "ref": "KDIGO2024CKD"
+    },
+    {
+      "from": "scr",
+      "to": "bun",
+      "type": "causal",
+      "label": "co-elevation (retention)",
+      "ref": "Bellomo2012"
+    },
+    {
+      "from": "urine_output",
+      "to": "oliguria",
+      "type": "dependency",
+      "label": "defines",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "oliguria",
+      "to": "anuria",
+      "type": "temporal",
+      "label": "worsening",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "hypotension",
+      "to": "map_low",
+      "type": "dependency",
+      "label": "defines",
+      "ref": "SurvivingSepsis"
+    },
+    {
+      "from": "map_low",
+      "to": "scr",
+      "type": "causal",
+      "label": "renal hypoperfusion (pre-renal)",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "tachycardia",
+      "to": "hypotension",
+      "type": "temporal",
+      "label": "compensatory → decompensation",
+      "ref": "Bellomo2012"
+    },
+    {
+      "from": "scr",
+      "to": "potassium",
+      "type": "temporal",
+      "label": "↓ K⁺ excretion with GFR decline",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "scr",
+      "to": "bicarbonate",
+      "type": "temporal",
+      "label": "acid retention",
+      "ref": "Bellomo2012"
+    },
+    {
+      "from": "scr",
+      "to": "phosphate",
+      "type": "temporal",
+      "label": "↓ PO₄ excretion",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "scr",
+      "to": "calcium",
+      "type": "temporal",
+      "label": "↓ Ca²⁺ (1,25-D₃ ↓)",
+      "ref": "Bellomo2012"
+    },
+    {
+      "from": "bicarbonate",
+      "to": "met_acidosis",
+      "type": "causal",
+      "label": "↑ anion gap acidosis",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "potassium",
+      "to": "tachycardia",
+      "type": "causal",
+      "label": "cardiac arrhythmia risk",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "bun",
+      "to": "uremic_enceph",
+      "type": "causal",
+      "label": "uremic toxins → CNS",
+      "ref": "Bellomo2012"
+    },
+    {
+      "from": "bun",
+      "to": "nausea",
+      "type": "causal",
+      "label": "GI uremic symptoms",
+      "ref": "Bellomo2012"
+    },
+    {
+      "from": "oliguria",
+      "to": "fluid_overload",
+      "type": "temporal",
+      "label": "fluid accumulation",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "fluid_overload",
+      "to": "low_spo2",
+      "type": "causal",
+      "label": "pulmonary edema",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "nephrotoxic_nsaid",
+      "to": "scr",
+      "type": "causal",
+      "label": "↓ afferent arteriolar prostaglandin",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "nephrotoxic_amino",
+      "to": "scr",
+      "type": "causal",
+      "label": "proximal tubule toxicity",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "contrast",
+      "to": "scr",
+      "type": "causal",
+      "label": "contrast-induced AKI (24-72h latency)",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "vancomycin",
+      "to": "scr",
+      "type": "causal",
+      "label": "oxidative tubular injury",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "amphotericin",
+      "to": "scr",
+      "type": "causal",
+      "label": "distal tubular / medullary toxicity",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "ace_arb",
+      "to": "egfr",
+      "type": "causal",
+      "label": "↓ efferent arteriolar tone → ↓ intraglomerular pressure",
+      "ref": "KDIGO2024CKD"
+    },
+    {
+      "from": "diuretics",
+      "to": "hypotension",
+      "type": "causal",
+      "label": "volume depletion",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "diuretics",
+      "to": "urine_output",
+      "type": "therapeutic",
+      "label": "transient ↑ UO (does not prevent AKI)",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "vasopressors",
+      "to": "map_low",
+      "type": "therapeutic",
+      "label": "restores MAP ≥65 mmHg",
+      "ref": "SurvivingSepsis"
+    },
+    {
+      "from": "fluids_iv",
+      "to": "hypotension",
+      "type": "therapeutic",
+      "label": "volume resuscitation",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "fluids_iv",
+      "to": "fluid_overload",
+      "type": "causal",
+      "label": "excessive administration → overload",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "rrt",
+      "to": "potassium",
+      "type": "therapeutic",
+      "label": "K⁺ clearance",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "rrt",
+      "to": "bun",
+      "type": "therapeutic",
+      "label": "uraemic toxin clearance",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "rrt",
+      "to": "met_acidosis",
+      "type": "therapeutic",
+      "label": "buffer correction",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "ckd",
+      "to": "scr",
+      "type": "dependency",
+      "label": "elevated baseline SCr",
+      "ref": "KDIGO2024CKD"
+    },
+    {
+      "from": "ckd",
+      "to": "egfr",
+      "type": "dependency",
+      "label": "reduced baseline eGFR",
+      "ref": "KDIGO2024CKD"
+    },
+    {
+      "from": "diabetes",
+      "to": "ckd",
+      "type": "causal",
+      "label": "diabetic nephropathy",
+      "ref": "KDIGO2024CKD"
+    },
+    {
+      "from": "diabetes",
+      "to": "scr",
+      "type": "causal",
+      "label": "↑ AKI susceptibility",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "liver_disease",
+      "to": "scr",
+      "type": "causal",
+      "label": "hepatorenal mechanism (splanchnic vasodilation)",
+      "ref": "EASL2018"
+    }
+  ],
+  "dropped_edges": [
+    {
+      "from": "scr",
+      "to": "aki_s1",
+      "type": "dependency",
+      "label": "≥1.5× baseline or ↑0.3 in 48h",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "scr",
+      "to": "aki_s2",
+      "type": "dependency",
+      "label": "≥2.0× baseline",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "scr",
+      "to": "aki_s3",
+      "type": "dependency",
+      "label": "≥3.0× or ≥4.0 mg/dL",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "urine_output",
+      "to": "aki_s1",
+      "type": "dependency",
+      "label": "<0.5 mL/kg/h ×6-12h",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "urine_output",
+      "to": "aki_s2",
+      "type": "dependency",
+      "label": "<0.5 mL/kg/h ×≥12h",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "urine_output",
+      "to": "aki_s3",
+      "type": "dependency",
+      "label": "<0.3 mL/kg/h ×≥24h or anuria ×12h",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "rrt",
+      "to": "aki_s3",
+      "type": "dependency",
+      "label": "initiation → automatic Stage 3",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "aki_s1",
+      "to": "aki_s2",
+      "type": "temporal",
+      "label": "progression",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "aki_s2",
+      "to": "aki_s3",
+      "type": "temporal",
+      "label": "progression",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "cystatin_c",
+      "to": "egfr",
+      "type": "dependency",
+      "label": "eGFR_cr-cys (improved accuracy)",
+      "ref": "KDIGO2024CKD"
+    },
+    {
+      "from": "ngal",
+      "to": "scr",
+      "type": "temporal",
+      "label": "precedes SCr rise by 24-48h",
+      "ref": "Matarneh2025"
+    },
+    {
+      "from": "kim1",
+      "to": "scr",
+      "type": "temporal",
+      "label": "tubular damage marker → delayed SCr rise",
+      "ref": "Matarneh2025"
+    },
+    {
+      "from": "timp2_igfbp7",
+      "to": "aki_s2",
+      "type": "temporal",
+      "label": "predicts Stage 2+ within 12h (AUC 0.80)",
+      "ref": "Matarneh2025"
+    },
+    {
+      "from": "il18",
+      "to": "scr",
+      "type": "temporal",
+      "label": "inflammatory tubular injury",
+      "ref": "Matarneh2025"
+    },
+    {
+      "from": "sepsis",
+      "to": "fever",
+      "type": "causal",
+      "label": "inflammatory response",
+      "ref": "SurvivingSepsis"
+    },
+    {
+      "from": "sepsis",
+      "to": "hypotension",
+      "type": "causal",
+      "label": "vasodilation / distributive shock",
+      "ref": "SurvivingSepsis"
+    },
+    {
+      "from": "sepsis",
+      "to": "lactate",
+      "type": "causal",
+      "label": "tissue hypoperfusion",
+      "ref": "SurvivingSepsis"
+    },
+    {
+      "from": "sepsis",
+      "to": "scr",
+      "type": "causal",
+      "label": "septic AKI (microvascular dysfunction)",
+      "ref": "Bellomo2012"
+    },
+    {
+      "from": "sepsis",
+      "to": "ngal",
+      "type": "causal",
+      "label": "tubular stress response",
+      "ref": "Matarneh2025"
+    },
+    {
+      "from": "fluid_overload",
+      "to": "cvp_elevated",
+      "type": "causal",
+      "label": "venous congestion",
+      "ref": "Mullens2019"
+    },
+    {
+      "from": "cvp_elevated",
+      "to": "scr",
+      "type": "causal",
+      "label": "renal venous congestion → ↓ GFR",
+      "ref": "Mullens2019"
+    },
+    {
+      "from": "rhabdomyolysis",
+      "to": "scr",
+      "type": "causal",
+      "label": "myoglobin cast nephropathy",
+      "ref": "NICE2019"
+    },
+    {
+      "from": "rhabdomyolysis",
+      "to": "potassium",
+      "type": "causal",
+      "label": "muscle K⁺ release",
+      "ref": "NICE2019"
+    },
+    {
+      "from": "rhabdomyolysis",
+      "to": "urine_sediment",
+      "type": "causal",
+      "label": "pigmented granular casts",
+      "ref": "NICE2019"
+    },
+    {
+      "from": "nephrotoxic_amino",
+      "to": "ngal",
+      "type": "causal",
+      "label": "tubular injury biomarker response",
+      "ref": "Matarneh2025"
+    },
+    {
+      "from": "contrast",
+      "to": "ngal",
+      "type": "causal",
+      "label": "early tubular stress before SCr rise",
+      "ref": "Matarneh2025"
+    },
+    {
+      "from": "heart_failure",
+      "to": "hypotension",
+      "type": "causal",
+      "label": "↓ cardiac output",
+      "ref": "Mullens2019"
+    },
+    {
+      "from": "heart_failure",
+      "to": "cvp_elevated",
+      "type": "causal",
+      "label": "right-sided congestion",
+      "ref": "Mullens2019"
+    },
+    {
+      "from": "heart_failure",
+      "to": "scr",
+      "type": "causal",
+      "label": "cardiorenal syndrome (Type 1)",
+      "ref": "Mullens2019"
+    },
+    {
+      "from": "cardiac_surgery",
+      "to": "scr",
+      "type": "causal",
+      "label": "ischaemia-reperfusion / cardiopulmonary bypass",
+      "ref": "KDIGO2012"
+    },
+    {
+      "from": "cardiac_surgery",
+      "to": "timp2_igfbp7",
+      "type": "causal",
+      "label": "perioperative tubular stress",
+      "ref": "Zarbock2018"
+    }
+  ]
+}

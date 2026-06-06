@@ -1,0 +1,75 @@
+{
+  "base_counts": {
+    "main_stays": 5505,
+    "layer1_eligible": 4976,
+    "layer2_eligible": 3912,
+    "tier_distribution": {
+      "A": 3570,
+      "B": 1406,
+      "C": 342,
+      "D": 187
+    }
+  },
+  "tasks": {
+    "S-T1": {
+      "rows": 36519,
+      "unique_stays": 4792,
+      "positive_rate": 0.1425
+    },
+    "S-T2": {
+      "rows": 4952,
+      "unique_stays": 4952,
+      "affected_side_distribution": {
+        "bilateral_or_none": 1244,
+        "none": 1068,
+        "unknown": 1030,
+        "left": 873,
+        "right": 737
+      }
+    },
+    "S-T3": {
+      "rows": 2651,
+      "unique_stays": 2651,
+      "consistency_distribution": {
+        "uncertain": 2243,
+        "consistent": 366,
+        "inconsistent": 42
+      }
+    },
+    "S-T4": {
+      "rows": 4976,
+      "unique_stays": 4976
+    },
+    "S-R1": {
+      "rows": 3912,
+      "unique_stays": 3912,
+      "mechanism_distribution": {
+        "unknown": 2723,
+        "cardioembolic": 713,
+        "large_artery": 457,
+        "small_vessel": 13,
+        "cryptogenic": 6
+      }
+    },
+    "S-R2": {
+      "rows": 3912,
+      "unique_stays": 3912,
+      "appropriateness_distribution": {
+        "uncertain": 2301,
+        "appropriate": 1541,
+        "potentially_inappropriate": 70
+      }
+    },
+    "S-R3": {
+      "rows": 277,
+      "unique_stays": 277
+    },
+    "S-R4": {
+      "rows": 3912,
+      "unique_stays": 3912,
+      "any_complication_rate": 0.0879
+    }
+  },
+  "flags": [],
+  "outputs_dir": "data/processed/v3/stroke/tasks"
+}

@@ -1,0 +1,46 @@
+{
+  "condition": "sepsis",
+  "representation_family": "B3",
+  "representation_layout": "state_bank_plus_anchor_index",
+  "inputs": {
+    "task_row_counts": {
+      "sepsis_shock_instances": 871557,
+      "sepsis_lactate_clearance_instances": 27003
+    }
+  },
+  "anchor_index": {
+    "rows": 887401,
+    "unique_stays": 29713,
+    "min_anchor_hour": 4,
+    "max_anchor_hour": 168,
+    "outputs": "data/processed/v3/sepsis/representations/sepsis_B3_anchor_index.parquet"
+  },
+  "state_bank": {
+    "rows": 4991784,
+    "unique_stays": 29713,
+    "n_parts": 95,
+    "min_state_hour": 0,
+    "max_state_hour": 167,
+    "n_columns": 113,
+    "outputs": "data/processed/v3/sepsis/representations/sepsis_B3_state_bank.parquet.parts"
+  },
+  "coverage": {
+    "anchor_rows": 887401,
+    "anchor_unique_stays": 29713,
+    "anchor_stays_missing_in_state_bank": 0,
+    "anchor_rows_exceeding_max_state_hour": 10180
+  },
+  "settings": {
+    "history_rule": "Use state bank rows where state_hour <= anchor_hour and state_hour >= 0",
+    "anchor_deduplication": "Unique per (stay_id, anchor_hour) across all eligible Phase 3 tasks within condition",
+    "forward_fill_policy": "No additional forward fill in B3 builder; inherits hourly_state_grid/state_vectors values and explicit missingness masks"
+  },
+  "outputs": {
+    "anchor_index": "data/processed/v3/sepsis/representations/sepsis_B3_anchor_index.parquet",
+    "state_bank_parts_dir": "data/processed/v3/sepsis/representations/sepsis_B3_state_bank.parquet.parts",
+    "summary_json": "results/v3/sepsis/sepsis_B3_build_summary.json"
+  },
+  "flags": [
+    "anchor_rows_exceeding_max_state_hour=10180"
+  ]
+}

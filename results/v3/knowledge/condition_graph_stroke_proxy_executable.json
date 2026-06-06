@@ -1,0 +1,1070 @@
+{
+  "condition": "stroke_proxy",
+  "name": "Stroke (Ischaemic)",
+  "references": [
+    {
+      "key": "AHASA2026",
+      "citation": "Prabhakaran S et al. 2026 Guideline for the Early Management of Patients With Acute Ischemic Stroke. Stroke. 2026. doi:10.1161/STR.0000000000000513."
+    },
+    {
+      "key": "AHASA2019",
+      "citation": "Powers WJ et al. Guidelines for the Early Management of Patients With Acute Ischemic Stroke: 2019 Update. Stroke. 2019;50(12):e344-e418."
+    },
+    {
+      "key": "ESO2008",
+      "citation": "European Stroke Organisation. Guidelines for management of ischaemic stroke and transient ischaemic attack 2008. Cerebrovasc Dis. 2008;25(5):457-507."
+    },
+    {
+      "key": "NIHSS",
+      "citation": "Brott T et al. Measurements of acute cerebral infarction: a clinical examination scale. Stroke. 1989;20(7):864-870."
+    },
+    {
+      "key": "DAWN",
+      "citation": "Nogueira RG et al. Thrombectomy 6 to 24 Hours after Stroke with a Mismatch between Deficit and Infarct. N Engl J Med. 2018;378(1):11-21."
+    },
+    {
+      "key": "DEFUSE3",
+      "citation": "Albers GW et al. Thrombectomy for Stroke at 6 to 16 Hours with Selection by Perfusion Imaging. N Engl J Med. 2018;378(8):708-718."
+    },
+    {
+      "key": "CHANCE",
+      "citation": "Wang Y et al. Clopidogrel with aspirin in acute minor stroke or transient ischemic attack. N Engl J Med. 2013;369(1):11-19."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "glucose_s",
+      "label": "Glucose (Hypo/Hyperglycaemia)",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": 50931,
+      "ref": "AHASA2026",
+      "mapped_feature_name": "glucose_merged",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Metabolic support."
+    },
+    {
+      "id": "inr_pt",
+      "label": "INR / PT (Coagulation)",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": [
+        51237,
+        51274
+      ],
+      "ref": "AHASA2026 (tPA eligibility)",
+      "mapped_feature_name": "inr",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Use INR/PT coagulation proxy."
+    },
+    {
+      "id": "platelets_s",
+      "label": "Platelet Count",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": 51265,
+      "ref": "AHASA2026 (tPA eligibility)",
+      "mapped_feature_name": "platelet",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Coagulation support."
+    },
+    {
+      "id": "troponin_s",
+      "label": "Troponin ↑ (Cardiac injury)",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": 51003,
+      "ref": "AHASA2026 (baseline assessment)",
+      "mapped_feature_name": "troponin_t",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Cardiac stress proxy."
+    },
+    {
+      "id": "crp_s",
+      "label": "CRP ↑ (Post-stroke inflammation)",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": 50889,
+      "ref": "AHASA2026",
+      "mapped_feature_name": "crp",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Inflammation, low coverage."
+    },
+    {
+      "id": "hemoglobin_s",
+      "label": "Hemoglobin (Anaemia check)",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": 51222,
+      "ref": "AHASA2026",
+      "mapped_feature_name": "hemoglobin",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Anemia burden."
+    },
+    {
+      "id": "creatinine_s",
+      "label": "Creatinine (Contrast safety)",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": 50912,
+      "ref": "AHASA2026",
+      "mapped_feature_name": "creatinine",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Renal comorbidity burden."
+    },
+    {
+      "id": "hypertension_s",
+      "label": "BP ↑↑ (>185/110 for tPA)",
+      "type": "vital",
+      "mimic_source": "chartevents",
+      "mimic_itemid": [
+        220050,
+        220179
+      ],
+      "ref": "AHASA2026",
+      "mapped_feature_name": "sbp",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Blood pressure support."
+    },
+    {
+      "id": "tachy_s",
+      "label": "Tachycardia",
+      "type": "vital",
+      "mimic_source": "chartevents",
+      "mimic_itemid": 220045,
+      "ref": "AHASA2026",
+      "mapped_feature_name": "heart_rate",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Autonomic burden."
+    },
+    {
+      "id": "spo2_s",
+      "label": "SpO₂ ↓ (<94%)",
+      "type": "vital",
+      "mimic_source": "chartevents",
+      "mimic_itemid": 220277,
+      "ref": "AHASA2026",
+      "mapped_feature_name": "spo2",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Oxygenation proxy."
+    },
+    {
+      "id": "temp_s",
+      "label": "Temperature ↑ (Hyperthermia)",
+      "type": "vital",
+      "mimic_source": "chartevents",
+      "mimic_itemid": 223761,
+      "ref": "AHASA2026",
+      "mapped_feature_name": "temperature_c",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Temperature proxy."
+    },
+    {
+      "id": "bp_post_evt",
+      "label": "BP post-EVT (Target <180/105)",
+      "type": "vital",
+      "mimic_source": "chartevents",
+      "mimic_itemid": 220050,
+      "ref": "AHASA2026",
+      "mapped_feature_name": "map_merged",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Hemodynamic stability proxy."
+    },
+    {
+      "id": "dysphagia_s",
+      "label": "Dysphagia",
+      "type": "symptom",
+      "mimic_source": "swallow screen / clinical notes",
+      "mimic_itemid": null,
+      "ref": "AHASA2026 (new emphasis)",
+      "mapped_feature_name": "creatinine",
+      "support_level": "core_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Creatinine-backed renal signal."
+    },
+    {
+      "id": "antiplatelet_s",
+      "label": "Antiplatelets (Aspirin + Clopidogrel)",
+      "type": "med",
+      "mimic_source": "prescriptions / emar",
+      "mimic_itemid": null,
+      "ref": "AHASA2026 / CHANCE",
+      "mapped_feature_name": "creatinine",
+      "support_level": "core_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Creatinine-backed renal signal."
+    },
+    {
+      "id": "anticoag_s",
+      "label": "Anticoagulation (Heparin / DOAC)",
+      "type": "med",
+      "mimic_source": "prescriptions / emar",
+      "mimic_itemid": null,
+      "ref": "AHASA2026",
+      "mapped_feature_name": "creatinine",
+      "support_level": "core_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Creatinine-backed renal signal."
+    },
+    {
+      "id": "statin_s",
+      "label": "High-Intensity Statin",
+      "type": "med",
+      "mimic_source": "prescriptions / emar",
+      "mimic_itemid": null,
+      "ref": "AHASA2026 (Class 1)",
+      "mapped_feature_name": "creatinine",
+      "support_level": "core_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Creatinine-backed renal signal."
+    },
+    {
+      "id": "insulin_s",
+      "label": "Insulin (NOT for tight glucose 80-130)",
+      "type": "med",
+      "mimic_source": "inputevents",
+      "mimic_itemid": null,
+      "ref": "AHASA2026 (Class III: harm)",
+      "mapped_feature_name": "glucose_merged",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Merged glucose signal."
+    },
+    {
+      "id": "dm_s",
+      "label": "Diabetes Mellitus",
+      "type": "comorbid",
+      "mimic_source": "diagnoses_icd (E11.*)",
+      "mimic_itemid": null,
+      "ref": "AHASA2026",
+      "mapped_feature_name": "diabetes",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Static comorbidity."
+    },
+    {
+      "id": "htn_chronic_s",
+      "label": "Chronic Hypertension",
+      "type": "comorbid",
+      "mimic_source": "diagnoses_icd (I10)",
+      "mimic_itemid": null,
+      "ref": "AHASA2026",
+      "mapped_feature_name": "hypertension",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Static comorbidity."
+    },
+    {
+      "id": "prev_stroke_s",
+      "label": "Previous Stroke / TIA",
+      "type": "comorbid",
+      "mimic_source": "diagnoses_icd (I63.*/G45.*)",
+      "mimic_itemid": null,
+      "ref": "AHASA2026",
+      "mapped_feature_name": "stroke_cohort_membership",
+      "support_level": "core_executable",
+      "implementation_mode": "event_rule",
+      "execution_notes": "Stroke cohort/pathway proxy."
+    }
+  ],
+  "reference_only_nodes": [
+    {
+      "id": "lipids",
+      "label": "LDL Cholesterol ↑",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": null,
+      "ref": "AHASA2026 secondary prevention",
+      "mapped_feature_name": "reference_only_signal",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+    },
+    {
+      "id": "hba1c",
+      "label": "HbA1c ↑",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": null,
+      "ref": "AHASA2026",
+      "mapped_feature_name": "reference_only_signal",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+    },
+    {
+      "id": "ddimer_s",
+      "label": "D-dimer ↑",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": 51196,
+      "ref": "Thrombotic workup",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "fibrinogen_s",
+      "label": "Fibrinogen",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": 51214,
+      "ref": "Coagulation panel",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "irregular_pulse",
+      "label": "Irregular Pulse (AF detection)",
+      "type": "vital",
+      "mimic_source": "chartevents (ECG rhythm)",
+      "mimic_itemid": null,
+      "ref": "AHASA2026",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "hemiparesis",
+      "label": "Hemiparesis / Hemiplegia",
+      "type": "symptom",
+      "mimic_source": "NIHSS motor items 5-6",
+      "mimic_itemid": null,
+      "ref": "NIHSS",
+      "mapped_feature_name": "reference_only_signal",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+    },
+    {
+      "id": "aphasia",
+      "label": "Aphasia",
+      "type": "symptom",
+      "mimic_source": "NIHSS language item 9",
+      "mimic_itemid": null,
+      "ref": "NIHSS",
+      "mapped_feature_name": "reference_only_signal",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+    },
+    {
+      "id": "facial_droop",
+      "label": "Facial Droop",
+      "type": "symptom",
+      "mimic_source": "NIHSS facial palsy item 4",
+      "mimic_itemid": null,
+      "ref": "NIHSS",
+      "mapped_feature_name": "reference_only_signal",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+    },
+    {
+      "id": "visual_deficit",
+      "label": "Visual Field Deficit",
+      "type": "symptom",
+      "mimic_source": "NIHSS visual item 3",
+      "mimic_itemid": null,
+      "ref": "NIHSS",
+      "mapped_feature_name": "reference_only_signal",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+    },
+    {
+      "id": "neglect_s",
+      "label": "Hemispatial Neglect",
+      "type": "symptom",
+      "mimic_source": "NIHSS extinction item 11",
+      "mimic_itemid": null,
+      "ref": "NIHSS",
+      "mapped_feature_name": "reference_only_signal",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+    },
+    {
+      "id": "dysarthria_s",
+      "label": "Dysarthria",
+      "type": "symptom",
+      "mimic_source": "NIHSS dysarthria item 10",
+      "mimic_itemid": null,
+      "ref": "NIHSS",
+      "mapped_feature_name": "reference_only_signal",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+    },
+    {
+      "id": "loc_s",
+      "label": "↓ Consciousness (GCS / LOC)",
+      "type": "symptom",
+      "mimic_source": "GCS / NIHSS items 1a-c",
+      "mimic_itemid": null,
+      "ref": "NIHSS",
+      "mapped_feature_name": "reference_only_signal",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+    },
+    {
+      "id": "headache_s",
+      "label": "Sudden Severe Headache",
+      "type": "symptom",
+      "mimic_source": "clinical notes",
+      "mimic_itemid": null,
+      "ref": "AHASA2026",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "ataxia_s",
+      "label": "Limb Ataxia",
+      "type": "symptom",
+      "mimic_source": "NIHSS ataxia item 7",
+      "mimic_itemid": null,
+      "ref": "NIHSS",
+      "mapped_feature_name": "reference_only_signal",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+    },
+    {
+      "id": "sensory_loss",
+      "label": "Sensory Loss",
+      "type": "symptom",
+      "mimic_source": "NIHSS sensory item 8",
+      "mimic_itemid": null,
+      "ref": "NIHSS",
+      "mapped_feature_name": "reference_only_signal",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+    },
+    {
+      "id": "haem_transform",
+      "label": "Haemorrhagic Transformation",
+      "type": "symptom",
+      "mimic_source": "radiology reports / CT",
+      "mimic_itemid": null,
+      "ref": "AHASA2026",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "cerebral_edema",
+      "label": "Cerebral Oedema (Malignant MCA)",
+      "type": "symptom",
+      "mimic_source": "radiology / ICP monitoring",
+      "mimic_itemid": null,
+      "ref": "AHASA2026",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "nihss",
+      "label": "NIHSS Total Score",
+      "type": "stage",
+      "mimic_source": "chartevents (NIHSS)",
+      "mimic_itemid": null,
+      "ref": "NIHSS",
+      "mapped_feature_name": "reference_only_signal",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+    },
+    {
+      "id": "aspects",
+      "label": "ASPECTS Score (CT-based)",
+      "type": "stage",
+      "mimic_source": "radiology notes / derived",
+      "mimic_itemid": null,
+      "ref": "AHASA2026",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "window_45h",
+      "label": "< 4.5h Thrombolysis Window",
+      "type": "stage",
+      "mimic_source": "derived (onset-to-needle time)",
+      "mimic_itemid": null,
+      "ref": "AHASA2026 (Class 1)",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "window_6h",
+      "label": "< 6h EVT Window (Anterior LVO)",
+      "type": "stage",
+      "mimic_source": "derived",
+      "mimic_itemid": null,
+      "ref": "AHASA2026 (Class 1)",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "window_24h",
+      "label": "6-24h EVT (DAWN/DEFUSE-3 criteria)",
+      "type": "stage",
+      "mimic_source": "perfusion imaging / clinical-imaging mismatch",
+      "mimic_itemid": null,
+      "ref": "AHASA2026 (Class 1)",
+      "mapped_feature_name": "reference_only_signal",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+    },
+    {
+      "id": "tpa",
+      "label": "tPA: Alteplase or Tenecteplase",
+      "type": "med",
+      "mimic_source": "inputevents / emar",
+      "mimic_itemid": null,
+      "ref": "AHASA2026 (Class 1: either agent)",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "antihypertensive_s",
+      "label": "Antihypertensives (Labetalol/Nicardipine)",
+      "type": "med",
+      "mimic_source": "inputevents / emar",
+      "mimic_itemid": null,
+      "ref": "AHASA2026",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "evt",
+      "label": "Endovascular Thrombectomy (EVT)",
+      "type": "med",
+      "mimic_source": "procedureevents",
+      "mimic_itemid": null,
+      "ref": "AHASA2026 (Class 1)",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "af_s",
+      "label": "Atrial Fibrillation",
+      "type": "comorbid",
+      "mimic_source": "diagnoses_icd (I48.*)",
+      "mimic_itemid": null,
+      "ref": "AHASA2026",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "carotid_s",
+      "label": "Carotid Stenosis / Large Vessel Disease",
+      "type": "comorbid",
+      "mimic_source": "diagnoses_icd (I65.*)",
+      "mimic_itemid": null,
+      "ref": "AHASA2026",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "hf_s",
+      "label": "Heart Failure",
+      "type": "comorbid",
+      "mimic_source": "diagnoses_icd (I50.*)",
+      "mimic_itemid": null,
+      "ref": "AHASA2026",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "pfo",
+      "label": "PFO (Paradoxical Embolism)",
+      "type": "comorbid",
+      "mimic_source": "echocardiography notes",
+      "mimic_itemid": null,
+      "ref": "AHASA2026",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    }
+  ],
+  "edges": [
+    {
+      "from": "htn_chronic_s",
+      "to": "hypertension_s",
+      "type": "dependency",
+      "label": "exacerbated in acute phase",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "dm_s",
+      "to": "glucose_s",
+      "type": "causal",
+      "label": "dysglycaemia",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "insulin_s",
+      "to": "glucose_s",
+      "type": "therapeutic",
+      "label": "manage hyperglycaemia (NOT tight 80-130; Class III harm)",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "hemoglobin_s",
+      "to": "spo2_s",
+      "type": "causal",
+      "label": "↓ O₂ delivery if anaemic",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "crp_s",
+      "to": "temp_s",
+      "type": "causal",
+      "label": "post-stroke inflammatory response",
+      "ref": "AHASA2026"
+    }
+  ],
+  "dropped_edges": [
+    {
+      "from": "af_s",
+      "to": "irregular_pulse",
+      "type": "dependency",
+      "label": "detected as irregular rhythm",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "af_s",
+      "to": "ddimer_s",
+      "type": "causal",
+      "label": "atrial thrombus formation",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "af_s",
+      "to": "hemiparesis",
+      "type": "causal",
+      "label": "cardioembolic large vessel occlusion",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "af_s",
+      "to": "aphasia",
+      "type": "causal",
+      "label": "MCA territory embolism",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "af_s",
+      "to": "anticoag_s",
+      "type": "dependency",
+      "label": "indication for secondary prevention",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "hypertension_s",
+      "to": "haem_transform",
+      "type": "causal",
+      "label": "↑ haemorrhagic conversion risk",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "hypertension_s",
+      "to": "headache_s",
+      "type": "causal",
+      "label": "↑ intracranial pressure risk",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "antihypertensive_s",
+      "to": "hypertension_s",
+      "type": "therapeutic",
+      "label": "target <185/110 pre-tPA",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "antihypertensive_s",
+      "to": "bp_post_evt",
+      "type": "therapeutic",
+      "label": "target <180/105 post-EVT",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "dm_s",
+      "to": "hba1c",
+      "type": "dependency",
+      "label": "glycaemic control marker",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "glucose_s",
+      "to": "nihss",
+      "type": "causal",
+      "label": "penumbral vulnerability / mimic stroke",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "dm_s",
+      "to": "carotid_s",
+      "type": "causal",
+      "label": "accelerated atherosclerosis",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "carotid_s",
+      "to": "hemiparesis",
+      "type": "causal",
+      "label": "large vessel occlusion",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "carotid_s",
+      "to": "aspects",
+      "type": "causal",
+      "label": "anterior circulation territory",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "lipids",
+      "to": "carotid_s",
+      "type": "causal",
+      "label": "atherosclerotic plaque formation",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "statin_s",
+      "to": "lipids",
+      "type": "therapeutic",
+      "label": "↓ LDL (secondary prevention)",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "pfo",
+      "to": "hemiparesis",
+      "type": "causal",
+      "label": "paradoxical embolism (venous → arterial)",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "inr_pt",
+      "to": "tpa",
+      "type": "dependency",
+      "label": "eligibility check (INR ≤1.7)",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "platelets_s",
+      "to": "tpa",
+      "type": "dependency",
+      "label": "eligibility check (≥100,000/µL)",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "glucose_s",
+      "to": "tpa",
+      "type": "dependency",
+      "label": "must rule out hypoglycaemia before tPA",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "ddimer_s",
+      "to": "fibrinogen_s",
+      "type": "dependency",
+      "label": "coagulation cascade",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "troponin_s",
+      "to": "hf_s",
+      "type": "causal",
+      "label": "concurrent cardiac injury marker",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "hf_s",
+      "to": "tachy_s",
+      "type": "causal",
+      "label": "compensatory tachycardia",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "hf_s",
+      "to": "spo2_s",
+      "type": "causal",
+      "label": "pulmonary congestion → hypoxia",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "creatinine_s",
+      "to": "evt",
+      "type": "dependency",
+      "label": "contrast safety check",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "hemiparesis",
+      "to": "nihss",
+      "type": "dependency",
+      "label": "motor score (items 5-6, range 0-8)",
+      "ref": "NIHSS"
+    },
+    {
+      "from": "aphasia",
+      "to": "nihss",
+      "type": "dependency",
+      "label": "language score (item 9, range 0-3)",
+      "ref": "NIHSS"
+    },
+    {
+      "from": "facial_droop",
+      "to": "nihss",
+      "type": "dependency",
+      "label": "facial palsy (item 4, range 0-3)",
+      "ref": "NIHSS"
+    },
+    {
+      "from": "visual_deficit",
+      "to": "nihss",
+      "type": "dependency",
+      "label": "visual fields (item 3, range 0-3)",
+      "ref": "NIHSS"
+    },
+    {
+      "from": "neglect_s",
+      "to": "nihss",
+      "type": "dependency",
+      "label": "extinction/inattention (item 11, range 0-2)",
+      "ref": "NIHSS"
+    },
+    {
+      "from": "dysarthria_s",
+      "to": "nihss",
+      "type": "dependency",
+      "label": "dysarthria (item 10, range 0-2)",
+      "ref": "NIHSS"
+    },
+    {
+      "from": "loc_s",
+      "to": "nihss",
+      "type": "dependency",
+      "label": "LOC (items 1a-c, range 0-6)",
+      "ref": "NIHSS"
+    },
+    {
+      "from": "ataxia_s",
+      "to": "nihss",
+      "type": "dependency",
+      "label": "limb ataxia (item 7, range 0-2)",
+      "ref": "NIHSS"
+    },
+    {
+      "from": "sensory_loss",
+      "to": "nihss",
+      "type": "dependency",
+      "label": "sensory (item 8, range 0-2)",
+      "ref": "NIHSS"
+    },
+    {
+      "from": "hemiparesis",
+      "to": "facial_droop",
+      "type": "dependency",
+      "label": "ipsilateral (MCA territory)",
+      "ref": "NIHSS"
+    },
+    {
+      "from": "aphasia",
+      "to": "dysarthria_s",
+      "type": "dependency",
+      "label": "may co-occur (dominant hemisphere)",
+      "ref": "NIHSS"
+    },
+    {
+      "from": "loc_s",
+      "to": "dysphagia_s",
+      "type": "temporal",
+      "label": "brainstem / bulbar involvement",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "nihss",
+      "to": "window_45h",
+      "type": "dependency",
+      "label": "severity guides treatment decision",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "nihss",
+      "to": "window_6h",
+      "type": "dependency",
+      "label": "NIHSS ≥6 for EVT eligibility",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "nihss",
+      "to": "window_24h",
+      "type": "dependency",
+      "label": "DAWN: NIHSS ≥10 (clinical-imaging mismatch)",
+      "ref": "DAWN"
+    },
+    {
+      "from": "aspects",
+      "to": "window_6h",
+      "type": "dependency",
+      "label": "ASPECTS ≥6 (standard EVT criteria)",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "aspects",
+      "to": "window_24h",
+      "type": "dependency",
+      "label": "ASPECTS 3-5 (SELECT2 / ANGEL-ASPECT)",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "window_45h",
+      "to": "tpa",
+      "type": "dependency",
+      "label": "time eligibility for thrombolysis",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "window_6h",
+      "to": "evt",
+      "type": "dependency",
+      "label": "anterior LVO within 6h",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "window_24h",
+      "to": "evt",
+      "type": "dependency",
+      "label": "mismatch-based patient selection",
+      "ref": "DAWN"
+    },
+    {
+      "from": "tpa",
+      "to": "hemiparesis",
+      "type": "therapeutic",
+      "label": "reperfusion → neurological improvement",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "tpa",
+      "to": "haem_transform",
+      "type": "causal",
+      "label": "↑ symptomatic ICH risk (~6%)",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "evt",
+      "to": "hemiparesis",
+      "type": "therapeutic",
+      "label": "mechanical recanalization",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "evt",
+      "to": "haem_transform",
+      "type": "causal",
+      "label": "procedural bleeding risk",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "antiplatelet_s",
+      "to": "ddimer_s",
+      "type": "therapeutic",
+      "label": "secondary prevention (DAPT for minor stroke)",
+      "ref": "CHANCE"
+    },
+    {
+      "from": "spo2_s",
+      "to": "loc_s",
+      "type": "causal",
+      "label": "hypoxic brain injury",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "temp_s",
+      "to": "loc_s",
+      "type": "causal",
+      "label": "↑ metabolic demand / worsened oedema",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "haem_transform",
+      "to": "loc_s",
+      "type": "causal",
+      "label": "mass effect / ↑ ICP",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "cerebral_edema",
+      "to": "loc_s",
+      "type": "causal",
+      "label": "herniation risk (peak 24-72h)",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "nihss",
+      "to": "cerebral_edema",
+      "type": "temporal",
+      "label": "large territory infarct → oedema at 24-72h",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "prev_stroke_s",
+      "to": "nihss",
+      "type": "dependency",
+      "label": "pre-existing deficit affects baseline",
+      "ref": "AHASA2026"
+    },
+    {
+      "from": "prev_stroke_s",
+      "to": "cerebral_edema",
+      "type": "causal",
+      "label": "cumulative territory vulnerability",
+      "ref": "AHASA2026"
+    }
+  ]
+}

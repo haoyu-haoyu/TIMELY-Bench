@@ -1,0 +1,114 @@
+{
+  "phase": "4C",
+  "representation_family": "B2",
+  "source_contexts": "data/processed/v3/contexts/time_aware_patient_contexts_168h.jsonl",
+  "conditions": {
+    "aki": {
+      "condition": "aki",
+      "representation_family": "B2",
+      "representation_layout": "global_original_context_bank_plus_task_aware_anchor_index",
+      "context_mode": "temporal_original",
+      "anchor_index": {
+        "rows": 1802653,
+        "unique_stays": 49920,
+        "min_anchor_hour_requested": 4,
+        "max_anchor_hour_requested": 168,
+        "clipped_anchor_rows": 12530
+      },
+      "outputs": {
+        "context_index_parts_dir": "data/processed/v3/aki/representations/aki_B2_original_context_index.parquet.parts",
+        "summary_json": "results/v3/aki/aki_B2_original_build_summary.json"
+      },
+      "build_stats": {
+        "rows_written": 1802653,
+        "n_parts": 37
+      },
+      "settings": {
+        "anchor_clip_policy": "clip_to_167",
+        "source_context_variant": "original"
+      },
+      "flags": []
+    },
+    "delirium": {
+      "condition": "delirium",
+      "representation_family": "B2",
+      "representation_layout": "global_original_context_bank_plus_task_aware_anchor_index",
+      "context_mode": "temporal_original",
+      "anchor_index": {
+        "rows": 756251,
+        "unique_stays": 21628,
+        "min_anchor_hour_requested": 4,
+        "max_anchor_hour_requested": 167,
+        "clipped_anchor_rows": 0
+      },
+      "outputs": {
+        "context_index_parts_dir": "data/processed/v3/delirium/representations/delirium_B2_original_context_index.parquet.parts",
+        "summary_json": "results/v3/delirium/delirium_B2_original_build_summary.json"
+      },
+      "build_stats": {
+        "rows_written": 756251,
+        "n_parts": 16
+      },
+      "settings": {
+        "anchor_clip_policy": "clip_to_167",
+        "source_context_variant": "original"
+      },
+      "flags": []
+    },
+    "sepsis": {
+      "condition": "sepsis",
+      "representation_family": "B2",
+      "representation_layout": "global_original_context_bank_plus_task_aware_anchor_index",
+      "context_mode": "temporal_original",
+      "anchor_index": {
+        "rows": 887401,
+        "unique_stays": 29713,
+        "min_anchor_hour_requested": 4,
+        "max_anchor_hour_requested": 168,
+        "clipped_anchor_rows": 10180
+      },
+      "outputs": {
+        "context_index_parts_dir": "data/processed/v3/sepsis/representations/sepsis_B2_original_context_index.parquet.parts",
+        "summary_json": "results/v3/sepsis/sepsis_B2_original_build_summary.json"
+      },
+      "build_stats": {
+        "rows_written": 887401,
+        "n_parts": 18
+      },
+      "settings": {
+        "anchor_clip_policy": "clip_to_167",
+        "source_context_variant": "original"
+      },
+      "flags": []
+    },
+    "stroke": {
+      "condition": "stroke",
+      "representation_family": "B2",
+      "representation_layout": "global_original_context_bank_plus_task_aware_index",
+      "temporal": {
+        "context_mode": "temporal_original",
+        "rows": 43648,
+        "unique_stays": 4976,
+        "clipped_anchor_rows": 0,
+        "outputs": "data/processed/v3/stroke/representations/stroke_B2_original_temporal_index.parquet.parts",
+        "flags": [],
+        "notes_policy": "exclude_discharge"
+      },
+      "retrospective": {
+        "context_mode": "retrospective_original",
+        "rows": 3912,
+        "unique_stays": 3912,
+        "outputs": "data/processed/v3/stroke/representations/stroke_B2_original_retrospective_index.parquet.parts",
+        "flags": [],
+        "notes_policy": "full_context_including_discharge"
+      },
+      "outputs": {
+        "summary_json": "results/v3/stroke/stroke_B2_original_build_summary.json"
+      },
+      "settings": {
+        "anchor_clip_policy": "clip_to_167 for temporal only",
+        "source_context_variant": "original"
+      }
+    }
+  }
+}

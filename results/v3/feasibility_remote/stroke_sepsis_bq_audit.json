@@ -1,0 +1,450 @@
+{
+  "billing_project": "timely-bench-mimic",
+  "datasets": {
+    "hosp": "physionet-data.mimiciv_3_1_hosp",
+    "icu": "physionet-data.mimiciv_3_1_icu",
+    "derived": "physionet-data.mimiciv_3_1_derived",
+    "note": "physionet-data.mimiciv_note"
+  },
+  "note_module_probe": {
+    "status": "ok",
+    "tables": [
+      "_metadata",
+      "discharge",
+      "discharge_detail",
+      "radiology",
+      "radiology_detail"
+    ],
+    "sql": "SELECT table_name\n    FROM `physionet-data.mimiciv_note.INFORMATION_SCHEMA.TABLES`\n    ORDER BY table_name"
+  },
+  "stroke_basic": {
+    "total_unique_hadm_id": 5190,
+    "total_unique_stay_id": 5925,
+    "age_describe": {
+      "count": 5925.0,
+      "mean": 69.2440506329114,
+      "std": 14.960431170514411,
+      "min": 18.0,
+      "25%": 60.0,
+      "50%": 71.0,
+      "75%": 81.0,
+      "max": 102.0
+    },
+    "los_describe": {
+      "count": 5925.0,
+      "mean": 5.49572796921394,
+      "std": 7.146741847725942,
+      "min": 0.010069444444444445,
+      "25%": 1.5807638888888889,
+      "50%": 3.0252083333333335,
+      "75%": 6.522627314814815,
+      "max": 88.04150462962963
+    },
+    "mortality_rate": 0.17535864978902954,
+    "primary_diagnosis_stays": 2843,
+    "secondary_only_stays": 3082,
+    "sql": "WITH stroke_dx AS (\n  SELECT\n    i.subject_id,\n    i.hadm_id,\n    i.stay_id,\n    i.intime,\n    i.outtime,\n    i.los,\n    MAX(CASE WHEN d.seq_num = 1 THEN 1 ELSE 0 END) AS primary_dx_flag\n  FROM `physionet-data.mimiciv_3_1_hosp.diagnoses_icd` d\n  JOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n    ON d.hadm_id = i.hadm_id\n  WHERE\n    (d.icd_version = 10 AND d.icd_code LIKE 'I63%')\n    OR\n    (d.icd_version = 9 AND (d.icd_code LIKE '433%' OR d.icd_code LIKE '434%' OR d.icd_code = '436'))\n  GROUP BY 1,2,3,4,5,6\n)\nSELECT\n  s.subject_id,\n  s.hadm_id,\n  s.stay_id,\n  s.intime,\n  s.outtime,\n  s.los,\n  s.primary_dx_flag,\n  a.hospital_expire_flag,\n  p.gender,\n  CAST(p.anchor_age + EXTRACT(YEAR FROM a.admittime) - p.anchor_year AS INT64) AS age\nFROM stroke_dx s\nJOIN `physionet-data.mimiciv_3_1_hosp.admissions` a\n  ON s.hadm_id = a.hadm_id\nJOIN `physionet-data.mimiciv_3_1_hosp.patients` p\n  ON s.subject_id = p.subject_id"
+  },
+  "sepsis_basic": {
+    "total_unique_hadm_id": 31174,
+    "total_unique_stay_id": 32899,
+    "sepsis_onset_describe_hours": {
+      "count": 32899.0,
+      "mean": 7.462080914313505,
+      "std": 20.503151366030863,
+      "min": -17.0,
+      "25%": 1.0,
+      "50%": 3.0,
+      "75%": 6.0,
+      "max": 492.0
+    },
+    "sql": "SELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3"
+  },
+  "stroke_structured_coverage": [
+    {
+      "variable": "heart_rate",
+      "n_stays_with_measurement": 5920,
+      "pct_coverage": 0.99915611814346,
+      "median_measurements": 65.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nWITH stroke_dx AS (\n  SELECT\n    i.subject_id,\n    i.hadm_id,\n    i.stay_id,\n    i.intime,\n    i.outtime,\n    i.los,\n    MAX(CASE WHEN d.seq_num = 1 THEN 1 ELSE 0 END) AS primary_dx_flag\n  FROM `physionet-data.mimiciv_3_1_hosp.diagnoses_icd` d\n  JOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n    ON d.hadm_id = i.hadm_id\n  WHERE\n    (d.icd_version = 10 AND d.icd_code LIKE 'I63%')\n    OR\n    (d.icd_version = 9 AND (d.icd_code LIKE '433%' OR d.icd_code LIKE '434%' OR d.icd_code = '436'))\n  GROUP BY 1,2,3,4,5,6\n)\nSELECT\n  s.subject_id,\n  s.hadm_id,\n  s.stay_id,\n  s.intime,\n  s.outtime,\n  s.los,\n  s.primary_dx_flag,\n  a.hospital_expire_flag,\n  p.gender,\n  CAST(p.anchor_age + EXTRACT(YEAR FROM a.admittime) - p.anchor_year AS INT64) AS age\nFROM stroke_dx s\nJOIN `physionet-data.mimiciv_3_1_hosp.admissions` a\n  ON s.hadm_id = a.hadm_id\nJOIN `physionet-data.mimiciv_3_1_hosp.patients` p\n  ON s.subject_id = p.subject_id\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_icu.chartevents` ce ON ce.stay_id = c.stay_id\n          WHERE ce.itemid IN (220045)\n            AND DATETIME_DIFF(DATETIME(ce.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "systolic_bp",
+      "n_stays_with_measurement": 5908,
+      "pct_coverage": 0.9971308016877637,
+      "median_measurements": 57.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nWITH stroke_dx AS (\n  SELECT\n    i.subject_id,\n    i.hadm_id,\n    i.stay_id,\n    i.intime,\n    i.outtime,\n    i.los,\n    MAX(CASE WHEN d.seq_num = 1 THEN 1 ELSE 0 END) AS primary_dx_flag\n  FROM `physionet-data.mimiciv_3_1_hosp.diagnoses_icd` d\n  JOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n    ON d.hadm_id = i.hadm_id\n  WHERE\n    (d.icd_version = 10 AND d.icd_code LIKE 'I63%')\n    OR\n    (d.icd_version = 9 AND (d.icd_code LIKE '433%' OR d.icd_code LIKE '434%' OR d.icd_code = '436'))\n  GROUP BY 1,2,3,4,5,6\n)\nSELECT\n  s.subject_id,\n  s.hadm_id,\n  s.stay_id,\n  s.intime,\n  s.outtime,\n  s.los,\n  s.primary_dx_flag,\n  a.hospital_expire_flag,\n  p.gender,\n  CAST(p.anchor_age + EXTRACT(YEAR FROM a.admittime) - p.anchor_year AS INT64) AS age\nFROM stroke_dx s\nJOIN `physionet-data.mimiciv_3_1_hosp.admissions` a\n  ON s.hadm_id = a.hadm_id\nJOIN `physionet-data.mimiciv_3_1_hosp.patients` p\n  ON s.subject_id = p.subject_id\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_icu.chartevents` ce ON ce.stay_id = c.stay_id\n          WHERE ce.itemid IN (220050,220179)\n            AND DATETIME_DIFF(DATETIME(ce.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "map",
+      "n_stays_with_measurement": 2180,
+      "pct_coverage": 0.3679324894514768,
+      "median_measurements": 52.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nWITH stroke_dx AS (\n  SELECT\n    i.subject_id,\n    i.hadm_id,\n    i.stay_id,\n    i.intime,\n    i.outtime,\n    i.los,\n    MAX(CASE WHEN d.seq_num = 1 THEN 1 ELSE 0 END) AS primary_dx_flag\n  FROM `physionet-data.mimiciv_3_1_hosp.diagnoses_icd` d\n  JOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n    ON d.hadm_id = i.hadm_id\n  WHERE\n    (d.icd_version = 10 AND d.icd_code LIKE 'I63%')\n    OR\n    (d.icd_version = 9 AND (d.icd_code LIKE '433%' OR d.icd_code LIKE '434%' OR d.icd_code = '436'))\n  GROUP BY 1,2,3,4,5,6\n)\nSELECT\n  s.subject_id,\n  s.hadm_id,\n  s.stay_id,\n  s.intime,\n  s.outtime,\n  s.los,\n  s.primary_dx_flag,\n  a.hospital_expire_flag,\n  p.gender,\n  CAST(p.anchor_age + EXTRACT(YEAR FROM a.admittime) - p.anchor_year AS INT64) AS age\nFROM stroke_dx s\nJOIN `physionet-data.mimiciv_3_1_hosp.admissions` a\n  ON s.hadm_id = a.hadm_id\nJOIN `physionet-data.mimiciv_3_1_hosp.patients` p\n  ON s.subject_id = p.subject_id\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_icu.chartevents` ce ON ce.stay_id = c.stay_id\n          WHERE ce.itemid IN (220052)\n            AND DATETIME_DIFF(DATETIME(ce.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "spo2",
+      "n_stays_with_measurement": 5918,
+      "pct_coverage": 0.9988185654008439,
+      "median_measurements": 63.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nWITH stroke_dx AS (\n  SELECT\n    i.subject_id,\n    i.hadm_id,\n    i.stay_id,\n    i.intime,\n    i.outtime,\n    i.los,\n    MAX(CASE WHEN d.seq_num = 1 THEN 1 ELSE 0 END) AS primary_dx_flag\n  FROM `physionet-data.mimiciv_3_1_hosp.diagnoses_icd` d\n  JOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n    ON d.hadm_id = i.hadm_id\n  WHERE\n    (d.icd_version = 10 AND d.icd_code LIKE 'I63%')\n    OR\n    (d.icd_version = 9 AND (d.icd_code LIKE '433%' OR d.icd_code LIKE '434%' OR d.icd_code = '436'))\n  GROUP BY 1,2,3,4,5,6\n)\nSELECT\n  s.subject_id,\n  s.hadm_id,\n  s.stay_id,\n  s.intime,\n  s.outtime,\n  s.los,\n  s.primary_dx_flag,\n  a.hospital_expire_flag,\n  p.gender,\n  CAST(p.anchor_age + EXTRACT(YEAR FROM a.admittime) - p.anchor_year AS INT64) AS age\nFROM stroke_dx s\nJOIN `physionet-data.mimiciv_3_1_hosp.admissions` a\n  ON s.hadm_id = a.hadm_id\nJOIN `physionet-data.mimiciv_3_1_hosp.patients` p\n  ON s.subject_id = p.subject_id\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_icu.chartevents` ce ON ce.stay_id = c.stay_id\n          WHERE ce.itemid IN (220277)\n            AND DATETIME_DIFF(DATETIME(ce.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "temperature",
+      "n_stays_with_measurement": 5854,
+      "pct_coverage": 0.9880168776371308,
+      "median_measurements": 17.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nWITH stroke_dx AS (\n  SELECT\n    i.subject_id,\n    i.hadm_id,\n    i.stay_id,\n    i.intime,\n    i.outtime,\n    i.los,\n    MAX(CASE WHEN d.seq_num = 1 THEN 1 ELSE 0 END) AS primary_dx_flag\n  FROM `physionet-data.mimiciv_3_1_hosp.diagnoses_icd` d\n  JOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n    ON d.hadm_id = i.hadm_id\n  WHERE\n    (d.icd_version = 10 AND d.icd_code LIKE 'I63%')\n    OR\n    (d.icd_version = 9 AND (d.icd_code LIKE '433%' OR d.icd_code LIKE '434%' OR d.icd_code = '436'))\n  GROUP BY 1,2,3,4,5,6\n)\nSELECT\n  s.subject_id,\n  s.hadm_id,\n  s.stay_id,\n  s.intime,\n  s.outtime,\n  s.los,\n  s.primary_dx_flag,\n  a.hospital_expire_flag,\n  p.gender,\n  CAST(p.anchor_age + EXTRACT(YEAR FROM a.admittime) - p.anchor_year AS INT64) AS age\nFROM stroke_dx s\nJOIN `physionet-data.mimiciv_3_1_hosp.admissions` a\n  ON s.hadm_id = a.hadm_id\nJOIN `physionet-data.mimiciv_3_1_hosp.patients` p\n  ON s.subject_id = p.subject_id\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_icu.chartevents` ce ON ce.stay_id = c.stay_id\n          WHERE ce.itemid IN (223761,223762)\n            AND DATETIME_DIFF(DATETIME(ce.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "resp_rate",
+      "n_stays_with_measurement": 5912,
+      "pct_coverage": 0.9978059071729958,
+      "median_measurements": 63.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nWITH stroke_dx AS (\n  SELECT\n    i.subject_id,\n    i.hadm_id,\n    i.stay_id,\n    i.intime,\n    i.outtime,\n    i.los,\n    MAX(CASE WHEN d.seq_num = 1 THEN 1 ELSE 0 END) AS primary_dx_flag\n  FROM `physionet-data.mimiciv_3_1_hosp.diagnoses_icd` d\n  JOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n    ON d.hadm_id = i.hadm_id\n  WHERE\n    (d.icd_version = 10 AND d.icd_code LIKE 'I63%')\n    OR\n    (d.icd_version = 9 AND (d.icd_code LIKE '433%' OR d.icd_code LIKE '434%' OR d.icd_code = '436'))\n  GROUP BY 1,2,3,4,5,6\n)\nSELECT\n  s.subject_id,\n  s.hadm_id,\n  s.stay_id,\n  s.intime,\n  s.outtime,\n  s.los,\n  s.primary_dx_flag,\n  a.hospital_expire_flag,\n  p.gender,\n  CAST(p.anchor_age + EXTRACT(YEAR FROM a.admittime) - p.anchor_year AS INT64) AS age\nFROM stroke_dx s\nJOIN `physionet-data.mimiciv_3_1_hosp.admissions` a\n  ON s.hadm_id = a.hadm_id\nJOIN `physionet-data.mimiciv_3_1_hosp.patients` p\n  ON s.subject_id = p.subject_id\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_icu.chartevents` ce ON ce.stay_id = c.stay_id\n          WHERE ce.itemid IN (220210)\n            AND DATETIME_DIFF(DATETIME(ce.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "gcs_total",
+      "n_stays_with_measurement": 5900,
+      "pct_coverage": 0.9957805907172996,
+      "median_measurements": 20.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nWITH stroke_dx AS (\n  SELECT\n    i.subject_id,\n    i.hadm_id,\n    i.stay_id,\n    i.intime,\n    i.outtime,\n    i.los,\n    MAX(CASE WHEN d.seq_num = 1 THEN 1 ELSE 0 END) AS primary_dx_flag\n  FROM `physionet-data.mimiciv_3_1_hosp.diagnoses_icd` d\n  JOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n    ON d.hadm_id = i.hadm_id\n  WHERE\n    (d.icd_version = 10 AND d.icd_code LIKE 'I63%')\n    OR\n    (d.icd_version = 9 AND (d.icd_code LIKE '433%' OR d.icd_code LIKE '434%' OR d.icd_code = '436'))\n  GROUP BY 1,2,3,4,5,6\n)\nSELECT\n  s.subject_id,\n  s.hadm_id,\n  s.stay_id,\n  s.intime,\n  s.outtime,\n  s.los,\n  s.primary_dx_flag,\n  a.hospital_expire_flag,\n  p.gender,\n  CAST(p.anchor_age + EXTRACT(YEAR FROM a.admittime) - p.anchor_year AS INT64) AS age\nFROM stroke_dx s\nJOIN `physionet-data.mimiciv_3_1_hosp.admissions` a\n  ON s.hadm_id = a.hadm_id\nJOIN `physionet-data.mimiciv_3_1_hosp.patients` p\n  ON s.subject_id = p.subject_id\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_derived.gcs` g ON g.stay_id = c.stay_id\n          WHERE g.gcs IS NOT NULL\n            AND DATETIME_DIFF(DATETIME(g.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "glucose",
+      "n_stays_with_measurement": 5836,
+      "pct_coverage": 0.9849789029535865,
+      "median_measurements": 4.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nWITH stroke_dx AS (\n  SELECT\n    i.subject_id,\n    i.hadm_id,\n    i.stay_id,\n    i.intime,\n    i.outtime,\n    i.los,\n    MAX(CASE WHEN d.seq_num = 1 THEN 1 ELSE 0 END) AS primary_dx_flag\n  FROM `physionet-data.mimiciv_3_1_hosp.diagnoses_icd` d\n  JOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n    ON d.hadm_id = i.hadm_id\n  WHERE\n    (d.icd_version = 10 AND d.icd_code LIKE 'I63%')\n    OR\n    (d.icd_version = 9 AND (d.icd_code LIKE '433%' OR d.icd_code LIKE '434%' OR d.icd_code = '436'))\n  GROUP BY 1,2,3,4,5,6\n)\nSELECT\n  s.subject_id,\n  s.hadm_id,\n  s.stay_id,\n  s.intime,\n  s.outtime,\n  s.los,\n  s.primary_dx_flag,\n  a.hospital_expire_flag,\n  p.gender,\n  CAST(p.anchor_age + EXTRACT(YEAR FROM a.admittime) - p.anchor_year AS INT64) AS age\nFROM stroke_dx s\nJOIN `physionet-data.mimiciv_3_1_hosp.admissions` a\n  ON s.hadm_id = a.hadm_id\nJOIN `physionet-data.mimiciv_3_1_hosp.patients` p\n  ON s.subject_id = p.subject_id\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_hosp.labevents` le ON le.hadm_id = c.hadm_id\n          WHERE le.itemid IN (50931)\n            AND DATETIME_DIFF(DATETIME(le.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "inr",
+      "n_stays_with_measurement": 5473,
+      "pct_coverage": 0.9237130801687764,
+      "median_measurements": 3.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nWITH stroke_dx AS (\n  SELECT\n    i.subject_id,\n    i.hadm_id,\n    i.stay_id,\n    i.intime,\n    i.outtime,\n    i.los,\n    MAX(CASE WHEN d.seq_num = 1 THEN 1 ELSE 0 END) AS primary_dx_flag\n  FROM `physionet-data.mimiciv_3_1_hosp.diagnoses_icd` d\n  JOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n    ON d.hadm_id = i.hadm_id\n  WHERE\n    (d.icd_version = 10 AND d.icd_code LIKE 'I63%')\n    OR\n    (d.icd_version = 9 AND (d.icd_code LIKE '433%' OR d.icd_code LIKE '434%' OR d.icd_code = '436'))\n  GROUP BY 1,2,3,4,5,6\n)\nSELECT\n  s.subject_id,\n  s.hadm_id,\n  s.stay_id,\n  s.intime,\n  s.outtime,\n  s.los,\n  s.primary_dx_flag,\n  a.hospital_expire_flag,\n  p.gender,\n  CAST(p.anchor_age + EXTRACT(YEAR FROM a.admittime) - p.anchor_year AS INT64) AS age\nFROM stroke_dx s\nJOIN `physionet-data.mimiciv_3_1_hosp.admissions` a\n  ON s.hadm_id = a.hadm_id\nJOIN `physionet-data.mimiciv_3_1_hosp.patients` p\n  ON s.subject_id = p.subject_id\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_hosp.labevents` le ON le.hadm_id = c.hadm_id\n          WHERE le.itemid IN (51237)\n            AND DATETIME_DIFF(DATETIME(le.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "platelets",
+      "n_stays_with_measurement": 5832,
+      "pct_coverage": 0.9843037974683544,
+      "median_measurements": 4.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nWITH stroke_dx AS (\n  SELECT\n    i.subject_id,\n    i.hadm_id,\n    i.stay_id,\n    i.intime,\n    i.outtime,\n    i.los,\n    MAX(CASE WHEN d.seq_num = 1 THEN 1 ELSE 0 END) AS primary_dx_flag\n  FROM `physionet-data.mimiciv_3_1_hosp.diagnoses_icd` d\n  JOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n    ON d.hadm_id = i.hadm_id\n  WHERE\n    (d.icd_version = 10 AND d.icd_code LIKE 'I63%')\n    OR\n    (d.icd_version = 9 AND (d.icd_code LIKE '433%' OR d.icd_code LIKE '434%' OR d.icd_code = '436'))\n  GROUP BY 1,2,3,4,5,6\n)\nSELECT\n  s.subject_id,\n  s.hadm_id,\n  s.stay_id,\n  s.intime,\n  s.outtime,\n  s.los,\n  s.primary_dx_flag,\n  a.hospital_expire_flag,\n  p.gender,\n  CAST(p.anchor_age + EXTRACT(YEAR FROM a.admittime) - p.anchor_year AS INT64) AS age\nFROM stroke_dx s\nJOIN `physionet-data.mimiciv_3_1_hosp.admissions` a\n  ON s.hadm_id = a.hadm_id\nJOIN `physionet-data.mimiciv_3_1_hosp.patients` p\n  ON s.subject_id = p.subject_id\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_hosp.labevents` le ON le.hadm_id = c.hadm_id\n          WHERE le.itemid IN (51265)\n            AND DATETIME_DIFF(DATETIME(le.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "creatinine",
+      "n_stays_with_measurement": 5839,
+      "pct_coverage": 0.9854852320675106,
+      "median_measurements": 4.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nWITH stroke_dx AS (\n  SELECT\n    i.subject_id,\n    i.hadm_id,\n    i.stay_id,\n    i.intime,\n    i.outtime,\n    i.los,\n    MAX(CASE WHEN d.seq_num = 1 THEN 1 ELSE 0 END) AS primary_dx_flag\n  FROM `physionet-data.mimiciv_3_1_hosp.diagnoses_icd` d\n  JOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n    ON d.hadm_id = i.hadm_id\n  WHERE\n    (d.icd_version = 10 AND d.icd_code LIKE 'I63%')\n    OR\n    (d.icd_version = 9 AND (d.icd_code LIKE '433%' OR d.icd_code LIKE '434%' OR d.icd_code = '436'))\n  GROUP BY 1,2,3,4,5,6\n)\nSELECT\n  s.subject_id,\n  s.hadm_id,\n  s.stay_id,\n  s.intime,\n  s.outtime,\n  s.los,\n  s.primary_dx_flag,\n  a.hospital_expire_flag,\n  p.gender,\n  CAST(p.anchor_age + EXTRACT(YEAR FROM a.admittime) - p.anchor_year AS INT64) AS age\nFROM stroke_dx s\nJOIN `physionet-data.mimiciv_3_1_hosp.admissions` a\n  ON s.hadm_id = a.hadm_id\nJOIN `physionet-data.mimiciv_3_1_hosp.patients` p\n  ON s.subject_id = p.subject_id\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_hosp.labevents` le ON le.hadm_id = c.hadm_id\n          WHERE le.itemid IN (50912)\n            AND DATETIME_DIFF(DATETIME(le.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "troponin_t",
+      "n_stays_with_measurement": 2679,
+      "pct_coverage": 0.4521518987341772,
+      "median_measurements": 2.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nWITH stroke_dx AS (\n  SELECT\n    i.subject_id,\n    i.hadm_id,\n    i.stay_id,\n    i.intime,\n    i.outtime,\n    i.los,\n    MAX(CASE WHEN d.seq_num = 1 THEN 1 ELSE 0 END) AS primary_dx_flag\n  FROM `physionet-data.mimiciv_3_1_hosp.diagnoses_icd` d\n  JOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n    ON d.hadm_id = i.hadm_id\n  WHERE\n    (d.icd_version = 10 AND d.icd_code LIKE 'I63%')\n    OR\n    (d.icd_version = 9 AND (d.icd_code LIKE '433%' OR d.icd_code LIKE '434%' OR d.icd_code = '436'))\n  GROUP BY 1,2,3,4,5,6\n)\nSELECT\n  s.subject_id,\n  s.hadm_id,\n  s.stay_id,\n  s.intime,\n  s.outtime,\n  s.los,\n  s.primary_dx_flag,\n  a.hospital_expire_flag,\n  p.gender,\n  CAST(p.anchor_age + EXTRACT(YEAR FROM a.admittime) - p.anchor_year AS INT64) AS age\nFROM stroke_dx s\nJOIN `physionet-data.mimiciv_3_1_hosp.admissions` a\n  ON s.hadm_id = a.hadm_id\nJOIN `physionet-data.mimiciv_3_1_hosp.patients` p\n  ON s.subject_id = p.subject_id\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_hosp.labevents` le ON le.hadm_id = c.hadm_id\n          WHERE le.itemid IN (51003)\n            AND DATETIME_DIFF(DATETIME(le.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "sodium",
+      "n_stays_with_measurement": 5841,
+      "pct_coverage": 0.9858227848101265,
+      "median_measurements": 4.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nWITH stroke_dx AS (\n  SELECT\n    i.subject_id,\n    i.hadm_id,\n    i.stay_id,\n    i.intime,\n    i.outtime,\n    i.los,\n    MAX(CASE WHEN d.seq_num = 1 THEN 1 ELSE 0 END) AS primary_dx_flag\n  FROM `physionet-data.mimiciv_3_1_hosp.diagnoses_icd` d\n  JOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n    ON d.hadm_id = i.hadm_id\n  WHERE\n    (d.icd_version = 10 AND d.icd_code LIKE 'I63%')\n    OR\n    (d.icd_version = 9 AND (d.icd_code LIKE '433%' OR d.icd_code LIKE '434%' OR d.icd_code = '436'))\n  GROUP BY 1,2,3,4,5,6\n)\nSELECT\n  s.subject_id,\n  s.hadm_id,\n  s.stay_id,\n  s.intime,\n  s.outtime,\n  s.los,\n  s.primary_dx_flag,\n  a.hospital_expire_flag,\n  p.gender,\n  CAST(p.anchor_age + EXTRACT(YEAR FROM a.admittime) - p.anchor_year AS INT64) AS age\nFROM stroke_dx s\nJOIN `physionet-data.mimiciv_3_1_hosp.admissions` a\n  ON s.hadm_id = a.hadm_id\nJOIN `physionet-data.mimiciv_3_1_hosp.patients` p\n  ON s.subject_id = p.subject_id\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_hosp.labevents` le ON le.hadm_id = c.hadm_id\n          WHERE le.itemid IN (50983)\n            AND DATETIME_DIFF(DATETIME(le.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "potassium",
+      "n_stays_with_measurement": 5840,
+      "pct_coverage": 0.9856540084388186,
+      "median_measurements": 4.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nWITH stroke_dx AS (\n  SELECT\n    i.subject_id,\n    i.hadm_id,\n    i.stay_id,\n    i.intime,\n    i.outtime,\n    i.los,\n    MAX(CASE WHEN d.seq_num = 1 THEN 1 ELSE 0 END) AS primary_dx_flag\n  FROM `physionet-data.mimiciv_3_1_hosp.diagnoses_icd` d\n  JOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n    ON d.hadm_id = i.hadm_id\n  WHERE\n    (d.icd_version = 10 AND d.icd_code LIKE 'I63%')\n    OR\n    (d.icd_version = 9 AND (d.icd_code LIKE '433%' OR d.icd_code LIKE '434%' OR d.icd_code = '436'))\n  GROUP BY 1,2,3,4,5,6\n)\nSELECT\n  s.subject_id,\n  s.hadm_id,\n  s.stay_id,\n  s.intime,\n  s.outtime,\n  s.los,\n  s.primary_dx_flag,\n  a.hospital_expire_flag,\n  p.gender,\n  CAST(p.anchor_age + EXTRACT(YEAR FROM a.admittime) - p.anchor_year AS INT64) AS age\nFROM stroke_dx s\nJOIN `physionet-data.mimiciv_3_1_hosp.admissions` a\n  ON s.hadm_id = a.hadm_id\nJOIN `physionet-data.mimiciv_3_1_hosp.patients` p\n  ON s.subject_id = p.subject_id\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_hosp.labevents` le ON le.hadm_id = c.hadm_id\n          WHERE le.itemid IN (50971)\n            AND DATETIME_DIFF(DATETIME(le.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    }
+  ],
+  "sepsis_structured_coverage": [
+    {
+      "variable": "lactate",
+      "n_stays_with_measurement": 25666,
+      "pct_coverage": 0.7801452931700051,
+      "median_measurements": 3.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_hosp.labevents` le ON le.hadm_id = c.hadm_id\n          WHERE le.itemid IN (50813)\n            AND DATETIME_DIFF(DATETIME(le.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "wbc",
+      "n_stays_with_measurement": 32756,
+      "pct_coverage": 0.9956533633241132,
+      "median_measurements": 4.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_hosp.labevents` le ON le.hadm_id = c.hadm_id\n          WHERE le.itemid IN (51301)\n            AND DATETIME_DIFF(DATETIME(le.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "crp",
+      "n_stays_with_measurement": 1220,
+      "pct_coverage": 0.03708319401805526,
+      "median_measurements": 1.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_hosp.labevents` le ON le.hadm_id = c.hadm_id\n          WHERE le.itemid IN (50889)\n            AND DATETIME_DIFF(DATETIME(le.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "procalcitonin",
+      "n_stays_with_measurement": 0,
+      "pct_coverage": 0.0,
+      "median_measurements": null,
+      "status": "no_standard_item",
+      "matches": [],
+      "sql": "SELECT itemid, label\n    FROM `physionet-data.mimiciv_3_1_hosp.d_labitems`\n    WHERE LOWER(label) LIKE '%procalcitonin%'\n    ORDER BY itemid"
+    },
+    {
+      "variable": "creatinine",
+      "n_stays_with_measurement": 32774,
+      "pct_coverage": 0.9962004924161829,
+      "median_measurements": 5.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_hosp.labevents` le ON le.hadm_id = c.hadm_id\n          WHERE le.itemid IN (50912)\n            AND DATETIME_DIFF(DATETIME(le.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "bilirubin_total",
+      "n_stays_with_measurement": 20285,
+      "pct_coverage": 0.6165840907018451,
+      "median_measurements": 2.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_hosp.labevents` le ON le.hadm_id = c.hadm_id\n          WHERE le.itemid IN (50885)\n            AND DATETIME_DIFF(DATETIME(le.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "platelets",
+      "n_stays_with_measurement": 32755,
+      "pct_coverage": 0.9956229672634427,
+      "median_measurements": 4.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_hosp.labevents` le ON le.hadm_id = c.hadm_id\n          WHERE le.itemid IN (51265)\n            AND DATETIME_DIFF(DATETIME(le.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "inr",
+      "n_stays_with_measurement": 30701,
+      "pct_coverage": 0.9331894586461594,
+      "median_measurements": 3.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_hosp.labevents` le ON le.hadm_id = c.hadm_id\n          WHERE le.itemid IN (51237)\n            AND DATETIME_DIFF(DATETIME(le.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "bicarbonate",
+      "n_stays_with_measurement": 32773,
+      "pct_coverage": 0.9961700963555123,
+      "median_measurements": 5.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_hosp.labevents` le ON le.hadm_id = c.hadm_id\n          WHERE le.itemid IN (50882)\n            AND DATETIME_DIFF(DATETIME(le.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "ph_arterial",
+      "n_stays_with_measurement": 26023,
+      "pct_coverage": 0.790996686829387,
+      "median_measurements": 5.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_hosp.labevents` le ON le.hadm_id = c.hadm_id\n          WHERE le.itemid IN (50820)\n            AND DATETIME_DIFF(DATETIME(le.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "bun",
+      "n_stays_with_measurement": 32771,
+      "pct_coverage": 0.9961093042341712,
+      "median_measurements": 5.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_hosp.labevents` le ON le.hadm_id = c.hadm_id\n          WHERE le.itemid IN (51006)\n            AND DATETIME_DIFF(DATETIME(le.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "albumin",
+      "n_stays_with_measurement": 15091,
+      "pct_coverage": 0.4587069515790754,
+      "median_measurements": 1.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_hosp.labevents` le ON le.hadm_id = c.hadm_id\n          WHERE le.itemid IN (50862)\n            AND DATETIME_DIFF(DATETIME(le.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "heart_rate",
+      "n_stays_with_measurement": 32880,
+      "pct_coverage": 0.9994224748472598,
+      "median_measurements": 70.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_icu.chartevents` ce ON ce.stay_id = c.stay_id\n          WHERE ce.itemid IN (220045)\n            AND DATETIME_DIFF(DATETIME(ce.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "map",
+      "n_stays_with_measurement": 15559,
+      "pct_coverage": 0.4729323079728867,
+      "median_measurements": 49.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_icu.chartevents` ce ON ce.stay_id = c.stay_id\n          WHERE ce.itemid IN (220052)\n            AND DATETIME_DIFF(DATETIME(ce.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "systolic_bp",
+      "n_stays_with_measurement": 32841,
+      "pct_coverage": 0.9982370284811088,
+      "median_measurements": 68.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_icu.chartevents` ce ON ce.stay_id = c.stay_id\n          WHERE ce.itemid IN (220050,220179)\n            AND DATETIME_DIFF(DATETIME(ce.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "temperature",
+      "n_stays_with_measurement": 32457,
+      "pct_coverage": 0.9865649411836226,
+      "median_measurements": 17.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_icu.chartevents` ce ON ce.stay_id = c.stay_id\n          WHERE ce.itemid IN (223761,223762)\n            AND DATETIME_DIFF(DATETIME(ce.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "spo2",
+      "n_stays_with_measurement": 32871,
+      "pct_coverage": 0.999148910301225,
+      "median_measurements": 69.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_icu.chartevents` ce ON ce.stay_id = c.stay_id\n          WHERE ce.itemid IN (220277)\n            AND DATETIME_DIFF(DATETIME(ce.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "resp_rate",
+      "n_stays_with_measurement": 32863,
+      "pct_coverage": 0.9989057418158607,
+      "median_measurements": 70.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_icu.chartevents` ce ON ce.stay_id = c.stay_id\n          WHERE ce.itemid IN (220210)\n            AND DATETIME_DIFF(DATETIME(ce.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "norepinephrine",
+      "n_stays_with_measurement": 9627,
+      "pct_coverage": 0.29262287607526066,
+      "median_measurements": 14.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_icu.inputevents` ie ON ie.stay_id = c.stay_id\n          WHERE ie.itemid IN (221906)\n            AND DATETIME_DIFF(DATETIME(ie.starttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "vasopressin",
+      "n_stays_with_measurement": 3046,
+      "pct_coverage": 0.092586400802456,
+      "median_measurements": 3.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_icu.inputevents` ie ON ie.stay_id = c.stay_id\n          WHERE ie.itemid IN (222315)\n            AND DATETIME_DIFF(DATETIME(ie.starttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "phenylephrine",
+      "n_stays_with_measurement": 8099,
+      "pct_coverage": 0.24617769537067996,
+      "median_measurements": 8.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_icu.inputevents` ie ON ie.stay_id = c.stay_id\n          WHERE ie.itemid IN (221749)\n            AND DATETIME_DIFF(DATETIME(ie.starttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "epinephrine",
+      "n_stays_with_measurement": 1982,
+      "pct_coverage": 0.06024499224900453,
+      "median_measurements": 5.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_icu.inputevents` ie ON ie.stay_id = c.stay_id\n          WHERE ie.itemid IN (221289)\n            AND DATETIME_DIFF(DATETIME(ie.starttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "dopamine",
+      "n_stays_with_measurement": 1173,
+      "pct_coverage": 0.03565457916654002,
+      "median_measurements": 5.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_icu.inputevents` ie ON ie.stay_id = c.stay_id\n          WHERE ie.itemid IN (221662)\n            AND DATETIME_DIFF(DATETIME(ie.starttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "iv_fluid_any",
+      "n_stays_with_measurement": 32854,
+      "pct_coverage": 0.9986321772698258,
+      "median_measurements": 80.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_icu.inputevents` ie ON ie.stay_id = c.stay_id\n          WHERE ie.amount IS NOT NULL\n            AND ie.amount > 0\n            AND DATETIME_DIFF(DATETIME(ie.starttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "mechanical_ventilation",
+      "n_stays_with_measurement": 28769,
+      "pct_coverage": 0.8744642694306818,
+      "median_measurements": 1.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_derived.ventilation` v ON v.stay_id = c.stay_id\n          WHERE v.ventilation_status IS NOT NULL\n            AND DATETIME_DIFF(DATETIME(v.starttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "urine_output",
+      "n_stays_with_measurement": 31807,
+      "pct_coverage": 0.9668075017477735,
+      "median_measurements": 35.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_icu.outputevents` oe ON oe.stay_id = c.stay_id\n          WHERE oe.itemid IN (226559,226560,226561,226563,226564,226565,226566,226567,226627,226631,227489)\n            AND DATETIME_DIFF(DATETIME(oe.charttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "sofa_total",
+      "n_stays_with_measurement": 32880,
+      "pct_coverage": 0.9994224748472598,
+      "median_measurements": 68.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_derived.sofa` s ON s.stay_id = c.stay_id\n          WHERE s.sofa_24hours IS NOT NULL\n            AND DATETIME_DIFF(DATETIME(s.starttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "sofa_respiration",
+      "n_stays_with_measurement": 32880,
+      "pct_coverage": 0.9994224748472598,
+      "median_measurements": 68.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_derived.sofa` s ON s.stay_id = c.stay_id\n          WHERE s.respiration_24hours IS NOT NULL\n            AND DATETIME_DIFF(DATETIME(s.starttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "sofa_cardiovascular",
+      "n_stays_with_measurement": 32880,
+      "pct_coverage": 0.9994224748472598,
+      "median_measurements": 68.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_derived.sofa` s ON s.stay_id = c.stay_id\n          WHERE s.cardiovascular_24hours IS NOT NULL\n            AND DATETIME_DIFF(DATETIME(s.starttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "sofa_liver",
+      "n_stays_with_measurement": 32880,
+      "pct_coverage": 0.9994224748472598,
+      "median_measurements": 68.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_derived.sofa` s ON s.stay_id = c.stay_id\n          WHERE s.liver_24hours IS NOT NULL\n            AND DATETIME_DIFF(DATETIME(s.starttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "sofa_coagulation",
+      "n_stays_with_measurement": 32880,
+      "pct_coverage": 0.9994224748472598,
+      "median_measurements": 68.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_derived.sofa` s ON s.stay_id = c.stay_id\n          WHERE s.coagulation_24hours IS NOT NULL\n            AND DATETIME_DIFF(DATETIME(s.starttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "sofa_renal",
+      "n_stays_with_measurement": 32880,
+      "pct_coverage": 0.9994224748472598,
+      "median_measurements": 68.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_derived.sofa` s ON s.stay_id = c.stay_id\n          WHERE s.renal_24hours IS NOT NULL\n            AND DATETIME_DIFF(DATETIME(s.starttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    },
+    {
+      "variable": "sofa_cns",
+      "n_stays_with_measurement": 32880,
+      "pct_coverage": 0.9994224748472598,
+      "median_measurements": 68.0,
+      "status": "ok",
+      "sql": "WITH cohort AS (\nSELECT\n  i.subject_id,\n  i.hadm_id,\n  i.stay_id,\n  MIN(CAST(DATETIME_DIFF(DATETIME(s.sofa_time), DATETIME(i.intime), HOUR) AS INT64)) AS sepsis_onset_hour\nFROM `physionet-data.mimiciv_3_1_derived.sepsis3` s\nJOIN `physionet-data.mimiciv_3_1_icu.icustays` i\n  USING (stay_id)\nWHERE s.sepsis3 = TRUE\n  AND s.sofa_time IS NOT NULL\nGROUP BY 1,2,3\n),\n        obs AS (\n          SELECT c.stay_id, COUNT(*) AS n_meas\n          FROM cohort c\n          JOIN `physionet-data.mimiciv_3_1_icu.icustays` i USING (stay_id)\n          JOIN `physionet-data.mimiciv_3_1_derived.sofa` s ON s.stay_id = c.stay_id\n          WHERE s.cns_24hours IS NOT NULL\n            AND DATETIME_DIFF(DATETIME(s.starttime), DATETIME(i.intime), HOUR) BETWEEN 0 AND 72\n          GROUP BY c.stay_id\n        )\n        SELECT COUNT(*) AS n_stays_with_measurement,\n               APPROX_QUANTILES(n_meas, 100)[OFFSET(50)] AS median_measurements\n        FROM obs"
+    }
+  ],
+  "exports": {
+    "stroke_cohort_csv": "results/v3/feasibility_remote/stroke_cohort.csv",
+    "aki_cohort_csv": "results/v3/feasibility_remote/aki_cohort.csv",
+    "delirium_cohort_csv": "results/v3/feasibility_remote/delirium_cohort.csv",
+    "sepsis_cohort_csv": "results/v3/feasibility_remote/sepsis_cohort.csv"
+  }
+}

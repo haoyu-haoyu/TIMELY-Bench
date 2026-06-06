@@ -1,0 +1,81 @@
+{
+  "condition": "delirium",
+  "phase5_mode": "template_driven_state_space_mvp",
+  "template_source": "results/v3/knowledge/physiology_template_delirium_executable.json",
+  "template_phase_ids": [
+    "at_risk_or_prepositive",
+    "active_positive",
+    "fluctuating_course",
+    "resolution_or_persistence"
+  ],
+  "template_atypical_variant_ids": [
+    "del_atyp_1",
+    "del_atyp_2",
+    "del_atyp_3",
+    "del_atyp_4",
+    "del_atyp_5"
+  ],
+  "aligned_trajectories": {
+    "rows": 3496048,
+    "unique_stays": 21628,
+    "min_relative_hour": -48.0,
+    "max_relative_hour": 167.0,
+    "outputs": "data/processed/v3/delirium/state_space/delirium_aligned_trajectories.parquet"
+  },
+  "phase_labels_hourly": {
+    "rows": 3496048,
+    "unique_stays": 21628,
+    "phase_distribution": {
+      "resolution_or_persistence": 1554272,
+      "fluctuating_course": 1009413,
+      "active_positive": 517370,
+      "at_risk_or_prepositive": 414993
+    },
+    "mean_template_executable_support_score": 0.5977147386611017,
+    "outputs": "data/processed/v3/delirium/state_space/delirium_phase_labels_hourly.parquet"
+  },
+  "phase_episode_summary": {
+    "rows": 83986,
+    "unique_stays": 21628,
+    "outputs": "data/processed/v3/delirium/state_space/delirium_phase_episode_summary.parquet"
+  },
+  "state_prototypes": {
+    "rows": 25,
+    "outputs": "data/processed/v3/delirium/state_space/delirium_state_prototypes.parquet"
+  },
+  "transition_matrix": {
+    "n_transitions": 220482,
+    "n_edges": 164,
+    "outputs": "data/processed/v3/delirium/state_space/delirium_transition_matrix.json"
+  },
+  "atypical_variants": {
+    "rows": 108140,
+    "unique_stays": 21628,
+    "supported_flag_counts": {
+      "del_atyp_1": 7445,
+      "del_atyp_2": 504,
+      "del_atyp_4": 35,
+      "del_atyp_5": 5990
+    },
+    "unsupported_variants": [
+      "del_atyp_3"
+    ],
+    "outputs": "data/processed/v3/delirium/state_space/delirium_atypical_variant_flags.parquet"
+  },
+  "trajectory_tiers": {
+    "rows": 21628,
+    "unique_stays": 21628,
+    "tier_distribution": {
+      "atypical_supported": 12764,
+      "typical_supported": 7931,
+      "low_template_support": 479,
+      "atypical_low_support": 454
+    },
+    "outputs": "data/processed/v3/delirium/state_space/delirium_trajectory_tiers.parquet"
+  },
+  "flags": [],
+  "left_censored": {
+    "stays": 13012,
+    "rate": 0.6009051445460423
+  }
+}

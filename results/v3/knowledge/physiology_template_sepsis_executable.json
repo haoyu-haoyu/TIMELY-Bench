@@ -1,0 +1,326 @@
+{
+  "condition": "sepsis",
+  "name": "Sepsis Clinical Standard Physiology Template",
+  "clinical_standard": [
+    "Sepsis-3 recognition and organ dysfunction framework",
+    "SSC/SCCM sepsis-to-shock progression logic"
+  ],
+  "anchor_event": "sepsis onset with organ dysfunction",
+  "anchor_mimic": "derived.sepsis3 onset anchor",
+  "total_typical_duration": "hours to days",
+  "references": [
+    "{'key': 'Singer2016', 'citation': 'Singer M et al. The Third International Consensus Definitions for Sepsis and Septic Shock (Sepsis-3). JAMA. 2016;315(8):801-810.'}",
+    "{'key': 'Evans2021', 'citation': 'Evans L et al. Surviving Sepsis Campaign: International Guidelines for Management of Sepsis and Septic Shock 2021. Crit Care Med. 2021;49(11):e1063-e1143.'}",
+    "{'key': 'Rhodes2017', 'citation': 'Rhodes A et al. Surviving Sepsis Campaign: International Guidelines for Management of Sepsis and Septic Shock: 2016. Intensive Care Med. 2017;43(3):304-377.'}"
+  ],
+  "implementation_warnings": [
+    "Early sepsis phase now explicitly includes WBC and temperature trajectories. Organ-specific SOFA burden is represented using the respiratory SOFA column plus direct organ surrogates where full component scores are not yet materialized in v3 state vectors."
+  ],
+  "phases": [
+    {
+      "phase_id": "suspected_infection",
+      "name": "Suspected Infection",
+      "time_relative_to_anchor": "before or at onset",
+      "description": "Recognition of infection and initiation of antimicrobial response.",
+      "trajectories": [
+        {
+          "marker": "Sepsis onset",
+          "direction": "present",
+          "expected_range": "binary/event",
+          "rate": "event",
+          "clinical_significance": "Operational infection-dysregulation anchor.",
+          "mimic_source": "derived.sepsis3",
+          "canonical_feature": "sepsis_onset",
+          "support_level": "core_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "sepsis_onset"
+        },
+        {
+          "marker": "Antibiotic active",
+          "direction": "present",
+          "expected_range": "binary/event",
+          "rate": "hours",
+          "clinical_significance": "Therapeutic response to suspected infection.",
+          "mimic_source": "prescriptions/emar",
+          "canonical_feature": "antibiotic_active",
+          "support_level": "core_executable",
+          "implementation_mode": "event_rule",
+          "execution_notes": "",
+          "mapped_feature_name": "antibiotic_active"
+        }
+      ],
+      "reference_only_trajectories": []
+    },
+    {
+      "phase_id": "early_sepsis",
+      "name": "Early Sepsis",
+      "time_relative_to_anchor": "0 to 24h",
+      "description": "Early dysregulated host response with evolving organ stress.",
+      "trajectories": [
+        {
+          "marker": "Temperature",
+          "direction": "fever or hypothermia possible",
+          "expected_range": ">38C or <36C when abnormal",
+          "rate": "hours",
+          "clinical_significance": "Classic early sepsis clinical signal.",
+          "mimic_source": "chartevents",
+          "canonical_feature": "temperature_c",
+          "support_level": "proxy_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "temperature_c"
+        },
+        {
+          "marker": "White blood cell count",
+          "direction": "elevated or depressed",
+          "expected_range": "leukocytosis or leukopenia",
+          "rate": "hours",
+          "clinical_significance": "Classic early infection/inflammatory response signal.",
+          "mimic_source": "labevents",
+          "canonical_feature": "wbc",
+          "support_level": "proxy_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "wbc"
+        },
+        {
+          "marker": "Lactate",
+          "direction": "rising or elevated",
+          "expected_range": "above local concern threshold",
+          "rate": "hours",
+          "clinical_significance": "Perfusion/metabolic stress marker.",
+          "mimic_source": "labevents",
+          "canonical_feature": "lactate",
+          "support_level": "core_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "lactate"
+        },
+        {
+          "marker": "SOFA total",
+          "direction": "elevated",
+          "expected_range": "organ dysfunction burden",
+          "rate": "hours",
+          "clinical_significance": "Sepsis severity backbone.",
+          "mimic_source": "derived.sofa",
+          "canonical_feature": "sofa_total",
+          "support_level": "core_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "sofa_total"
+        },
+        {
+          "marker": "Merged MAP",
+          "direction": "borderline or falling",
+          "expected_range": "hemodynamic stress",
+          "rate": "hours",
+          "clinical_significance": "Perfusion context.",
+          "mimic_source": "chartevents",
+          "canonical_feature": "map_merged",
+          "support_level": "core_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "map_merged"
+        }
+      ],
+      "reference_only_trajectories": []
+    },
+    {
+      "phase_id": "organ_dysfunction_progression",
+      "name": "Organ Dysfunction Progression",
+      "time_relative_to_anchor": "24 to 72h",
+      "description": "Multi-organ dysfunction evolves or deepens.",
+      "trajectories": [
+        {
+          "marker": "SOFA total",
+          "direction": "rising or persistently high",
+          "expected_range": "worsening severity",
+          "rate": "hours to days",
+          "clinical_significance": "Progressive organ dysfunction burden.",
+          "mimic_source": "derived.sofa",
+          "canonical_feature": "sofa_total",
+          "support_level": "core_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "sofa_total"
+        },
+        {
+          "marker": "SOFA respiratory component",
+          "direction": "worsening if pulmonary failure emerges",
+          "expected_range": "component-specific",
+          "rate": "hours to days",
+          "clinical_significance": "Respiratory organ dysfunction trajectory.",
+          "mimic_source": "derived.sofa",
+          "canonical_feature": "sofa_respiration",
+          "support_level": "proxy_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "sofa_respiration"
+        },
+        {
+          "marker": "Creatinine",
+          "direction": "rising in renal involvement",
+          "expected_range": "AKI-on-sepsis burden",
+          "rate": "hours to days",
+          "clinical_significance": "Direct renal injury marker relevant to septic AKI.",
+          "mimic_source": "labevents",
+          "canonical_feature": "creatinine",
+          "support_level": "proxy_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "creatinine"
+        },
+        {
+          "marker": "Bilirubin",
+          "direction": "rising in hepatic involvement",
+          "expected_range": "cholestatic or hepatic dysfunction pattern",
+          "rate": "hours to days",
+          "clinical_significance": "Direct liver dysfunction marker.",
+          "mimic_source": "labevents",
+          "canonical_feature": "bilirubin_total",
+          "support_level": "proxy_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "bilirubin_total"
+        },
+        {
+          "marker": "Urine output",
+          "direction": "falling in some cases",
+          "expected_range": "oliguria possible",
+          "rate": "hours",
+          "clinical_significance": "Renal dysfunction context.",
+          "mimic_source": "outputevents",
+          "canonical_feature": "urineoutput",
+          "support_level": "proxy_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "urineoutput"
+        }
+      ],
+      "reference_only_trajectories": []
+    },
+    {
+      "phase_id": "hemodynamic_compromise_or_shock",
+      "name": "Hemodynamic Compromise or Shock",
+      "time_relative_to_anchor": "variable",
+      "description": "Perfusion failure requiring vasopressor support or equivalent rescue trajectory.",
+      "trajectories": [
+        {
+          "marker": "Merged MAP",
+          "direction": "low or unstable",
+          "expected_range": "shock-compatible perfusion profile",
+          "rate": "hours",
+          "clinical_significance": "Core hemodynamic compromise signal.",
+          "mimic_source": "chartevents",
+          "canonical_feature": "map_merged",
+          "support_level": "core_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "map_merged"
+        },
+        {
+          "marker": "Vasopressor support",
+          "direction": "active",
+          "expected_range": "binary / dose burden",
+          "rate": "hours",
+          "clinical_significance": "Core shock escalation signal.",
+          "mimic_source": "inputevents",
+          "canonical_feature": "vasopressors_active",
+          "support_level": "core_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "vasopressors_active"
+        },
+        {
+          "marker": "Lactate",
+          "direction": "persistently elevated",
+          "expected_range": "ongoing perfusion deficit",
+          "rate": "hours",
+          "clinical_significance": "Perfusion failure context.",
+          "mimic_source": "labevents",
+          "canonical_feature": "lactate",
+          "support_level": "core_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "lactate"
+        }
+      ],
+      "reference_only_trajectories": []
+    },
+    {
+      "phase_id": "stabilization_or_nonrecovery",
+      "name": "Stabilization or Non-Recovery",
+      "time_relative_to_anchor": "days",
+      "description": "Trajectory either stabilises with support de-escalation or remains in persistent organ dysfunction.",
+      "trajectories": [
+        {
+          "marker": "Vasopressor support",
+          "direction": "decreasing or persistent",
+          "expected_range": "de-escalation vs ongoing support",
+          "rate": "days",
+          "clinical_significance": "Shock recovery discriminator.",
+          "mimic_source": "inputevents",
+          "canonical_feature": "vasopressors_active",
+          "support_level": "core_executable",
+          "implementation_mode": "direct_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "vasopressors_active"
+        },
+        {
+          "marker": "SOFA total",
+          "direction": "improving or persistent",
+          "expected_range": "downtrend or sustained elevation",
+          "rate": "days",
+          "clinical_significance": "Global recovery discriminator.",
+          "mimic_source": "derived.sofa",
+          "canonical_feature": "sofa_total",
+          "support_level": "core_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "sofa_total"
+        },
+        {
+          "marker": "Fluid balance",
+          "direction": "normalising or remaining positive",
+          "expected_range": "context dependent",
+          "rate": "days",
+          "clinical_significance": "Resuscitation burden context.",
+          "mimic_source": "input/output",
+          "canonical_feature": "fluid_balance",
+          "support_level": "proxy_executable",
+          "implementation_mode": "derived_feature",
+          "execution_notes": "",
+          "mapped_feature_name": "fluid_balance"
+        }
+      ],
+      "reference_only_trajectories": []
+    }
+  ],
+  "atypical_variants": [
+    {
+      "variant_id": "sepsis_atyp_1",
+      "name": "Lactate-low shock",
+      "prevalence": "Clinically recognized subset of septic shock",
+      "deviation": "Patient requires vasopressors with hypotension but lactate remains normal or only minimally elevated.",
+      "clinical_implication": "Normal lactate should not be used to exclude hemodynamic compromise or shock physiology.",
+      "cres_task": "Contrastive: distinguish vasopressor-requiring shock with low lactate from early sepsis without shock."
+    },
+    {
+      "variant_id": "sepsis_atyp_2",
+      "name": "Persistent multiorgan failure",
+      "prevalence": "High-risk minority trajectory",
+      "deviation": "SOFA burden remains elevated across multiple organ systems despite antibiotics and hemodynamic support.",
+      "clinical_implication": "Represents non-resolving sepsis with high mortality risk and prolonged ICU dependency.",
+      "cres_task": "Temporal reasoning: identify persistent non-recovering organ dysfunction rather than transient instability."
+    },
+    {
+      "variant_id": "sepsis_atyp_3",
+      "name": "Rapid hemodynamic recovery",
+      "prevalence": "Common after effective early resuscitation in selected patients",
+      "deviation": "MAP and vasopressor burden improve quickly, but residual organ dysfunction may lag behind.",
+      "clinical_implication": "Hemodynamic stabilization does not necessarily mean full sepsis resolution.",
+      "cres_task": "Temporal grounding: separate early cardiovascular recovery from slower overall organ recovery."
+    }
+  ]
+}

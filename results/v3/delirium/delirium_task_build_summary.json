@@ -1,0 +1,41 @@
+{
+  "condition": "delirium",
+  "cohort": {
+    "delirium_cohort_stays": 21654,
+    "left_censored_rate": 0.6009051445460423,
+    "median_onset_hour": 13.0,
+    "median_positive_hours": 2.0
+  },
+  "support_coverage": {
+    "stays_with_rass_support": 21653,
+    "stays_with_gcs_support": 21646,
+    "stays_with_restraint_support": 16844
+  },
+  "tasks": {
+    "DEL-T1": {
+      "rows": 756251,
+      "unique_stays": 21628,
+      "positive_rate": 0.21097889457336255,
+      "stays_with_any_positive": 13266,
+      "left_censored_rate": 0.654200787833669,
+      "label_definition": "persistent delirium within (T, T+24]"
+    },
+    "DEL-S1": {
+      "rows": 756251,
+      "unique_stays": 21628,
+      "positive_rate": 0.22031177479434738,
+      "stays_with_any_positive": 13684,
+      "left_censored_rate": 0.654200787833669,
+      "label_definition": "resolution within (T, T+24] via sustained 24h non-positive window"
+    }
+  },
+  "outputs": {
+    "metadata": "data/processed/v3/delirium/tasks/delirium_stay_metadata.parquet",
+    "persistence_instances": "data/processed/v3/delirium/tasks/delirium_persistence_instances.parquet",
+    "resolution_instances": "data/processed/v3/delirium/tasks/delirium_resolution_instances.parquet"
+  },
+  "settings": {
+    "lookahead_hours": 24
+  },
+  "flags": []
+}

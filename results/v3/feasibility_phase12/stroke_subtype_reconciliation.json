@@ -1,0 +1,1316 @@
+{
+  "broad_stroke_cohort": {
+    "n_stays": 10653,
+    "n_hadm": 9451
+  },
+  "family_priority_definition": [
+    "ischaemic",
+    "hemorrhagic_sah",
+    "hemorrhagic_ich",
+    "tia",
+    "other_cerebrovascular"
+  ],
+  "family_code_mapping": {
+    "hemorrhagic_sah": [
+      "I60",
+      "430"
+    ],
+    "hemorrhagic_ich": [
+      "I61",
+      "I62",
+      "431",
+      "432"
+    ],
+    "ischaemic": [
+      "I63",
+      "433",
+      "434",
+      "436"
+    ],
+    "tia": [
+      "G45",
+      "435"
+    ],
+    "other_cerebrovascular": [
+      "I64"
+    ]
+  },
+  "priority_based_counts": [
+    {
+      "subtype": "ischaemic",
+      "display_name": "Ischaemic stroke",
+      "n_stays": 5505,
+      "n_hadm": 4858,
+      "pct_of_broad_stays": 51.68
+    },
+    {
+      "subtype": "hemorrhagic_ich",
+      "display_name": "Hemorrhagic stroke / ICH-or-other-intracranial-hemorrhage",
+      "n_stays": 3687,
+      "n_hadm": 3297,
+      "pct_of_broad_stays": 34.61
+    },
+    {
+      "subtype": "hemorrhagic_sah",
+      "display_name": "Hemorrhagic stroke / SAH",
+      "n_stays": 1193,
+      "n_hadm": 1059,
+      "pct_of_broad_stays": 11.2
+    },
+    {
+      "subtype": "tia",
+      "display_name": "Transient ischaemic attack",
+      "n_stays": 268,
+      "n_hadm": 245,
+      "pct_of_broad_stays": 2.52
+    }
+  ],
+  "mixed_version_counts": [
+    {
+      "subtype": "ischaemic",
+      "display_name": "Ischaemic stroke",
+      "n_stays": 4743,
+      "n_hadm": 4189,
+      "pct_of_broad_stays": 44.52
+    },
+    {
+      "subtype": "hemorrhagic_ich",
+      "display_name": "Hemorrhagic stroke / ICH-or-other-intracranial-hemorrhage",
+      "n_stays": 3250,
+      "n_hadm": 2933,
+      "pct_of_broad_stays": 30.51
+    },
+    {
+      "subtype": "mixed",
+      "display_name": "Mixed stroke-family coding",
+      "n_stays": 1649,
+      "n_hadm": 1417,
+      "pct_of_broad_stays": 15.48
+    },
+    {
+      "subtype": "hemorrhagic_sah",
+      "display_name": "Hemorrhagic stroke / SAH",
+      "n_stays": 750,
+      "n_hadm": 673,
+      "pct_of_broad_stays": 7.04
+    },
+    {
+      "subtype": "tia",
+      "display_name": "Transient ischaemic attack",
+      "n_stays": 261,
+      "n_hadm": 239,
+      "pct_of_broad_stays": 2.45
+    }
+  ],
+  "conflict_stays": {
+    "n_stays": 1649,
+    "n_hadm": 1417,
+    "pct_of_broad_stays": 15.48
+  },
+  "assignment_sources": [
+    {
+      "source": "diagnoses_parquet",
+      "n_stays": 9217,
+      "pct_of_broad_stays": 86.52
+    },
+    {
+      "source": "cohort_icd_fallback",
+      "n_stays": 1436,
+      "pct_of_broad_stays": 13.48
+    }
+  ],
+  "icd_family_breakdown": [
+    {
+      "icd_version": 9,
+      "icd_code": "431",
+      "family": "hemorrhagic_ich",
+      "n_stays": 1120,
+      "n_hadm": 997,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I615",
+      "family": "hemorrhagic_ich",
+      "n_stays": 515,
+      "n_hadm": 472,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I618",
+      "family": "hemorrhagic_ich",
+      "n_stays": 511,
+      "n_hadm": 463,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I611",
+      "family": "hemorrhagic_ich",
+      "n_stays": 456,
+      "n_hadm": 410,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "4321",
+      "family": "hemorrhagic_ich",
+      "n_stays": 361,
+      "n_hadm": 325,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I619",
+      "family": "hemorrhagic_ich",
+      "n_stays": 235,
+      "n_hadm": 219,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6201",
+      "family": "hemorrhagic_ich",
+      "n_stays": 234,
+      "n_hadm": 203,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6203",
+      "family": "hemorrhagic_ich",
+      "n_stays": 228,
+      "n_hadm": 204,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I610",
+      "family": "hemorrhagic_ich",
+      "n_stays": 212,
+      "n_hadm": 202,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I614",
+      "family": "hemorrhagic_ich",
+      "n_stays": 170,
+      "n_hadm": 148,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6200",
+      "family": "hemorrhagic_ich",
+      "n_stays": 108,
+      "n_hadm": 94,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I612",
+      "family": "hemorrhagic_ich",
+      "n_stays": 79,
+      "n_hadm": 71,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "4329",
+      "family": "hemorrhagic_ich",
+      "n_stays": 70,
+      "n_hadm": 64,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I613",
+      "family": "hemorrhagic_ich",
+      "n_stays": 62,
+      "n_hadm": 61,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6202",
+      "family": "hemorrhagic_ich",
+      "n_stays": 57,
+      "n_hadm": 52,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I629",
+      "family": "hemorrhagic_ich",
+      "n_stays": 55,
+      "n_hadm": 54,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I616",
+      "family": "hemorrhagic_ich",
+      "n_stays": 35,
+      "n_hadm": 31,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "4320",
+      "family": "hemorrhagic_ich",
+      "n_stays": 16,
+      "n_hadm": 13,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I621",
+      "family": "hemorrhagic_ich",
+      "n_stays": 12,
+      "n_hadm": 9,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "430",
+      "family": "hemorrhagic_sah",
+      "n_stays": 578,
+      "n_hadm": 530,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I609",
+      "family": "hemorrhagic_sah",
+      "n_stays": 371,
+      "n_hadm": 320,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I608",
+      "family": "hemorrhagic_sah",
+      "n_stays": 116,
+      "n_hadm": 109,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I602",
+      "family": "hemorrhagic_sah",
+      "n_stays": 49,
+      "n_hadm": 45,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I606",
+      "family": "hemorrhagic_sah",
+      "n_stays": 43,
+      "n_hadm": 37,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6012",
+      "family": "hemorrhagic_sah",
+      "n_stays": 37,
+      "n_hadm": 32,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6011",
+      "family": "hemorrhagic_sah",
+      "n_stays": 36,
+      "n_hadm": 28,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6031",
+      "family": "hemorrhagic_sah",
+      "n_stays": 36,
+      "n_hadm": 33,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6032",
+      "family": "hemorrhagic_sah",
+      "n_stays": 28,
+      "n_hadm": 27,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I604",
+      "family": "hemorrhagic_sah",
+      "n_stays": 28,
+      "n_hadm": 24,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I607",
+      "family": "hemorrhagic_sah",
+      "n_stays": 18,
+      "n_hadm": 17,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6022",
+      "family": "hemorrhagic_sah",
+      "n_stays": 8,
+      "n_hadm": 5,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6001",
+      "family": "hemorrhagic_sah",
+      "n_stays": 6,
+      "n_hadm": 6,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6051",
+      "family": "hemorrhagic_sah",
+      "n_stays": 6,
+      "n_hadm": 5,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6002",
+      "family": "hemorrhagic_sah",
+      "n_stays": 5,
+      "n_hadm": 3,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6052",
+      "family": "hemorrhagic_sah",
+      "n_stays": 5,
+      "n_hadm": 5,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6020",
+      "family": "hemorrhagic_sah",
+      "n_stays": 2,
+      "n_hadm": 2,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6010",
+      "family": "hemorrhagic_sah",
+      "n_stays": 1,
+      "n_hadm": 1,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6021",
+      "family": "hemorrhagic_sah",
+      "n_stays": 1,
+      "n_hadm": 1,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "43310",
+      "family": "ischaemic",
+      "n_stays": 735,
+      "n_hadm": 680,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "43411",
+      "family": "ischaemic",
+      "n_stays": 706,
+      "n_hadm": 618,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "43491",
+      "family": "ischaemic",
+      "n_stays": 623,
+      "n_hadm": 560,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I639",
+      "family": "ischaemic",
+      "n_stays": 509,
+      "n_hadm": 431,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63412",
+      "family": "ischaemic",
+      "n_stays": 413,
+      "n_hadm": 383,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63411",
+      "family": "ischaemic",
+      "n_stays": 364,
+      "n_hadm": 328,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6340",
+      "family": "ischaemic",
+      "n_stays": 310,
+      "n_hadm": 253,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "43330",
+      "family": "ischaemic",
+      "n_stays": 287,
+      "n_hadm": 264,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6389",
+      "family": "ischaemic",
+      "n_stays": 185,
+      "n_hadm": 166,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "43311",
+      "family": "ischaemic",
+      "n_stays": 121,
+      "n_hadm": 106,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I638",
+      "family": "ischaemic",
+      "n_stays": 101,
+      "n_hadm": 94,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63512",
+      "family": "ischaemic",
+      "n_stays": 91,
+      "n_hadm": 86,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63511",
+      "family": "ischaemic",
+      "n_stays": 89,
+      "n_hadm": 79,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63312",
+      "family": "ischaemic",
+      "n_stays": 83,
+      "n_hadm": 75,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63432",
+      "family": "ischaemic",
+      "n_stays": 73,
+      "n_hadm": 61,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63311",
+      "family": "ischaemic",
+      "n_stays": 71,
+      "n_hadm": 62,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6349",
+      "family": "ischaemic",
+      "n_stays": 70,
+      "n_hadm": 61,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "43401",
+      "family": "ischaemic",
+      "n_stays": 68,
+      "n_hadm": 59,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63231",
+      "family": "ischaemic",
+      "n_stays": 65,
+      "n_hadm": 53,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63132",
+      "family": "ischaemic",
+      "n_stays": 64,
+      "n_hadm": 58,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63232",
+      "family": "ischaemic",
+      "n_stays": 57,
+      "n_hadm": 47,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63131",
+      "family": "ischaemic",
+      "n_stays": 53,
+      "n_hadm": 48,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63442",
+      "family": "ischaemic",
+      "n_stays": 53,
+      "n_hadm": 49,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63443",
+      "family": "ischaemic",
+      "n_stays": 53,
+      "n_hadm": 42,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63441",
+      "family": "ischaemic",
+      "n_stays": 52,
+      "n_hadm": 48,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6381",
+      "family": "ischaemic",
+      "n_stays": 51,
+      "n_hadm": 43,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63431",
+      "family": "ischaemic",
+      "n_stays": 50,
+      "n_hadm": 44,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6302",
+      "family": "ischaemic",
+      "n_stays": 39,
+      "n_hadm": 34,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "43320",
+      "family": "ischaemic",
+      "n_stays": 38,
+      "n_hadm": 34,
+      "min_seq_num": 2
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63422",
+      "family": "ischaemic",
+      "n_stays": 38,
+      "n_hadm": 31,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "43331",
+      "family": "ischaemic",
+      "n_stays": 34,
+      "n_hadm": 31,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63032",
+      "family": "ischaemic",
+      "n_stays": 31,
+      "n_hadm": 28,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6312",
+      "family": "ischaemic",
+      "n_stays": 31,
+      "n_hadm": 27,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "43301",
+      "family": "ischaemic",
+      "n_stays": 30,
+      "n_hadm": 29,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63031",
+      "family": "ischaemic",
+      "n_stays": 30,
+      "n_hadm": 26,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6310",
+      "family": "ischaemic",
+      "n_stays": 28,
+      "n_hadm": 25,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63421",
+      "family": "ischaemic",
+      "n_stays": 24,
+      "n_hadm": 22,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6319",
+      "family": "ischaemic",
+      "n_stays": 22,
+      "n_hadm": 22,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "43300",
+      "family": "ischaemic",
+      "n_stays": 21,
+      "n_hadm": 20,
+      "min_seq_num": 2
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63531",
+      "family": "ischaemic",
+      "n_stays": 20,
+      "n_hadm": 15,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "43321",
+      "family": "ischaemic",
+      "n_stays": 18,
+      "n_hadm": 18,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "43490",
+      "family": "ischaemic",
+      "n_stays": 17,
+      "n_hadm": 15,
+      "min_seq_num": 2
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63433",
+      "family": "ischaemic",
+      "n_stays": 16,
+      "n_hadm": 16,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63532",
+      "family": "ischaemic",
+      "n_stays": 15,
+      "n_hadm": 15,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63212",
+      "family": "ischaemic",
+      "n_stays": 14,
+      "n_hadm": 13,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "43410",
+      "family": "ischaemic",
+      "n_stays": 13,
+      "n_hadm": 11,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6322",
+      "family": "ischaemic",
+      "n_stays": 13,
+      "n_hadm": 13,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63233",
+      "family": "ischaemic",
+      "n_stays": 13,
+      "n_hadm": 11,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63522",
+      "family": "ischaemic",
+      "n_stays": 13,
+      "n_hadm": 12,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I636",
+      "family": "ischaemic",
+      "n_stays": 13,
+      "n_hadm": 12,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6329",
+      "family": "ischaemic",
+      "n_stays": 11,
+      "n_hadm": 9,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63331",
+      "family": "ischaemic",
+      "n_stays": 11,
+      "n_hadm": 10,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63449",
+      "family": "ischaemic",
+      "n_stays": 11,
+      "n_hadm": 10,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6350",
+      "family": "ischaemic",
+      "n_stays": 11,
+      "n_hadm": 10,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63012",
+      "family": "ischaemic",
+      "n_stays": 10,
+      "n_hadm": 10,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63133",
+      "family": "ischaemic",
+      "n_stays": 10,
+      "n_hadm": 9,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63413",
+      "family": "ischaemic",
+      "n_stays": 10,
+      "n_hadm": 8,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63521",
+      "family": "ischaemic",
+      "n_stays": 10,
+      "n_hadm": 10,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "43380",
+      "family": "ischaemic",
+      "n_stays": 9,
+      "n_hadm": 8,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "43381",
+      "family": "ischaemic",
+      "n_stays": 9,
+      "n_hadm": 7,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63211",
+      "family": "ischaemic",
+      "n_stays": 8,
+      "n_hadm": 8,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63112",
+      "family": "ischaemic",
+      "n_stays": 7,
+      "n_hadm": 7,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63541",
+      "family": "ischaemic",
+      "n_stays": 7,
+      "n_hadm": 6,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "43400",
+      "family": "ischaemic",
+      "n_stays": 6,
+      "n_hadm": 6,
+      "min_seq_num": 2
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63111",
+      "family": "ischaemic",
+      "n_stays": 6,
+      "n_hadm": 6,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6330",
+      "family": "ischaemic",
+      "n_stays": 6,
+      "n_hadm": 6,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6339",
+      "family": "ischaemic",
+      "n_stays": 6,
+      "n_hadm": 5,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63423",
+      "family": "ischaemic",
+      "n_stays": 6,
+      "n_hadm": 5,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6359",
+      "family": "ischaemic",
+      "n_stays": 6,
+      "n_hadm": 5,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63513",
+      "family": "ischaemic",
+      "n_stays": 5,
+      "n_hadm": 5,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63013",
+      "family": "ischaemic",
+      "n_stays": 4,
+      "n_hadm": 3,
+      "min_seq_num": 4
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63341",
+      "family": "ischaemic",
+      "n_stays": 4,
+      "n_hadm": 3,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63419",
+      "family": "ischaemic",
+      "n_stays": 4,
+      "n_hadm": 4,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63439",
+      "family": "ischaemic",
+      "n_stays": 4,
+      "n_hadm": 4,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63523",
+      "family": "ischaemic",
+      "n_stays": 4,
+      "n_hadm": 4,
+      "min_seq_num": 2
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63542",
+      "family": "ischaemic",
+      "n_stays": 4,
+      "n_hadm": 4,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63543",
+      "family": "ischaemic",
+      "n_stays": 4,
+      "n_hadm": 3,
+      "min_seq_num": 2
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63011",
+      "family": "ischaemic",
+      "n_stays": 3,
+      "n_hadm": 2,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63213",
+      "family": "ischaemic",
+      "n_stays": 3,
+      "n_hadm": 3,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63321",
+      "family": "ischaemic",
+      "n_stays": 3,
+      "n_hadm": 3,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63533",
+      "family": "ischaemic",
+      "n_stays": 3,
+      "n_hadm": 3,
+      "min_seq_num": 3
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63113",
+      "family": "ischaemic",
+      "n_stays": 2,
+      "n_hadm": 2,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63139",
+      "family": "ischaemic",
+      "n_stays": 2,
+      "n_hadm": 2,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63322",
+      "family": "ischaemic",
+      "n_stays": 2,
+      "n_hadm": 2,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63333",
+      "family": "ischaemic",
+      "n_stays": 2,
+      "n_hadm": 2,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63349",
+      "family": "ischaemic",
+      "n_stays": 2,
+      "n_hadm": 2,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63549",
+      "family": "ischaemic",
+      "n_stays": 2,
+      "n_hadm": 2,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "43391",
+      "family": "ischaemic",
+      "n_stays": 1,
+      "n_hadm": 1,
+      "min_seq_num": 2
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63039",
+      "family": "ischaemic",
+      "n_stays": 1,
+      "n_hadm": 1,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6309",
+      "family": "ischaemic",
+      "n_stays": 1,
+      "n_hadm": 1,
+      "min_seq_num": 4
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63119",
+      "family": "ischaemic",
+      "n_stays": 1,
+      "n_hadm": 1,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I6320",
+      "family": "ischaemic",
+      "n_stays": 1,
+      "n_hadm": 1,
+      "min_seq_num": 3
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63219",
+      "family": "ischaemic",
+      "n_stays": 1,
+      "n_hadm": 1,
+      "min_seq_num": 9
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63313",
+      "family": "ischaemic",
+      "n_stays": 1,
+      "n_hadm": 1,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63319",
+      "family": "ischaemic",
+      "n_stays": 1,
+      "n_hadm": 1,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63332",
+      "family": "ischaemic",
+      "n_stays": 1,
+      "n_hadm": 1,
+      "min_seq_num": 20
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63342",
+      "family": "ischaemic",
+      "n_stays": 1,
+      "n_hadm": 1,
+      "min_seq_num": 18
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63343",
+      "family": "ischaemic",
+      "n_stays": 1,
+      "n_hadm": 1,
+      "min_seq_num": 7
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63429",
+      "family": "ischaemic",
+      "n_stays": 1,
+      "n_hadm": 1,
+      "min_seq_num": 6
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63529",
+      "family": "ischaemic",
+      "n_stays": 1,
+      "n_hadm": 1,
+      "min_seq_num": 4
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "I63539",
+      "family": "ischaemic",
+      "n_stays": 1,
+      "n_hadm": 1,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "G459",
+      "family": "tia",
+      "n_stays": 112,
+      "n_hadm": 105,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "4359",
+      "family": "tia",
+      "n_stays": 91,
+      "n_hadm": 83,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "4358",
+      "family": "tia",
+      "n_stays": 38,
+      "n_hadm": 34,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "4352",
+      "family": "tia",
+      "n_stays": 21,
+      "n_hadm": 18,
+      "min_seq_num": 3
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "G458",
+      "family": "tia",
+      "n_stays": 16,
+      "n_hadm": 15,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "G453",
+      "family": "tia",
+      "n_stays": 8,
+      "n_hadm": 8,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "G454",
+      "family": "tia",
+      "n_stays": 7,
+      "n_hadm": 7,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 9,
+      "icd_code": "4350",
+      "family": "tia",
+      "n_stays": 5,
+      "n_hadm": 3,
+      "min_seq_num": 2
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "G450",
+      "family": "tia",
+      "n_stays": 3,
+      "n_hadm": 3,
+      "min_seq_num": 1
+    },
+    {
+      "icd_version": 10,
+      "icd_code": "G451",
+      "family": "tia",
+      "n_stays": 1,
+      "n_hadm": 1,
+      "min_seq_num": 5
+    }
+  ]
+}

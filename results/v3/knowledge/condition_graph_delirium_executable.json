@@ -1,0 +1,1100 @@
+{
+  "condition": "delirium",
+  "name": "Delirium (ICU)",
+  "references": [
+    {
+      "key": "DSM5",
+      "citation": "American Psychiatric Association. Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition. APA, 2013."
+    },
+    {
+      "key": "PADIS2018",
+      "citation": "Devlin JW et al. Clinical Practice Guidelines for the Prevention and Management of Pain, Agitation/Sedation, Delirium, Immobility, and Sleep Disruption in Adult Patients in the ICU. Crit Care Med. 2018;46(9):e825-e873."
+    },
+    {
+      "key": "PADIS2025",
+      "citation": "Lewis K et al. A Focused Update to the PADIS Guidelines. Crit Care Med. 2025;53(3):e711-e727."
+    },
+    {
+      "key": "Inouye2006",
+      "citation": "Inouye SK. Delirium in older persons. N Engl J Med. 2006;354(11):1157-1165."
+    },
+    {
+      "key": "Ely2001",
+      "citation": "Ely EW et al. Delirium in mechanically ventilated patients: validity and reliability of the confusion assessment method for the ICU (CAM-ICU). JAMA. 2001;286(21):2703-2710."
+    },
+    {
+      "key": "Zaal2015",
+      "citation": "Zaal IJ et al. A systematic review of risk factors for delirium in the ICU. Crit Care Med. 2015;43(1):40-47."
+    },
+    {
+      "key": "Maldonado2018",
+      "citation": "Maldonado JR. Delirium pathophysiology: An updated hypothesis of the etiology of acute brain failure. Int J Geriatr Psychiatry. 2018;33(11):1428-1457."
+    },
+    {
+      "key": "Peterson2006",
+      "citation": "Peterson JF et al. Delirium and its motoric subtypes: a study of 614 critically ill patients. J Am Geriatr Soc. 2006;54(3):479-484."
+    },
+    {
+      "key": "ICS2025",
+      "citation": "ICS Guidance: Delirium in the Critically Ill Patient. Intensive Care Society, 2025."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "sodium_d",
+      "label": "Na⁺ Abnormal (Hypo/Hypernatraemia)",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": 50983,
+      "ref": "PADIS2018",
+      "mapped_feature_name": "sodium",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Metabolic precipitant."
+    },
+    {
+      "id": "glucose_d",
+      "label": "Glucose Abnormal (Hypo/Hyperglycaemia)",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": 50931,
+      "ref": "PADIS2018",
+      "mapped_feature_name": "glucose_merged",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Metabolic precipitant."
+    },
+    {
+      "id": "calcium_d",
+      "label": "Ca²⁺ Abnormal",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": 50893,
+      "ref": "Inouye2006",
+      "mapped_feature_name": "calcium",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Metabolic precipitant."
+    },
+    {
+      "id": "crp_wbc",
+      "label": "CRP / WBC ↑ (Inflammation)",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": [
+        50889,
+        51301
+      ],
+      "ref": "PADIS2018",
+      "mapped_feature_name": "wbc",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Use WBC backbone and optional CRP."
+    },
+    {
+      "id": "urea_cr_d",
+      "label": "Urea / Cr ↑ (Renal Failure)",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": [
+        51006,
+        50912
+      ],
+      "ref": "PADIS2018",
+      "mapped_feature_name": "creatinine",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Use creatinine+BUN renal burden."
+    },
+    {
+      "id": "lfts_d",
+      "label": "LFTs Abnormal (AST/ALT/Bili)",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": [
+        50861,
+        50878
+      ],
+      "ref": "Maldonado2018",
+      "mapped_feature_name": "bilirubin_total",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Use bilirubin as current liver proxy."
+    },
+    {
+      "id": "pao2_d",
+      "label": "PaO₂ ↓ / PaCO₂ ↑",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": [
+        50821,
+        50818
+      ],
+      "ref": "PADIS2018",
+      "mapped_feature_name": "pao2",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Use PaO2/PaCO2 blood-gas support."
+    },
+    {
+      "id": "albumin_d",
+      "label": "Albumin ↓",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": 50862,
+      "ref": "Zaal2015",
+      "mapped_feature_name": "albumin",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Albumin available, medium coverage."
+    },
+    {
+      "id": "fever_d",
+      "label": "Fever / Hypothermia",
+      "type": "vital",
+      "mimic_source": "chartevents",
+      "mimic_itemid": [
+        223761,
+        223762
+      ],
+      "ref": "PADIS2018",
+      "mapped_feature_name": "temperature_c",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Temperature-derived fever."
+    },
+    {
+      "id": "tachy_d",
+      "label": "Tachycardia",
+      "type": "vital",
+      "mimic_source": "chartevents",
+      "mimic_itemid": 220045,
+      "ref": "Zaal2015",
+      "mapped_feature_name": "heart_rate",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Autonomic instability proxy."
+    },
+    {
+      "id": "hypoxia_d",
+      "label": "Hypoxia (SpO₂ ↓)",
+      "type": "vital",
+      "mimic_source": "chartevents",
+      "mimic_itemid": 220277,
+      "ref": "PADIS2018",
+      "mapped_feature_name": "spo2",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Hypoxia proxy."
+    },
+    {
+      "id": "hypotension_d",
+      "label": "Hypotension / Shock",
+      "type": "vital",
+      "mimic_source": "chartevents",
+      "mimic_itemid": 220052,
+      "ref": "Zaal2015",
+      "mapped_feature_name": "map_merged",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Hemodynamic instability."
+    },
+    {
+      "id": "rr_abnormal",
+      "label": "RR Abnormal",
+      "type": "vital",
+      "mimic_source": "chartevents",
+      "mimic_itemid": 220210,
+      "ref": "Zaal2015",
+      "mapped_feature_name": "resp_rate",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Abnormal respiratory rate."
+    },
+    {
+      "id": "inattention",
+      "label": "Inattention (CAM Feature 1)",
+      "type": "symptom",
+      "mimic_source": "chartevents (CAM-ICU)",
+      "mimic_itemid": null,
+      "ref": "DSM5 / Ely2001",
+      "mapped_feature_name": "delirium_assessment",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Approximate from CAM positivity/components."
+    },
+    {
+      "id": "fluctuating",
+      "label": "Acute Onset & Fluctuating Course (CAM Feature 2)",
+      "type": "symptom",
+      "mimic_source": "RASS/GCS delta over time",
+      "mimic_itemid": null,
+      "ref": "DSM5 / Ely2001",
+      "mapped_feature_name": "rass",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "RASS/GCS fluctuation proxy."
+    },
+    {
+      "id": "disorganized",
+      "label": "Disorganized Thinking (CAM Feature 3)",
+      "type": "symptom",
+      "mimic_source": "chartevents (CAM-ICU)",
+      "mimic_itemid": null,
+      "ref": "DSM5 / Ely2001",
+      "mapped_feature_name": "delirium_assessment",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Approximate from CAM positivity/components."
+    },
+    {
+      "id": "altered_loc",
+      "label": "Altered Level of Consciousness (CAM Feature 4)",
+      "type": "symptom",
+      "mimic_source": "RASS ≠ 0",
+      "mimic_itemid": null,
+      "ref": "DSM5 / Ely2001",
+      "mapped_feature_name": "rass",
+      "support_level": "core_executable",
+      "implementation_mode": "derived_feature",
+      "execution_notes": "RASS deviation proxy."
+    },
+    {
+      "id": "hyperactive",
+      "label": "Hyperactive Subtype",
+      "type": "symptom",
+      "mimic_source": "RASS +1 to +4",
+      "mimic_itemid": null,
+      "ref": "Peterson2006",
+      "mapped_feature_name": "rass",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Positive RASS range."
+    },
+    {
+      "id": "hypoactive",
+      "label": "Hypoactive Subtype",
+      "type": "symptom",
+      "mimic_source": "RASS −1 to −3",
+      "mimic_itemid": null,
+      "ref": "Peterson2006",
+      "mapped_feature_name": "rass",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Negative RASS range."
+    },
+    {
+      "id": "mixed_motor",
+      "label": "Mixed Subtype",
+      "type": "symptom",
+      "mimic_source": "RASS fluctuation pattern",
+      "mimic_itemid": null,
+      "ref": "Peterson2006",
+      "mapped_feature_name": "rass",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "RASS fluctuation proxy."
+    },
+    {
+      "id": "sleep_wake",
+      "label": "Sleep-Wake Disruption",
+      "type": "symptom",
+      "mimic_source": "chartevents / clinical notes",
+      "mimic_itemid": null,
+      "ref": "PADIS2018",
+      "mapped_feature_name": "sleep_wake_note_proxy",
+      "support_level": "proxy_executable",
+      "implementation_mode": "note_proxy",
+      "execution_notes": "Only notes can support this."
+    },
+    {
+      "id": "hallucinations",
+      "label": "Hallucinations / Delusions",
+      "type": "symptom",
+      "mimic_source": "clinical notes (NLP)",
+      "mimic_itemid": null,
+      "ref": "DSM5",
+      "mapped_feature_name": "hallucination_note_proxy",
+      "support_level": "proxy_executable",
+      "implementation_mode": "note_proxy",
+      "execution_notes": "Only notes can support this."
+    },
+    {
+      "id": "agitation",
+      "label": "Agitation (RASS +2 to +4)",
+      "type": "symptom",
+      "mimic_source": "chartevents (RASS)",
+      "mimic_itemid": 228096,
+      "ref": "PADIS2018",
+      "mapped_feature_name": "rass",
+      "support_level": "proxy_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Positive RASS range."
+    },
+    {
+      "id": "benzo",
+      "label": "Benzodiazepines (Midazolam, Lorazepam)",
+      "type": "med",
+      "mimic_source": "inputevents / emar",
+      "mimic_itemid": null,
+      "ref": "PADIS2018 (strong evidence)",
+      "mapped_feature_name": "sedation_burden",
+      "support_level": "core_executable",
+      "implementation_mode": "derived_feature",
+      "execution_notes": "Proxy via midazolam-driven sedation burden."
+    },
+    {
+      "id": "anticholinergic",
+      "label": "Anticholinergics (Diphenhydramine, Atropine)",
+      "type": "med",
+      "mimic_source": "prescriptions / emar",
+      "mimic_itemid": null,
+      "ref": "Maldonado2018",
+      "mapped_feature_name": "creatinine",
+      "support_level": "core_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Creatinine-backed renal signal."
+    },
+    {
+      "id": "opioids_d",
+      "label": "Opioids (Fentanyl, Morphine)",
+      "type": "med",
+      "mimic_source": "inputevents / emar",
+      "mimic_itemid": null,
+      "ref": "PADIS2018",
+      "mapped_feature_name": "sedation_burden",
+      "support_level": "proxy_executable",
+      "implementation_mode": "derived_feature",
+      "execution_notes": "Proxy via fentanyl contribution."
+    },
+    {
+      "id": "steroids_d",
+      "label": "Corticosteroids",
+      "type": "med",
+      "mimic_source": "prescriptions / emar",
+      "mimic_itemid": null,
+      "ref": "Zaal2015",
+      "mapped_feature_name": "creatinine",
+      "support_level": "core_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Creatinine-backed renal signal."
+    },
+    {
+      "id": "dexmedetomidine",
+      "label": "Dexmedetomidine (Preferred sedation)",
+      "type": "med",
+      "mimic_source": "inputevents",
+      "mimic_itemid": 221744,
+      "ref": "PADIS2025",
+      "mapped_feature_name": "sedation_burden",
+      "support_level": "proxy_executable",
+      "implementation_mode": "event_rule",
+      "execution_notes": "Medication timeline pattern."
+    },
+    {
+      "id": "antipsychotics_d",
+      "label": "Antipsychotics (Haloperidol)",
+      "type": "med",
+      "mimic_source": "prescriptions / emar",
+      "mimic_itemid": null,
+      "ref": "PADIS2025 (no recommendation for/against)",
+      "mapped_feature_name": "creatinine",
+      "support_level": "core_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Creatinine-backed renal signal."
+    },
+    {
+      "id": "propofol_d",
+      "label": "Propofol",
+      "type": "med",
+      "mimic_source": "inputevents",
+      "mimic_itemid": 222168,
+      "ref": "PADIS2025",
+      "mapped_feature_name": "sedation_burden",
+      "support_level": "core_executable",
+      "implementation_mode": "derived_feature",
+      "execution_notes": "Propofol contributes to sedation burden."
+    },
+    {
+      "id": "melatonin",
+      "label": "Melatonin",
+      "type": "med",
+      "mimic_source": "prescriptions / emar",
+      "mimic_itemid": null,
+      "ref": "PADIS2025 (conditional suggestion)",
+      "mapped_feature_name": "creatinine",
+      "support_level": "core_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Creatinine-backed renal signal."
+    },
+    {
+      "id": "mech_vent",
+      "label": "Mechanical Ventilation",
+      "type": "comorbid",
+      "mimic_source": "procedureevents / derived.ventilation",
+      "mimic_itemid": null,
+      "ref": "PADIS2018",
+      "mapped_feature_name": "ventilation_status",
+      "support_level": "core_executable",
+      "implementation_mode": "derived_feature",
+      "execution_notes": "Respiratory support proxy."
+    },
+    {
+      "id": "immobility",
+      "label": "Immobility / Physical Restraints",
+      "type": "comorbid",
+      "mimic_source": "chartevents / procedureevents",
+      "mimic_itemid": null,
+      "ref": "PADIS2018",
+      "mapped_feature_name": "restraint_active",
+      "support_level": "core_executable",
+      "implementation_mode": "direct_feature",
+      "execution_notes": "Hourly restraint signal."
+    },
+    {
+      "id": "dementia_d",
+      "label": "Dementia (Pre-existing)",
+      "type": "comorbid",
+      "mimic_source": "diagnoses_icd (F0*)",
+      "mimic_itemid": null,
+      "ref": "PADIS2018 (non-modifiable)",
+      "mapped_feature_name": "cognitive_impairment_context",
+      "support_level": "proxy_executable",
+      "implementation_mode": "event_rule",
+      "execution_notes": "Diagnosis pathway/static context proxy."
+    },
+    {
+      "id": "infection_d",
+      "label": "Infection / Sepsis",
+      "type": "comorbid",
+      "mimic_source": "derived.sepsis3",
+      "mimic_itemid": null,
+      "ref": "PADIS2018",
+      "mapped_feature_name": "diagnosis_pathway::sepsis_present_proxy",
+      "support_level": "proxy_executable",
+      "implementation_mode": "event_rule",
+      "execution_notes": "Diagnosis pathway proxy."
+    },
+    {
+      "id": "hepatic_enc",
+      "label": "Hepatic Encephalopathy",
+      "type": "comorbid",
+      "mimic_source": "diagnoses_icd (K72.*)",
+      "mimic_itemid": null,
+      "ref": "Maldonado2018",
+      "mapped_feature_name": "note_symptom_proxy",
+      "support_level": "proxy_executable",
+      "implementation_mode": "note_proxy",
+      "execution_notes": "Only available as note-level proxy in B2."
+    },
+    {
+      "id": "prior_coma",
+      "label": "Prior Coma (Before ICU)",
+      "type": "comorbid",
+      "mimic_source": "GCS / RASS history",
+      "mimic_itemid": null,
+      "ref": "PADIS2018 (non-modifiable)",
+      "mapped_feature_name": "rass",
+      "support_level": "core_executable",
+      "implementation_mode": "derived_feature",
+      "execution_notes": "RASS-backed neurobehavioral proxy."
+    },
+    {
+      "id": "cam_icu_pos",
+      "label": "CAM-ICU Positive (Delirium Diagnosis)",
+      "type": "stage",
+      "mimic_source": "chartevents (CAM-ICU result)",
+      "mimic_itemid": null,
+      "ref": "Ely2001",
+      "criteria": "Feature 1 (Inattention) + Feature 2 (Acute onset / fluctuating) + EITHER Feature 3 (Disorganized thinking) OR Feature 4 (Altered LOC)",
+      "mapped_feature_name": "delirium_assessment",
+      "support_level": "core_executable",
+      "implementation_mode": "derived_feature",
+      "execution_notes": "Delirium/CAM assessment proxy."
+    },
+    {
+      "id": "rass",
+      "label": "RASS Score",
+      "type": "stage",
+      "mimic_source": "chartevents",
+      "mimic_itemid": 228096,
+      "ref": "Sessler 2002",
+      "mapped_feature_name": "rass",
+      "support_level": "core_executable",
+      "implementation_mode": "derived_feature",
+      "execution_notes": "RASS-backed neurobehavioral proxy."
+    }
+  ],
+  "reference_only_nodes": [
+    {
+      "id": "tsh_d",
+      "label": "TSH Abnormal",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": 50993,
+      "ref": "Inouye2006",
+      "mapped_feature_name": "reference_only_signal",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+    },
+    {
+      "id": "b12_folate",
+      "label": "B12 / Folate ↓",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": null,
+      "ref": "Inouye2006",
+      "mapped_feature_name": "reference_only_signal",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+    },
+    {
+      "id": "cortisol_d",
+      "label": "Cortisol ↑",
+      "type": "lab",
+      "mimic_source": "labevents (if available)",
+      "mimic_itemid": null,
+      "ref": "Maldonado2018",
+      "mapped_feature_name": "reference_only_signal",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+    },
+    {
+      "id": "ammonia_d",
+      "label": "Ammonia ↑",
+      "type": "lab",
+      "mimic_source": "labevents",
+      "mimic_itemid": null,
+      "ref": "Maldonado2018",
+      "mapped_feature_name": "reference_only_signal",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "Requires unsupported imaging/research assay or non-MIMIC-standard measurement."
+    },
+    {
+      "id": "sensory_dep",
+      "label": "Sensory Deprivation (No glasses/aids)",
+      "type": "comorbid",
+      "mimic_source": "clinical notes",
+      "mimic_itemid": null,
+      "ref": "Inouye2006",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "renal_failure_d",
+      "label": "Renal Failure",
+      "type": "comorbid",
+      "mimic_source": "diagnoses_icd (N17-N19)",
+      "mimic_itemid": null,
+      "ref": "PADIS2018",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "post_surgical_d",
+      "label": "Post-Surgical State",
+      "type": "comorbid",
+      "mimic_source": "procedureevents",
+      "mimic_itemid": null,
+      "ref": "PADIS2018",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "alcohol_withdrawal",
+      "label": "Alcohol Withdrawal",
+      "type": "comorbid",
+      "mimic_source": "diagnoses_icd (F10.2*)",
+      "mimic_itemid": null,
+      "ref": "Inouye2006",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "age_advanced",
+      "label": "Age ≥ 65",
+      "type": "comorbid",
+      "mimic_source": "patients (anchor_age)",
+      "mimic_itemid": null,
+      "ref": "PADIS2018 (non-modifiable)",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "transfusion_d",
+      "label": "Blood Transfusion",
+      "type": "comorbid",
+      "mimic_source": "inputevents (RBC units)",
+      "mimic_itemid": null,
+      "ref": "PADIS2018 (modifiable)",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    },
+    {
+      "id": "pain_d",
+      "label": "Uncontrolled Pain",
+      "type": "comorbid",
+      "mimic_source": "chartevents (pain scale)",
+      "mimic_itemid": null,
+      "ref": "PADIS2018",
+      "mapped_feature_name": "unmapped_reference",
+      "support_level": "reference_only",
+      "implementation_mode": "not_implemented",
+      "execution_notes": "No safe executable mapping was found."
+    }
+  ],
+  "edges": [
+    {
+      "from": "inattention",
+      "to": "cam_icu_pos",
+      "type": "dependency",
+      "label": "Feature 1 (REQUIRED)",
+      "ref": "Ely2001"
+    },
+    {
+      "from": "fluctuating",
+      "to": "cam_icu_pos",
+      "type": "dependency",
+      "label": "Feature 2 (REQUIRED)",
+      "ref": "Ely2001"
+    },
+    {
+      "from": "disorganized",
+      "to": "cam_icu_pos",
+      "type": "dependency",
+      "label": "Feature 3 (either 3 OR 4)",
+      "ref": "Ely2001"
+    },
+    {
+      "from": "altered_loc",
+      "to": "cam_icu_pos",
+      "type": "dependency",
+      "label": "Feature 4 (either 3 OR 4)",
+      "ref": "Ely2001"
+    },
+    {
+      "from": "altered_loc",
+      "to": "rass",
+      "type": "dependency",
+      "label": "operationalised via RASS",
+      "ref": "Ely2001"
+    },
+    {
+      "from": "rass",
+      "to": "hyperactive",
+      "type": "dependency",
+      "label": "RASS +1 to +4",
+      "ref": "Peterson2006"
+    },
+    {
+      "from": "rass",
+      "to": "hypoactive",
+      "type": "dependency",
+      "label": "RASS −1 to −3",
+      "ref": "Peterson2006"
+    },
+    {
+      "from": "rass",
+      "to": "mixed_motor",
+      "type": "dependency",
+      "label": "alternating ± within 24h",
+      "ref": "Peterson2006"
+    },
+    {
+      "from": "hyperactive",
+      "to": "agitation",
+      "type": "causal",
+      "label": "manifests as",
+      "ref": "Peterson2006"
+    },
+    {
+      "from": "hyperactive",
+      "to": "hallucinations",
+      "type": "causal",
+      "label": "more common in hyperactive subtype",
+      "ref": "DSM5"
+    },
+    {
+      "from": "infection_d",
+      "to": "crp_wbc",
+      "type": "causal",
+      "label": "acute phase response",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "infection_d",
+      "to": "fever_d",
+      "type": "causal",
+      "label": "pyrexia",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "infection_d",
+      "to": "hypotension_d",
+      "type": "causal",
+      "label": "septic shock",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "crp_wbc",
+      "to": "fluctuating",
+      "type": "causal",
+      "label": "neuroinflammation (BBB disruption)",
+      "ref": "Maldonado2018"
+    },
+    {
+      "from": "sodium_d",
+      "to": "fluctuating",
+      "type": "causal",
+      "label": "osmotic cerebral oedema",
+      "ref": "Inouye2006"
+    },
+    {
+      "from": "glucose_d",
+      "to": "fluctuating",
+      "type": "causal",
+      "label": "neuronal energy failure",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "calcium_d",
+      "to": "fluctuating",
+      "type": "causal",
+      "label": "neurotransmitter dysregulation",
+      "ref": "Inouye2006"
+    },
+    {
+      "from": "urea_cr_d",
+      "to": "fluctuating",
+      "type": "causal",
+      "label": "uremic toxins cross BBB",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "albumin_d",
+      "to": "fluctuating",
+      "type": "causal",
+      "label": "↑ unbound drug fraction → CNS effect",
+      "ref": "Zaal2015"
+    },
+    {
+      "from": "hypoxia_d",
+      "to": "pao2_d",
+      "type": "dependency",
+      "label": "arterial correlate",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "pao2_d",
+      "to": "fluctuating",
+      "type": "causal",
+      "label": "cerebral hypoxia",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "rr_abnormal",
+      "to": "hypoxia_d",
+      "type": "temporal",
+      "label": "respiratory failure progression",
+      "ref": "Zaal2015"
+    },
+    {
+      "from": "mech_vent",
+      "to": "hypoxia_d",
+      "type": "therapeutic",
+      "label": "treats (but increases ICU exposure)",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "mech_vent",
+      "to": "immobility",
+      "type": "causal",
+      "label": "enforces bed-bound state",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "hepatic_enc",
+      "to": "fluctuating",
+      "type": "causal",
+      "label": "hepatic encephalopathy → delirium",
+      "ref": "Maldonado2018"
+    },
+    {
+      "from": "fever_d",
+      "to": "tachy_d",
+      "type": "causal",
+      "label": "compensatory",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "hypotension_d",
+      "to": "tachy_d",
+      "type": "causal",
+      "label": "compensatory",
+      "ref": "Zaal2015"
+    },
+    {
+      "from": "hypotension_d",
+      "to": "fluctuating",
+      "type": "causal",
+      "label": "cerebral hypoperfusion",
+      "ref": "Zaal2015"
+    },
+    {
+      "from": "benzo",
+      "to": "fluctuating",
+      "type": "causal",
+      "label": "STRONG EVIDENCE (PADIS 2018)",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "benzo",
+      "to": "hypoactive",
+      "type": "causal",
+      "label": "GABAergic oversedation",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "anticholinergic",
+      "to": "inattention",
+      "type": "causal",
+      "label": "↓ ACh (cholinergic deficit hypothesis)",
+      "ref": "Maldonado2018"
+    },
+    {
+      "from": "anticholinergic",
+      "to": "hallucinations",
+      "type": "causal",
+      "label": "anticholinergic delirium",
+      "ref": "Maldonado2018"
+    },
+    {
+      "from": "opioids_d",
+      "to": "hypoactive",
+      "type": "causal",
+      "label": "CNS depression",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "opioids_d",
+      "to": "fluctuating",
+      "type": "causal",
+      "label": "dose-dependent",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "steroids_d",
+      "to": "hyperactive",
+      "type": "causal",
+      "label": "psychiatric effects / steroid psychosis",
+      "ref": "Zaal2015"
+    },
+    {
+      "from": "dexmedetomidine",
+      "to": "fluctuating",
+      "type": "therapeutic",
+      "label": "↓ delirium incidence (PADIS 2025: over propofol)",
+      "ref": "PADIS2025"
+    },
+    {
+      "from": "dexmedetomidine",
+      "to": "sleep_wake",
+      "type": "therapeutic",
+      "label": "preserves sleep architecture",
+      "ref": "PADIS2025"
+    },
+    {
+      "from": "propofol_d",
+      "to": "hypoactive",
+      "type": "causal",
+      "label": "deep sedation risk",
+      "ref": "PADIS2025"
+    },
+    {
+      "from": "antipsychotics_d",
+      "to": "agitation",
+      "type": "therapeutic",
+      "label": "symptom management only (no outcome benefit per PADIS 2025)",
+      "ref": "PADIS2025"
+    },
+    {
+      "from": "melatonin",
+      "to": "sleep_wake",
+      "type": "therapeutic",
+      "label": "↓ circadian disruption (PADIS 2025: conditional suggestion)",
+      "ref": "PADIS2025"
+    },
+    {
+      "from": "immobility",
+      "to": "hypoactive",
+      "type": "causal",
+      "label": "deconditioning / reduced arousal",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "sleep_wake",
+      "to": "fluctuating",
+      "type": "causal",
+      "label": "circadian disruption → altered arousal",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "dementia_d",
+      "to": "inattention",
+      "type": "dependency",
+      "label": "↑ baseline vulnerability",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "dementia_d",
+      "to": "fluctuating",
+      "type": "dependency",
+      "label": "lower threshold for delirium",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "prior_coma",
+      "to": "fluctuating",
+      "type": "dependency",
+      "label": "non-modifiable risk factor",
+      "ref": "PADIS2018"
+    }
+  ],
+  "dropped_edges": [
+    {
+      "from": "cortisol_d",
+      "to": "fluctuating",
+      "type": "causal",
+      "label": "HPA axis dysregulation",
+      "ref": "Maldonado2018"
+    },
+    {
+      "from": "lfts_d",
+      "to": "ammonia_d",
+      "type": "causal",
+      "label": "hepatic failure → NH₃ ↑",
+      "ref": "Maldonado2018"
+    },
+    {
+      "from": "ammonia_d",
+      "to": "fluctuating",
+      "type": "causal",
+      "label": "astrocyte swelling / glutamate toxicity",
+      "ref": "Maldonado2018"
+    },
+    {
+      "from": "tsh_d",
+      "to": "disorganized",
+      "type": "causal",
+      "label": "thyroid encephalopathy",
+      "ref": "Inouye2006"
+    },
+    {
+      "from": "b12_folate",
+      "to": "disorganized",
+      "type": "causal",
+      "label": "neurological deficit",
+      "ref": "Inouye2006"
+    },
+    {
+      "from": "renal_failure_d",
+      "to": "urea_cr_d",
+      "type": "causal",
+      "label": "↓ clearance",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "renal_failure_d",
+      "to": "sodium_d",
+      "type": "causal",
+      "label": "electrolyte disorder",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "hepatic_enc",
+      "to": "ammonia_d",
+      "type": "causal",
+      "label": "↓ hepatic ammonia clearance",
+      "ref": "Maldonado2018"
+    },
+    {
+      "from": "pain_d",
+      "to": "agitation",
+      "type": "causal",
+      "label": "uncontrolled pain → agitation",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "pain_d",
+      "to": "hyperactive",
+      "type": "causal",
+      "label": "nociceptive trigger",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "sensory_dep",
+      "to": "inattention",
+      "type": "causal",
+      "label": "↓ orientation cues",
+      "ref": "Inouye2006"
+    },
+    {
+      "from": "sensory_dep",
+      "to": "hallucinations",
+      "type": "causal",
+      "label": "perceptual distortion",
+      "ref": "Inouye2006"
+    },
+    {
+      "from": "age_advanced",
+      "to": "fluctuating",
+      "type": "dependency",
+      "label": "↑ susceptibility (non-modifiable)",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "post_surgical_d",
+      "to": "fluctuating",
+      "type": "causal",
+      "label": "anaesthesia / surgical inflammation",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "post_surgical_d",
+      "to": "pain_d",
+      "type": "causal",
+      "label": "surgical pain",
+      "ref": "PADIS2018"
+    },
+    {
+      "from": "alcohol_withdrawal",
+      "to": "hyperactive",
+      "type": "causal",
+      "label": "excitatory / delirium tremens",
+      "ref": "Inouye2006"
+    },
+    {
+      "from": "transfusion_d",
+      "to": "fluctuating",
+      "type": "causal",
+      "label": "modifiable risk factor (PADIS 2018: strong evidence)",
+      "ref": "PADIS2018"
+    }
+  ]
+}

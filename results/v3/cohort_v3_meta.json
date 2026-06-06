@@ -1,0 +1,20 @@
+{
+  "billing_project": "timely-bench-mimic",
+  "quota_project": "timely-bench-mimic",
+  "dataset_derived": "physionet-data.mimiciv_3_1_derived",
+  "dataset_hosp": "physionet-data.mimiciv_3_1_hosp",
+  "dataset_icu": "physionet-data.mimiciv_3_1_icu",
+  "output_csv": "data/processed/v3/cohort_v3.csv",
+  "n_rows": 94458,
+  "n_stays": 94458,
+  "n_subjects": 65366,
+  "n_hadm": 85242,
+  "positive_rates": {
+    "mortality": 0.12006394376336572,
+    "sepsis_final": 0.4260517902136399,
+    "aki_final": 0.7186156810434267,
+    "stroke_final": 0.11278028330051451,
+    "delirium_final": 0.07594909907048636,
+    "ckd": 0.21858392089605963
+  }
+}
