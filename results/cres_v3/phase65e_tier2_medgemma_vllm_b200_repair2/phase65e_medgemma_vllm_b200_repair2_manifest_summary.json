@@ -1,6 +1,0 @@
-{
-  "repair2_rows": 41,
-  "max_tokens_override": 8192,
-  "source": "/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_medgemma_vllm_b200_repair1/medgemma15_4b_responses_shard00_of_01.jsonl",
-  "manifest": "/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_medgemma_vllm_b200_repair2/phase65e_medgemma_vllm_b200_repair2_manifest.jsonl"
-}

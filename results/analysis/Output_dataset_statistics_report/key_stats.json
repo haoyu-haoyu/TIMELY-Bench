@@ -1,9 +1,0 @@
-{
-  "total_patients": 74829,
-  "mortality_rate": 0.11933875903727165,
-  "patients_with_report": 46241,
-  "report_coverage": 0.617955605447086,
-  "avg_word_count": 316.64217901861986,
-  "mortality_with_report": 0.1262948465647369,
-  "mortality_no_report": 0.10808730936057087
-}

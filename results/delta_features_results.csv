@@ -1,3 +1,0 @@
-model,task,auroc
-XGBoost,Mortality,0.8565150706667152
-XGBoost,LOS,0.7789166712834759

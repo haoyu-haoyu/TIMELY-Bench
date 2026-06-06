@@ -1,8 +1,0 @@
-{
-  "remaining_rows": 551,
-  "reason_counts": {
-    "parse": 551
-  },
-  "max_tokens_override": 1200,
-  "manifest_path": "results/cres_v3/phase65e_tier2_aloe7b_repair_compact_v2/aloe7b_repair_compact_manifest.jsonl"
-}

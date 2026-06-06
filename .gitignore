@@ -50,8 +50,6 @@ results/audit/subject_multiplicity.json
 *key*
 *secret*
 *token*
-!results/cres_v3/phase65e_tier2_retry/openbiollm70b_retry_token_audit_summary_v1.json
-!results/cres_v3/phase65e_tier2_retry/openbiollm70b_retry_token_audit_summary_v2.json
 
 # Archive, backup, logs, and local-only outputs.
 archive/
@@ -67,6 +65,44 @@ paper/KCL version/
 paper/KCL_version/
 paper/KCL_version_formatted_overleaf_package/
 paper/nila_ijcai_2026_workshop/
+
+# Public export cleanup: legacy experiment outputs and one-off workflow traces.
+SYNC_CHECKLIST.md
+TEXTONLY_BUG_FIX_REPORT.md
+results/Output_temporal_gru/
+results/aligner_comparison/
+results/analysis/Output_*/
+results/benchmark_results/
+results/calibration/
+results/condition_analysis/
+results/cross_modal/
+results/differential_diagnosis/
+results/enhanced_*/
+results/fusion_baselines/
+results/gru_training/
+results/los_baselines/
+results/note_ablation/
+results/readmission_baselines/
+results/robustness/
+results/standardized/
+results/state_space/
+results/tabular_baselines/
+results/text_only_baselines/
+results/feature_importance.csv
+results/delta_features_results.csv
+results/cres_v3/**/*pilot*/
+results/cres_v3/**/*smoke*/
+results/cres_v3/**/*repair*/
+results/cres_v3/**/*retry*/
+results/cres_v3/**/*tail*/
+results/cres_v3/**/*livecheck*
+results/cres_v3/**/*batch_registry.json
+results/cres_v3/**/*cutover*
+results/cres_v3/**/*probe_summary.json
+results/cres_v3/**/*localprobe_summary.json
+results/cres_v3/**/*repair_v*_summary.json
+results/cres_v3/**/*premerge_raw.json
+results/cres_v3/**/*finalization_summary.json
 
 # Model weights and binary arrays.
 *.pt

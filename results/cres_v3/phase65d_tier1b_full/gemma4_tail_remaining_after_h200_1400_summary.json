@@ -1,9 +1,0 @@
-{
-  "provider": "gemma4_26b",
-  "model_name": "arc:lite",
-  "source_manifest_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65d_tier1b_full/phase65d_full_manifest_full_multimodal.jsonl",
-  "output_manifest_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65d_tier1b_full/gemma4_tail_remaining_after_h200_1400.jsonl",
-  "done_prompt_ids": 51946,
-  "remaining_rows": 1124,
-  "limit": 0
-}

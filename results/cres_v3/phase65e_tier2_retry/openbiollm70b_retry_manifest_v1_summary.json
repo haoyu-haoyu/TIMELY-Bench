@@ -1,8 +1,0 @@
-{
-  "rows": 8101,
-  "status_breakdown": {
-    "http_error": 8033,
-    "ok": 68
-  },
-  "manifest_path": "results/cres_v3/phase65e_tier2_retry/openbiollm70b_retry_manifest_v1.jsonl"
-}

@@ -1,6 +1,0 @@
-{
-  "manifest_path": "results/cres_v3/phase65c_tier1a_full/phase65c_full_manifest_full_multimodal.jsonl",
-  "remaining": 1038,
-  "output_dir": "results/cres_v3/phase65e_tier2_medgemma_repair33257488_b200_bs32_max8000",
-  "manifest_out": "results/cres_v3/phase65e_tier2_medgemma_repair33257488_b200_bs32_max8000/phase65e_medgemma_remaining_1038_manifest.jsonl"
-}
