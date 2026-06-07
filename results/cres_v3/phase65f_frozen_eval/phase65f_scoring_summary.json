@@ -10,7 +10,7 @@
       "avg_latency_seconds": 11.400645411720369,
       "usage_total_tokens": 264064840,
       "primary_model_name": "gpt-5.4",
-      "summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65c_tier1a_full/gpt54_full_summary.json"
+      "summary_path": "${PROJECT_ROOT}/results/cres_v3/phase65c_tier1a_full/gpt54_full_summary.json"
     },
     "gemini31pro": {
       "provider": "gemini31pro",
@@ -21,7 +21,7 @@
       "avg_latency_seconds": 15.9378977388355,
       "usage_total_tokens": 343643633,
       "primary_model_name": "gemini-3.1-pro",
-      "summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65c_tier1a_full/gemini31pro_full_summary.json"
+      "summary_path": "${PROJECT_ROOT}/results/cres_v3/phase65c_tier1a_full/gemini31pro_full_summary.json"
     },
     "deepseek_chat": {
       "provider": "deepseek_chat",
@@ -32,7 +32,7 @@
       "avg_latency_seconds": 12.710874957603165,
       "usage_total_tokens": 261196668,
       "primary_model_name": "deepseek-chat",
-      "summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65d_tier1b_full/deepseek_chat_full_summary.json"
+      "summary_path": "${PROJECT_ROOT}/results/cres_v3/phase65d_tier1b_full/deepseek_chat_full_summary.json"
     },
     "qwen35": {
       "provider": "qwen35",
@@ -43,7 +43,7 @@
       "avg_latency_seconds": 4.843182174486527,
       "usage_total_tokens": 285969716,
       "primary_model_name": "qwen3.5-flash",
-      "summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65d_tier1b_full/qwen35_full_summary.json"
+      "summary_path": "${PROJECT_ROOT}/results/cres_v3/phase65d_tier1b_full/qwen35_full_summary.json"
     },
     "gemma4_26b": {
       "provider": "gemma4_26b",
@@ -54,7 +54,7 @@
       "avg_latency_seconds": 30.03763834558131,
       "usage_total_tokens": 277833535,
       "primary_model_name": "arc:lite",
-      "summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65d_tier1b_full/gemma4_26b_full_summary.json"
+      "summary_path": "${PROJECT_ROOT}/results/cres_v3/phase65d_tier1b_full/gemma4_26b_full_summary.json"
     },
     "aloe70b": {
       "provider": "aloe70b",
@@ -65,7 +65,7 @@
       "avg_latency_seconds": 5.709786056152252,
       "usage_total_tokens": 258039766,
       "primary_model_name": "llama31-aloe-beta-70b",
-      "summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_full_aloe70b/aloe70b_full_summary.json"
+      "summary_path": "${PROJECT_ROOT}/results/cres_v3/phase65e_tier2_full_aloe70b/aloe70b_full_summary.json"
     },
     "aloe7b": {
       "provider": "aloe7b",
@@ -76,7 +76,7 @@
       "avg_latency_seconds": 2.7593214999057842,
       "usage_total_tokens": 282111131,
       "primary_model_name": "qwen25-aloe-beta-7b",
-      "summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_aloe7b_repair_final_summary.json"
+      "summary_path": "${PROJECT_ROOT}/results/cres_v3/phase65e_tier2_aloe7b_repair_final_summary.json"
     },
     "meditron3_8b": {
       "provider": "meditron3_8b",
@@ -87,7 +87,7 @@
       "avg_latency_seconds": 3.1979134350857357,
       "usage_total_tokens": 259948539,
       "primary_model_name": "meditron3-8b",
-      "summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_meditron3_postrepair_summary_v10.json"
+      "summary_path": "${PROJECT_ROOT}/results/cres_v3/phase65e_tier2_meditron3_postrepair_summary_v10.json"
     },
     "medgemma15_4b_it": {
       "provider": "medgemma15_4b_it",
@@ -98,7 +98,7 @@
       "avg_latency_seconds": 71.57247964951951,
       "usage_total_tokens": 285394344,
       "primary_model_name": "medgemma-1.5-4b-it",
-      "summary_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_medgemma_final151_twostage_20260417/summary.json"
+      "summary_path": "${PROJECT_ROOT}/results/cres_v3/phase65e_tier2_medgemma_final151_twostage_20260417/summary.json"
     }
   },
   "auto_scoring": {
@@ -117,13 +117,13 @@
     "mismatch_examples": []
   },
   "outputs": {
-    "scored_prompts": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_scored_prompts.parquet",
-    "per_task_dimension_metrics": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_per_task_dimension_metrics.csv",
-    "provider_metrics": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_provider_metrics.csv",
-    "condition_heatmap_data": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_condition_heatmap_data.csv",
-    "stratified_metrics": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_stratified_metrics.csv",
-    "temporal_degradation": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_temporal_degradation.csv",
-    "tier_comparison": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_tier_comparison.csv",
-    "deferred_pairs": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_deferred_pairs.json"
+    "scored_prompts": "${PROJECT_ROOT}/results/cres_v3/phase65f_frozen_eval/phase65f_scored_prompts.parquet",
+    "per_task_dimension_metrics": "${PROJECT_ROOT}/results/cres_v3/phase65f_frozen_eval/phase65f_per_task_dimension_metrics.csv",
+    "provider_metrics": "${PROJECT_ROOT}/results/cres_v3/phase65f_frozen_eval/phase65f_provider_metrics.csv",
+    "condition_heatmap_data": "${PROJECT_ROOT}/results/cres_v3/phase65f_frozen_eval/phase65f_condition_heatmap_data.csv",
+    "stratified_metrics": "${PROJECT_ROOT}/results/cres_v3/phase65f_frozen_eval/phase65f_stratified_metrics.csv",
+    "temporal_degradation": "${PROJECT_ROOT}/results/cres_v3/phase65f_frozen_eval/phase65f_temporal_degradation.csv",
+    "tier_comparison": "${PROJECT_ROOT}/results/cres_v3/phase65f_frozen_eval/phase65f_tier_comparison.csv",
+    "deferred_pairs": "${PROJECT_ROOT}/results/cres_v3/phase65f_frozen_eval/phase65f_deferred_pairs.json"
   }
 }

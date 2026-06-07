@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-PROJECT_ROOT="${PROJECT_ROOT:-/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final}"
-RESULTS_ROOT="${RESULTS_ROOT:-/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final/results/cres_v3}"
+PROJECT_ROOT="${PROJECT_ROOT:-$PWD}"
+RESULTS_ROOT="${RESULTS_ROOT:-${PROJECT_ROOT}/results/cres_v3}"
 OUTPUT_DIR="${OUTPUT_DIR:-${RESULTS_ROOT}/phase65f_frozen_eval}"
 
 cd "${PROJECT_ROOT}"

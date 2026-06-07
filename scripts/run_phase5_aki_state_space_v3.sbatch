@@ -8,7 +8,7 @@
 
 set -euo pipefail
 
-ROOT="/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final"
+ROOT="${PROJECT_ROOT:-$PWD}"
 cd "$ROOT"
 
 mkdir -p logs/v3

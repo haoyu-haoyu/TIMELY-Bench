@@ -9,13 +9,13 @@
 
 set -euo pipefail
 
-ROOT="/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final"
+ROOT="${PROJECT_ROOT:-$PWD}"
 cd "$ROOT"
 
 mkdir -p logs/v3 results/cres_v3/phase65a_baselines
 
-if [ -f /scratch/users/k25113331/venvs/timer/bin/activate ]; then
-  source /scratch/users/k25113331/venvs/timer/bin/activate
+if [ -n "${VENV:-}" ] && [ -f "${VENV}/bin/activate" ]; then
+  source "${VENV}/bin/activate"
 fi
 
 python3 -u code/v3/run_phase65a_baselines_v3.py \

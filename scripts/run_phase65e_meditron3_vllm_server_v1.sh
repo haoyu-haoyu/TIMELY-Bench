@@ -7,8 +7,8 @@ if [ $# -lt 1 ]; then
 fi
 
 HOLD_JOB_ID="$1"
-ROOT=/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final
-VENV=/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final/.venv_gemma4_vllm
+ROOT="${PROJECT_ROOT:-$PWD}"
+VENV="${VENV:-${ROOT}/.venv_gemma4_vllm}"
 MODEL_REPO="${PHASE65E_MEDITRON3_MODEL_REPO:-OpenMeditron/Meditron3-8B}"
 SERVED_MODEL_NAME="${PHASE65E_MEDITRON3_SERVED_MODEL_NAME:-meditron3-8b}"
 PORT="${PORT:-8057}"
@@ -20,7 +20,7 @@ LAUNCH_MODE="${PHASE65E_MEDITRON3_LAUNCH_MODE:-overlap}"
 DIRECT_IN_JOB="${PHASE65E_MEDITRON3_DIRECT_IN_JOB:-0}"
 COMPILATION_CONFIG="${PHASE65E_MEDITRON3_COMPILATION_CONFIG:-{\"pass_config\":{\"fuse_allreduce_rms\":false}}}"
 
-export HF_HOME="${HF_HOME:-/scratch/prj/bhi_haoyu_benchmarking/hf_cache}"
+export HF_HOME="${HF_HOME:-${PROJECT_SCRATCH:-${ROOT}/.cache}/hf_cache}"
 export TRANSFORMERS_CACHE="${TRANSFORMERS_CACHE:-${HF_HOME}/transformers}"
 export HUGGINGFACE_HUB_CACHE="${HUGGINGFACE_HUB_CACHE:-${HF_HOME}/hub}"
 mkdir -p "${HF_HOME}" "${TRANSFORMERS_CACHE}" "${HUGGINGFACE_HUB_CACHE}"

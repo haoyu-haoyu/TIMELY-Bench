@@ -117,11 +117,11 @@
     }
   ],
   "outputs": {
-    "prompt_instances_manifest": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_judge500_prompt_instances.jsonl",
-    "judge_response_manifest": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_judge500_manifest.jsonl",
-    "judge_rubric": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_judge_rubric.md",
-    "judge_contestant_roster": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_judge_contestant_roster.json",
-    "legacy_tier_representatives_alias": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_tier_representatives.json"
+    "prompt_instances_manifest": "${PROJECT_ROOT}/results/cres_v3/phase65f_frozen_eval/phase65f_judge500_prompt_instances.jsonl",
+    "judge_response_manifest": "${PROJECT_ROOT}/results/cres_v3/phase65f_frozen_eval/phase65f_judge500_manifest.jsonl",
+    "judge_rubric": "${PROJECT_ROOT}/results/cres_v3/phase65f_frozen_eval/phase65f_judge_rubric.md",
+    "judge_contestant_roster": "${PROJECT_ROOT}/results/cres_v3/phase65f_frozen_eval/phase65f_judge_contestant_roster.json",
+    "legacy_tier_representatives_alias": "${PROJECT_ROOT}/results/cres_v3/phase65f_frozen_eval/phase65f_tier_representatives.json"
   },
   "execution_status": "manifest_ready_judge_calls_not_executed"
 }

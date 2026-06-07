@@ -27,7 +27,7 @@
   "source_file_count": 1,
   "source_files": [
     {
-      "path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65c_tier1a_full/gemini31pro_full_responses.jsonl",
+      "path": "${PROJECT_ROOT}/results/cres_v3/phase65c_tier1a_full/gemini31pro_full_responses.jsonl",
       "n_rows": 53070
     }
   ]

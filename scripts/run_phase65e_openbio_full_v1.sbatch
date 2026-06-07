@@ -11,7 +11,7 @@
 
 set -euo pipefail
 
-ROOT=/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final
+ROOT="${PROJECT_ROOT:-$PWD}"
 OUT_DIR=results/cres_v3/phase65e_tier2_full
 MANIFEST_PATH=results/cres_v3/phase65d_tier1b_full/phase65d_full_manifest_full_multimodal.jsonl
 MANIFEST_SUMMARY_PATH="${OUT_DIR}/openbiollm70b_manifest_summary.json"

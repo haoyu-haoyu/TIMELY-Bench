@@ -9,7 +9,8 @@
 
 set -euo pipefail
 
-cd /scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final
+PROJECT_ROOT="${PROJECT_ROOT:-$PWD}"
+cd "${PROJECT_ROOT}"
 mkdir -p logs/v3 results/cres_v3/phase65d_tier1b_full
 
 ENV_FILE="${TIER1B_QWEN35_ENV_FILE:-}"

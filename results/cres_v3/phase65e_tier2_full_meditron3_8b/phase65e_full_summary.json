@@ -52,7 +52,7 @@
         "medium": 0.000909988576739143,
         "missing": 0.0002710604271137873
       },
-      "merged_output_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_full_meditron3_8b/meditron3_8b_full_responses.jsonl"
+      "merged_output_path": "${PROJECT_ROOT}/results/cres_v3/phase65e_tier2_full_meditron3_8b/meditron3_8b_full_responses.jsonl"
     }
   }
 }

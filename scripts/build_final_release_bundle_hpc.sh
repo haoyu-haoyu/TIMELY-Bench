@@ -14,10 +14,13 @@
 
 set -euo pipefail
 
-cd /scratch/users/k25113331/TIMELY-Bench_Final
+PROJECT_ROOT="${PROJECT_ROOT:-$PWD}"
+cd "${PROJECT_ROOT}"
 mkdir -p logs
 
-source /scratch/users/k25113331/venvs/timer/bin/activate
+if [ -n "${VENV:-}" ] && [ -f "${VENV}/bin/activate" ]; then
+  source "${VENV}/bin/activate"
+fi
 export PYTHONPATH="$PWD/code:${PYTHONPATH:-}"
 export PYTHONUNBUFFERED=1
 

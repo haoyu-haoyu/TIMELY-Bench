@@ -8,7 +8,7 @@
 
 set -euo pipefail
 
-ROOT="/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final"
+ROOT="${PROJECT_ROOT:-$PWD}"
 cd "$ROOT"
 
 mkdir -p logs/v3 results/v3/representations
@@ -31,9 +31,10 @@ python3 -B code/v3/build_phase4_b1_a_v3.py \
 
 python3 - <<'PY'
 import json
+import os
 from pathlib import Path
 
-root = Path("/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final")
+root = Path(os.environ.get("PROJECT_ROOT", ".")).resolve()
 results = root / "results" / "v3" / "representations"
 
 combined = {

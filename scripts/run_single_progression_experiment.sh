@@ -20,7 +20,8 @@ WINDOW="$4"
 TEXT_METHOD="$5"
 OUTDIR="$6"
 
-cd /scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final
+PROJECT_ROOT="${PROJECT_ROOT:-$PWD}"
+cd "${PROJECT_ROOT}"
 mkdir -p logs/progression "$OUTDIR"
 
 python3 code/baselines/train_progression_baselines.py \

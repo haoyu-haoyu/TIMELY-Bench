@@ -1,7 +1,7 @@
 # Task A/B Progression v2 - Phase B Report
 
 Generated: 2026-03-09 14:45:47 GMT
-Project: /scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final
+Project: ${PROJECT_ROOT}
 Branch: codex/note-centered-alignment
 
 ## 1) Experiment Execution Summary

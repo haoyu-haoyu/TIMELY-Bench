@@ -15,9 +15,9 @@
   "usage_input_tokens": 12055938,
   "usage_output_tokens": 337464,
   "avg_latency_seconds": 4.622547389984131,
-  "output_jsonl": "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_judge_crosscheck_gpt54_outputs.jsonl",
+  "output_jsonl": "${PROJECT_ROOT}/results/cres_v3/phase65f_frozen_eval/phase65f_judge_crosscheck_gpt54_outputs.jsonl",
   "repair_applied": true,
-  "repair_source_output_jsonl": "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_judge_crosscheck_gpt54_repair_v1_outputs.jsonl",
-  "premerge_raw_output_jsonl": "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_judge_crosscheck_gpt54_outputs_premerge_raw.jsonl",
+  "repair_source_output_jsonl": "${PROJECT_ROOT}/results/cres_v3/phase65f_frozen_eval/phase65f_judge_crosscheck_gpt54_repair_v1_outputs.jsonl",
+  "premerge_raw_output_jsonl": "${PROJECT_ROOT}/results/cres_v3/phase65f_frozen_eval/phase65f_judge_crosscheck_gpt54_outputs_premerge_raw.jsonl",
   "finalized_at_epoch": 1776459262.069367
 }

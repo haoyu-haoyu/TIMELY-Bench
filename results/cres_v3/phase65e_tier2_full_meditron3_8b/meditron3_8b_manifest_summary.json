@@ -1,7 +1,7 @@
 {
   "provider": "meditron3_8b",
   "model_name": "meditron3-8b",
-  "manifest_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_meditron3_remaining42_manifest.jsonl",
+  "manifest_path": "${PROJECT_ROOT}/results/cres_v3/phase65e_tier2_meditron3_remaining42_manifest.jsonl",
   "rows_requested": 42,
   "rows_found": 42,
   "missing_rows": 0,

@@ -7,7 +7,8 @@
 
 set -euo pipefail
 
-cd /scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final
+PROJECT_ROOT="${PROJECT_ROOT:-$PWD}"
+cd "${PROJECT_ROOT}"
 mkdir -p logs/v3 results/cres_v3/phase65c_tier1a_full
 
 python3 -u code/v3/run_phase65c_tier1a_full_v3.py \

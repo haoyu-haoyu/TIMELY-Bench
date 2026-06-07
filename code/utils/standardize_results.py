@@ -33,8 +33,7 @@ FUSION_LATE_XGB_JSON = RESULTS_DIR / "fusion_baselines" / "fusion_results_late_x
 def _normalize_path_text(value: str) -> str:
     prefixes = [
         str(ROOT_DIR),
-        "/scratch/users/k25113331/TIMELY-Bench_Final",
-        "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final",
+        "${PROJECT_ROOT}",
     ]
     normalized = value
     for prefix in prefixes:

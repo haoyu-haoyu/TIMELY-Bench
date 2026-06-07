@@ -14,5 +14,5 @@
   "usage_input_tokens": 5258395,
   "usage_output_tokens": 564635,
   "avg_latency_seconds": 8.853908898830413,
-  "output_jsonl": "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval/phase65f_judge_primary_claude_opus_4_6_outputs.jsonl"
+  "output_jsonl": "${PROJECT_ROOT}/results/cres_v3/phase65f_frozen_eval/phase65f_judge_primary_claude_opus_4_6_outputs.jsonl"
 }

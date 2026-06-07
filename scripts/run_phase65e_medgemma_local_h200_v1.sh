@@ -8,7 +8,7 @@ fi
 
 HOLD_JOB_ID="$1"
 BACKEND_MODEL_NAME="${2:-google/medgemma-1.5-4b-it}"
-ROOT=/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final
+ROOT="${PROJECT_ROOT:-$PWD}"
 OUT_DIR="${OUT_DIR:-results/cres_v3/phase65e_tier2_full}"
 MANIFEST_PATH="${MANIFEST_PATH:-results/cres_v3/phase65d_tier1b_full/phase65d_full_manifest_full_multimodal.jsonl}"
 LOG_DIR="${ROOT}/logs/v3"
@@ -23,7 +23,7 @@ SKIP_SUMMARY="${SKIP_SUMMARY:-0}"
 
 : "${HF_TOKEN:?set HF_TOKEN before launch}"
 
-export HF_HOME="${HF_HOME:-/scratch/prj/bhi_haoyu_benchmarking/hf_cache}"
+export HF_HOME="${HF_HOME:-${PROJECT_SCRATCH:-${ROOT}/.cache}/hf_cache}"
 export TRANSFORMERS_CACHE="${TRANSFORMERS_CACHE:-${HF_HOME}/transformers}"
 export HUGGINGFACE_HUB_CACHE="${HUGGINGFACE_HUB_CACHE:-${HF_HOME}/hub}"
 mkdir -p "${LOG_DIR}" "${ROOT}/${OUT_DIR}" "${TRANSFORMERS_CACHE}" "${HUGGINGFACE_HUB_CACHE}"

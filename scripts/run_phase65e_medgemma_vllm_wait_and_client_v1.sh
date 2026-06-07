@@ -13,7 +13,7 @@ MAX_WORKERS="$4"
 PORT="${PORT:-8057}"
 MAX_POLLS="${MAX_POLLS:-240}"
 SLEEP_SECONDS="${SLEEP_SECONDS:-5}"
-ROOT=/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final
+ROOT="${PROJECT_ROOT:-$PWD}"
 
 cd "${ROOT}"
 

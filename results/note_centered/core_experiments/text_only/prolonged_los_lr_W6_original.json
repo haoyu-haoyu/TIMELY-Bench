@@ -36,7 +36,7 @@
   "resolved_structured_window": "W6",
   "resolved_text_window": "W6",
   "resolved_text_method": "original",
-  "text_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/data/processed/note_centered/stay_level/text_W6_original.parquet",
+  "text_path": "${PROJECT_ROOT}/data/processed/note_centered/stay_level/text_W6_original.parquet",
   "rows_before_no_note_filter": 74829,
   "rows_after_no_note_filter": 74826,
   "split_source": "predefined_splits.csv",

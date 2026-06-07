@@ -156,9 +156,7 @@ def collect_cres_runs(model_runs_dir: Path):
 def _normalize_path_text(value: str) -> str:
     prefixes = [
         str(ROOT_DIR),
-        "/scratch/users/k25113331/TIMELY-Bench_Final",
-        "/cephfs/volumes/hpc_data_usr/k25113331/f7401904-95bd-4544-810d-29f0538f2c9c/TIMELY-Bench_Final",
-        "/Users/wanghaoyu/Downloads/临床时序 × 文本对齐融合基准/训练基线模型/TIMELY-Bench_Final",
+        "${PROJECT_ROOT}",
     ]
     normalized = value
     for prefix in prefixes:

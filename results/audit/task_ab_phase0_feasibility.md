@@ -28,7 +28,7 @@ Q0.4 Sepsis cohort size (sofa_time within 0-48h)
 - sepsis_stays = 32042
 
 Q0.5 MBP/vasopressor coverage on HPC timeseries
-- File used: /scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final/data/processed/timeseries_sorted_72h.csv
+- File used: ${PROJECT_ROOT}/data/processed/timeseries_sorted_72h.csv
 - Required columns present: mbp, vasopressors, vasopressor_dose_norepi_equiv
 - Sample coverage (n=50000):
   mbp = 0.7045

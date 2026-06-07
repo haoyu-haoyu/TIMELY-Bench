@@ -1,103 +1,80 @@
 # TIMELY-Bench
 
-**用于 ICU 多模态（结构化时序 + 临床文本）预测的时间对齐基准（MIMIC-IV）**
+**基于 MIMIC-IV ICU 轨迹与临床文本的 anchor-bounded 临床时序推理基准。**
 
 [English](README.md) | 中文
 
-## 发布快照（v2.0 Note-Centered）
+## 仓库范围
+
+这个公开 GitHub 仓库包含两条复现主线：
+
+| 主线 | 目的 | 主要产物 |
+|---|---|---|
+| **V2 note-centered leakage experiments** | 早期时间-文本对齐与 time-leakage 分解实验，覆盖 mortality 和 prolonged ICU LOS。 | `results/note_centered/`, `code/baselines/`, `code/analysis/` |
+| **V3 TIMELY-Bench / CRES evaluation** | 论文主结果：4 个临床条件、168 小时 anchor-bounded 轨迹、结构化基线、9 个 frozen LLM provider、LLM-as-Judge。 | `results/v3/`, `results/cres_v3/`, `code/v3/`, `paper/npj_digital_medicine/` |
+
+论文主结果主要来自 **V3 TIMELY-Bench / CRES evaluation**。V2 结果保留用于复现 time-leakage 实验和解释 V3 设计动机。
+
+公开仓库不包含 raw MIMIC-IV 表、patient-level 派生文件、prompt JSONL、canonical response JSONL、per-instance scoring table 或 judge long-form rationale。详见 [DATA_ACCESS.md](DATA_ACCESS.md)、[PUBLIC_ARTIFACT_POLICY.md](PUBLIC_ARTIFACT_POLICY.md) 和 [REPRODUCIBILITY.md](REPRODUCIBILITY.md)。
+
+## V3 Benchmark 快照
 
 | 项目 | 数值 |
-|---|---|
-| ICU stays | **74,829** |
-| 结构化特征数 | **42** |
-| 时序提取范围 | 入 ICU 后 **0-72h** |
-| 文本提取范围 | 入 ICU 后 **0-48h** |
-| 总笔记数 | **12,005,731** |
-| 任务 | `mortality`、`prolonged_los` |
-| 窗口 | `D0`、`W6`、`W12`、`W24`、`leaked`、`clean` |
-| Canonical 核心实验 | **91 个 JSON** |
+|---|---:|
+| 数据来源 | MIMIC-IV ICU |
+| source alignment ICU stays | 74,829 |
+| 时间网格 | 168 小时 |
+| 临床条件 | AKI, delirium, sepsis, stroke |
+| Prompt instances per LLM provider | 53,070 |
+| Frozen comparative LLM providers | 9 |
+| Structured baseline tasks | eligible binary CRES tasks |
 
-**最近更新：** 2026 年 3 月
+关键 frozen 结果：
 
-## 相比旧版流程的更新
+- `results/cres_v3/phase65f_frozen_eval/phase65f_provider_metrics.csv`
+- `results/cres_v3/phase65f_frozen_eval/phase65f_per_task_dimension_metrics.csv`
+- `results/cres_v3/phase65f_frozen_eval/phase65f_condition_heatmap_data.csv`
+- `results/cres_v3/phase65f_frozen_eval/phase65f_stratified_metrics.csv`
+- `results/cres_v3/phase65f_frozen_eval/phase65f_temporal_degradation.csv`
+- `results/cres_v3/phase65f_frozen_eval/phase65f_formal_summary.md`
 
-- 时间对齐从 admission-anchored 改为 **note-centered lookback**。
-- 结构化特征从 **25 扩展到 42**。
-- 增加了显式泄漏控制和 2x2 分解（`leaked` vs `clean`）。
-- 新版 canonical 结果统一放在 `results/note_centered/`。
+论文文件：
 
-## 关键结果（Phase 4 修复后，canonical 91）
+- `paper/npj_digital_medicine/timely_bench_npj_article.tex`
+- `paper/npj_digital_medicine/timely_bench_npj_article.pdf`
 
-### 1）Structured-only 基线（AUROC）
+## V2 Note-Centered 快照
 
-| 任务 | 模型 | D0 | W6 | W12 | W24 |
-|---|---:|---:|---:|---:|---:|
-| mortality | LR | 0.8775 | 0.8663 | 0.8758 | 0.8839 |
-| mortality | XGBoost | 0.9007 | 0.8863 | 0.8960 | 0.9042 |
-| prolonged_los | LR | 0.8858 | 0.8641 | 0.8619 | 0.8646 |
-| prolonged_los | XGBoost | 0.8972 | 0.8802 | 0.8814 | 0.8817 |
+| 项目 | 数值 |
+|---|---:|
+| ICU stays | 74,829 |
+| 结构化特征数 | 42 |
+| 时序范围 | 入 ICU 后 0-72h |
+| 文本范围 | 入 ICU 后 0-48h |
+| 总笔记数 | 12,005,731 |
+| 任务 | `mortality`, `prolonged_los` |
+| 窗口 | `D0`, `W6`, `W12`, `W24`, `leaked`, `clean` |
 
-### 2）2x2 泄漏分解（Early Fusion XGBoost）
+关键文件：
 
-| 任务 | A 全泄漏 | B 仅结构化泄漏 | C 仅文本泄漏 | D clean |
-|---|---:|---:|---:|---:|
-| mortality | 0.9232 | 0.9231 | 0.9079 | 0.9079 |
-| prolonged_los | 0.9368 | 0.9370 | 0.8856 | 0.8860 |
-
-泄漏溢价（Leakage Premium）总结：
-- Mortality：`A-D = +0.0154`
-- Prolonged LOS：`A-D = +0.0508`
-- 结构化泄漏贡献占绝对主导（约 99%-100%），在当前 note-level ClinicalBERT 设定下文本泄漏近似为 0。
-
-### 3）Text-only 基线（AUROC）
-
-| 任务 | 文本类型 | W24 | leaked | clean |
-|---|---|---:|---:|---:|
-| mortality | mean | 0.8502 | 0.8502 | 0.8501 |
-| mortality | typed | 0.8390 | 0.8390 | 0.8388 |
-| prolonged_los | mean | 0.8355 | 0.8355 | 0.8356 |
-| prolonged_los | typed | 0.8230 | 0.8230 | 0.8234 |
-
-### 4）Note-type 消融（mortality, W24, early fusion XGBoost）
-
-| 条件 | AUROC | 相对 tabular 增量 |
-|---|---:|---:|
-| No text (tabular only) | 0.9042 | - |
-| Nursing only | 0.9079 | +0.0037 |
-| Radiology only | 0.9018 | -0.0024 |
-| Lab only | 0.9037 | -0.0005 |
-| All notes (typed pool) | 0.9073 | +0.0031 |
-| All notes (mean pool) | 0.9079 | +0.0036 |
-
-## 产物路径
-
-- 核心结果：`results/note_centered/core_experiments/`
-- 表格：`results/note_centered/tables/`
-- 图：`results/note_centered/figures/`
-- 分析结论：`results/note_centered/analysis/analysis_findings.md`
-- 文档卡片：`docs/DATA_CARD.md`、`docs/MODEL_CARD.md`、`docs/ALIGNMENT_PROTOCOL_CARD.md`
+- `results/note_centered/leakage_premium_decomposition.csv`
+- `results/note_centered/progression_tasks/cross_task_leakage_decomposition.csv`
+- `results/note_centered/tables/`
+- `results/note_centered/figures/`
 
 ## 快速开始
 
-### 环境
-
 ```bash
-conda create -n timely python=3.10
-conda activate timely
-pip install torch numpy pandas scikit-learn xgboost matplotlib seaborn scipy tqdm
+git clone https://github.com/haoyu-haoyu/TIMELY-Bench.git
+cd TIMELY-Bench
+python -m pip install -r requirements.txt
 ```
 
-### 训练基线
+### 查看公开 aggregate 结果
 
-```bash
-cd TIMELY-Bench_Final
-python code/baselines/train_tabular_baselines.py
-python code/baselines/train_text_only.py
-python code/baselines/train_text_only_embeddings.py
-python code/baselines/train_fusion.py
-```
+公开结果和论文文件已经在 `results/` 和 `paper/` 下。查看这些 aggregate metrics 不需要 MIMIC-IV 权限。
 
-### 生成 Phase 5 分析产物
+### 重新生成 V2 轻量表格和图
 
 ```bash
 python code/analysis/generate_core_tables.py
@@ -106,13 +83,41 @@ python code/analysis/answer_analysis_questions.py
 MPLBACKEND=Agg python code/analysis/generate_figures.py
 ```
 
-## 任务定义
+### 从受控数据重建 V3/CRES
 
-| 任务 | 定义 |
+完整 V3 重建需要 PhysioNet credentialed MIMIC-IV access 和受控 patient-level 派生文件。CREATE/HPC 入口脚本为：
+
+```bash
+export PROJECT_ROOT=/path/to/TIMELY-Bench
+export RESULTS_ROOT=${PROJECT_ROOT}/results/cres_v3
+
+bash scripts/run_v3_full_source_refresh_create.sh
+bash scripts/run_v3_create_pipeline.sh
+sbatch scripts/run_phase6_cres_assembly_v3.sbatch
+bash scripts/run_phase65f_frozen_eval_create.sh
+```
+
+这些 Slurm/CREATE 脚本是模板。迁移到其他集群时，需要设置：
+
+- `PROJECT_ROOT`
+- `RESULTS_ROOT`
+- `VENV`
+- `HF_HOME`
+- provider-specific API key 或 env file
+
+## Canonical 入口
+
+| 目的 | 入口 |
 |---|---|
-| In-hospital mortality | 住院期间死亡 |
-| Prolonged LOS | ICU 住院时长 > 7 天 |
+| V2 aggregate 表格生成 | `code/analysis/generate_core_tables.py` |
+| V2 leakage decomposition | `code/analysis/progression_leakage_analysis.py` |
+| V3 source refresh | `scripts/run_v3_full_source_refresh_create.sh` |
+| V3 state/representation build | `scripts/run_v3_create_pipeline.sh` |
+| V3 CRES assembly | `scripts/run_phase6_cres_assembly_v3.sbatch` |
+| V3 frozen scoring / judge packet | `scripts/run_phase65f_frozen_eval_create.sh` |
 
-## 许可与数据访问
+`code/v3/` 中部分 `pilot`、`repair`、`probe` 文件只用于 provenance，不是推荐的公开复现入口。详见 [code/v3/README.md](code/v3/README.md)。
 
-本项目使用 MIMIC-IV 数据。原始数据提取需 PhysioNet credentialed access。
+## 数据访问
+
+原始 MIMIC-IV 数据需通过 PhysioNet credentialed data access 获取。公开 GitHub 不包含 raw tables、note text、prompt JSONL、patient-level files、canonical response JSONL 或 judge rationales。受控复现边界详见 [REPRODUCIBILITY.md](REPRODUCIBILITY.md)。

@@ -6,8 +6,8 @@
     "shard07": 43
   },
   "paths": {
-    "shard04": "/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_medgemma_final151_twostage_20260417/shard04_remaining_manifest.jsonl",
-    "shard06": "/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_medgemma_final151_twostage_20260417/shard06_remaining_manifest.jsonl",
-    "shard07": "/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_medgemma_final151_twostage_20260417/shard07_remaining_manifest.jsonl"
+    "shard04": "${PROJECT_ROOT}/results/cres_v3/phase65e_tier2_medgemma_final151_twostage_20260417/shard04_remaining_manifest.jsonl",
+    "shard06": "${PROJECT_ROOT}/results/cres_v3/phase65e_tier2_medgemma_final151_twostage_20260417/shard06_remaining_manifest.jsonl",
+    "shard07": "${PROJECT_ROOT}/results/cres_v3/phase65e_tier2_medgemma_final151_twostage_20260417/shard07_remaining_manifest.jsonl"
   }
 }

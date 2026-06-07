@@ -18,7 +18,7 @@
   },
   "q05": {
     "ok": true,
-    "file": "/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final/data/processed/timeseries_sorted_72h.csv",
+    "file": "${PROJECT_ROOT}/data/processed/timeseries_sorted_72h.csv",
     "columns_present": [
       "mbp",
       "vasopressors",

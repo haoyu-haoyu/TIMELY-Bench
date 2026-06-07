@@ -48,7 +48,7 @@
     "low": 0.008234407386470698,
     "medium": 0.2758432259280196
   },
-  "merged_output_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65d_tier1b_full/deepseek_chat_full_responses.jsonl",
+  "merged_output_path": "${PROJECT_ROOT}/results/cres_v3/phase65d_tier1b_full/deepseek_chat_full_responses.jsonl",
   "reasoning_rows": 0,
   "reasoning_nonempty_rows": 0,
   "reasoning_output_path": null

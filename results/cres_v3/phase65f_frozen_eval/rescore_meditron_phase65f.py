@@ -8,8 +8,8 @@ from pathlib import Path
 import pandas as pd
 
 
-PROJECT_ROOT = Path("/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final")
-OUTPUT_DIR = Path("/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final/results/cres_v3/phase65f_frozen_eval")
+PROJECT_ROOT = Path("${PROJECT_ROOT}")
+OUTPUT_DIR = Path("${PROJECT_ROOT}/results/cres_v3/phase65f_frozen_eval")
 
 sys.path.insert(0, str(PROJECT_ROOT / "code" / "v3"))
 

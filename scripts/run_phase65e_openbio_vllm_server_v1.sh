@@ -7,8 +7,8 @@ if [ $# -lt 1 ]; then
 fi
 
 HOLD_JOB_ID="$1"
-ROOT=/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final
-VENV=/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final/.venv_gemma4_vllm
+ROOT="${PROJECT_ROOT:-$PWD}"
+VENV="${VENV:-${ROOT}/.venv_gemma4_vllm}"
 PORT="${PORT:-8027}"
 TP_SIZE="${PHASE65E_OPENBIO_TP_SIZE:-2}"
 GPU_COUNT="${PHASE65E_OPENBIO_GPU_COUNT:-${TP_SIZE}}"
@@ -18,7 +18,7 @@ LAUNCH_MODE="${PHASE65E_OPENBIO_LAUNCH_MODE:-overlap}"
 DIRECT_IN_JOB="${PHASE65E_OPENBIO_DIRECT_IN_JOB:-0}"
 COMPILATION_CONFIG="${PHASE65E_OPENBIO_COMPILATION_CONFIG:-{\"pass_config\":{\"fuse_allreduce_rms\":false}}}"
 
-export HF_HOME="${HF_HOME:-/scratch/prj/bhi_haoyu_benchmarking/hf_cache}"
+export HF_HOME="${HF_HOME:-${PROJECT_SCRATCH:-${ROOT}/.cache}/hf_cache}"
 export TRANSFORMERS_CACHE="${TRANSFORMERS_CACHE:-${HF_HOME}/transformers}"
 export HUGGINGFACE_HUB_CACHE="${HUGGINGFACE_HUB_CACHE:-${HF_HOME}/hub}"
 mkdir -p "${HF_HOME}" "${TRANSFORMERS_CACHE}" "${HUGGINGFACE_HUB_CACHE}"

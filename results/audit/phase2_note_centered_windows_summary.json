@@ -1,8 +1,8 @@
 {
   "inputs": {
-    "timeseries_csv": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/data/processed/timeseries_sorted_72h.csv",
-    "note_metadata_csv": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/data/processed/text_embeddings/note_level_metadata_48h.csv",
-    "cohort_csv": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/data/raw/cohort_with_conditions.csv",
+    "timeseries_csv": "${PROJECT_ROOT}/data/processed/timeseries_sorted_72h.csv",
+    "note_metadata_csv": "${PROJECT_ROOT}/data/processed/text_embeddings/note_level_metadata_48h.csv",
+    "cohort_csv": "${PROJECT_ROOT}/data/raw/cohort_with_conditions.csv",
     "max_hour": 71,
     "chunk_stays": 1000,
     "flush_rows": 20000,
@@ -60,11 +60,11 @@
   "feature_count": 42,
   "stats_per_feature": 10,
   "output_files": {
-    "W6": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/data/processed/note_centered/note_window_structured_W6.parquet",
-    "W12": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/data/processed/note_centered/note_window_structured_W12.parquet",
-    "W24": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/data/processed/note_centered/note_window_structured_W24.parquet",
-    "D0": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/data/processed/note_centered/note_window_structured_D0.parquet",
-    "leaked": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/data/processed/note_centered/note_window_structured_leaked.parquet"
+    "W6": "${PROJECT_ROOT}/data/processed/note_centered/note_window_structured_W6.parquet",
+    "W12": "${PROJECT_ROOT}/data/processed/note_centered/note_window_structured_W12.parquet",
+    "W24": "${PROJECT_ROOT}/data/processed/note_centered/note_window_structured_W24.parquet",
+    "D0": "${PROJECT_ROOT}/data/processed/note_centered/note_window_structured_D0.parquet",
+    "leaked": "${PROJECT_ROOT}/data/processed/note_centered/note_window_structured_leaked.parquet"
   },
   "rows_per_window": {
     "W6": 12005731,

@@ -59,6 +59,7 @@ results/audit/archive_legacy/
 logs/
 models/
 report/
+.cache/
 docs/MSc_Project_Summary.html
 docs/MSc_Project_Summary.md
 paper/KCL version/

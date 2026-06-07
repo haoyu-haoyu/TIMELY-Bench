@@ -7,8 +7,8 @@ if [ $# -lt 1 ]; then
 fi
 
 HOLD_JOB_ID="$1"
-ROOT=/scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final
-VENV="${ROOT}/.venv_gemma4_vllm"
+ROOT="${PROJECT_ROOT:-$PWD}"
+VENV="${VENV:-${ROOT}/.venv_gemma4_vllm}"
 PORT="${PORT:-8057}"
 MODEL_REPO="${PHASE65E_MEDGEMMA_MODEL_REPO:-google/medgemma-1.5-4b-it}"
 SERVED_MODEL_NAME="${PHASE65E_MEDGEMMA_SERVED_MODEL_NAME:-medgemma-1.5-4b-it-vllm}"
@@ -24,7 +24,7 @@ DIRECT_IN_JOB="${PHASE65E_MEDGEMMA_DIRECT_IN_JOB:-0}"
 OFFLINE_MODE="${PHASE65E_MEDGEMMA_OFFLINE:-1}"
 COMPILATION_CONFIG="${PHASE65E_MEDGEMMA_COMPILATION_CONFIG:-{\"pass_config\":{\"fuse_allreduce_rms\":false}}}"
 
-export HF_HOME="${HF_HOME:-/scratch/prj/bhi_haoyu_benchmarking/hf_cache}"
+export HF_HOME="${HF_HOME:-${PROJECT_SCRATCH:-${ROOT}/.cache}/hf_cache}"
 export TRANSFORMERS_CACHE="${TRANSFORMERS_CACHE:-${HF_HOME}/transformers}"
 export HUGGINGFACE_HUB_CACHE="${HUGGINGFACE_HUB_CACHE:-${HF_HOME}/hub}"
 mkdir -p "${HF_HOME}" "${TRANSFORMERS_CACHE}" "${HUGGINGFACE_HUB_CACHE}"

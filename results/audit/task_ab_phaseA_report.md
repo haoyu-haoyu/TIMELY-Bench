@@ -1,7 +1,7 @@
 # Task A/B Progression v2 - Phase A Report
 
 Generated: 2026-03-09 (Europe/London)
-Project: /scratch/prj/bhi_haoyu_benchmarking/TIMELY-Bench_Final
+Project: ${PROJECT_ROOT}
 Branch: codex/note-centered-alignment
 
 ## 1) Day 1 Label Build + Validation

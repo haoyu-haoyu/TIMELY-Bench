@@ -1,7 +1,7 @@
 {
   "provider": "aloe70b",
   "model_name": "llama31-aloe-beta-70b",
-  "manifest_path": "/cephfs/volumes/hpc_data_prj/bhi_haoyu_benchmarking/9702e4c9-097c-4b21-8276-01dc96440ad1/TIMELY-Bench_Final/results/cres_v3/phase65e_tier2_aloe70b_repair29_manifest.jsonl",
+  "manifest_path": "${PROJECT_ROOT}/results/cres_v3/phase65e_tier2_aloe70b_repair29_manifest.jsonl",
   "rows_requested": 29,
   "rows_found": 29,
   "missing_rows": 0,
