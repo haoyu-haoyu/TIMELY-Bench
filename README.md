@@ -423,16 +423,4 @@ publishing a tag or release.
 - Aggregate summaries cannot substitute for row-level integrity checks in the
   controlled release.
 
-## Citation
 
-Citation metadata are available in [`CITATION.cff`](CITATION.cff).
-
-```bibtex
-@misc{timely-bench-2026,
-  title        = {TIMELY-Bench: Anchor-Bounded Clinical Temporal Reasoning over ICU Trajectories and Text},
-  author       = {Wang, Haoyu},
-  year         = {2026},
-  institution  = {King's College London},
-  url          = {https://github.com/haoyu-haoyu/TIMELY-Bench}
-}
-```
