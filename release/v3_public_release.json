@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "release_id": "timely-bench-v3-public-reproducibility-candidate",
+  "release_status": "candidate",
+  "source_export_commit": "44dfa8b9ab5ca812bfd6be1013a4a91d0d2c68cb",
+  "release_commit": "set-at-release",
+  "data_source": {
+    "name": "MIMIC-IV",
+    "version": "3.1",
+    "doi": "10.13026/kpb9-mt58",
+    "access": "PhysioNet credentialed"
+  },
+  "cohort_aggregate": {
+    "icu_stays": 94458,
+    "subjects": 65366,
+    "hospital_admissions": 85242,
+    "observation_horizon_hours": 168,
+    "structured_backbone_rows": 6583285,
+    "hourly_state_grid_rows": 15868944
+  },
+  "cres": {
+    "conditions": ["aki", "delirium", "sepsis", "stroke"],
+    "task_definitions": 14,
+    "master_manifest_rows": 4929069,
+    "master_manifest_unique_stays": 66485,
+    "evaluation_sample_rows": 12000,
+    "evaluation_sample_unique_stays": 9587,
+    "prompt_rows_all_variants": 265350,
+    "prompt_rows_per_variant": 53070,
+    "variants": [
+      "full_multimodal",
+      "structured_only",
+      "text_only",
+      "no_temporal_markers",
+      "shuffled_timeline"
+    ]
+  },
+  "frozen_evaluation": {
+    "variant": "full_multimodal",
+    "comparative_providers": 9,
+    "canonical_rows_per_provider": 53070,
+    "canonical_rows_total": 477630,
+    "auto_scored_rows": 166019,
+    "auto_scored_task_dimensions": 20,
+    "tier1a_parity_within_rounding": true,
+    "new_contestant_inference_during_freeze": false
+  },
+  "judge_evaluation": {
+    "sampled_prompt_instances": 500,
+    "contestant_response_rows": 2000,
+    "conditions": 4,
+    "prompts_per_condition": 125,
+    "contestants": ["gpt54", "deepseek_chat", "aloe70b", "medgemma15_4b_it"],
+    "judges": ["claude_opus_4_6", "gpt54", "gemini31pro"],
+    "final_ok_rows_per_judge": 2000,
+    "provenance": "The judge packet was built from frozen CREATE artifacts; final judge execution, repair, merge, and aggregation were completed in a synchronized local analysis workspace and archived back to CREATE."
+  },
+  "public_layer": [
+    "source code and SQL",
+    "schemas and task definitions",
+    "aggregate JSON/CSV/Markdown summaries",
+    "manuscript files and figures",
+    "synthetic fixtures and public verification tests"
+  ],
+  "controlled_layer": [
+    "raw and patient-level derived MIMIC-IV data",
+    "filled patient-context prompts and manifests",
+    "canonical row-level model responses",
+    "per-instance scores and judge rationales",
+    "MIMIC-derived fitted models or embeddings"
+  ],
+  "claims": {
+    "github_alone_reconstructs_patient_data": false,
+    "github_supports_aggregate_result_inspection": true,
+    "github_supports_synthetic_end_to_end_validation": true,
+    "credentialed_controlled_inputs_required_for_v3_rebuild": true
+  }
+}

@@ -1,0 +1,204 @@
+{
+  "cases": [
+    {
+      "anchor": {
+        "name": "fictional_assessment",
+        "relative_hour": 0
+      },
+      "condition": "aki",
+      "events": [
+        {
+          "event_id": "SYN-AKI-E1",
+          "feature": "creatinine",
+          "relative_hour": -12,
+          "unit": "mg/dL",
+          "value": 0.8
+        },
+        {
+          "event_id": "SYN-AKI-E2",
+          "feature": "creatinine",
+          "relative_hour": -2,
+          "unit": "mg/dL",
+          "value": 1.5
+        },
+        {
+          "event_id": "SYN-AKI-E3",
+          "feature": "urine_output_rate",
+          "relative_hour": 0,
+          "unit": "mL/kg/h",
+          "value": 0.4
+        }
+      ],
+      "notes": [
+        {
+          "note_id": "SYN-AKI-N1",
+          "note_type": "fictional_progress_note",
+          "relative_hour": -1,
+          "text": "Entirely fictional note: urine output has fallen during this invented shift; repeat renal markers are planned."
+        }
+      ],
+      "synthetic_id": "SYN-AKI-001",
+      "task_targets": [
+        {
+          "evidence_event_ids": [
+            "SYN-AKI-E1",
+            "SYN-AKI-E2"
+          ],
+          "task_id": "aki_change_by_anchor",
+          "value": true
+        }
+      ]
+    },
+    {
+      "anchor": {
+        "name": "fictional_assessment",
+        "relative_hour": 0
+      },
+      "condition": "delirium",
+      "events": [
+        {
+          "event_id": "SYN-DEL-E1",
+          "feature": "attention_screen",
+          "relative_hour": -8,
+          "unit": "category",
+          "value": "attentive"
+        },
+        {
+          "event_id": "SYN-DEL-E2",
+          "feature": "attention_screen",
+          "relative_hour": -1,
+          "unit": "category",
+          "value": "inattentive"
+        }
+      ],
+      "notes": [
+        {
+          "note_id": "SYN-DEL-N1",
+          "note_type": "fictional_nursing_note",
+          "relative_hour": -1,
+          "text": "Entirely fictional note: the invented patient loses track of a simple attention task and is intermittently disoriented."
+        }
+      ],
+      "synthetic_id": "SYN-DELIRIUM-001",
+      "task_targets": [
+        {
+          "evidence_event_ids": [
+            "SYN-DEL-E2"
+          ],
+          "task_id": "delirium_state_at_anchor",
+          "value": "present"
+        }
+      ]
+    },
+    {
+      "anchor": {
+        "name": "fictional_assessment",
+        "relative_hour": 0
+      },
+      "condition": "sepsis",
+      "events": [
+        {
+          "event_id": "SYN-SEP-E1",
+          "feature": "temperature",
+          "relative_hour": -6,
+          "unit": "degC",
+          "value": 39.1
+        },
+        {
+          "event_id": "SYN-SEP-E2",
+          "feature": "lactate",
+          "relative_hour": -3,
+          "unit": "mmol/L",
+          "value": 3.2
+        },
+        {
+          "event_id": "SYN-SEP-E3",
+          "feature": "mean_arterial_pressure",
+          "relative_hour": 0,
+          "unit": "mmHg",
+          "value": 62
+        }
+      ],
+      "notes": [
+        {
+          "note_id": "SYN-SEP-N1",
+          "note_type": "fictional_progress_note",
+          "relative_hour": -2,
+          "text": "Entirely fictional note: fever and low blood pressure in this toy scenario prompted cultures and an antimicrobial plan."
+        }
+      ],
+      "synthetic_id": "SYN-SEPSIS-001",
+      "task_targets": [
+        {
+          "evidence_event_ids": [
+            "SYN-SEP-E1",
+            "SYN-SEP-E2",
+            "SYN-SEP-E3"
+          ],
+          "task_id": "sepsis_pattern_by_anchor",
+          "value": "compatible"
+        }
+      ]
+    },
+    {
+      "anchor": {
+        "name": "fictional_assessment",
+        "relative_hour": 0
+      },
+      "condition": "stroke",
+      "events": [
+        {
+          "event_id": "SYN-STR-E1",
+          "feature": "left_arm_strength",
+          "relative_hour": -4,
+          "unit": "ordinal_0_to_5",
+          "value": 5
+        },
+        {
+          "event_id": "SYN-STR-E2",
+          "feature": "left_arm_strength",
+          "relative_hour": -1,
+          "unit": "ordinal_0_to_5",
+          "value": 2
+        },
+        {
+          "event_id": "SYN-STR-E3",
+          "feature": "speech_clarity",
+          "relative_hour": 0,
+          "unit": "category",
+          "value": "slurred"
+        }
+      ],
+      "notes": [
+        {
+          "note_id": "SYN-STR-N1",
+          "note_type": "fictional_neurology_note",
+          "relative_hour": -1,
+          "text": "Entirely fictional note: new left arm weakness and slurred speech are documented for this fabricated example."
+        }
+      ],
+      "synthetic_id": "SYN-STROKE-001",
+      "task_targets": [
+        {
+          "evidence_event_ids": [
+            "SYN-STR-E1",
+            "SYN-STR-E2",
+            "SYN-STR-E3"
+          ],
+          "task_id": "stroke_change_by_anchor",
+          "value": "new_focal_change"
+        }
+      ]
+    }
+  ],
+  "fixture_id": "timely-bench-public-synthetic-v1",
+  "provenance": {
+    "contains_mimic_derived_data": false,
+    "contains_real_patient_data": false,
+    "id_namespace": "SYNTHETIC-ONLY",
+    "seed": 20260713,
+    "source": "Manually authored for TIMELY-Bench public software tests",
+    "time_semantics": "All relative_hour values are measured from a fictional anchor at hour 0; negative values occur before the anchor."
+  },
+  "schema_version": "1.0.0"
+}

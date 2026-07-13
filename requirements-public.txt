@@ -1,0 +1,7 @@
+# Lightweight environment for inspecting aggregate public results.
+# The release checks and synthetic fixture use only the Python standard library;
+# pandas is included for notebook-style exploration of the tracked CSV files.
+pandas>=2.0,<3.0
+numpy>=1.24,<3.0
+matplotlib>=3.7,<4.0
+seaborn>=0.12,<1.0

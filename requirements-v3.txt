@@ -1,0 +1,18 @@
+# Portable V3 pipeline environment specification.
+#
+# This is a compatibility specification, not a claim that the original CREATE
+# environment can be redistributed. GPU driver, CUDA, provider API, and local
+# model-serving details remain execution-site specific; see REPRODUCIBILITY.md.
+-r requirements-public.txt
+scipy>=1.9,<2.0
+scikit-learn>=1.2,<2.0
+xgboost>=1.7
+pyarrow>=14
+google-cloud-bigquery>=3.17
+google-cloud-bigquery-storage>=2.24
+db-dtypes>=1.2
+openai>=2.0
+torch>=2.1
+transformers>=4.45
+tqdm>=4.64
+joblib>=1.2

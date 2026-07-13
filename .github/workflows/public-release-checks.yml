@@ -1,0 +1,25 @@
+name: Public release checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Inspect aggregate results
+        run: python tools/summarize_public_results.py
+      - name: Regenerate synthetic fixture
+        run: make reproduce-synthetic
+      - name: Verify public boundary
+        run: make verify-public
+      - name: Run regression tests
+        run: make test

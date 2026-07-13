@@ -1,0 +1,19 @@
+{
+  "all_observations_anchor_bounded": true,
+  "case_count": 4,
+  "condition_counts": {
+    "aki": 1,
+    "delirium": 1,
+    "sepsis": 1,
+    "stroke": 1
+  },
+  "contains_mimic_derived_data": false,
+  "contains_real_patient_data": false,
+  "event_count": 11,
+  "fixture_id": "timely-bench-public-synthetic-v1",
+  "fixture_sha256": "3d4561a0a266dc06bce0521ac51d2e6e3209ab6a304c2ca69c59b2c824360e2a",
+  "note_count": 4,
+  "relative_hour_max": 0,
+  "relative_hour_min": -12,
+  "schema_version": "1.0.0"
+}

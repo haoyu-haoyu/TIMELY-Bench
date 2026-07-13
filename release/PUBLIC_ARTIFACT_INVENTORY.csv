@@ -1,0 +1,16 @@
+artifact_class,public_location,access_level,release_status,notes
+V3 source code,code/v3/,public,included,Core CREATE source modules are tracked
+V3 orchestration scripts,scripts/,public,included,Canonical and selected provider execution templates
+V3 aggregate build summaries,results/v3/,public,included,Patient-level cohort tables are excluded
+CRES schemas and aggregate summaries,results/cres_v3/,public,included,Prompt and response JSONL files are excluded
+Phase 6.5F aggregate metrics,results/cres_v3/phase65f_frozen_eval/,public,included,Canonical response JSONL and scored prompt Parquet are excluded
+Final judge aggregate summaries,results/cres_v3/phase65f_frozen_eval_local_final_sync/,public,included,Row-level outputs and rationales are excluded
+Synthetic demonstration fixture,synthetic/fixtures/,public,included,Entirely fictional and generated from code
+Public verification tools,tools/ and tests/public_release/,public,included,No credentialed data required
+Intermediate execution and repair summaries,not distributed,controlled-by-default,excluded,Redundant with frozen aggregates and may expose infrastructure or row-linked workflow state
+Raw MIMIC-IV data,not distributed,credentialed-controlled,excluded,Obtain from PhysioNet under the applicable DUA
+Patient-level V3 derivatives,not distributed,credentialed-controlled,excluded,Includes cohort contexts timelines and task Parquet
+Filled prompt and manifest JSONL,not distributed,credentialed-controlled,excluded,Contains patient-context derivatives
+Canonical model responses,not distributed,credentialed-controlled,excluded,May reproduce patient-derived clinical context
+Per-instance scores and judge rationales,not distributed,credentialed-controlled,excluded,Only aggregate summaries are public
+Credentials API keys and infrastructure logs,not distributed,internal-only,excluded,Never include in a release

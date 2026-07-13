@@ -1,0 +1,105 @@
+{
+  "$id": "https://github.com/haoyu-haoyu/TIMELY-Bench/blob/main/synthetic/schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "cases": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "anchor": {
+            "additionalProperties": false,
+            "properties": {
+              "name": {"const": "fictional_assessment"},
+              "relative_hour": {"const": 0}
+            },
+            "required": ["name", "relative_hour"],
+            "type": "object"
+          },
+          "condition": {
+            "enum": ["aki", "delirium", "sepsis", "stroke"]
+          },
+          "events": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "event_id": {"pattern": "^SYN-", "type": "string"},
+                "feature": {"minLength": 1, "type": "string"},
+                "relative_hour": {"maximum": 0, "type": "number"},
+                "unit": {"minLength": 1, "type": "string"},
+                "value": {"type": ["number", "string", "boolean"]}
+              },
+              "required": ["event_id", "relative_hour", "feature", "value", "unit"],
+              "type": "object"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "notes": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "note_id": {"pattern": "^SYN-", "type": "string"},
+                "note_type": {"pattern": "^fictional_", "type": "string"},
+                "relative_hour": {"maximum": 0, "type": "number"},
+                "text": {"pattern": "^Entirely fictional note:", "type": "string"}
+              },
+              "required": ["note_id", "relative_hour", "note_type", "text"],
+              "type": "object"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "synthetic_id": {"pattern": "^SYN-", "type": "string"},
+          "task_targets": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "evidence_event_ids": {
+                  "items": {"pattern": "^SYN-", "type": "string"},
+                  "minItems": 1,
+                  "type": "array"
+                },
+                "task_id": {"minLength": 1, "type": "string"},
+                "value": {"type": ["number", "string", "boolean"]}
+              },
+              "required": ["task_id", "value", "evidence_event_ids"],
+              "type": "object"
+            },
+            "minItems": 1,
+            "type": "array"
+          }
+        },
+        "required": ["synthetic_id", "condition", "anchor", "events", "notes", "task_targets"],
+        "type": "object"
+      },
+      "minItems": 4,
+      "type": "array"
+    },
+    "fixture_id": {"const": "timely-bench-public-synthetic-v1"},
+    "provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "contains_mimic_derived_data": {"const": false},
+        "contains_real_patient_data": {"const": false},
+        "id_namespace": {"const": "SYNTHETIC-ONLY"},
+        "seed": {"type": "integer"},
+        "source": {"minLength": 1, "type": "string"},
+        "time_semantics": {"minLength": 1, "type": "string"}
+      },
+      "required": [
+        "source",
+        "contains_real_patient_data",
+        "contains_mimic_derived_data",
+        "id_namespace",
+        "seed",
+        "time_semantics"
+      ],
+      "type": "object"
+    },
+    "schema_version": {"const": "1.0.0"}
+  },
+  "required": ["schema_version", "fixture_id", "provenance", "cases"],
+  "title": "TIMELY-Bench public synthetic fixture",
+  "type": "object"
+}
