@@ -142,14 +142,19 @@ AKI、谵妄、脓毒症使用 `A+B1+B2+B3`；卒中时序任务使用 `A+B1+B2`
 | 排名 | Provider | Tier | Overall macro primary score | Canonical / parsed |
 |---:|---|---|---:|---:|
 | 1 | Gemini 3.1 Pro | Tier 1a | **0.655200** | 53,070 / 53,070 |
-| 2 | Gemma 4 26B | Tier 1b | **0.645760** | 53,070 / 53,070 |
-| 3 | DeepSeek Chat | Tier 1b | **0.634618** | 53,070 / 53,070 |
-| 4 | Qwen 3.5 | Tier 1b | **0.633547** | 53,070 / 53,070 |
+| 2 | [Gemma 4 26B](https://huggingface.co/google/gemma-4-26B-A4B-it) | Tier 1b | **0.645760** | 53,070 / 53,070 |
+| 3 | [DeepSeek Chat](https://huggingface.co/deepseek-ai/DeepSeek-V3.2) | Tier 1b | **0.634618** | 53,070 / 53,070 |
+| 4 | [Qwen 3.5 35B](https://huggingface.co/Qwen/Qwen3.5-35B-A3B) | Tier 1b | **0.633547** | 53,070 / 53,070 |
 | 5 | GPT-5.4 | Tier 1a | **0.625744** | 53,070 / 53,070 |
-| 6 | MedGemma 1.5 4B IT | Tier 2 | **0.534534** | 53,070 / 53,070 |
-| 7 | Aloe 70B | Tier 2 | **0.519257** | 53,070 / 53,070 |
-| 8 | Meditron 3 8B | Tier 2 | **0.510010** | 53,070 / 53,070 |
-| 9 | Aloe 7B | Tier 2 | **0.488846** | 53,070 / 53,070 |
+| 6 | [MedGemma 1.5 4B IT](https://huggingface.co/google/medgemma-1.5-4b-it) | Tier 2 | **0.534534** | 53,070 / 53,070 |
+| 7 | [Aloe 70B](https://huggingface.co/HPAI-BSC/Llama3.1-Aloe-Beta-70B) | Tier 2 | **0.519257** | 53,070 / 53,070 |
+| 8 | [Meditron 3 8B](https://huggingface.co/EPFLiGHT/Meditron3-8B) | Tier 2 | **0.510010** | 53,070 / 53,070 |
+| 9 | [Aloe 7B](https://huggingface.co/HPAI-BSC/Qwen2.5-Aloe-Beta-7B) | Tier 2 | **0.488846** | 53,070 / 53,070 |
+
+Hugging Face 链接指向相应的开放权重模型版本；访问与许可条件以各模型卡为准。
+冻结评测中的 DeepSeek 和 Qwen 分别通过托管名称 `deepseek-chat` 与
+`qwen3.5-flash` 调用，并非直接在本地运行 Hugging Face 权重。其中 Qwen
+对应的公开检查点明确为 **35B-A3B** 版本。
 
 公开结果包括：[provider metrics](results/cres_v3/phase65f_frozen_eval/phase65f_provider_metrics.csv)、
 [per-task metrics](results/cres_v3/phase65f_frozen_eval/phase65f_per_task_dimension_metrics.csv)、
