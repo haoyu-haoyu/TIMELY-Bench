@@ -40,7 +40,15 @@ Quick links: [V3 data and results](docs/V3_DATA_AND_RESULTS.md) ·
 [data access](DATA_ACCESS.md) ·
 [public artifact policy](PUBLIC_ARTIFACT_POLICY.md) ·
 [release metadata](release/v3_public_release.json) ·
-[manuscript](paper/npj_digital_medicine/timely_bench_npj_article.pdf)
+[manuscript](paper/npj_digital_medicine/timely_bench_npj_article.pdf) ·
+[poster PDF](paper/poster/timely-bench-poster.pdf)
+
+## Poster
+
+[![TIMELY-Bench poster preview](paper/poster/timely-bench-poster-preview.png)](paper/poster/timely-bench-poster.pdf)
+
+The poster summarizes the benchmark design, evaluation suite, and frozen V3
+results. Click the preview to open the full-resolution A0 PDF.
 
 ## Benchmark design
 
@@ -205,6 +213,7 @@ TIMELY-Bench/
 ├── tests/public_release/       # Data-boundary and synthetic regression tests
 ├── release/                    # Machine-readable public release metadata
 ├── paper/npj_digital_medicine/ # Manuscript, tables, and figures
+├── paper/poster/               # A0 poster PDF and README preview image
 ├── REPRODUCIBILITY.md          # Full staged reproduction tutorial
 └── PUBLIC_ARTIFACT_POLICY.md   # Public vs controlled release policy
 ```
@@ -423,4 +432,9 @@ publishing a tag or release.
 - Aggregate summaries cannot substitute for row-level integrity checks in the
   controlled release.
 
+## Citation
+
+Machine-readable citation metadata for the software release are available in
+[`CITATION.cff`](CITATION.cff). Please cite the manuscript and software
+release as appropriate.
 
